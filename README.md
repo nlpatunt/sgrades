@@ -1,1 +1,41 @@
 ## BESESR: Benchmark for Summative Evaluation of Student Responses
+## 📚 Datasets Overview
+
+This project uses multiple open-source datasets focused on **automated scoring of long-form student responses**. Below is a summary of the key datasets included so far.
+
+---
+
+### 🔹 [ASAP-AES](https://www.kaggle.com/competitions/asap-aes/data)
+- **Task**: Essay scoring (grades 7–10)
+- **Response type**: Long essays
+- **Score range**: 0–6 or 0–12 depending on prompt
+- **Example**:
+```json
+{
+  "essay_id": 21112,
+  "essay_set": 8,
+  "essay": "Laughter plays a huge part in my life...",
+  "rater1_domain1": 17,
+  "rater2_domain1": 18,
+  "domain1_score": 35,
+  "rater1_trait1": 4,
+  "rater1_trait2": 4,
+  "rater1_trait3": 4,
+  "rater1_trait4": 4,
+  "rater1_trait5": 3,
+  "rater1_trait6": 3,
+  "rater2_trait1": 4,
+  "rater2_trait2": 4,
+  "rater2_trait3": 4,
+  "rater2_trait4": 4,
+  "rater2_trait5": 4,
+  "rater2_trait6": 3,
+  "rater3_domain1": null,
+  "rater3_trait1": null,
+  "rater3_trait2": null,
+  "rater3_trait3": null,
+  "rater3_trait4": null,
+  "rater3_trait5": null,
+  "rater3_trait6": null
+}
+
