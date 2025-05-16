@@ -59,3 +59,17 @@ This project leverages multiple open-source datasets to benchmark **automated sc
 ```
 
 ---
+### 🔹 [AES](https://www.kaggle.com/datasets/jaytonde/aes-dataset)
+- **Task**: Essay scoring for educational essays across multiple prompts  
+- **Response type**: Full-length student essays  
+- **Score range**: 0–6 or 0–12 depending on prompt  
+- **Example**:
+
+```json
+{
+  "essay_id": "000d118",
+  "full_text": "Many people have car where they live. The thing that people do more than everything is go to work...",
+  "score": 3
+}
+```
+---
