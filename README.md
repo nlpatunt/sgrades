@@ -39,3 +39,16 @@ This project uses multiple open-source datasets focused on **automated scoring o
   "rater3_trait6": null
 }
 
+- **Task**: Short answer scoring (science/math comprehension)
+- **Response type**: Short, rubric-based answers (1–3 sentences)
+- **Score range**: 0–3
+- **Example**:
+
+json
+{
+  "Id": 1,
+  "EssaySet": 1,
+  "EssayText": "Some additional information that we would need to replicate the experiment is how much vinegar should be placed in each identical container, how or what tool to use to measure the mass of the four different samples and how much distilled water to use to rinse the four samples after taking them out of the vinegar.",
+  "Score1": 1,
+  "Score2": 1
+}
