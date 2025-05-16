@@ -1,15 +1,15 @@
-## BESESR: Benchmark for Summative Evaluation of Student Responses
-## 📚 Datasets Overview
+## 🧠 BESESR: Benchmark for Summative Evaluation of Student Responses
 
-This project uses multiple open-source datasets focused on **automated scoring of long-form student responses**. Below is a summary of the key datasets included so far.
+This project leverages multiple open-source datasets to benchmark **automated scoring of long-form and short-form student responses**. Below is a summary of the key datasets currently used in this benchmark.
 
 ---
 
 ### 🔹 [ASAP-AES](https://www.kaggle.com/competitions/asap-aes/data)
-- **Task**: Essay scoring (grades 7–10)
-- **Response type**: Long essays
-- **Score range**: 0–6 or 0–12 depending on prompt
+- **Task**: Essay scoring for students in grades 7–10  
+- **Response type**: Long-form essays (multi-paragraph)  
+- **Score range**: 0–6 or 0–12 depending on the prompt  
 - **Example**:
+
 ```json
 {
   "essay_id": 21112,
@@ -38,13 +38,17 @@ This project uses multiple open-source datasets focused on **automated scoring o
   "rater3_trait5": null,
   "rater3_trait6": null
 }
+```
 
-- **Task**: Short answer scoring (science/math comprehension)
-- **Response type**: Short, rubric-based answers (1–3 sentences)
-- **Score range**: 0–3
+---
+
+### 🔹 [ASAP-SAS](https://www.kaggle.com/datasets/asap-sas/data)
+- **Task**: Short-answer scoring focused on science/math comprehension  
+- **Response type**: Short, rubric-based answers (typically 1–3 sentences)  
+- **Score range**: 0–3  
 - **Example**:
 
-json
+```json
 {
   "Id": 1,
   "EssaySet": 1,
@@ -52,3 +56,6 @@ json
   "Score1": 1,
   "Score2": 1
 }
+```
+
+---
