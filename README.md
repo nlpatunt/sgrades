@@ -73,3 +73,30 @@ This project leverages multiple open-source datasets to benchmark **automated sc
 }
 ```
 ---
+
+### 🔹 [ASAP2](https://www.kaggle.com/datasets/lburleigh/asap-2-0)
+- **Task**: Essay evaluation based on reading comprehension and evidence-based argumentation  
+- **Response type**: Long-form student essays in response to informational article prompts  
+- **Score range**: 0–4 or 0–6 depending on rubric  
+- **Includes**: Demographic indicators, source article, and prompt text  
+- **Example**:
+
+```json
+{
+  "essay_id": "AAAVUP14319000159574",
+  "score": 4,
+  "full_text": "The author suggests that studying Venus is worthy enough even though it is very dangerous. The author mentioned that on the planet's surface, temperatures average over 800 degrees Fahrenheit, and the atmospheric pressure is 90 times greater than what we experience on our own planet ...",
+  "assignment": "In \"The Challenge of Exploring Venus,\" the author suggests studying Venus is a worthy pursuit despite the dangers it presents. Using details from the article, write an essay evaluating how well the author supports this idea...",
+  "prompt_name": "Exploring Venus",
+  "economically_disadvantaged": "Economically disadvantaged",
+  "student_disability_status": "Identified as having disability",
+  "ell_status": "No",
+  "race_ethnicity": "Black/African American",
+  "gender": "F",
+  "source_text_1": "The Challenge of Exploring Venus\nVenus, sometimes called the “Evening Star,” is one of the brightest points of light in the night sky... [full article truncated for brevity]",
+  "source_text_2": null,
+  "source_text_3": null,
+  "source_text_4": null
+}
+```
+---
