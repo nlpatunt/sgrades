@@ -337,3 +337,6 @@ This project leverages multiple open-source datasets to benchmark **automated sc
 }
 ```
 ---
+
+**Note**: All the above examples are taken from the **training splits** of their respective datasets.  
+This benchmark currently includes **11 curated datasets** for summative evaluation of student responses.
