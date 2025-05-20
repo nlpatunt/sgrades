@@ -104,3 +104,33 @@ This project leverages multiple open-source datasets to benchmark **automated sc
 }
 ```
 ---
+
+### 🔹 [Rice Chemistry (RICE_CHEM:HFLink)](https://huggingface.co/datasets/nlpatunt/rice__chem)
+- **Task**: Rubric-based scoring of chemistry student responses  
+- **Response type**: Short-form but structured explanations (around 150 words)  
+- **Score range**: Typically 0–5  
+- **Example**:
+
+```json
+{
+  "sis_id": "a068db7d-6013-4d2d-8ff0-eb6700954f61",
+  "question_id": "Q1",
+  "Prompt": "When studying the emission sources within the Milky Way, a satellite detected interplanetary clouds... briefly explain 1) why the removal of each additional electron requires more energy than the removal of the previous one, and 2) the relative magnitude of the values observed.",
+  "student_response": "Coulomb's Law (V(r)=q₁q₂/r) takes into consideration three things: electron-electron repulsion, nuclear charge (Z_eff), and the distance between the observed electron and the nucleus...",
+  "Score": 5.0,
+  "correctly cites decreased electron electron repulsion": true,
+  "relates decreased electron electron repulsion to decreased potential energy": true,
+  "3rd and 4th electrons ionized feel same core charge": true,
+  "3rd and 4th electrons ionized from n=3 shell and have same radius": true,
+  "5th electron ionized from n=2 shell and feels higher core charge": false,
+  "5th electron ionized from n=2 shell and has smaller radius": false,
+  "correctly explains relationship of potential energy to ionization energy": false,
+  "partially explains relationship between potential energy and ionization energy": true
+}
+
+```
+---
+
+
+---
+
