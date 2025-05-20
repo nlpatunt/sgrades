@@ -5,6 +5,7 @@ This project leverages multiple open-source datasets to benchmark **automated sc
 ---
 
 ### 🔹 [ASAP-AES](https://www.kaggle.com/competitions/asap-aes/data)
+- **HF Link**: [HFLink](https://huggingface.co/datasets/nlpatunt/ASAP-AES)
 - **Task**: Essay scoring for students in grades 7–10  
 - **Response type**: Long-form essays (multi-paragraph)  
 - **Score range**: 0–6 or 0–12 depending on the prompt  
@@ -43,6 +44,7 @@ This project leverages multiple open-source datasets to benchmark **automated sc
 ---
 
 ### 🔹 [ASAP-SAS](https://www.kaggle.com/datasets/asap-sas/data)
+- **HF Link**: [HFLink](https://huggingface.co/datasets/nlpatunt/ASAP-SAS)
 - **Task**: Short-answer scoring focused on science/math comprehension  
 - **Response type**: Short, rubric-based answers (typically 1–3 sentences)  
 - **Score range**: 0–3  
@@ -60,6 +62,7 @@ This project leverages multiple open-source datasets to benchmark **automated sc
 
 ---
 ### 🔹 [AES](https://www.kaggle.com/datasets/jaytonde/aes-dataset)
+- **HF Link**: [HFLink](https://huggingface.co/datasets/nlpatunt/AES)
 - **Task**: Essay scoring for educational essays across multiple prompts  
 - **Response type**: Full-length student essays  
 - **Score range**: 0–6 or 0–12 depending on prompt  
@@ -75,6 +78,7 @@ This project leverages multiple open-source datasets to benchmark **automated sc
 ---
 
 ### 🔹 [ASAP2](https://www.kaggle.com/datasets/lburleigh/asap-2-0)
+- **HF Link**: [HFLink](https://huggingface.co/datasets/nlpatunt/ASAP2)
 - **Task**: Essay evaluation based on reading comprehension and evidence-based argumentation  
 - **Response type**: Long-form student essays in response to informational article prompts  
 - **Score range**: 0–4 or 0–6 depending on rubric  
