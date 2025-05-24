@@ -65,7 +65,8 @@ This project leverages multiple open-source datasets to benchmark **automated sc
 - **HF Link**: [HFLink](https://huggingface.co/datasets/nlpatunt/AES)
 - **Task**: Essay scoring for educational essays across multiple prompts  
 - **Response type**: Full-length student essays  
-- **Score range**: 0–6 or 0–12 depending on prompt  
+- **Score range**: 1–6
+- **No Rubric**
 - **Example**:
 
 ```json
