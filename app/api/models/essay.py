@@ -1,41 +1,56 @@
 from pydantic import BaseModel, Field
-from typing import Optional, List, Dict, Tuple
+from typing import Dict, Union, Tuple, List, Optional, Any
 from datetime import datetime
+from enum import Enum
 
-# -----------------------------
-# Represents metadata for a dataset in BESESR
-# -----------------------------
+# Keep existing models...
 class DatasetConfig(BaseModel):
-    name: str  # e.g., "asap-aes"
-    description: str  # e.g., "ASAP Automated Essay Scoring dataset"
-    huggingface_id: Optional[str] = None  # if it's published to Hugging Face
-    evaluation_metrics: List[str]  # e.g., ["QWK", "Accuracy"]
-    
-    # Each metric's valid range: e.g., {"QWK": (0.0, 1.0), "Accuracy": (0.0, 1.0)}
-    score_ranges: Dict[str, Tuple[float, float]]
+    name: str
+    description: str
+    huggingface_id: str = None
+    evaluation_metrics: List[str]
+    score_ranges: Dict[str, Any]
 
-
-# -----------------------------
-# Represents a single essay submission (e.g., from a student)
-# -----------------------------
 class EssaySubmission(BaseModel):
-    essay_text: str = Field(..., max_length=5000)
-    # The actual essay content submitted for scoring
-
-    dataset_name: str
-    # Name of the dataset this essay is associated with, e.g., "asap-aes"
-
-    prompt: Optional[str] = None
-    # The essay prompt (if shown to user or stored alongside)
-
-    student_id: Optional[str] = None
-    # You may use this if you plan to track submissions per student
-
+    essay_text: str = Field(..., description="The essay text to be graded")
+    dataset_name: str = Field(..., description="Name of the dataset to use for grading")
+    prompt: Optional[str] = Field(None, description="The essay prompt")
+    student_id: Optional[str] = Field(None, description="Student identifier")
     gold_scores: Optional[Dict[str, float]] = None
-    # The human-assigned scores (if available), e.g., {"QWK": 0.73}
-
+    # The human-assigned scores (if available), e.g., {"holistic_score": 4.5, "grammar": 3.0}
     submission_time: Optional[datetime] = None
-    # Time the essay was submitted (useful for logging, auditing)
-
     submission_id: Optional[str] = None
-    # Unique ID for tracking this submission
+
+# NEW MODELS FOR BENCHMARKING:
+
+class ModelType(str, Enum):
+    API_ENDPOINT = "api_endpoint"
+    HUGGINGFACE = "huggingface"
+    OPENAI_COMPATIBLE = "openai_compatible"
+
+class ModelSubmission(BaseModel):
+    model_name: str = Field(..., description="Name of the submitted model")
+    model_type: ModelType = Field(..., description="Type of model submission")
+    
+    # For API endpoints
+    api_endpoint: Optional[str] = Field(None, description="API endpoint URL for the model")
+    api_key: Optional[str] = Field(None, description="API key if required")
+    
+    # For HuggingFace models
+    huggingface_model_id: Optional[str] = Field(None, description="HuggingFace model identifier")
+    
+    # Metadata
+    submitter_name: str = Field(..., description="Name of the researcher/team")
+    submitter_email: str = Field(..., description="Contact email")
+    model_description: Optional[str] = Field(None, description="Description of the model")
+    paper_url: Optional[str] = Field(None, description="Link to associated paper")
+    
+    submission_time: datetime = Field(default_factory=datetime.now)
+
+class ModelInfo(BaseModel):
+    model_id: str
+    model_name: str
+    submitter_name: str
+    submission_time: datetime
+    status: str  # "submitted", "evaluating", "completed", "failed"
+    model_type: ModelType
