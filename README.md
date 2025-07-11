@@ -334,7 +334,7 @@ This project leverages multiple open-source datasets to benchmark **automated sc
   "content_score": 4.5,
   "language_score": 4.5,
   "structure_score": 3.0,
-  "overall_score": 12.0
+  "overall_score": 12.0,
 }
 ```
 ---
