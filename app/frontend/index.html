@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BESESR: A Benchmark for Essay Scoring Evaluation and Research</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/frontend/css/style.css?v=2025-07-24-4" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome (icons) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-M9TnGoKjQqkN8QA9y7rKkVd1j5I6nYMcqM3p6kZ0m8N5Ms5zZ5gS3/0w5m2LQ1eC3b7x0/yYl+0l6Qv5QJ0XUw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">BESESR</h1>
+                <nav class="nav">
+                    <a href="#overview" class="nav-link">Overview</a>
+                    <a href="#datasets" class="nav-link">Datasets</a>
+                    <a href="#leaderboard" class="nav-link">Leaderboard</a>
+                    <a href="#submit" class="nav-link">Submit</a>
+                    <a href="http://127.0.0.1:8000/docs" class="nav-link" target="_blank">API</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>BESESR</h1>
+                <h2>A Benchmark for Essay Scoring Evaluation and Research</h2>
+                <p class="hero-description">
+                    BESESR is a comprehensive benchmarking platform for automatic essay grading models.
+                    It provides evaluation across 12 curated datasets with standardized metrics to advance
+                    research in educational assessment and natural language processing.
+                </p>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="total-datasets">12</span>
+                        <span class="stat-label">Datasets</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="total-models">-</span>
+                        <span class="stat-label">Models</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="total-evaluations">-</span>
+                        <span class="stat-label">Evaluations</span>
+                    </div>
+                </div>
+
+                <div class="hero-actions">
+                    <a href="#submit" class="btn btn-primary">Submit Model</a>
+                    <a href="#leaderboard" class="btn btn-secondary">View Leaderboard</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section id="overview" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Overview</h2>
+                <p>BESESR provides a standardized evaluation framework for automatic essay grading systems</p>
+            </div>
+
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <h3>Comprehensive Evaluation</h3>
+                    <p>Test your models across 12 diverse datasets covering different essay types, domains, and scoring rubrics.</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Standardized Metrics</h3>
+                    <p>Evaluate performance using industry-standard metrics including QWK, Pearson correlation, and MAE.</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Research Focused</h3>
+                    <p>Designed for academic research with detailed documentation and reproducible evaluation protocols.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Datasets Section -->
+    <section id="datasets" class="section bg-light">
+    <div class="container">
+        <div class="section-header">
+        <h2>Datasets</h2>
+        <p>Comprehensive collection of essay grading datasets for thorough evaluation</p>
+        <div class="section-actions" style="margin-top: 1rem;">
+            <button id="download-all-btn" class="btn btn-outline">
+            <i class="fas fa-download"></i> Download All (ZIP)
+            </button>
+        </div>
+        </div>
+
+        <!-- Grid of dataset cards -->
+        <div id="datasets-grid" class="datasets-grid">
+        <div class="loading">Loading datasets...</div>
+        </div>
+
+        <!-- 🔽 Insert these right after datasets-grid 🔽 -->
+        <div class="modal-backdrop hidden" id="modal-backdrop"></div>
+
+        <div id="dataset-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="modal-close" id="close-modal">&times;</span>
+            <h3 id="modal-dataset-name">Dataset Name</h3>
+            <p id="modal-dataset-description">Loading description...</p>
+        </div>
+        </div>
+
+    </div>
+    </section>
+
+
+    <!-- Leaderboard Section -->
+    <section id="leaderboard" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Leaderboard</h2>
+                <p>Current model performance rankings across all datasets</p>
+            </div>
+
+            <div class="leaderboard-controls">
+                <div class="control-group">
+                    <label for="metric-selector">Ranking Metric:</label>
+                    <select id="metric-selector" class="control-select">
+                        <option value="avg_quadratic_weighted_kappa">Quadratic Weighted Kappa</option>
+                        <option value="avg_pearson_correlation">Pearson Correlation</option>
+                    </select>
+                </div>
+                <button id="refresh-leaderboard" class="btn btn-outline">
+                    Refresh
+                </button>
+            </div>
+
+            <div id="leaderboard-table" class="leaderboard-container">
+                <div class="loading">Loading leaderboard...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Submit Section -->
+    <section id="submit" class="section bg-light">
+        <div class="container">
+            <div class="section-header">
+                <h2>Submit Your Output File</h2>
+                <p>Upload a CSV or JSON file with your model’s predictions for evaluation on a specific dataset.</p>
+
+            </div>
+
+            <div class="submit-container">
+                <div class="submit-info">
+    <h3>Submission Guidelines</h3>
+    <ul>
+        <li>Download the dataset from the <strong>Datasets</strong> section</li>
+        <li>Run your model locally and generate predictions in either <code>.csv</code> or <code>.json</code> format</li>
+        <li>The file must include predictions aligned with the dataset’s expected format (e.g., <code>essay_id</code>, <code>predicted_score</code>)</li>
+        <li>Upload the output file along with your name and email</li>
+        <li>Evaluation will be run automatically and results shown on the leaderboard</li>
+    </ul>
+
+    <div class="api-format">
+        <h4>Example Output File (.csv)</h4>
+        <div class="code-block">
+<pre>essay_id,predicted_score
+essay_001,3.5
+essay_002,4.0
+...</pre>
+        </div>
+    </div>
+</div>
+
+
+
+                <div class="submit-form-wrapper">
+                    <form id="output-submit-form" class="submit-form" enctype="multipart/form-data">
+                        <div class="form-section">
+                            <h3>Submission Details</h3>
+
+                            <div class="form-group">
+                                <label for="dataset-name">Select Dataset *</label>
+                                <select id="dataset-name" name="dataset_name" required>
+                                    <option value="">-- Choose a dataset --</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="output-file">Output File (.csv or .json) *</label>
+                                <input type="file" id="output-file" name="output_file" accept=".csv, .json" required />
+                                <small class="form-help">File must contain predictions for the selected dataset.</small>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3>Contact Information</h3>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="submitter-name">Name *</label>
+                                    <input type="text" id="submitter-name" name="submitter_name" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="submitter-email">Email *</label>
+                                    <input type="email" id="submitter-email" name="submitter_email" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-large">
+                                Submit for Evaluation
+                            </button>
+                        </div>
+                    </form>
+
+                    <div id="submit-result" class="submit-result" style="display: none;">
+                        <!-- Result will be populated by JavaScript -->
+                    </div>
+
+
+                    <div id="submit-result" class="submit-result" style="display: none;">
+                        <!-- Result will be shown here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>BESESR</h4>
+                    <p>A comprehensive benchmarking platform for automatic essay grading research.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="http://127.0.0.1:8000/docs" target="_blank">API Documentation</a></li>
+                        <li><a href="https://github.com/nlpatunt/besesr" target="_blank">GitHub Repository</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:contact@besesr.org">contact@besesr.org</a></li>
+                        <li><a href="#">Research Team</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 BESESR. Built for academic research.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/app.js?v=2025-07-24-3"></script>
+</body>
+</html>
