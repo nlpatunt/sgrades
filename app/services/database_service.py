@@ -176,7 +176,7 @@ class DatabaseService:
                 print("🔄 Initializing datasets from HuggingFace configuration...")
 
                 for dataset_name, config in datasets_config.items():
-                    hf_info = dataset_manager.hf_loader.get_dataset_info(config["huggingface_id"])
+                    """hf_info = dataset_manager.hf_loader.get_dataset_info(config["huggingface_id"])"""
                     dataset = Dataset(
                         name=dataset_name,
                         description=config["description"],
