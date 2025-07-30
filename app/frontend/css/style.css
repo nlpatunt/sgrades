@@ -356,6 +356,7 @@ a:hover {
     border-radius: 12px;
     padding: var(--spacing-xl);
     transition: all 0.2s ease;
+    overflow: hidden;
 }
 .dataset-card:hover {
     border-color: var(--primary-blue);
@@ -367,12 +368,32 @@ a:hover {
     color: var(--primary-blue);
     margin-bottom: var(--spacing-sm);
     font-size: var(--font-size-xl);
+    
+    /* ✅ Allow wrapping for long names */
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+
+    /* ✅ Prevent overflow */
+    white-space: normal;
+
+    line-height: 1.3;
+    max-width: 100%;
 }
+
 
 .dataset-card p {
     color: var(--text-secondary);
     margin-bottom: var(--spacing-md);
     line-height: 1.6;
+    /* Ensure description text also wraps properly */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.dataset-card h3.long-name {
+    font-size: var(--font-size-lg);
+    line-height: 1.1;
 }
 
 .dataset-info {
@@ -804,6 +825,11 @@ a:hover {
     .footer-content {
         grid-template-columns: 1fr;
         text-align: center;
+    }
+
+    .dataset-card h3 {
+        font-size: var(--font-size-lg);
+        line-height: 1.2;
     }
 }
 
