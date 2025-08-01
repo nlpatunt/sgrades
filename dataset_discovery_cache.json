@@ -1,5 +1,5 @@
 {
-  "discovered_at": "2025-07-29T22:42:57.586035",
+  "discovered_at": "2025-08-01T00:55:41.709527",
   "username": "nlpatunt",
   "dataset_count": 12,
   "datasets": {
@@ -9,7 +9,7 @@
       "split": "train",
       "auto_discovered": false,
       "manual_override": true,
-      "discovery_time": "2025-07-29T22:42:49.324583",
+      "discovery_time": "2025-08-01T00:55:33.306060",
       "description": "ASAP 2.0 Dataset - Automated Essay Scoring",
       "essay_column": "full_text",
       "score_column": "score",
@@ -25,7 +25,7 @@
       "split": "train",
       "auto_discovered": false,
       "manual_override": true,
-      "discovery_time": "2025-07-29T22:42:49.324602",
+      "discovery_time": "2025-08-01T00:55:33.306113",
       "description": "Automatic Short Answer Grading - Mohlar Dataset",
       "essay_column": "student_answer",
       "score_column": "score",
@@ -41,7 +41,7 @@
       "split": "train",
       "auto_discovered": false,
       "manual_override": true,
-      "discovery_time": "2025-07-29T22:42:49.324613",
+      "discovery_time": "2025-08-01T00:55:33.306150",
       "description": "Computer Science Essay Evaluation Dataset",
       "essay_column": "essay_text",
       "score_column": "score",
@@ -57,7 +57,7 @@
       "split": "train",
       "auto_discovered": false,
       "manual_override": true,
-      "discovery_time": "2025-07-29T22:42:49.324627",
+      "discovery_time": "2025-08-01T00:55:33.306191",
       "description": "Basic Elements of English Teaching and Learning Evaluation",
       "essay_column": "student_answer",
       "score_column": "label",
@@ -80,7 +80,7 @@
         5
       ],
       "auto_discovered": true,
-      "discovery_time": "2025-07-29T22:42:50.506435",
+      "discovery_time": "2025-08-01T00:55:34.557685",
       "column_count": 24,
       "dataset_variant": null
     },
@@ -90,7 +90,7 @@
       "split": "train",
       "auto_discovered": false,
       "manual_override": true,
-      "discovery_time": "2025-07-29T22:42:50.506497",
+      "discovery_time": "2025-08-01T00:55:34.557736",
       "description": "Science Entailment Bank Dataset",
       "essay_column": "student_answer",
       "score_column": "label",
@@ -113,7 +113,7 @@
         5
       ],
       "auto_discovered": true,
-      "discovery_time": "2025-07-29T22:42:51.714098",
+      "discovery_time": "2025-08-01T00:55:35.809912",
       "column_count": 8,
       "dataset_variant": null
     },
@@ -130,7 +130,7 @@
         5
       ],
       "auto_discovered": true,
-      "discovery_time": "2025-07-29T22:42:53.031398",
+      "discovery_time": "2025-08-01T00:55:37.041611",
       "column_count": 54,
       "dataset_variant": null
     },
@@ -147,7 +147,7 @@
         19
       ],
       "auto_discovered": true,
-      "discovery_time": "2025-07-29T22:42:53.744547",
+      "discovery_time": "2025-08-01T00:55:37.843874",
       "column_count": 12,
       "dataset_variant": null
     },
@@ -164,7 +164,7 @@
         3
       ],
       "auto_discovered": true,
-      "discovery_time": "2025-07-29T22:42:54.875494",
+      "discovery_time": "2025-08-01T00:55:39.086045",
       "column_count": 14,
       "dataset_variant": null
     },
@@ -181,7 +181,7 @@
         9
       ],
       "auto_discovered": true,
-      "discovery_time": "2025-07-29T22:42:56.213779",
+      "discovery_time": "2025-08-01T00:55:40.340801",
       "column_count": 31,
       "dataset_variant": null
     },
@@ -198,7 +198,7 @@
         4
       ],
       "auto_discovered": true,
-      "discovery_time": "2025-07-29T22:42:57.585878",
+      "discovery_time": "2025-08-01T00:55:41.709350",
       "column_count": 17,
       "dataset_variant": null
     }

@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # Import all route modules
 from app.services.openrouter_client import OpenRouterClient
 from app.api.routes import datasets, essays, leaderboard
-from app.api.routes.output_submissions import router as output_router
+from app.api.routes import output_submissions
 from app.config.database import init_database
 from app.services.database_service import DatabaseService
 
@@ -64,7 +64,7 @@ app = FastAPI(
 # -------------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # tighten in prod
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -94,7 +94,8 @@ app.include_router(essays.router, prefix="/api")
 app.include_router(leaderboard.router, prefix="/api")
 
 # CSV Results submission (new workflow)
-app.include_router(output_router, prefix="/api/outputs")
+
+app.include_router(output_submissions.router)
 
 # -------------------
 # Services
@@ -201,6 +202,8 @@ async def reset_database():
     except Exception as e:
         return {"message": "Database reset failed", "error": str(e), "status": "error"}
 
+# Replace your api_info endpoint with this:
+
 @app.get("/api-info")
 async def api_info():
     """Information about the new API workflow"""
@@ -210,20 +213,30 @@ async def api_info():
         "endpoints": {
             "download_all_datasets": "/api/datasets/download/all",
             "download_single_dataset": "/api/datasets/download/{dataset_name}",
-            "submit_results": "/api/outputs/upload-results",
+            "submit_single_result": "/submissions/upload-single-result",  # ✅ Fixed
+            "submit_multiple_results": "/submissions/upload-results",     # ✅ Fixed
             "view_leaderboard": "/api/leaderboard/",
-            "get_submission_template": "/api/outputs/template"
+            "get_submission_template": "/submissions/template",           # ✅ Fixed
+            "validate_csv": "/submissions/validate-csv",                 # ✅ Added
+            "check_submission_status": "/submissions/submission-status/{id}" # ✅ Added
         },
         "workflow_steps": [
             "1. Download datasets using /api/datasets/download/all",
             "2. Extract ZIP file and read README.md for instructions",
             "3. Run your model on each dataset CSV file",
             "4. Create results CSV files with essay_id,predicted_score columns",
-            "5. Submit all results using /api/outputs/upload-results",
+            "5. Submit results using /submissions/upload-single-result or /submissions/upload-results",
             "6. View your model's performance on the leaderboard"
         ],
         "required_csv_format": {
             "columns": ["essay_id", "predicted_score"],
             "example": "essay_id,predicted_score\nASAP-AES_0,3.5\nASAP-AES_1,4.2"
-        }
+        },
+        "available_endpoints": [
+            "POST /submissions/upload-single-result - Upload single CSV file",
+            "POST /submissions/upload-results - Upload multiple CSV files",
+            "GET /submissions/template - Get CSV format template",
+            "POST /submissions/validate-csv - Validate CSV before submission",
+            "GET /submissions/submission-status/{id} - Check submission status"
+        ]
     }

@@ -1,58 +1,58 @@
-from sqlalchemy import Column, Integer, String, DateTime, Float, Text, Boolean, JSON
+# app/models/database.py
+
+from sqlalchemy import Column, Integer, String, DateTime, Float, Text, Boolean, JSON, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from datetime import datetime
+from pydantic import BaseModel, ConfigDict
+from typing import Optional, Dict, Any, List
 
 Base = declarative_base()
 
-class OutputSubmission(Base):
-    __tablename__ = "output_submissions"
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    dataset_name = Column(String, nullable=False)
-    submitter_name = Column(String, nullable=False)
-    submitter_email = Column(String, nullable=False)
-    submission_filename = Column(String, nullable=False)
-    file_format = Column(String, default="csv")  # 'csv' or 'json'
-    submission_time = Column(DateTime, default=datetime.utcnow)
-    status = Column(String, default="submitted")  # submitted, evaluating, completed, failed
-    evaluation_result = Column(JSON, nullable=True)
-    error_message = Column(Text, nullable=True)
-
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'dataset_name': self.dataset_name,
-            'submitter_name': self.submitter_name,
-            'submitter_email': self.submitter_email,
-            'submission_filename': self.submission_filename,
-            'file_format': self.file_format,
-            'submission_time': self.submission_time.isoformat() if self.submission_time else None,
-            'status': self.status,
-            'evaluation_result': self.evaluation_result,
-            'error_message': self.error_message
-        }
-
+# ============================================================================
+# SQLAlchemy Database Models
+# ============================================================================
 
 class Dataset(Base):
     __tablename__ = "datasets"
     
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String, unique=True, nullable=False)
-    description = Column(Text, nullable=False)
-    huggingface_id = Column(String, nullable=True)
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, unique=True, index=True, nullable=False)
+    description = Column(Text)
+    huggingface_id = Column(String)
     essay_count = Column(Integer, default=0)
-    avg_essay_length = Column(Float, nullable=True)
-    score_range_min = Column(Float, default=1.0)
-    score_range_max = Column(Float, default=5.0)
-    created_time = Column(DateTime, default=datetime.utcnow)
+    avg_essay_length = Column(Float, default=0.0)
+    score_range_min = Column(Float, default=0.0)
+    score_range_max = Column(Float, default=6.0)
     is_active = Column(Boolean, default=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class OutputSubmission(Base):
+    __tablename__ = "output_submissions"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    dataset_name = Column(String, nullable=False)
+    submitter_name = Column(String, nullable=False)
+    submitter_email = Column(String, nullable=False)
+    file_path = Column(String, nullable=False)
+    file_format = Column(String, default="csv")  # csv, json
+    status = Column(String, default="submitted")  # submitted, processing, completed, failed
+    description = Column(Text)
+    evaluation_result = Column(JSON)  # Store evaluation metrics as JSON
+    error_message = Column(Text)
+    submission_time = Column(DateTime, default=datetime.utcnow)
+    processing_time = Column(Float)
+    
+    # Relationship to evaluation results
+    evaluations = relationship("EvaluationResult", back_populates="submission", cascade="all, delete-orphan")
 
 class EvaluationResult(Base):
     __tablename__ = "evaluation_results"
     
     id = Column(Integer, primary_key=True, autoincrement=True)
-    submission_id = Column(Integer, nullable=False)  # FK to OutputSubmission.id
+    submission_id = Column(Integer, ForeignKey("output_submissions.id"), nullable=False)  # FK to OutputSubmission.id
     dataset_name = Column(String, nullable=False)
     
     # Core metrics
@@ -73,6 +73,9 @@ class EvaluationResult(Base):
     
     # Additional metrics storage
     detailed_metrics = Column(JSON, nullable=True)
+    
+    # Relationship back to submission
+    submission = relationship("OutputSubmission", back_populates="evaluations")
     
     def to_dict(self):
         return {
@@ -140,3 +143,161 @@ class Essay(Base):
             'essay_attributes': self.essay_attributes,
             'created_time': self.created_time.isoformat() if self.created_time else None
         }
+
+# ============================================================================
+# Pydantic Models (for API validation) - Fixed protected namespace issues
+# ============================================================================
+
+class DatasetCreate(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())  # Fix for protected namespace warnings
+    
+    name: str
+    description: str
+    huggingface_id: Optional[str] = None
+    essay_count: int = 0
+    avg_essay_length: float = 0.0
+    score_range_min: float = 0.0
+    score_range_max: float = 6.0
+    is_active: bool = True
+
+class DatasetResponse(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
+    
+    id: int
+    name: str
+    description: str
+    huggingface_id: Optional[str]
+    essay_count: int
+    avg_essay_length: float
+    score_range_min: float
+    score_range_max: float
+    is_active: bool
+    created_at: datetime
+
+class OutputSubmissionCreate(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
+    
+    dataset_name: str
+    submitter_name: str
+    submitter_email: str
+    file_path: str
+    file_format: str = "csv"
+    description: Optional[str] = None
+
+class OutputSubmissionResponse(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
+    
+    id: int
+    dataset_name: str
+    submitter_name: str
+    submitter_email: str
+    status: str
+    submission_time: datetime
+    evaluation_result: Optional[Dict[str, Any]] = None
+
+class EvaluationResultCreate(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
+    
+    submission_id: int
+    dataset_name: str
+    quadratic_weighted_kappa: float = 0.0
+    pearson_correlation: float = 0.0
+    spearman_correlation: float = 0.0
+    mean_absolute_error: float = 999.0
+    root_mean_squared_error: float = 999.0
+    f1_score: float = 0.0
+    accuracy: float = 0.0
+    essays_evaluated: int = 0
+    evaluation_duration: float = 0.0
+    detailed_metrics: Optional[Dict[str, Any]] = None
+
+class EvaluationResultResponse(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
+    
+    id: int
+    submission_id: int
+    dataset_name: str
+    quadratic_weighted_kappa: float
+    pearson_correlation: float
+    spearman_correlation: float
+    mean_absolute_error: float
+    root_mean_squared_error: float
+    f1_score: float
+    accuracy: float
+    essays_evaluated: int
+    status: str
+    evaluation_time: datetime
+
+class EssayCreate(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
+    
+    essay_id: str
+    dataset_name: str
+    essay_text: str
+    prompt: Optional[str] = None
+    holistic_score: Optional[float] = None
+    content_score: Optional[float] = None
+    organization_score: Optional[float] = None
+    style_score: Optional[float] = None
+    grammar_score: Optional[float] = None
+    word_count: Optional[int] = None
+    sentence_count: Optional[int] = None
+    paragraph_count: Optional[int] = None
+    grade_level: Optional[str] = None
+    essay_attributes: Optional[Dict[str, Any]] = None
+
+class EssayResponse(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
+    
+    id: int
+    essay_id: str
+    dataset_name: str
+    essay_text: str
+    prompt: Optional[str]
+    holistic_score: Optional[float]
+    content_score: Optional[float]
+    organization_score: Optional[float]
+    style_score: Optional[float]
+    grammar_score: Optional[float]
+    word_count: Optional[int]
+    sentence_count: Optional[int]
+    paragraph_count: Optional[int]
+    grade_level: Optional[str]
+    essay_attributes: Optional[Dict[str, Any]]
+    created_time: datetime
+
+# ============================================================================
+# Additional Response Models
+# ============================================================================
+
+class LeaderboardEntry(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
+    
+    rank: int
+    submission_id: int
+    submitter_name: str
+    dataset_name: str
+    quadratic_weighted_kappa: float
+    pearson_correlation: float
+    mean_absolute_error: float
+    accuracy: float
+    essays_evaluated: int
+    submission_time: Optional[str] = None
+    submission_type: str = "csv_upload"
+
+class PlatformStats(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
+    
+    total_submissions: int
+    total_evaluations: int
+    total_datasets: int
+    completed_evaluations: int
+    success_rate: float
+
+class HealthCheck(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
+    
+    status: str
+    timestamp: str
+    database: str
+    error: Optional[str] = None
