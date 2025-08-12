@@ -26,7 +26,7 @@ class Dataset(Base):
     score_range_max = Column(Float, default=6.0)
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow)
 
 
 class OutputSubmission(Base):
@@ -37,22 +37,26 @@ class OutputSubmission(Base):
     submitter_name = Column(String, nullable=False)
     submitter_email = Column(String, nullable=False)
     file_path = Column(String, nullable=False)
-    file_format = Column(String, default="csv")  # csv, json
-    status = Column(String, default="submitted")  # submitted, processing, completed, failed
+    file_format = Column(String, default="csv")
+    status = Column(String, default="submitted")
     description = Column(Text)
-    evaluation_result = Column(JSON)  # Store evaluation metrics as JSON
+    evaluation_result = Column(JSON)
     error_message = Column(Text)
     submission_time = Column(DateTime, default=datetime.utcnow)
     processing_time = Column(Float)
     
-    # Relationship to evaluation results
-    evaluations = relationship("EvaluationResult", back_populates="submission", cascade="all, delete-orphan")
+    # Progressive upload fields
+    benchmark_session_id = Column(String, ForeignKey("benchmark_sessions.session_id"))
+    updated_at = Column(DateTime, default=datetime.utcnow)
+    
+    evaluations = relationship("EvaluationResult", back_populates="submission")
+    benchmark_session = relationship("BenchmarkSession", back_populates="submissions")
 
 class EvaluationResult(Base):
     __tablename__ = "evaluation_results"
     
     id = Column(Integer, primary_key=True, autoincrement=True)
-    submission_id = Column(Integer, ForeignKey("output_submissions.id"), nullable=False)  # FK to OutputSubmission.id
+    submission_id = Column(Integer, ForeignKey("output_submissions.id"), nullable=False)
     dataset_name = Column(String, nullable=False)
     
     # Core metrics
@@ -67,35 +71,14 @@ class EvaluationResult(Base):
     # Evaluation metadata
     essays_evaluated = Column(Integer, default=0)
     evaluation_time = Column(DateTime, default=datetime.utcnow)
-    evaluation_duration = Column(Float, nullable=True)  # seconds
-    status = Column(String, default="completed")  # completed, failed, partial
+    evaluation_duration = Column(Float, nullable=True)
+    status = Column(String, default="completed")
     error_message = Column(Text, nullable=True)
-    
-    # Additional metrics storage
     detailed_metrics = Column(JSON, nullable=True)
     
-    # Relationship back to submission
+    # Relationship
     submission = relationship("OutputSubmission", back_populates="evaluations")
-    
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'submission_id': self.submission_id,
-            'dataset_name': self.dataset_name,
-            'quadratic_weighted_kappa': self.quadratic_weighted_kappa,
-            'pearson_correlation': self.pearson_correlation,
-            'spearman_correlation': self.spearman_correlation,
-            'mean_absolute_error': self.mean_absolute_error,
-            'root_mean_squared_error': self.root_mean_squared_error,
-            'f1_score': self.f1_score,
-            'accuracy': self.accuracy,
-            'essays_evaluated': self.essays_evaluated,
-            'evaluation_time': self.evaluation_time.isoformat() if self.evaluation_time else None,
-            'evaluation_duration': self.evaluation_duration,
-            'status': self.status,
-            'error_message': self.error_message,
-            'detailed_metrics': self.detailed_metrics
-        }
+
 
 class Essay(Base):
     __tablename__ = "essays"
@@ -106,7 +89,7 @@ class Essay(Base):
     essay_text = Column(Text, nullable=False)
     prompt = Column(Text, nullable=True)
     
-    # Human scores (gold standard)
+    # Human scores
     holistic_score = Column(Float, nullable=True)
     content_score = Column(Float, nullable=True)
     organization_score = Column(Float, nullable=True)
@@ -118,31 +101,8 @@ class Essay(Base):
     sentence_count = Column(Integer, nullable=True)
     paragraph_count = Column(Integer, nullable=True)
     grade_level = Column(String, nullable=True)
-    
-    # Additional essay attributes
     essay_attributes = Column(JSON, nullable=True)
-    
     created_time = Column(DateTime, default=datetime.utcnow)
-    
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'essay_id': self.essay_id,
-            'dataset_name': self.dataset_name,
-            'essay_text': self.essay_text,
-            'prompt': self.prompt,
-            'holistic_score': self.holistic_score,
-            'content_score': self.content_score,
-            'organization_score': self.organization_score,
-            'style_score': self.style_score,
-            'grammar_score': self.grammar_score,
-            'word_count': self.word_count,
-            'sentence_count': self.sentence_count,
-            'paragraph_count': self.paragraph_count,
-            'grade_level': self.grade_level,
-            'essay_attributes': self.essay_attributes,
-            'created_time': self.created_time.isoformat() if self.created_time else None
-        }
 
 # ============================================================================
 # Pydantic Models (for API validation) - Fixed protected namespace issues
@@ -301,3 +261,33 @@ class HealthCheck(BaseModel):
     timestamp: str
     database: str
     error: Optional[str] = None
+
+
+class BenchmarkSession(Base):
+    __tablename__ = "benchmark_sessions"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    session_id = Column(String, unique=True, index=True, nullable=False)
+    model_name = Column(String, nullable=False)
+    submitter_name = Column(String, nullable=False)
+    submitter_email = Column(String, nullable=False)
+    model_description = Column(Text)
+    paper_url = Column(String)
+    
+    # Progress tracking
+    status = Column(String, default="active")
+    datasets_completed = Column(Integer, default=0)
+    total_datasets = Column(Integer, default=12)
+    
+    # Results
+    average_score = Column(Float)
+    benchmark_results = Column(Text)
+    
+    # Timestamps
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime, default=datetime.now)
+    completed_at = Column(DateTime)
+    error_message = Column(Text)
+    
+    # Relationships
+    submissions = relationship("OutputSubmission", back_populates="benchmark_session")

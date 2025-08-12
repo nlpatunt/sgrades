@@ -43,18 +43,18 @@
                 <h2>A Benchmark for Essay Scoring Evaluation and Research</h2>
                 <p class="hero-description">
                     BESESR is a comprehensive benchmarking platform for automatic essay grading models.
-                    It provides evaluation across 12 curated datasets with standardized metrics to advance
+                    It provides evaluation across 15 curated datasets with standardized metrics to advance
                     research in educational assessment and natural language processing.
                 </p>
 
                 <div class="hero-stats">
                     <div class="stat-item">
-                        <span class="stat-number" id="total-datasets">12</span>
+                        <span class="stat-number" id="total-datasets">15</span>
                         <span class="stat-label">Datasets</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-number" id="total-models">-</span>
-                        <span class="stat-label">Models</span>
+                        <span class="stat-label">Complete Benchmarks</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-number" id="total-evaluations">-</span>
@@ -63,7 +63,7 @@
                 </div>
 
                 <div class="hero-actions">
-                    <a href="#submit" class="btn btn-primary">Submit Model</a>
+                    <a href="#submit" class="btn btn-primary">Submit Complete Benchmark</a>
                     <a href="#leaderboard" class="btn btn-secondary">View Leaderboard</a>
                 </div>
             </div>
@@ -80,16 +80,16 @@
 
             <div class="overview-grid">
                 <div class="overview-card">
-                    <h3>Comprehensive Evaluation</h3>
-                    <p>Test your models across 12 diverse datasets covering different essay types, domains, and scoring rubrics.</p>
+                    <h3>Complete Benchmark Evaluation</h3>
+                    <p>Test your models across all 15 diverse datasets. Only complete submissions (15/15) appear on the leaderboard for fair comparison.</p>
                 </div>
                 <div class="overview-card">
                     <h3>Standardized Metrics</h3>
-                    <p>Evaluate performance using industry-standard metrics including QWK, Pearson correlation, and MAE.</p>
+                    <p>Aggregate performance using industry-standard metrics including QWK, Pearson correlation, and MAE across all datasets.</p>
                 </div>
                 <div class="overview-card">
                     <h3>Research Focused</h3>
-                    <p>Designed for academic research with detailed documentation and reproducible evaluation protocols.</p>
+                    <p>Designed for rigorous academic evaluation with hidden test labels and comprehensive assessment protocols.</p>
                 </div>
             </div>
         </div>
@@ -100,10 +100,10 @@
     <div class="container">
         <div class="section-header">
         <h2>Datasets</h2>
-        <p>Comprehensive collection of essay grading datasets for thorough evaluation</p>
+        <p>Download all 15 datasets for comprehensive benchmark evaluation</p>
         <div class="section-actions" style="margin-top: 1rem;">
             <button id="download-all-btn" class="btn btn-outline">
-            <i class="fas fa-download"></i> Download All (ZIP)
+            <i class="fas fa-download"></i> Download All 15 Datasets (ZIP)
             </button>
         </div>
         </div>
@@ -113,35 +113,35 @@
         <div class="loading">Loading datasets...</div>
         </div>
 
-        <!-- 🔽 Insert these right after datasets-grid 🔽 -->
-        <div class="modal-backdrop hidden" id="modal-backdrop"></div>
-
-        <div id="dataset-modal" class="modal hidden">
-        <div class="modal-content">
-            <span class="modal-close" id="close-modal">&times;</span>
-            <h3 id="modal-dataset-name">Dataset Name</h3>
-            <p id="modal-dataset-description">Loading description...</p>
-        </div>
+        <!-- Dataset Info -->
+        <div style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-white); border-radius: 12px; border-left: 4px solid var(--primary-blue);">
+            <h3>📋 Benchmark Requirements</h3>
+            <ul style="margin-top: 1rem;">
+                <li>Download all 15 datasets as train/validation/test splits</li>
+                <li>Train your model using train/validation data (includes human scores)</li>
+                <li>Generate predictions on test data (no human scores provided)</li>
+                <li>Submit all 15 prediction CSV files for complete evaluation</li>
+                <li>Only complete benchmarks (15/15) appear on the official leaderboard</li>
+            </ul>
         </div>
 
     </div>
     </section>
-
 
     <!-- Leaderboard Section -->
     <section id="leaderboard" class="section">
         <div class="container">
             <div class="section-header">
                 <h2>Leaderboard</h2>
-                <p>Current model performance rankings across all datasets</p>
+                <p>Complete benchmark rankings - researchers who submitted all 15 datasets</p>
             </div>
 
             <div class="leaderboard-controls">
                 <div class="control-group">
                     <label for="metric-selector">Ranking Metric:</label>
                     <select id="metric-selector" class="control-select">
-                        <option value="avg_quadratic_weighted_kappa">Quadratic Weighted Kappa</option>
-                        <option value="avg_pearson_correlation">Pearson Correlation</option>
+                        <option value="avg_quadratic_weighted_kappa">Average Quadratic Weighted Kappa</option>
+                        <option value="avg_pearson_correlation">Average Pearson Correlation</option>
                     </select>
                 </div>
                 <button id="refresh-leaderboard" class="btn btn-outline">
@@ -155,166 +155,128 @@
         </div>
     </section>
 
-    <!-- Replace your entire submit section with this -->
-
 <section id="submit" class="section bg-light">
     <div class="container">
         <div class="section-header">
-            <h2>Submit Complete Benchmark Results</h2>
-            <p>Upload a ZIP file containing CSV results for all 12 datasets to appear on the leaderboard.</p>
+            <h2>Submit Complete Benchmark</h2>
+            <p>Upload predictions for all 15 datasets to appear on the leaderboard</p>
         </div>
 
         <div class="submit-container">
             <div class="submit-info">
-                <h3>🏆 Complete Benchmark Submission</h3>
-                <div style="background: #e8f4fd; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid #2196F3;">
-                    <p><strong>⚡ New Requirement:</strong> Only complete benchmarks with all 12 datasets appear on the leaderboard!</p>
-                </div>
-                
+                <h3>📋 Complete Benchmark Submission</h3>
                 <ul>
-                    <li>Download <strong>all datasets</strong> using the "Download All (ZIP)" button above</li>
-                    <li>Run your model on <strong>all 12 datasets</strong> locally</li>
-                    <li>Create CSV files for each dataset: <code>ASAP-AES.csv</code>, <code>rice_chem.csv</code>, etc.</li>
-                    <li>Create a ZIP file containing all 12 CSV files</li>
-                    <li>Upload the ZIP file - evaluation will run across all datasets</li>
-                    <li><strong>Only complete benchmarks appear on the leaderboard</strong></li>
+                    <li><strong>Download all 15 datasets</strong> using the button above</li>
+                    <li><strong>Train your model</strong> on the provided train/validation splits</li>
+                    <li><strong>Generate predictions</strong> on the test splits (unlabeled)</li>
+                    <li><strong>Upload all 15 CSV files</strong> with your predictions</li>
+                    <li><strong>Automatic evaluation</strong> calculates aggregate metrics</li>
+                    <li><strong>Leaderboard ranking</strong> based on average performance</li>
                 </ul>
 
                 <div class="api-format">
-                    <h4>📁 Required ZIP Structure</h4>
-                    <div class="code-block">
-<pre>my_model_results.zip
-├── ASAP-AES.csv
-├── ASAP-SAS.csv  
-├── rice_chem.csv
-├── CSEE.csv
-├── EFL.csv
-├── grade_like_a_human_dataset_os.csv
-├── persuade_2.csv
-├── ASAP2.csv
-├── ASAP_plus_plus.csv
-├── SciEntSBank.csv
-├── BEEtlE.csv
-└── automatic_short_answer_grading.csv</pre>
-                    </div>
-                </div>
-
-                <div class="api-format">
-                    <h4>📄 Each CSV Format</h4>
+                    <h4>📄 Required CSV Format</h4>
                     <div class="code-block">
 <pre>essay_id,predicted_score
-essay_001,3.5
-essay_002,4.0
-essay_003,2.8
-...</pre>
+ASAP-AES_001,3.5
+ASAP-AES_002,4.2
+rice_chem_001,3.8</pre>
                     </div>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-muted);">
+                        You need 15 separate CSV files - one for each dataset
+                    </p>
                 </div>
             </div>
 
             <div class="submit-form-wrapper">
-                <!-- Main Benchmark Form -->
-                <form id="benchmark-submit-form" class="submit-form" enctype="multipart/form-data">
+                <!-- Complete Benchmark Upload Form -->
+                <form id="benchmark-submit-form" class="submit-form">
                     <div class="form-section">
-                        <h3>🎯 Complete Benchmark Submission</h3>
-                        <p style="color: #666; margin-bottom: 1.5rem;">Submit results for all 12 datasets to appear on the leaderboard</p>
-
-                        <div class="form-group">
-                            <label for="model-name">Model Name *</label>
-                            <input type="text" id="model-name" name="model_name" placeholder="e.g., BERT-Essay-Scorer-v1" required />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="model-description">Model Description</label>
-                            <textarea id="model-description" name="model_description" rows="3" 
-                                    placeholder="Brief description of your model architecture, training approach, etc."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="paper-url">Paper URL (Optional)</label>
-                            <input type="url" id="paper-url" name="paper_url" placeholder="https://arxiv.org/abs/..." />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="results-zip">Results ZIP File *</label>
-                            <input type="file" id="results-zip" name="results_zip" accept=".zip" required />
-                            <small class="form-help">ZIP file containing CSV results for all 12 datasets (max 50MB)</small>
-                        </div>
-                    </div>
-
-                    <div class="form-section">
-                        <h3>Contact Information</h3>
-
+                        <h3>Researcher Information</h3>
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="submitter-name">Name *</label>
-                                <input type="text" id="submitter-name" name="submitter_name" required />
+                                <label for="researcher-name">Researcher Name *</label>
+                                <input type="text" id="researcher-name" name="submitter_name" placeholder="Dr. Jane Smith" required />
                             </div>
                             <div class="form-group">
-                                <label for="submitter-email">Email *</label>
-                                <input type="email" id="submitter-email" name="submitter_email" required />
+                                <label for="researcher-email">Email Address *</label>
+                                <input type="email" id="researcher-email" name="submitter_email" placeholder="jane.smith@university.edu" required />
                             </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="model-name">Model Name *</label>
+                            <input type="text" id="model-name" name="model_name" placeholder="e.g., BERT-Essay-Scorer-v2" required />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="model-description">Model Description</label>
+                            <textarea id="model-description" name="model_description" placeholder="Brief description of your approach, architecture, training procedure..." rows="3"></textarea>
                         </div>
                     </div>
 
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary btn-large">
-                            <i class="fas fa-upload"></i> Submit Complete Benchmark
-                        </button>
+                    <div class="form-section">
+                        <h3>📦 Upload All 15 Datasets</h3>
+                        <p class="upload-instructions">
+                            Select all 15 CSV files with your model's predictions. 
+                            Each file should be named with the dataset name (e.g., ASAP-AES.csv, rice_chem.csv).
+                        </p>
+                        
+                        <div class="upload-area" id="file-drop-area">
+                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                            <div class="upload-text">
+                                <strong>Drop 15 CSV files here or click to browse</strong>
+                            </div>
+                            <div class="upload-subtext">
+                                Each file must contain essay_id and predicted_score columns
+                            </div>
+                            <input type="file" id="csv-files" name="csv_files" multiple accept=".csv" class="file-input" />
+                        </div>
+
+                        <!-- File List Display -->
+                        <div id="file-list" class="uploaded-files" style="display: none;">
+                            <h4>📁 Uploaded Files (<span id="file-count">0</span>/15)</h4>
+                            <div id="file-items"></div>
+                        </div>
+
+                        <div class="form-actions" style="margin-top: 1.5rem;">
+                            <button type="submit" class="btn btn-large btn-primary" id="submit-benchmark-btn" disabled>
+                                <i class="fas fa-rocket"></i> Submit Complete Benchmark
+                            </button>
+                            <button type="button" id="validate-files-btn" class="btn btn-secondary" disabled>
+                                <i class="fas fa-check"></i> Validate Files
+                            </button>
+                        </div>
                     </div>
                 </form>
 
-                <!-- Quick Single Dataset Form (for testing) -->
-                <details style="margin-top: 2rem; border: 2px dashed #ddd; padding: 1.5rem; border-radius: 8px;">
-                    <summary style="cursor: pointer; font-weight: 600; margin-bottom: 1rem; color: #666;">
-                        🧪 Quick Test: Single Dataset Submission (Not for Leaderboard)
-                    </summary>
-                    
-                    <div style="background: #fff3cd; padding: 1rem; border-radius: 6px; margin-bottom: 1rem; border-left: 4px solid #ffc107;">
-                        <p style="margin: 0; color: #856404;"><strong>⚠️ Testing Only:</strong> Single submissions don't appear on the leaderboard. Use this for development/testing.</p>
-                    </div>
-                    
-                    <form id="single-submit-form" class="submit-form" enctype="multipart/form-data">
-                        <div class="form-row">
-                            <div class="form-group" style="flex: 1;">
-                                <label for="single-model-name">Model Name *</label>
-                                <input type="text" id="single-model-name" name="model_name" placeholder="TestModel" required />
-                            </div>
-                            <div class="form-group" style="flex: 1;">
-                                <label for="single-dataset-name">Dataset *</label>
-                                <select id="single-dataset-name" name="dataset_name" required>
-                                    <option value="">-- Choose dataset --</option>
-                                    <!-- Will be populated by JavaScript -->
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group" style="flex: 1;">
-                                <label for="single-submitter-name">Name *</label>
-                                <input type="text" id="single-submitter-name" name="submitter_name" required />
-                            </div>
-                            <div class="form-group" style="flex: 1;">
-                                <label for="single-submitter-email">Email *</label>
-                                <input type="email" id="single-submitter-email" name="submitter_email" required />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="single-result-file">CSV File *</label>
-                            <input type="file" id="single-result-file" name="result_file" accept=".csv" required />
-                            <small class="form-help">Single CSV file for testing purposes only</small>
-                        </div>
-
-                        <button type="submit" class="btn btn-outline">
-                            <i class="fas fa-vial"></i> Test Single Dataset
-                        </button>
-                    </form>
-                </details>
-
-                <div id="submit-result" class="submit-result" style="display: none;">
-                    <!-- Result will be populated by JavaScript -->
-                </div>
+                <!-- Result Display -->
+                <div id="submit-result" class="submit-result" style="display: none;"></div>
             </div>
+        </div>
+
+        <!-- Individual Testing Section -->
+        <div style="margin-top: 3rem; padding: 1.5rem; background: var(--bg-white); border-radius: 12px; border: 1px solid var(--border-light);">
+            <h3>🧪 Individual Dataset Testing</h3>
+            <p>For development and debugging only. These submissions do NOT appear on the leaderboard.</p>
+            
+            <form id="single-test-form" class="submit-form" style="margin-top: 1rem;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="test-dataset">Dataset</label>
+                        <select id="test-dataset" name="dataset_name">
+                            <option value="">-- Choose dataset --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="test-file">CSV File</label>
+                        <input type="file" id="test-file" name="result_file" accept=".csv" />
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-outline">
+                    <i class="fas fa-flask"></i> Test Single Dataset
+                </button>
+            </form>
         </div>
     </div>
 </section>
@@ -349,6 +311,6 @@ essay_003,2.8
     </footer>
 
     <!-- Scripts -->
-    <script src="js/app.js?v=2025-07-24-3"></script>
+    <script src="js/app.js?v=2025-07-24-4"></script>
 </body>
 </html>
