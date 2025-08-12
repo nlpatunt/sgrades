@@ -398,64 +398,6 @@ async def download_single_dataset(dataset_name: str):
         print(f"❌ Error downloading {dataset_name}: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to download {dataset_name}: {str(e)}")
 
-@router.get("/debug/inspect/{dataset_name}")
-async def inspect_dataset_structure(dataset_name: str):
-    """Inspect actual dataset structure for column mapping"""
-    try:
-        datasets_config = dataset_manager.datasets_config
-        
-        if dataset_name not in datasets_config:
-            raise HTTPException(status_code=404, detail=f"Dataset {dataset_name} not configured")
-        
-        config = datasets_config[dataset_name]
-        
-        # Inspect the actual dataset
-        analysis = dataset_manager.hf_loader.inspect_dataset_structure(
-            config["huggingface_id"]
-        )
-        
-        return {
-            "dataset_name": dataset_name,
-            "configured_mapping": {
-                "essay_column": config["essay_column"],
-                "score_column": config["score_column"],
-                "prompt_column": config["prompt_column"],
-                "score_range": config["score_range"]
-            },
-            "actual_structure": analysis,
-            "recommendations": generate_mapping_recommendations(analysis, config)
-        }
-        
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-def generate_mapping_recommendations(analysis: dict, current_config: dict) -> dict:
-    """Generate recommended column mappings based on analysis"""
-    recommendations = {}
-    
-    if "potential_mappings" in analysis:
-        # Essay column recommendation
-        essay_cols = analysis["potential_mappings"]["essay_columns"]
-        if essay_cols:
-            recommendations["essay_column"] = essay_cols[0]
-        
-        # Score column recommendation
-        score_cols = analysis["potential_mappings"]["score_columns"]
-        if score_cols:
-            recommendations["score_column"] = score_cols[0]
-            
-            # Score range recommendation
-            if "score_analysis" in analysis and score_cols[0] in analysis["score_analysis"]:
-                score_info = analysis["score_analysis"][score_cols[0]]
-                recommendations["score_range"] = (score_info["min"], score_info["max"])
-        
-        # Prompt column recommendation
-        prompt_cols = analysis["potential_mappings"]["prompt_columns"]
-        if prompt_cols:
-            recommendations["prompt_column"] = prompt_cols[0]
-    
-    return recommendations
-
 @router.get("/health/check")
 async def dataset_health_check():
     """Check if dataset loading system is working"""

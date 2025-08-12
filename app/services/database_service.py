@@ -1,17 +1,18 @@
-# app/services/database_service.py (Fixed session management)
+# app/services/database_service.py 
 
 from sqlalchemy.orm import Session
 from sqlalchemy import func, desc, text
 from typing import List, Optional, Dict, Any
 from datetime import datetime, timedelta
 import json
+import statistics
 
 from app.models.database import OutputSubmission, Dataset, EvaluationResult, Essay
 from app.config.database import get_db_session
 
 
 class DatabaseService:
-    """Service for database operations for BESESR platform (CSV uploads only)"""
+    """Service for database operations for BESESR platform"""
 
     # ============================================================================
     # OUTPUT SUBMISSIONS (CSV file uploads)
@@ -157,14 +158,14 @@ class DatabaseService:
 
     @staticmethod
     def get_output_leaderboard(limit: int = 20) -> List[Dict[str, Any]]:
-        """Retrieve leaderboard based on output submission results"""
+        """Retrieve leaderboard based on individual output submission results (for testing)"""
         try:
             with get_db_session() as db:
                 # Get submissions with completed status
                 submissions = db.query(OutputSubmission).filter(
                     OutputSubmission.status == "completed",
                     OutputSubmission.evaluation_result.isnot(None)
-                ).order_by(desc(OutputSubmission.submission_time)).limit(limit * 2).all()  # Get more to sort by QWK
+                ).order_by(desc(OutputSubmission.submission_time)).limit(limit * 2).all()
 
                 leaderboard_data = []
                 for submission in submissions:
@@ -189,7 +190,7 @@ class DatabaseService:
                                     "accuracy": metrics.get("accuracy", 0.0),
                                     "essays_evaluated": metrics.get("essays_evaluated", 0),
                                     "submission_time": submission.submission_time.isoformat() if submission.submission_time else None,
-                                    "submission_type": "csv_upload"
+                                    "submission_type": "individual_testing"
                                 })
                         except Exception as e:
                             print(f"⚠️ Error parsing evaluation result for submission {submission.id}: {e}")
@@ -205,33 +206,164 @@ class DatabaseService:
 
                 return leaderboard
         except Exception as e:
-            print(f"❌ Error getting leaderboard: {e}")
+            print(f"❌ Error getting individual leaderboard: {e}")
             return []
+
+    # ============================================================================
+    # COMPLETE BENCHMARK SYSTEM (15 datasets)
+    # ============================================================================
+
+    @staticmethod
+    def get_complete_benchmark_leaderboard(metric: str = 'avg_quadratic_weighted_kappa', limit: int = 20) -> List[Dict[str, Any]]:
+        """Get leaderboard for researchers who completed all 15 datasets"""
+        try:
+            with get_db_session() as db:
+                # Group submissions by submitter and check if they have 15 completed datasets
+                researcher_data = {}
+                
+                # Get all completed submissions
+                completed_submissions = db.query(OutputSubmission).filter(
+                    OutputSubmission.status == "completed",
+                    OutputSubmission.evaluation_result.isnot(None)
+                ).all()
+                
+                # Group by researcher and dataset
+                for submission in completed_submissions:
+                    submitter = submission.submitter_name
+                    dataset = submission.dataset_name
+                    
+                    if submitter not in researcher_data:
+                        researcher_data[submitter] = {
+                            'submitter_name': submitter,
+                            'submitter_email': submission.submitter_email,
+                            'datasets': {},
+                            'total_datasets': 0,
+                            'total_essays': 0,
+                            'metrics': []
+                        }
+                    
+                    # Only count unique datasets (in case of multiple submissions)
+                    if dataset not in researcher_data[submitter]['datasets']:
+                        try:
+                            if isinstance(submission.evaluation_result, str):
+                                metrics = json.loads(submission.evaluation_result)
+                            else:
+                                metrics = submission.evaluation_result or {}
+                            
+                            researcher_data[submitter]['datasets'][dataset] = metrics
+                            researcher_data[submitter]['total_datasets'] += 1
+                            researcher_data[submitter]['total_essays'] += metrics.get('essays_evaluated', 0)
+                            researcher_data[submitter]['metrics'].append(metrics)
+                            
+                        except Exception as e:
+                            print(f"⚠️ Error parsing metrics for {submitter}/{dataset}: {e}")
+                
+                # Filter to only researchers with 15 datasets
+                complete_benchmarks = []
+                for submitter, data in researcher_data.items():
+                    if data['total_datasets'] >= 15:  # Must have all 15 datasets
+                        metrics_list = data['metrics']
+                        
+                        if metrics_list:
+                            # Calculate aggregate metrics
+                            avg_qwk = statistics.mean([m.get('quadratic_weighted_kappa', 0) for m in metrics_list])
+                            avg_pearson = statistics.mean([m.get('pearson_correlation', 0) for m in metrics_list])
+                            avg_mae = statistics.mean([m.get('mean_absolute_error', 999) for m in metrics_list])
+                            avg_f1 = statistics.mean([m.get('f1_score', 0) for m in metrics_list])
+                            avg_accuracy = statistics.mean([m.get('accuracy', 0) for m in metrics_list])
+                            
+                            complete_benchmarks.append({
+                                'submitter_name': submitter,
+                                'submitter_email': data['submitter_email'],
+                                'total_datasets': data['total_datasets'],
+                                'total_essays_evaluated': data['total_essays'],
+                                'avg_quadratic_weighted_kappa': avg_qwk,
+                                'avg_pearson_correlation': avg_pearson,
+                                'avg_mean_absolute_error': avg_mae,
+                                'avg_f1_score': avg_f1,
+                                'avg_accuracy': avg_accuracy,
+                                'datasets_completed': list(data['datasets'].keys()),
+                                'completion_rate': (data['total_datasets'] / 15) * 100,
+                                'benchmark_type': 'complete_15_dataset'
+                            })
+                
+                # Sort by the requested metric
+                metric_key = metric.replace('avg_', '') if metric.startswith('avg_') else metric
+                metric_key = f'avg_{metric_key}'
+                
+                complete_benchmarks.sort(
+                    key=lambda x: x.get(metric_key, 0), 
+                    reverse=True
+                )
+                
+                # Add ranks
+                for i, entry in enumerate(complete_benchmarks[:limit]):
+                    entry['rank'] = i + 1
+                
+                return complete_benchmarks[:limit]
+                
+        except Exception as e:
+            print(f"❌ Error getting complete benchmark leaderboard: {e}")
+            return []
+
+    @staticmethod
+    def get_researcher_progress(submitter_name: str) -> Dict[str, Any]:
+        """Get progress for a specific researcher (how many datasets completed)"""
+        try:
+            with get_db_session() as db:
+                # Get unique completed datasets for this researcher
+                completed_datasets = db.query(OutputSubmission.dataset_name.distinct()).filter(
+                    OutputSubmission.submitter_name == submitter_name,
+                    OutputSubmission.status == "completed"
+                ).all()
+                
+                completed_count = len(completed_datasets)
+                dataset_names = [row[0] for row in completed_datasets]
+                
+                return {
+                    "submitter_name": submitter_name,
+                    "completed_datasets": completed_count,
+                    "total_datasets": 15,
+                    "completion_percentage": (completed_count / 15) * 100,
+                    "is_complete": completed_count >= 15,
+                    "completed_dataset_names": dataset_names,
+                    "remaining_datasets": 15 - completed_count
+                }
+        except Exception as e:
+            print(f"❌ Error getting researcher progress: {e}")
+            return {
+                "submitter_name": submitter_name,
+                "completed_datasets": 0,
+                "total_datasets": 15,
+                "completion_percentage": 0,
+                "is_complete": False,
+                "completed_dataset_names": [],
+                "remaining_datasets": 15
+            }
 
     # ============================================================================
     # EVALUATION RESULTS
     # ============================================================================
 
     @staticmethod
-    def save_evaluation_result(submission_id: int, dataset_name: str, result: Dict[str, Any]) -> Dict[str, Any]:
+    def save_evaluation_result(evaluation_data: Dict[str, Any]) -> Dict[str, Any]:
         """Save evaluation result for a submission"""
         try:
             with get_db_session() as db:
                 evaluation = EvaluationResult(
-                    submission_id=submission_id,
-                    dataset_name=dataset_name,
-                    quadratic_weighted_kappa=result.get("quadratic_weighted_kappa", 0.0),
-                    pearson_correlation=result.get("pearson_correlation", 0.0),
-                    spearman_correlation=result.get("spearman_correlation", 0.0),
-                    mean_absolute_error=result.get("mean_absolute_error", 999.0),
-                    root_mean_squared_error=result.get("root_mean_squared_error", 999.0),
-                    f1_score=result.get("f1_score", 0.0),
-                    accuracy=result.get("accuracy", 0.0),
-                    essays_evaluated=result.get("essays_evaluated", 0),
-                    evaluation_duration=result.get("evaluation_duration", 0.0),
-                    status=result.get("status", "completed"),
-                    detailed_metrics=json.dumps(result.get("detailed_metrics", {})),
-                    error_message=result.get("error_message")
+                    submission_id=evaluation_data["submission_id"],
+                    dataset_name=evaluation_data["dataset_name"],
+                    quadratic_weighted_kappa=evaluation_data["metrics"].get("quadratic_weighted_kappa", 0.0),
+                    pearson_correlation=evaluation_data["metrics"].get("pearson_correlation", 0.0),
+                    spearman_correlation=evaluation_data["metrics"].get("spearman_correlation", 0.0),
+                    mean_absolute_error=evaluation_data["metrics"].get("mean_absolute_error", 999.0),
+                    root_mean_squared_error=evaluation_data["metrics"].get("root_mean_squared_error", 999.0),
+                    f1_score=evaluation_data["metrics"].get("f1_score", 0.0),
+                    accuracy=evaluation_data["metrics"].get("accuracy", 0.0),
+                    essays_evaluated=evaluation_data.get("essays_evaluated", 0),
+                    evaluation_duration=0.0,
+                    status="completed",
+                    detailed_metrics=json.dumps(evaluation_data["metrics"])
                 )
                 db.add(evaluation)
                 db.flush()
@@ -246,7 +378,7 @@ class DatabaseService:
                 }
                 
                 db.commit()
-                print(f"📊 Saved evaluation result: submission {submission_id} - {dataset_name}")
+                print(f"📊 Saved evaluation result: submission {evaluation_data['submission_id']} - {evaluation_data['dataset_name']}")
                 return evaluation_dict
         except Exception as e:
             print(f"❌ Error saving evaluation result: {e}")
@@ -319,12 +451,21 @@ class DatabaseService:
                 # Count datasets
                 total_datasets = db.query(Dataset).count()
                 
+                # Count unique researchers (submitter names)
+                unique_researchers = db.query(OutputSubmission.submitter_name).distinct().count()
+                
+                # Count complete benchmarks
+                complete_benchmarks = len(DatabaseService.get_complete_benchmark_leaderboard(limit=1000))
+                
                 return {
                     "total_submissions": total_submissions,
                     "completed_submissions": completed_submissions,
                     "total_evaluations": total_evaluations,
                     "completed_evaluations": completed_evaluations,
-                    "total_datasets": total_datasets,
+                    "total_evaluations_completed": completed_evaluations,
+                    "total_datasets": total_datasets if total_datasets > 0 else 15,
+                    "total_models_submitted": unique_researchers,
+                    "total_complete_benchmarks": complete_benchmarks,
                     "success_rate": (completed_submissions / total_submissions * 100) if total_submissions > 0 else 0
                 }
         except Exception as e:
@@ -334,7 +475,10 @@ class DatabaseService:
                 "completed_submissions": 0,
                 "total_evaluations": 0,
                 "completed_evaluations": 0,
-                "total_datasets": 0,
+                "total_evaluations_completed": 0,
+                "total_datasets": 15,
+                "total_models_submitted": 0,
+                "total_complete_benchmarks": 0,
                 "success_rate": 0
             }
 
@@ -372,7 +516,8 @@ class DatabaseService:
     def initialize_datasets():
         """Initialize datasets dynamically from HuggingFace configuration"""
         try:
-            from app.services.dataset_loader import dataset_manager
+            from app.services.dataset_loader import BESESRDatasetManager
+            dataset_manager = BESESRDatasetManager()
             datasets_config = dataset_manager.hf_loader.get_configured_datasets()
 
             with get_db_session() as db:
@@ -388,12 +533,12 @@ class DatabaseService:
                             huggingface_id=config["huggingface_id"],
                             essay_count=0,
                             avg_essay_length=0.0,
-                            score_range_min=config["score_range"][0],
-                            score_range_max=config["score_range"][1],
+                            score_range_min=config["score_range"][0] if config["score_range"] else 0.0,
+                            score_range_max=config["score_range"][1] if config["score_range"] else 6.0,
                             is_active=True
                         )
                         db.add(dataset)
-                        print(f"   ✅ Added dataset: {dataset_name} -> {config['huggingface_id']}")
+                        print(f"   ✅ Added dataset: {dataset_name} -> {config.get('huggingface_id', 'N/A')}")
 
                     db.commit()
                     print(f"✅ Initialized {len(datasets_config)} datasets from HuggingFace")
@@ -450,7 +595,8 @@ class DatabaseService:
     @staticmethod
     def get_leaderboard(metric: str = 'avg_quadratic_weighted_kappa', limit: int = 20) -> List[Dict[str, Any]]:
         """Get leaderboard based on submission performance (compatibility method)"""
-        return DatabaseService.get_output_leaderboard(limit)
+        # For backward compatibility, return complete benchmark leaderboard
+        return DatabaseService.get_complete_benchmark_leaderboard(metric=metric, limit=limit)
 
     @staticmethod
     def health_check() -> Dict[str, Any]:

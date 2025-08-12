@@ -1,6 +1,6 @@
 // ===== API Configuration =====
 const API_BASE_URL = '';  // Empty string = same domain
-console.log("BESESR JS CSV Workflow loaded");
+console.log("BESESR 15-Dataset Batch System loaded");
 
 // ===== DOM Elements =====
 const elements = {
@@ -13,16 +13,35 @@ const elements = {
     datasetsGrid: document.getElementById('datasets-grid'),
     downloadAllBtn: document.getElementById('download-all-btn'),
     
-    // CSV Submission
-    outputForm: document.getElementById('output-submit-form'),
-    datasetSelect: document.getElementById('dataset-name'),
+    // Batch Submission
+    benchmarkForm: document.getElementById('benchmark-submit-form'),
+    fileDropArea: document.getElementById('file-drop-area'),
+    csvFilesInput: document.getElementById('csv-files'),
+    fileList: document.getElementById('file-list'),
+    fileItems: document.getElementById('file-items'),
+    fileCount: document.getElementById('file-count'),
+    submitBenchmarkBtn: document.getElementById('submit-benchmark-btn'),
+    validateFilesBtn: document.getElementById('validate-files-btn'),
     submitResult: document.getElementById('submit-result'),
+    
+    // Individual Testing
+    singleTestForm: document.getElementById('single-test-form'),
+    testDataset: document.getElementById('test-dataset'),
     
     // Leaderboard
     metricSelector: document.getElementById('metric-selector'),
     refreshLeaderboard: document.getElementById('refresh-leaderboard'),
     leaderboardTable: document.getElementById('leaderboard-table')
 };
+
+// ===== File Management =====
+let uploadedFiles = new Map(); // dataset_name -> file
+const requiredDatasets = [
+    'ASAP-AES', 'ASAP-SAS', 'ASAP2', 'ASAP_plus_plus', 'rice_chem',
+    'CSEE', 'EFL', 'grade_like_a_human_dataset_os', 'persuade_2',
+    'SciEntSBank', 'BEEtlE', 'automatic_short_answer_grading_mohlar',
+    'dataset_13', 'dataset_14', 'dataset_15'  // Update these with real names
+];
 
 // ===== Utility Functions =====
 function showLoading(element, message = 'Loading...') {
@@ -92,11 +111,7 @@ async function downloadFile(url, suggestedName) {
 }
 
 function downloadAllDatasets() {
-    downloadFile('/api/datasets/download/all', 'besesr_datasets.zip');
-}
-
-function downloadSingleDataset(datasetName) {
-    downloadFile(`/api/datasets/download/${encodeURIComponent(datasetName)}`, `${datasetName}.csv`);
+    downloadFile('/api/datasets/download/all', 'besesr_15_datasets.zip');
 }
 
 // ===== Load Platform Stats =====
@@ -106,7 +121,7 @@ async function loadPlatformStats() {
         
         // Update stats with animation
         if (elements.totalModels) {
-            animateNumber(elements.totalModels, stats.total_models_submitted || 0);
+            animateNumber(elements.totalModels, stats.total_complete_benchmarks || 0);
         }
         if (elements.totalEvaluations) {
             animateNumber(elements.totalEvaluations, stats.total_evaluations_completed || 0);
@@ -146,10 +161,11 @@ async function loadDatasets() {
     showLoading(elements.datasetsGrid, 'Loading datasets...');
 
     try {
-        // ✅ Fixed endpoint
-        const data = await fetchAPI('/api/datasets/');
+        console.log("📊 Loading datasets from API...");
+        const data = await fetchAPI('/submissions/template');
+        console.log("📊 Received data:", data);
 
-        if (!data.datasets || data.datasets.length === 0) {
+        if (!data.available_datasets || data.available_datasets.length === 0) {
             showEmptyState(
                 elements.datasetsGrid,
                 'No Datasets Available',
@@ -158,35 +174,22 @@ async function loadDatasets() {
             return;
         }
 
-        // ✅ Updated dataset cards with download buttons
-        const datasetsHTML = data.datasets.map((dataset, index) => `
+        // Create dataset cards
+        const datasetsHTML = data.available_datasets.map((datasetName, index) => `
             <div class="dataset-card fade-in" style="animation-delay: ${index * 0.1}s;">
-                <h3>${dataset.name}</h3>
-                <p>${dataset.description}</p>
+                <h3>${datasetName}</h3>
+                <p>Dataset for automatic essay scoring evaluation</p>
 
                 <div class="dataset-info">
                     <span>
                         <i class="fas fa-database"></i>
-                        Score Range: ${dataset.score_range[0]}-${dataset.score_range[1]}
+                        Train/Val/Test splits available
                     </span>
-                    <span>
-                        <i class="fas fa-columns"></i>
-                        ${dataset.split}
-                    </span>
-                </div>
-
-                <div class="dataset-metrics">
-                    <div class="metric-tag">Essays: ${dataset.essay_column}</div>
-                    <div class="metric-tag">Scores: ${dataset.score_column}</div>
-                    <div class="metric-tag">Prompts: ${dataset.prompt_column}</div>
                 </div>
 
                 <div class="dataset-actions">
-                    <button onclick="downloadSingleDataset('${dataset.name}')" class="btn btn-sm btn-primary">
-                        <i class="fas fa-download"></i> Download CSV
-                    </button>
-                    <button onclick="showDatasetSample('${dataset.name}')" class="btn btn-sm btn-outline">
-                        <i class="fas fa-eye"></i> Preview
+                    <button onclick="downloadSingleDataset('${datasetName}')" class="btn btn-sm btn-primary">
+                        <i class="fas fa-download"></i> Download
                     </button>
                 </div>
             </div>
@@ -194,144 +197,323 @@ async function loadDatasets() {
 
         elements.datasetsGrid.innerHTML = datasetsHTML;
 
-        // ✅ Update total count and populate dataset selector
-        if (elements.totalDatasets) {
-            animateNumber(elements.totalDatasets, data.total_count || data.datasets.length);
-        }
-
-        // ✅ Populate dataset dropdown for submission form
-        if (elements.datasetSelect) {
-            const options = data.datasets.map(dataset => 
-                `<option value="${dataset.name}">${dataset.name}</option>`
+        // Populate the individual testing dropdown
+        if (elements.testDataset) {
+            console.log("📋 Populating test dataset dropdown...");
+            const options = data.available_datasets.map(datasetName => 
+                `<option value="${datasetName}">${datasetName}</option>`
             ).join('');
-            elements.datasetSelect.innerHTML = '<option value="">-- Choose a dataset --</option>' + options;
+            elements.testDataset.innerHTML = '<option value="">-- Choose dataset --</option>' + options;
         }
 
-        console.log(`✅ Loaded ${data.datasets.length} datasets successfully`);
+        console.log(`✅ Loaded ${data.available_datasets.length} datasets successfully`);
 
     } catch (error) {
+        console.error('❌ Failed to load datasets:', error);
         showError(elements.datasetsGrid, 'Failed to load datasets. Please check the API connection.');
-        console.error('Failed to load datasets:', error);
     }
 }
 
-// ===== Dataset Sample Preview =====
-async function showDatasetSample(datasetName) {
-    try {
-        console.log(`🔍 Loading sample for ${datasetName}`);
-        const sample = await fetchAPI(`/api/datasets/${datasetName}/sample?size=3`);
-        
-        if (sample.essays && sample.essays.length > 0) {
-            const sampleHTML = sample.essays.map(essay => `
-                <div style="border: 1px solid var(--border-light); padding: 1rem; margin: 0.5rem 0; border-radius: 6px;">
-                    <div style="font-weight: 600; color: var(--primary-blue);">${essay.essay_id}</div>
-                    <div style="margin: 0.5rem 0; font-size: 0.9rem; color: var(--text-secondary);">
-                        <strong>Prompt:</strong> ${essay.prompt}
-                    </div>
-                    <div style="margin: 0.5rem 0; color: var(--text-primary);">
-                        ${essay.essay_preview}
-                    </div>
-                    <div style="font-size: 0.8rem; color: var(--text-muted);">
-                        <strong>Human Score:</strong> ${essay.human_score} | 
-                        <strong>Words:</strong> ${essay.word_count}
-                    </div>
-                </div>
-            `).join('');
-            
-            alert(`Sample Essays from ${datasetName}:\n\n${sample.essays.map(e => `${e.essay_id}: ${e.essay_preview.substring(0, 100)}...`).join('\n\n')}`);
-        } else {
-            alert(`No sample data available for ${datasetName}`);
-        }
-    } catch (error) {
-        alert(`Failed to load sample for ${datasetName}: ${error.message}`);
-        console.error('Sample load failed:', error);
-    }
+// ===== File Upload Handling =====
+function setupFileUpload() {
+    if (!elements.fileDropArea || !elements.csvFilesInput) return;
+
+    // Drag and drop handlers
+    elements.fileDropArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        elements.fileDropArea.classList.add('dragover');
+    });
+
+    elements.fileDropArea.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        elements.fileDropArea.classList.remove('dragover');
+    });
+
+    elements.fileDropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        elements.fileDropArea.classList.remove('dragover');
+        const files = Array.from(e.dataTransfer.files);
+        handleFileSelection(files);
+    });
+
+    // Click to upload
+    elements.fileDropArea.addEventListener('click', () => {
+        elements.csvFilesInput.click();
+    });
+
+    // File input change
+    elements.csvFilesInput.addEventListener('change', (e) => {
+        const files = Array.from(e.target.files);
+        handleFileSelection(files);
+    });
 }
 
-// ===== CSV Submission Form =====
-function setupCSVSubmissionForm() {
-    if (!elements.outputForm) return;
+function handleFileSelection(files) {
+    console.log(`📁 Selected ${files.length} files`);
     
-    elements.outputForm.addEventListener('submit', async function(e) {
+    // Filter only CSV files
+    const csvFiles = files.filter(file => file.name.endsWith('.csv'));
+    
+    if (csvFiles.length !== files.length) {
+        alert(`Only CSV files are allowed. ${files.length - csvFiles.length} non-CSV files were ignored.`);
+    }
+
+    // Process each CSV file
+    csvFiles.forEach(file => {
+        const datasetName = extractDatasetName(file.name);
+        if (datasetName) {
+            uploadedFiles.set(datasetName, file);
+            console.log(`✅ Added ${datasetName}: ${file.name}`);
+        } else {
+            console.warn(`⚠️ Could not determine dataset for file: ${file.name}`);
+        }
+    });
+
+    updateFileDisplay();
+    updateSubmitButton();
+}
+
+function extractDatasetName(filename) {
+    // Remove .csv extension
+    const nameWithoutExt = filename.replace(/\.csv$/i, '');
+    
+    // Try to match with known dataset names
+    for (const dataset of requiredDatasets) {
+        if (nameWithoutExt.includes(dataset) || dataset.includes(nameWithoutExt)) {
+            return dataset;
+        }
+    }
+    
+    // If no match, use the filename as dataset name
+    return nameWithoutExt;
+}
+
+function updateFileDisplay() {
+    if (!elements.fileList || !elements.fileItems || !elements.fileCount) return;
+
+    const fileCount = uploadedFiles.size;
+    elements.fileCount.textContent = fileCount;
+
+    if (fileCount === 0) {
+        elements.fileList.style.display = 'none';
+        return;
+    }
+
+    elements.fileList.style.display = 'block';
+
+    // Create file list HTML
+    const fileHTML = Array.from(uploadedFiles.entries()).map(([dataset, file]) => `
+        <div class="file-item">
+            <div class="file-info">
+                <i class="fas fa-file-csv file-icon"></i>
+                <span class="file-name">${dataset}</span>
+                <span class="file-size">(${(file.size / 1024).toFixed(1)} KB)</span>
+            </div>
+            <button type="button" class="file-remove" onclick="removeFile('${dataset}')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `).join('');
+
+    elements.fileItems.innerHTML = fileHTML;
+
+    // Update file drop area appearance
+    if (fileCount === 15) {
+        elements.fileDropArea.classList.add('has-files');
+        elements.fileDropArea.querySelector('.upload-text').innerHTML = 
+            '<strong>✅ All 15 datasets ready for submission!</strong>';
+    } else {
+        elements.fileDropArea.classList.remove('has-files');
+        elements.fileDropArea.querySelector('.upload-text').innerHTML = 
+            `<strong>📁 ${fileCount}/15 datasets uploaded - Add ${15 - fileCount} more</strong>`;
+    }
+}
+
+function removeFile(datasetName) {
+    uploadedFiles.delete(datasetName);
+    updateFileDisplay();
+    updateSubmitButton();
+}
+
+function updateSubmitButton() {
+    if (!elements.submitBenchmarkBtn || !elements.validateFilesBtn) return;
+
+    const fileCount = uploadedFiles.size;
+    const isComplete = fileCount === 15;
+
+    elements.submitBenchmarkBtn.disabled = !isComplete;
+    elements.validateFilesBtn.disabled = fileCount === 0;
+
+    if (isComplete) {
+        elements.submitBenchmarkBtn.innerHTML = '<i class="fas fa-rocket"></i> Submit Complete Benchmark (15/15)';
+    } else {
+        elements.submitBenchmarkBtn.innerHTML = `<i class="fas fa-upload"></i> Need ${15 - fileCount} more datasets`;
+    }
+}
+
+// ===== Form Submission =====
+function setupBenchmarkSubmission() {
+    if (!elements.benchmarkForm) return;
+
+    elements.benchmarkForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
-        const submitBtn = this.querySelector('.btn-large');
+        if (uploadedFiles.size !== 15) {
+            alert('Please upload all 15 datasets before submitting.');
+            return;
+        }
+
+        const submitBtn = elements.submitBenchmarkBtn;
         const originalText = submitBtn.innerHTML;
         
         // Show loading state
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading Results...';
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing Complete Benchmark...';
         elements.submitResult.style.display = 'none';
-        
+
         try {
-            // ✅ Create FormData for file upload
+            // Create FormData with all files and form data
             const formData = new FormData(this);
             
-            // ✅ Submit to CSV upload endpoint
-            const response = await fetch('/submissions/upload-single-result', {
+            // Add all uploaded files
+            uploadedFiles.forEach((file, datasetName) => {
+                formData.append('csv_files', file, `${datasetName}.csv`);
+            });
+
+            console.log(`🚀 Submitting complete benchmark with ${uploadedFiles.size} datasets`);
+
+            // Submit to batch processing endpoint
+            const response = await fetch('/submissions/upload-complete-benchmark', {
                 method: 'POST',
                 body: formData
             });
-            
+
             const result = await response.json();
-            
+
             if (!response.ok) {
                 throw new Error(result.detail || `HTTP ${response.status}`);
             }
-            
+
             // Show success
-            elements.submitResult.className = 'submit-result success';
-            elements.submitResult.innerHTML = `
-                <h3><i class="fas fa-check-circle"></i> Results Submitted Successfully!</h3>
-                <p><strong>Submission ID:</strong> <code>${result.submission_id}</code></p>
-                <p>Your results for "${result.model_name}" on dataset "${result.dataset_name}" have been evaluated!</p>
-                <div style="background: var(--bg-light); padding: 1rem; border-radius: 8px; margin: 1rem 0;">
-                    <p><strong>Quadratic Weighted Kappa:</strong> ${result.evaluation_results.quadratic_weighted_kappa.toFixed(3)}</p>
-                    <p><strong>Pearson Correlation:</strong> ${result.evaluation_results.pearson_correlation.toFixed(3)}</p>
-                    <p><strong>Essays Evaluated:</strong> ${result.evaluation_results.essays_evaluated}</p>
-                    <p><strong>Match Rate:</strong> ${(result.evaluation_results.match_rate * 100).toFixed(1)}%</p>
-                </div>
-                <div style="margin-top: 1.5rem;">
-                    <a href="#leaderboard" class="btn btn-primary">
-                        <i class="fas fa-trophy"></i> View Leaderboard
-                    </a>
-                </div>
-            `;
-            elements.submitResult.style.display = 'block';
+            showBenchmarkSuccess(result);
             
             // Reset form
             this.reset();
+            uploadedFiles.clear();
+            updateFileDisplay();
+            updateSubmitButton();
             
-            // Scroll to result
-            elements.submitResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            
-            // Refresh data
+            // Refresh leaderboard
             setTimeout(() => {
                 loadPlatformStats();
                 loadLeaderboard();
             }, 1000);
-            
-            console.log(`✅ CSV results submitted successfully: ${result.submission_id}`);
-            
+
         } catch (error) {
-            // Show error
-            elements.submitResult.className = 'submit-result error';
-            elements.submitResult.innerHTML = `
-                <h3><i class="fas fa-exclamation-circle"></i> Submission Failed</h3>
-                <p><strong>Error:</strong> ${error.message}</p>
-                <p>Please check your CSV file format and try again.</p>
-                <div style="margin-top: 1rem;">
-                    <a href="/submissions/template" target="_blank" class="btn btn-outline">
-                        <i class="fas fa-file-csv"></i> View CSV Template
-                    </a>
-                </div>
-            `;
-            elements.submitResult.style.display = 'block';
-            elements.submitResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            
-            console.error('CSV submission failed:', error);
+            showBenchmarkError(error.message);
         } finally {
             // Reset button
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+        }
+    });
+}
+
+function showBenchmarkSuccess(result) {
+    elements.submitResult.className = 'submit-result success';
+    elements.submitResult.innerHTML = `
+        <h3><i class="fas fa-trophy"></i> Complete Benchmark Submitted Successfully!</h3>
+        <p><strong>Researcher:</strong> ${result.submitter_name}</p>
+        <p><strong>Model:</strong> ${result.model_name}</p>
+        
+        <div style="background: var(--bg-light); padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
+            <h4 style="margin-bottom: 1rem; color: var(--primary-blue);">🏆 Aggregate Results</h4>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div>
+                    <strong>Average QWK:</strong><br>
+                    <span style="font-size: 1.2em; color: var(--success);">${result.avg_quadratic_weighted_kappa?.toFixed(3) || 'Calculating...'}</span>
+                </div>
+                <div>
+                    <strong>Average Pearson:</strong><br>
+                    <span style="font-size: 1.2em; color: var(--success);">${result.avg_pearson_correlation?.toFixed(3) || 'Calculating...'}</span>
+                </div>
+                <div>
+                    <strong>Datasets Processed:</strong><br>
+                    <span style="font-size: 1.2em; color: var(--primary-blue);">${result.datasets_processed || 15}/15</span>
+                </div>
+                <div>
+                    <strong>Total Essays:</strong><br>
+                    <span style="font-size: 1.2em; color: var(--primary-blue);">${result.total_essays_evaluated || 'Calculating...'}</span>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 1.5rem;">
+            <a href="#leaderboard" class="btn btn-primary">
+                <i class="fas fa-trophy"></i> View Leaderboard Position
+            </a>
+        </div>
+    `;
+    elements.submitResult.style.display = 'block';
+    elements.submitResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function showBenchmarkError(message) {
+    elements.submitResult.className = 'submit-result error';
+    elements.submitResult.innerHTML = `
+        <h3><i class="fas fa-exclamation-circle"></i> Benchmark Submission Failed</h3>
+        <p><strong>Error:</strong> ${message}</p>
+        <p>Please check your files and try again.</p>
+        <div style="margin-top: 1rem;">
+            <a href="#datasets" class="btn btn-outline">
+                <i class="fas fa-download"></i> Download Datasets Again
+            </a>
+        </div>
+    `;
+    elements.submitResult.style.display = 'block';
+    elements.submitResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ===== Individual Testing =====
+function setupIndividualTesting() {
+    if (!elements.singleTestForm) return;
+
+    elements.singleTestForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Testing...';
+
+        try {
+            const formData = new FormData(this);
+            
+            // Add required fields for single upload
+            formData.append('model_name', 'Test Model');
+            formData.append('submitter_name', 'Test User');
+            formData.append('submitter_email', 'test@example.com');
+
+            const response = await fetch('/submissions/upload-single-result', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.detail || `HTTP ${response.status}`);
+            }
+
+            // Show test result
+            alert(`Test Result for ${result.dataset_name}:\nQWK: ${result.evaluation_results.quadratic_weighted_kappa.toFixed(3)}\nNote: This is for testing only and does not appear on the leaderboard.`);
+            
+            this.reset();
+
+        } catch (error) {
+            alert(`Test failed: ${error.message}`);
+        } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalText;
         }
@@ -342,53 +524,53 @@ function setupCSVSubmissionForm() {
 async function loadLeaderboard() {
     if (!elements.leaderboardTable) return;
     
-    showLoading(elements.leaderboardTable, 'Loading leaderboard...');
+    showLoading(elements.leaderboardTable, 'Loading complete benchmark leaderboard...');
     
     try {
-        const metric = elements.metricSelector?.value || 'quadratic_weighted_kappa';
-        // ✅ Fixed endpoint
+        const metric = elements.metricSelector?.value || 'avg_quadratic_weighted_kappa';
         const data = await fetchAPI(`/api/leaderboard/?metric=${metric}&limit=20`);
         
-        if (!data.leaderboard || data.leaderboard.length === 0) {
+        if (!data || data.length === 0) {
             showEmptyState(
                 elements.leaderboardTable,
-                'No Models on Leaderboard Yet',
-                'Be the first to submit CSV results to appear on the leaderboard!',
-                '<a href="#submit" class="btn btn-primary">Submit Your Results</a>'
+                'No Complete Benchmarks Yet',
+                'Be the first to submit all 15 datasets to appear on the leaderboard!',
+                '<a href="#submit" class="btn btn-primary"><i class="fas fa-rocket"></i> Submit Complete Benchmark</a>'
             );
             return;
         }
         
         const tableHTML = `
+            <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-light); border-radius: 8px;">
+                <p><strong>🏆 Complete Benchmarks Only:</strong> Only researchers who submitted all 15 datasets appear here.</p>
+            </div>
             <table>
                 <thead>
                     <tr>
                         <th style="width: 60px;">Rank</th>
+                        <th>Researcher</th>
                         <th>Model</th>
-                        <th>Submitter</th>
-                        <th>QWK Score</th>
-                        <th>Pearson Score</th>
+                        <th>Avg QWK</th>
+                        <th>Avg Pearson</th>
                         <th>Datasets</th>
                         <th>Essays</th>
                         <th style="width: 140px;">Submitted</th>
                     </tr>
                 </thead>
                 <tbody>
-                    ${data.leaderboard.map((entry, index) => `
+                    ${data.map((entry, index) => `
                         <tr style="animation: fadeIn 0.6s ease-out ${index * 0.1}s both;">
                             <td>
-                                <div class="rank-badge ${getRankClass(entry.rank)}">
-                                    ${entry.rank}
+                                <div class="rank-badge ${getRankClass(entry.rank || index + 1)}">
+                                    ${entry.rank || index + 1}
                                 </div>
                             </td>
-                            <td>
-                                <div>
-                                    <strong style="color: var(--text-primary);">${entry.model_name}</strong>
-                                    <br>
-                                    <small style="color: var(--text-muted); font-family: monospace;">${entry.model_id}</small>
-                                </div>
+                            <td style="color: var(--text-primary);">
+                                <strong>${entry.submitter_name || 'Unknown'}</strong>
                             </td>
-                            <td style="color: var(--text-secondary);">${entry.submitter_name}</td>
+                            <td style="color: var(--text-secondary);">
+                                ${entry.model_name || 'Model Description'}
+                            </td>
                             <td>
                                 <span class="score-badge ${getScoreClass(entry.avg_quadratic_weighted_kappa)}" 
                                       title="${getScoreDescription(entry.avg_quadratic_weighted_kappa)}">
@@ -402,7 +584,9 @@ async function loadLeaderboard() {
                                 </span>
                             </td>
                             <td style="text-align: center;">
-                                ${entry.datasets_completed}/${entry.total_datasets}
+                                <span style="color: var(--success); font-weight: 600;">
+                                    15/15
+                                </span>
                             </td>
                             <td style="text-align: center;">
                                 ${entry.total_essays_evaluated || 0}
@@ -420,7 +604,7 @@ async function loadLeaderboard() {
         
         elements.leaderboardTable.innerHTML = tableHTML;
         
-        console.log(`✅ Loaded leaderboard with ${data.leaderboard.length} entries`);
+        console.log(`✅ Loaded leaderboard with ${data.length} complete benchmarks`);
         
     } catch (error) {
         showError(elements.leaderboardTable, 'Failed to load leaderboard. Please check the API connection.');
@@ -434,9 +618,7 @@ function formatDate(dateString) {
     return new Date(dateString).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
+        day: 'numeric'
     });
 }
 
@@ -502,6 +684,56 @@ function setupEventListeners() {
             }
         });
     }
+
+    // File validation button
+    if (elements.validateFilesBtn) {
+        elements.validateFilesBtn.addEventListener('click', async () => {
+            await validateUploadedFiles();
+        });
+    }
+}
+
+async function validateUploadedFiles() {
+    if (uploadedFiles.size === 0) {
+        alert('No files to validate. Please upload CSV files first.');
+        return;
+    }
+
+    console.log(`🔍 Validating ${uploadedFiles.size} uploaded files...`);
+    
+    let validFiles = 0;
+    let errors = [];
+
+    for (const [dataset, file] of uploadedFiles) {
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const response = await fetch('/submissions/validate-csv', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.valid) {
+                validFiles++;
+                console.log(`✅ ${dataset}: Valid (${result.row_count} rows)`);
+            } else {
+                errors.push(`${dataset}: ${result.error}`);
+                console.log(`❌ ${dataset}: ${result.error}`);
+            }
+        } catch (error) {
+            errors.push(`${dataset}: Validation failed - ${error.message}`);
+        }
+    }
+
+    // Show validation results
+    if (errors.length === 0) {
+        alert(`✅ All ${validFiles} files are valid and ready for submission!`);
+    } else {
+        alert(`Validation Results:\n✅ Valid: ${validFiles}\n❌ Errors: ${errors.length}\n\nErrors:\n${errors.join('\n')}`);
+    }
 }
 
 // ===== Smooth Scrolling =====
@@ -526,12 +758,13 @@ function setupSmoothScrolling() {
 
 // ===== Initialize Application =====
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 BESESR CSV Frontend Initialized');
-    console.log('📡 API Base URL:', API_BASE_URL);
+    console.log('🚀 BESESR 15-Dataset Batch System Initialized');
     
     // Setup all functionality
     setupSmoothScrolling();
-    setupCSVSubmissionForm();
+    setupFileUpload();
+    setupBenchmarkSubmission();
+    setupIndividualTesting();
     setupEventListeners();
     
     // Load initial data
@@ -547,438 +780,11 @@ document.addEventListener('DOMContentLoaded', function() {
         loadLeaderboard();
     }, 60000);
     
-    console.log('✅ BESESR Platform ready!');
+    console.log('✅ BESESR 15-Dataset Batch Platform ready!');
 });
 
-// Add these functions to your app.js (replace the existing setupCSVSubmissionForm function)
-
-// ===== Setup Form Handlers =====
-function setupCSVSubmissionForm() {
-    // Setup benchmark form (main form)
-    const benchmarkForm = document.getElementById('benchmark-submit-form');
-    if (benchmarkForm) {
-        benchmarkForm.addEventListener('submit', handleBenchmarkSubmission);
-    }
-    
-    // Setup single dataset form (for testing)
-    const singleForm = document.getElementById('single-submit-form');
-    if (singleForm) {
-        singleForm.addEventListener('submit', handleSingleSubmission);
-    }
-}
-
-// ===== Handle Complete Benchmark Submission =====
-async function handleBenchmarkSubmission(e) {
-    e.preventDefault();
-    
-    const submitBtn = this.querySelector('.btn-large');
-    const originalText = submitBtn.innerHTML;
-    const submitResult = document.getElementById('submit-result');
-    
-    // Show loading state
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing Complete Benchmark...';
-    submitResult.style.display = 'none';
-    
-    try {
-        // Create FormData for ZIP upload
-        const formData = new FormData(this);
-        
-        // Check file size (optional)
-        const zipFile = formData.get('results_zip');
-        if (zipFile && zipFile.size > 50 * 1024 * 1024) { // 50MB limit
-            throw new Error('ZIP file too large. Maximum size is 50MB.');
-        }
-        
-        // Submit to benchmark endpoint
-        const response = await fetch('/submissions/upload-benchmark-results', {
-            method: 'POST',
-            body: formData
-        });
-        
-        const result = await response.json();
-        
-        if (!response.ok) {
-            throw new Error(result.detail || `HTTP ${response.status}`);
-        }
-        
-        // Show success with benchmark results
-        submitResult.className = 'submit-result success';
-        submitResult.innerHTML = `
-            <h3><i class="fas fa-trophy"></i> Complete Benchmark Submitted Successfully!</h3>
-            <p><strong>Submission ID:</strong> <code>${result.submission_id}</code></p>
-            <p>Your model "${result.model_name}" has been evaluated across all datasets!</p>
-            
-            <div style="background: var(--bg-light); padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
-                <h4 style="margin-bottom: 1rem; color: var(--primary-blue);">🏆 Benchmark Results</h4>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                    <div>
-                        <strong>Average QWK:</strong><br>
-                        <span style="font-size: 1.2em; color: var(--success);">${result.benchmark_results.avg_quadratic_weighted_kappa.toFixed(3)}</span>
-                    </div>
-                    <div>
-                        <strong>Average Pearson:</strong><br>
-                        <span style="font-size: 1.2em; color: var(--success);">${result.benchmark_results.avg_pearson_correlation.toFixed(3)}</span>
-                    </div>
-                    <div>
-                        <strong>Completion Rate:</strong><br>
-                        <span style="font-size: 1.2em; color: var(--success);">${result.benchmark_results.completion_rate.toFixed(1)}%</span>
-                    </div>
-                    <div>
-                        <strong>Total Essays:</strong><br>
-                        <span style="font-size: 1.2em; color: var(--primary-blue);">${result.benchmark_results.total_essays_evaluated}</span>
-                    </div>
-                </div>
-                
-                <div style="margin-top: 1rem;">
-                    <strong>Datasets Completed:</strong> ${result.benchmark_results.datasets_completed}/${result.benchmark_results.total_datasets}
-                    ${result.failed_datasets && result.failed_datasets.length > 0 ? 
-                        `<br><small style="color: var(--warning);">Failed: ${result.failed_datasets.join(', ')}</small>` : 
-                        '<br><span style="color: var(--success);">✅ All datasets processed successfully!</span>'
-                    }
-                </div>
-            </div>
-            
-            <div style="margin-top: 1.5rem;">
-                <a href="#leaderboard" class="btn btn-primary">
-                    <i class="fas fa-trophy"></i> View Leaderboard Position
-                </a>
-                <button onclick="showDetailedResults('${result.submission_id}')" class="btn btn-outline" style="margin-left: 1rem;">
-                    <i class="fas fa-chart-bar"></i> View Detailed Results
-                </button>
-            </div>
-        `;
-        submitResult.style.display = 'block';
-        
-        // Reset form
-        this.reset();
-        
-        // Scroll to result
-        submitResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        
-        // Refresh leaderboard
-        setTimeout(() => {
-            loadPlatformStats();
-            loadLeaderboard();
-        }, 1000);
-        
-        console.log(`✅ Complete benchmark submitted successfully: ${result.submission_id}`);
-        
-    } catch (error) {
-        // Show error
-        submitResult.className = 'submit-result error';
-        submitResult.innerHTML = `
-            <h3><i class="fas fa-exclamation-circle"></i> Benchmark Submission Failed</h3>
-            <p><strong>Error:</strong> ${error.message}</p>
-            <p>Please check your ZIP file structure and try again.</p>
-            <div style="margin-top: 1rem;">
-                <a href="/submissions/benchmark-template" target="_blank" class="btn btn-outline">
-                    <i class="fas fa-file-archive"></i> View ZIP Template
-                </a>
-                <a href="#datasets" class="btn btn-outline" style="margin-left: 1rem;">
-                    <i class="fas fa-download"></i> Download All Datasets
-                </a>
-            </div>
-        `;
-        submitResult.style.display = 'block';
-        submitResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        
-        console.error('Benchmark submission failed:', error);
-    } finally {
-        // Reset button
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalText;
-    }
-}
-
-// ===== Handle Single Dataset Submission (for testing) =====
-async function handleSingleSubmission(e) {
-    e.preventDefault();
-    
-    const submitBtn = this.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
-    const submitResult = document.getElementById('submit-result');
-    
-    // Show loading state
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Testing...';
-    submitResult.style.display = 'none';
-    
-    try {
-        // Create FormData for single file upload
-        const formData = new FormData(this);
-        
-        // Submit to single result endpoint
-        const response = await fetch('/submissions/upload-single-result', {
-            method: 'POST',
-            body: formData
-        });
-        
-        const result = await response.json();
-        
-        if (!response.ok) {
-            throw new Error(result.detail || `HTTP ${response.status}`);
-        }
-        
-        // Show success (but note it's not on leaderboard)
-        submitResult.className = 'submit-result success';
-        submitResult.innerHTML = `
-            <h3><i class="fas fa-check-circle"></i> Test Submission Successful!</h3>
-            <p><strong>⚠️ Note:</strong> This is a test submission and will NOT appear on the leaderboard.</p>
-            <p>Dataset: <strong>${result.dataset_name}</strong> | Model: <strong>${result.model_name}</strong></p>
-            <div style="background: var(--bg-light); padding: 1rem; border-radius: 8px; margin: 1rem 0;">
-                <p><strong>QWK:</strong> ${result.evaluation_results.quadratic_weighted_kappa.toFixed(3)}</p>
-                <p><strong>Pearson:</strong> ${result.evaluation_results.pearson_correlation.toFixed(3)}</p>
-                <p><strong>Essays Evaluated:</strong> ${result.evaluation_results.essays_evaluated}</p>
-                <p><strong>Match Rate:</strong> ${(result.evaluation_results.match_rate * 100).toFixed(1)}%</p>
-            </div>
-            <div style="margin-top: 1.5rem;">
-                <p style="color: var(--warning); font-weight: 600;">
-                    <i class="fas fa-info-circle"></i> 
-                    To appear on the leaderboard, submit a complete ZIP with all 12 datasets above.
-                </p>
-            </div>
-        `;
-        submitResult.style.display = 'block';
-        
-        // Reset form
-        this.reset();
-        
-        // Scroll to result
-        submitResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        
-        console.log(`✅ Test submission completed: ${result.submission_id}`);
-        
-    } catch (error) {
-        // Show error
-        submitResult.className = 'submit-result error';
-        submitResult.innerHTML = `
-            <h3><i class="fas fa-exclamation-circle"></i> Test Submission Failed</h3>
-            <p><strong>Error:</strong> ${error.message}</p>
-            <div style="margin-top: 1rem;">
-                <a href="/submissions/template" target="_blank" class="btn btn-outline">
-                    <i class="fas fa-file-csv"></i> View CSV Template
-                </a>
-            </div>
-        `;
-        submitResult.style.display = 'block';
-        
-        console.error('Test submission failed:', error);
-    } finally {
-        // Reset button
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalText;
-    }
-}
-
-// ===== Show Detailed Results Modal =====
-async function showDetailedResults(submissionId) {
-    try {
-        const response = await fetch(`/submissions/submission-status/${submissionId}`);
-        const data = await response.json();
-        
-        if (!response.ok) {
-            throw new Error(data.detail || 'Failed to load detailed results');
-        }
-        
-        // Create a modal or detailed view
-        alert(`Detailed results for submission ${submissionId}:\n\n${JSON.stringify(data, null, 2)}`);
-        
-    } catch (error) {
-        alert(`Failed to load detailed results: ${error.message}`);
-    }
-}
-
-// ===== Update the datasets loading to populate single form dropdown =====
-async function loadDatasets() {
-    if (!elements.datasetsGrid) return;
-
-    showLoading(elements.datasetsGrid, 'Loading datasets...');
-
-    try {
-        const data = await fetchAPI('/api/datasets/');
-
-        if (!data.datasets || data.datasets.length === 0) {
-            showEmptyState(
-                elements.datasetsGrid,
-                'No Datasets Available',
-                'No datasets have been configured yet. Please check back later.'
-            );
-            return;
-        }
-
-        // Create dataset cards
-        const datasetsHTML = data.datasets.map((dataset, index) => `
-            <div class="dataset-card fade-in" style="animation-delay: ${index * 0.1}s;">
-                <h3>${dataset.name}</h3>
-                <p>${dataset.description}</p>
-
-                <div class="dataset-info">
-                    <span>
-                        <i class="fas fa-database"></i>
-                        Score Range: ${dataset.score_range[0]}-${dataset.score_range[1]}
-                    </span>
-                    <span>
-                        <i class="fas fa-columns"></i>
-                        ${dataset.split}
-                    </span>
-                </div>
-
-                <div class="dataset-metrics">
-                    <div class="metric-tag">Essays: ${dataset.essay_column}</div>
-                    <div class="metric-tag">Scores: ${dataset.score_column}</div>
-                    <div class="metric-tag">Prompts: ${dataset.prompt_column}</div>
-                </div>
-
-                <div class="dataset-actions">
-                    <button onclick="downloadSingleDataset('${dataset.name}')" class="btn btn-sm btn-primary">
-                        <i class="fas fa-download"></i> Download CSV
-                    </button>
-                    <button onclick="showDatasetSample('${dataset.name}')" class="btn btn-sm btn-outline">
-                        <i class="fas fa-eye"></i> Preview
-                    </button>
-                </div>
-            </div>
-        `).join('');
-
-        elements.datasetsGrid.innerHTML = datasetsHTML;
-
-        // Update total count
-        if (elements.totalDatasets) {
-            animateNumber(elements.totalDatasets, data.total_count || data.datasets.length);
-        }
-
-        // Populate single dataset dropdown for testing form
-        const singleDatasetSelect = document.getElementById('single-dataset-name');
-        if (singleDatasetSelect) {
-            const options = data.datasets.map(dataset => 
-                `<option value="${dataset.name}">${dataset.name}</option>`
-            ).join('');
-            singleDatasetSelect.innerHTML = '<option value="">-- Choose dataset --</option>' + options;
-        }
-
-        console.log(`✅ Loaded ${data.datasets.length} datasets successfully`);
-
-    } catch (error) {
-        showError(elements.datasetsGrid, 'Failed to load datasets. Please check the API connection.');
-        console.error('Failed to load datasets:', error);
-    }
-}
-
-// ===== Update Leaderboard to Show Only Complete Benchmarks =====
-async function loadLeaderboard() {
-    if (!elements.leaderboardTable) return;
-    
-    showLoading(elements.leaderboardTable, 'Loading leaderboard...');
-    
-    try {
-        const metric = elements.metricSelector?.value || 'quadratic_weighted_kappa';
-        const data = await fetchAPI(`/api/leaderboard/?metric=${metric}&limit=20`);
-        
-        if (!data.leaderboard || data.leaderboard.length === 0) {
-            showEmptyState(
-                elements.leaderboardTable,
-                'No Complete Benchmarks Yet',
-                'Be the first to submit a complete ZIP with all 12 datasets to appear on the leaderboard!',
-                '<a href="#submit" class="btn btn-primary"><i class="fas fa-upload"></i> Submit Complete Benchmark</a>'
-            );
-            return;
-        }
-        
-        // Filter to show only complete benchmarks (10+ datasets)
-        const completeBenchmarks = data.leaderboard.filter(entry => 
-            (entry.datasets_completed >= 10) || (entry.dataset_name === 'BENCHMARK_COMPLETE')
-        );
-        
-        if (completeBenchmarks.length === 0) {
-            showEmptyState(
-                elements.leaderboardTable,
-                'No Complete Benchmarks Yet',
-                'Only submissions with results for 10+ datasets appear on the leaderboard.',
-                '<a href="#submit" class="btn btn-primary"><i class="fas fa-upload"></i> Submit Complete Benchmark</a>'
-            );
-            return;
-        }
-        
-        const tableHTML = `
-            <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-light); border-radius: 8px;">
-                <p><strong>🏆 Leaderboard Rules:</strong> Only complete benchmarks with 10+ datasets are ranked here. 
-                Single dataset submissions are for testing only.</p>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 60px;">Rank</th>
-                        <th>Model</th>
-                        <th>Submitter</th>
-                        <th>Avg QWK</th>
-                        <th>Avg Pearson</th>
-                        <th>Datasets</th>
-                        <th>Essays</th>
-                        <th style="width: 140px;">Submitted</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${completeBenchmarks.map((entry, index) => `
-                        <tr style="animation: fadeIn 0.6s ease-out ${index * 0.1}s both;">
-                            <td>
-                                <div class="rank-badge ${getRankClass(index + 1)}">
-                                    ${index + 1}
-                                </div>
-                            </td>
-                            <td>
-                                <div>
-                                    <strong style="color: var(--text-primary);">${entry.model_name || 'Unknown Model'}</strong>
-                                    <br>
-                                    <small style="color: var(--text-muted); font-family: monospace;">${entry.submission_id}</small>
-                                </div>
-                            </td>
-                            <td style="color: var(--text-secondary);">${entry.submitter_name}</td>
-                            <td>
-                                <span class="score-badge ${getScoreClass(entry.avg_quadratic_weighted_kappa || entry.quadratic_weighted_kappa)}" 
-                                      title="${getScoreDescription(entry.avg_quadratic_weighted_kappa || entry.quadratic_weighted_kappa)}">
-                                    ${formatScore(entry.avg_quadratic_weighted_kappa || entry.quadratic_weighted_kappa)}
-                                </span>
-                            </td>
-                            <td>
-                                <span class="score-badge ${getScoreClass(entry.avg_pearson_correlation || entry.pearson_correlation)}"
-                                      title="${getScoreDescription(entry.avg_pearson_correlation || entry.pearson_correlation)}">
-                                    ${formatScore(entry.avg_pearson_correlation || entry.pearson_correlation)}
-                                </span>
-                            </td>
-                            <td style="text-align: center;">
-                                <span style="color: var(--success); font-weight: 600;">
-                                    ${entry.datasets_completed || 12}/12
-                                </span>
-                            </td>
-                            <td style="text-align: center;">
-                                ${entry.total_essays_evaluated || entry.essays_evaluated || 0}
-                            </td>
-                            <td>
-                                <small style="color: var(--text-muted);">
-                                    ${formatDate(entry.submission_time)}
-                                </small>
-                            </td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            </table>
-        `;
-        
-        elements.leaderboardTable.innerHTML = tableHTML;
-        
-        console.log(`✅ Loaded leaderboard with ${completeBenchmarks.length} complete benchmarks`);
-        
-    } catch (error) {
-        showError(elements.leaderboardTable, 'Failed to load leaderboard. Please check the API connection.');
-        console.error('Failed to load leaderboard:', error);
-    }
-}
-
-// Make functions globally available
-window.showDetailedResults = showDetailedResults;
-
 // ===== Global Functions =====
-window.downloadSingleDataset = downloadSingleDataset;
-window.downloadAllDatasets = downloadAllDatasets;
-window.showDatasetSample = showDatasetSample;
+window.removeFile = removeFile;
+window.downloadSingleDataset = (datasetName) => {
+    downloadFile(`/api/datasets/download/${encodeURIComponent(datasetName)}`, `${datasetName}.csv`);
+};

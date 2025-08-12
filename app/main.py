@@ -142,67 +142,6 @@ async def test_openrouter():
     """Test OpenRouter connection (legacy)"""
     return await openrouter_client.test_connection()
 
-@app.get("/debug/database")
-async def debug_database():
-    """Debug endpoint to check database status"""
-    try:
-        stats = DatabaseService.get_platform_stats()
-        leaderboard_data = DatabaseService.get_leaderboard(limit=5)
-        
-        # Check database file
-        db_file_exists = os.path.exists("besesr.db")
-        db_size = os.path.getsize("besesr.db") if db_file_exists else 0
-        
-        return {
-            "database_file": "besesr.db",
-            "file_exists": db_file_exists,
-            "file_size_mb": round(db_size / (1024 * 1024), 2),
-            "stats": stats,
-            "sample_leaderboard": leaderboard_data,
-            "status": "connected"
-        }
-    except Exception as e:
-        return {"status": "error", "error": str(e)}
-
-@app.get("/debug/datasets")
-async def debug_datasets():
-    """Debug endpoint to check dataset loading"""
-    try:
-        from app.services.dataset_loader import dataset_manager
-        
-        datasets_config = dataset_manager.datasets_config
-        
-        # Test loading one dataset
-        test_dataset = list(datasets_config.keys())[0] if datasets_config else None
-        test_sample = None
-        
-        if test_dataset:
-            test_sample = dataset_manager.load_dataset_for_evaluation(test_dataset, sample_size=2)
-        
-        return {
-            "total_datasets": len(datasets_config),
-            "dataset_names": list(datasets_config.keys()),
-            "huggingface_authenticated": dataset_manager.hf_loader.authenticated,
-            "test_dataset": test_dataset,
-            "test_sample_count": len(test_sample) if test_sample else 0,
-            "test_sample_preview": test_sample[0] if test_sample else None,
-            "status": "working" if test_sample else "not_working"
-        }
-    except Exception as e:
-        return {"status": "error", "error": str(e)}
-
-@app.post("/debug/reset-database")
-async def reset_database():
-    """Reset database (development only)"""
-    try:
-        from app.config.database import reset_database
-        reset_database()
-        DatabaseService.initialize_datasets()
-        return {"message": "Database reset successfully", "status": "completed"}
-    except Exception as e:
-        return {"message": "Database reset failed", "error": str(e), "status": "error"}
-
-# Replace your api_info endpoint with this:
 
 @app.get("/api-info")
 async def api_info():

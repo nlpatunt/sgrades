@@ -1,0 +1,206 @@
+{
+  "discovered_at": "2025-08-12T00:32:42.059955",
+  "username": "nlpatunt",
+  "dataset_count": 12,
+  "datasets": {
+    "ASAP2": {
+      "huggingface_id": "nlpatunt/ASAP2",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-08-12T00:32:19.014192",
+      "description": "ASAP 2.0 Dataset - Automated Essay Scoring",
+      "essay_column": "full_text",
+      "score_column": "score",
+      "prompt_column": "prompt_name",
+      "score_range": [
+        0,
+        60
+      ]
+    },
+    "automatic_short_answer_grading_mohlar": {
+      "huggingface_id": "nlpatunt/automatic_short_answer_grading_mohlar",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-08-12T00:32:19.014210",
+      "description": "Automatic Short Answer Grading - Mohlar Dataset",
+      "essay_column": "student_answer",
+      "score_column": "score",
+      "prompt_column": "question",
+      "score_range": [
+        0,
+        5
+      ]
+    },
+    "CSEE": {
+      "huggingface_id": "nlpatunt/CSEE",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-08-12T00:32:19.014221",
+      "description": "Computer Science Essay Evaluation Dataset",
+      "essay_column": "essay_text",
+      "score_column": "score",
+      "prompt_column": "prompt",
+      "score_range": [
+        0,
+        5
+      ]
+    },
+    "BEEtlE": {
+      "huggingface_id": "nlpatunt/BEEtlE",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-08-12T00:32:19.014230",
+      "description": "Basic Elements of English Teaching and Learning Evaluation",
+      "essay_column": "student_answer",
+      "score_column": "label",
+      "prompt_column": "question",
+      "score_range": [
+        0,
+        2
+      ]
+    },
+    "EFL": {
+      "huggingface_id": "nlpatunt/EFL",
+      "description": "English as Foreign Language Essays",
+      "essay_column": "essay_link",
+      "score_column": "Essay Id",
+      "prompt_column": "default_prompt",
+      "config": null,
+      "split": "train",
+      "score_range": [
+        0,
+        5
+      ],
+      "auto_discovered": true,
+      "discovery_time": "2025-08-12T00:32:23.461732",
+      "column_count": 24,
+      "dataset_variant": null
+    },
+    "SciEntSBank": {
+      "huggingface_id": "nlpatunt/SciEntSBank",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-08-12T00:32:23.461876",
+      "description": "Science Entailment Bank Dataset",
+      "essay_column": "student_answer",
+      "score_column": "label",
+      "prompt_column": "question",
+      "score_range": [
+        0,
+        2
+      ]
+    },
+    "ASAP-SAS": {
+      "huggingface_id": "nlpatunt/ASAP-SAS",
+      "description": "Automated Student Assessment Prize",
+      "essay_column": "essay_text",
+      "score_column": "Score1",
+      "prompt_column": "prompt_&_source_essay_urls",
+      "config": null,
+      "split": "train",
+      "score_range": [
+        0,
+        5
+      ],
+      "auto_discovered": true,
+      "discovery_time": "2025-08-12T00:32:26.163502",
+      "column_count": 8,
+      "dataset_variant": null
+    },
+    "rice__chem": {
+      "huggingface_id": "nlpatunt/rice__chem",
+      "description": "Rice University Chemistry Dataset",
+      "essay_column": "student_response",
+      "score_column": "rubric_0",
+      "prompt_column": "Prompt",
+      "config": null,
+      "split": "train",
+      "score_range": [
+        0,
+        5
+      ],
+      "auto_discovered": true,
+      "discovery_time": "2025-08-12T00:32:30.451489",
+      "column_count": 54,
+      "dataset_variant": null
+    },
+    "grade_like_a_human_dataset_os": {
+      "huggingface_id": "nlpatunt/grade_like_a_human_dataset_os",
+      "description": "Grade Like a Human Dataset",
+      "essay_column": "sample_answer",
+      "score_column": "score_1",
+      "prompt_column": "question_id",
+      "config": null,
+      "split": "train",
+      "score_range": [
+        0,
+        19
+      ],
+      "auto_discovered": true,
+      "discovery_time": "2025-08-12T00:32:34.172709",
+      "column_count": 12,
+      "dataset_variant": null
+    },
+    "ASAP_plus_plus": {
+      "huggingface_id": "nlpatunt/ASAP_plus_plus",
+      "description": "Automated Student Assessment Prize",
+      "essay_column": "essay",
+      "score_column": "essay_id",
+      "prompt_column": "Prompt Adherence",
+      "config": null,
+      "split": "train",
+      "score_range": [
+        1,
+        3
+      ],
+      "auto_discovered": true,
+      "discovery_time": "2025-08-12T00:32:36.865871",
+      "column_count": 14,
+      "dataset_variant": null
+    },
+    "ASAP-AES": {
+      "huggingface_id": "nlpatunt/ASAP-AES",
+      "description": "Automated Student Assessment Prize",
+      "essay_column": "essay",
+      "score_column": "domain1_score",
+      "prompt_column": "prompt_rubric_source_text_source",
+      "config": null,
+      "split": "train",
+      "score_range": [
+        7,
+        9
+      ],
+      "auto_discovered": true,
+      "discovery_time": "2025-08-12T00:32:39.064083",
+      "column_count": 31,
+      "dataset_variant": null
+    },
+    "persuade_2": {
+      "huggingface_id": "nlpatunt/persuade_2",
+      "description": "Persuasive Essays Dataset",
+      "essay_column": "full_text",
+      "score_column": "holistic_essay_score",
+      "prompt_column": "prompt_name",
+      "config": null,
+      "split": "train",
+      "score_range": [
+        2,
+        4
+      ],
+      "auto_discovered": true,
+      "discovery_time": "2025-08-12T00:32:42.059818",
+      "column_count": 17,
+      "dataset_variant": null
+    }
+  }
+}
