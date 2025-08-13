@@ -140,58 +140,6 @@ async def get_dataset_sample(dataset_name: str, size: int = 5):
             "sample": []
         }
 
-@router.get("/{dataset_name}/stats")
-async def get_dataset_statistics(dataset_name: str):
-    """Get statistics about a dataset"""
-    
-    try:
-        # Load a larger sample for statistics
-        sample_essays = dataset_manager.load_dataset_for_evaluation(
-            dataset_name, 
-            sample_size=50
-        )
-        
-        if not sample_essays:
-            return {
-                "error": f"Could not load data for statistics from {dataset_name}",
-                "dataset_name": dataset_name
-            }
-        
-        # Calculate statistics
-        human_scores = [essay["human_score"] for essay in sample_essays]
-        essay_lengths = [len(essay["essay_text"].split()) for essay in sample_essays]
-        
-        import statistics
-        
-        stats = {
-            "dataset_name": dataset_name,
-            "sample_size": len(sample_essays),
-            "score_statistics": {
-                "mean": round(statistics.mean(human_scores), 2),
-                "median": round(statistics.median(human_scores), 2),
-                "std_dev": round(statistics.stdev(human_scores) if len(human_scores) > 1 else 0, 2),
-                "min_score": min(human_scores),
-                "max_score": max(human_scores),
-                "range": sample_essays[0]["score_range"] if sample_essays else (0, 0)
-            },
-            "essay_length_statistics": {
-                "mean_words": round(statistics.mean(essay_lengths), 1),
-                "median_words": round(statistics.median(essay_lengths), 1),
-                "min_words": min(essay_lengths),
-                "max_words": max(essay_lengths)
-            },
-            "computed_at": datetime.now().isoformat()
-        }
-        
-        return stats
-        
-    except Exception as e:
-        print(f"❌ Error computing statistics for {dataset_name}: {e}")
-        return {
-            "error": str(e),
-            "dataset_name": dataset_name
-        }
-
 @router.get("/download/all")
 async def download_all_datasets():
     """Download all datasets as a ZIP file for local evaluation"""
@@ -428,22 +376,3 @@ async def dataset_health_check():
             "error": str(e),
             "timestamp": datetime.now().isoformat()
         }
-    
-@router.post("/refresh-discovery")
-async def refresh_dataset_discovery():
-    """Refresh dynamic dataset discovery from HuggingFace"""
-    try:
-        from datetime import datetime
-        count = dataset_manager.refresh_datasets()
-        return {
-            "message": "Dataset discovery refreshed",
-            "discovered_count": count,
-            "datasets": list(dataset_manager.datasets_config.keys()),
-            "refreshed_at": datetime.now().isoformat(),
-            "discovery_method": "dynamic" if any(
-                config.get("auto_discovered", False) 
-                for config in dataset_manager.datasets_config.values()
-            ) else "static"
-        }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))

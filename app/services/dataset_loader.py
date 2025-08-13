@@ -287,6 +287,37 @@ class HuggingFaceDatasetLoader:
         except Exception as e:
             print(f"   ❌ Error configuring {dataset_name} with config {config_name}: {e}")
             return None
+        
+    def load_dataset_sample(
+        self,
+        dataset_id: str,
+        config: Optional[str] = None,
+        split: str = "train",
+        sample_size: int = 100
+    ) -> List[Dict[str, Any]]:
+        """Load a sample from a HF dataset (public or private)"""
+
+        print(f"📥 Loading sample from {dataset_id} (config={config}, split={split})")
+
+        try:
+            # Try using the modern token parameter
+            try:
+                ds = load_dataset(dataset_id, config, split=split, token=self.hf_token)
+            except TypeError:
+                # Fallback for older versions
+                ds = load_dataset(dataset_id, config, split=split, use_auth_token=self.hf_token)
+        except Exception as e:
+            print(f"❌ load_dataset failed: {e}")
+            return self._load_via_api(dataset_id, config, split, sample_size)
+
+        # Sample rows
+        if len(ds) > sample_size:
+            idx = random.sample(range(len(ds)), sample_size)
+            ds = ds.select(idx)
+
+        essays: List[Dict[str, Any]] = [{"row": r} for r in ds]
+        print(f"✅ Loaded {len(essays)} rows from {dataset_id}")
+        return essays
 
     def _get_dataset_split(self, dataset_name: str) -> str:
         """Get appropriate split for dataset"""

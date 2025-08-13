@@ -137,11 +137,6 @@ async def health_check():
         "version": "1.0.0"
     }
 
-@app.get("/test-openrouter")
-async def test_openrouter():
-    """Test OpenRouter connection (legacy)"""
-    return await openrouter_client.test_connection()
-
 
 @app.get("/api-info")
 async def api_info():

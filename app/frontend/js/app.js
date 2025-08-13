@@ -117,7 +117,7 @@ function downloadAllDatasets() {
 // ===== Load Platform Stats =====
 async function loadPlatformStats() {
     try {
-        const stats = await fetchAPI('/api/leaderboard/stats');
+        const stats = await fetchAPI('/api/leaderboard/stats'); 
         
         // Update stats with animation
         if (elements.totalModels) {
@@ -528,7 +528,7 @@ async function loadLeaderboard() {
     
     try {
         const metric = elements.metricSelector?.value || 'avg_quadratic_weighted_kappa';
-        const data = await fetchAPI(`/api/leaderboard/?metric=${metric}&limit=20`);
+        const data = await fetchAPI(`/submissions/leaderboard?metric=${metric}&limit=20`);
         
         if (!data || data.length === 0) {
             showEmptyState(
