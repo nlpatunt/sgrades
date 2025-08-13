@@ -1,0 +1,966 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "BESESR - Essay Grading Benchmarking Platform",
+    "description": "\n    Benchmarking platform for automatic essay grading models. \n    \n    ## New Workflow:\n    1. **Download datasets** using `/datasets/download/all`\n    2. **Run your model** locally on all datasets\n    3. **Submit CSV results** using `/outputs/upload-results`\n    4. **View leaderboard** with your model's performance\n    \n    Submit your model results for evaluation across 12 curated academic datasets.\n    ",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/datasets/": {
+      "get": {
+        "tags": [
+          "datasets"
+        ],
+        "summary": "Get All Datasets",
+        "description": "Get all available datasets from dynamic HuggingFace configuration",
+        "operationId": "get_all_datasets_api_datasets__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/datasets/{dataset_name}": {
+      "get": {
+        "tags": [
+          "datasets"
+        ],
+        "summary": "Get Dataset Details",
+        "description": "Get detailed information about a specific dataset",
+        "operationId": "get_dataset_details_api_datasets__dataset_name__get",
+        "parameters": [
+          {
+            "name": "dataset_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Dataset Name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/datasets/{dataset_name}/sample": {
+      "get": {
+        "tags": [
+          "datasets"
+        ],
+        "summary": "Get Dataset Sample",
+        "description": "Get a sample of essays from the dataset",
+        "operationId": "get_dataset_sample_api_datasets__dataset_name__sample_get",
+        "parameters": [
+          {
+            "name": "dataset_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Dataset Name"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5,
+              "title": "Size"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/datasets/download/all": {
+      "get": {
+        "tags": [
+          "datasets"
+        ],
+        "summary": "Download All Datasets",
+        "description": "Download all datasets as a ZIP file for local evaluation",
+        "operationId": "download_all_datasets_api_datasets_download_all_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/datasets/download/{dataset_name}": {
+      "get": {
+        "tags": [
+          "datasets"
+        ],
+        "summary": "Download Single Dataset",
+        "description": "Download a single dataset as CSV",
+        "operationId": "download_single_dataset_api_datasets_download__dataset_name__get",
+        "parameters": [
+          {
+            "name": "dataset_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Dataset Name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/datasets/health/check": {
+      "get": {
+        "tags": [
+          "datasets"
+        ],
+        "summary": "Dataset Health Check",
+        "description": "Check if dataset loading system is working",
+        "operationId": "dataset_health_check_api_datasets_health_check_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/leaderboard/": {
+      "get": {
+        "tags": [
+          "leaderboard"
+        ],
+        "summary": "Get Leaderboard",
+        "description": "Get leaderboard rankings for complete 15-dataset benchmarks only",
+        "operationId": "get_leaderboard_api_leaderboard__get",
+        "parameters": [
+          {
+            "name": "metric",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "avg_quadratic_weighted_kappa",
+              "title": "Metric"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 20,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/leaderboard/stats": {
+      "get": {
+        "tags": [
+          "leaderboard"
+        ],
+        "summary": "Get Leaderboard Stats",
+        "description": "Get platform statistics",
+        "operationId": "get_leaderboard_stats_api_leaderboard_stats_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/leaderboard/health": {
+      "get": {
+        "tags": [
+          "leaderboard"
+        ],
+        "summary": "Leaderboard Health",
+        "description": "Health check for leaderboard service",
+        "operationId": "leaderboard_health_api_leaderboard_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/leaderboard/individual": {
+      "get": {
+        "tags": [
+          "leaderboard"
+        ],
+        "summary": "Get Individual Leaderboard",
+        "description": "Get leaderboard for individual dataset submissions (testing only)",
+        "operationId": "get_individual_leaderboard_api_leaderboard_individual_get",
+        "parameters": [
+          {
+            "name": "metric",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "quadratic_weighted_kappa",
+              "title": "Metric"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 20,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/leaderboard/progress/{submitter_name}": {
+      "get": {
+        "tags": [
+          "leaderboard"
+        ],
+        "summary": "Get Researcher Progress",
+        "description": "Get progress for a specific researcher",
+        "operationId": "get_researcher_progress_api_leaderboard_progress__submitter_name__get",
+        "parameters": [
+          {
+            "name": "submitter_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Submitter Name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/leaderboard/metrics": {
+      "get": {
+        "tags": [
+          "leaderboard"
+        ],
+        "summary": "Get Available Metrics",
+        "description": "Get list of available evaluation metrics",
+        "operationId": "get_available_metrics_api_leaderboard_metrics_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/submissions/upload-complete-benchmark": {
+      "post": {
+        "tags": [
+          "submissions"
+        ],
+        "summary": "Upload Complete Benchmark",
+        "description": "Upload complete benchmark with all 15 datasets",
+        "operationId": "upload_complete_benchmark_submissions_upload_complete_benchmark_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_complete_benchmark_submissions_upload_complete_benchmark_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/submissions/upload-single-result": {
+      "post": {
+        "tags": [
+          "submissions"
+        ],
+        "summary": "Upload Single Result",
+        "description": "Upload CSV result for a single dataset (testing only - NOT for leaderboard)",
+        "operationId": "upload_single_result_submissions_upload_single_result_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_single_result_submissions_upload_single_result_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/submissions/progress/{submitter_name}": {
+      "get": {
+        "tags": [
+          "submissions"
+        ],
+        "summary": "Get Researcher Progress",
+        "description": "Get progress for a specific researcher",
+        "operationId": "get_researcher_progress_submissions_progress__submitter_name__get",
+        "parameters": [
+          {
+            "name": "submitter_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Submitter Name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/submissions/leaderboard": {
+      "get": {
+        "tags": [
+          "submissions"
+        ],
+        "summary": "Get Submissions Leaderboard",
+        "description": "Get leaderboard rankings",
+        "operationId": "get_submissions_leaderboard_submissions_leaderboard_get",
+        "parameters": [
+          {
+            "name": "dataset_name",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Dataset Name"
+            }
+          },
+          {
+            "name": "metric",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "quadratic_weighted_kappa",
+              "title": "Metric"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "complete",
+              "title": "Type"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/submissions/validate-csv": {
+      "post": {
+        "tags": [
+          "submissions"
+        ],
+        "summary": "Validate Csv Format",
+        "description": "Validate CSV format before submission",
+        "operationId": "validate_csv_format_submissions_validate_csv_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_validate_csv_format_submissions_validate_csv_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/submissions/template": {
+      "get": {
+        "tags": [
+          "submissions"
+        ],
+        "summary": "Get Submission Template",
+        "description": "Get CSV template and upload instructions",
+        "operationId": "get_submission_template_submissions_template_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/submissions/submission-status/{submission_id}": {
+      "get": {
+        "tags": [
+          "submissions"
+        ],
+        "summary": "Get Submission Status",
+        "description": "Get status of a submission",
+        "operationId": "get_submission_status_submissions_submission_status__submission_id__get",
+        "parameters": [
+          {
+            "name": "submission_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Submission Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/submissions/recent": {
+      "get": {
+        "tags": [
+          "submissions"
+        ],
+        "summary": "Get Recent Submissions",
+        "description": "Get recent submissions for monitoring",
+        "operationId": "get_recent_submissions_submissions_recent_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "all",
+              "title": "Type"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/submissions/health": {
+      "get": {
+        "tags": [
+          "submissions"
+        ],
+        "summary": "Submissions Health",
+        "description": "Health check for submissions service",
+        "operationId": "submissions_health_submissions_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Health check endpoint with database and dataset status",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api-info": {
+      "get": {
+        "summary": "Api Info",
+        "description": "Information about the new API workflow",
+        "operationId": "api_info_api_info_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_upload_complete_benchmark_submissions_upload_complete_benchmark_post": {
+        "properties": {
+          "submitter_name": {
+            "type": "string",
+            "title": "Submitter Name"
+          },
+          "submitter_email": {
+            "type": "string",
+            "title": "Submitter Email"
+          },
+          "model_name": {
+            "type": "string",
+            "title": "Model Name"
+          },
+          "model_description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Description"
+          },
+          "csv_files": {
+            "items": {
+              "type": "string",
+              "format": "binary"
+            },
+            "type": "array",
+            "title": "Csv Files"
+          }
+        },
+        "type": "object",
+        "required": [
+          "submitter_name",
+          "submitter_email",
+          "model_name",
+          "csv_files"
+        ],
+        "title": "Body_upload_complete_benchmark_submissions_upload_complete_benchmark_post"
+      },
+      "Body_upload_single_result_submissions_upload_single_result_post": {
+        "properties": {
+          "model_name": {
+            "type": "string",
+            "title": "Model Name"
+          },
+          "dataset_name": {
+            "type": "string",
+            "title": "Dataset Name"
+          },
+          "submitter_name": {
+            "type": "string",
+            "title": "Submitter Name"
+          },
+          "submitter_email": {
+            "type": "string",
+            "title": "Submitter Email"
+          },
+          "result_file": {
+            "type": "string",
+            "format": "binary",
+            "title": "Result File"
+          },
+          "model_description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Description"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model_name",
+          "dataset_name",
+          "submitter_name",
+          "submitter_email",
+          "result_file"
+        ],
+        "title": "Body_upload_single_result_submissions_upload_single_result_post"
+      },
+      "Body_validate_csv_format_submissions_validate_csv_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "binary",
+            "title": "File"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "title": "Body_validate_csv_format_submissions_validate_csv_post"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
