@@ -38,12 +38,3 @@ async def test_model_api_format(request: EssayGradingRequest):
         additional_info={"model_version": "1.0", "notes": "Example response format"}
     )
 router = APIRouter()
-
-@router.get("/test-load/{dataset_name}")
-async def test_load_dataset(dataset_name: str, sample_size: int = 5):
-    """Test loading sample essays from Hugging Face dataset"""
-    result = dataset_manager.load_dataset_for_evaluation(dataset_name, sample_size)
-    return {
-        "num_loaded": len(result),
-        "sample": result[:1]  # show first essay only
-    }

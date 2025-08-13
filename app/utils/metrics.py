@@ -4,25 +4,28 @@ from scipy.stats import pearsonr, spearmanr
 from typing import List, Dict, Any
 
 
-def calculate_evaluation_metrics(y_true: List[float], y_pred: List[float]) -> Dict[str, Any]:
+def calculate_evaluation_metrics(matched_data: List[Dict[str, Any]]) -> Dict[str, Any]:
     """
-    Compute evaluation metrics for essay score predictions.
-    Supports regression-based outputs (float) which are rounded for classification metrics.
+    Compute evaluation metrics for essay score predictions from matched data.
     """
-
-    if len(y_true) != len(y_pred) or len(y_true) == 0:
+    
+    if not matched_data or len(matched_data) == 0:
         return {
-            'qwk': 0.0,
-            'pearson': 0.0,
-            'spearman': 0.0,
-            'mae': 999.0,
-            'rmse': 999.0,
-            'f1': 0.0,
+            'quadratic_weighted_kappa': 0.0,
+            'pearson_correlation': 0.0,
+            'spearman_correlation': 0.0,
+            'mean_absolute_error': 999.0,
+            'root_mean_squared_error': 999.0,
+            'f1_score': 0.0,
             'accuracy': 0.0,
-            'distribution': {}
+            'essays_evaluated': 0
         }
 
     try:
+        # Extract lists from matched_data
+        y_true = [item['human_score'] for item in matched_data]
+        y_pred = [item['predicted_score'] for item in matched_data]
+        
         # Convert to numpy arrays
         true_arr = np.array(y_true)
         pred_arr = np.array(y_pred)
@@ -51,30 +54,25 @@ def calculate_evaluation_metrics(y_true: List[float], y_pred: List[float]) -> Di
         accuracy = np.mean(true_int == pred_int)
 
         return {
-            "qwk": round(float(qwk), 3),
-            "pearson": round(float(pearson_r), 3),
-            "spearman": round(float(spearman_r), 3),
-            "mae": round(float(mae), 3),
-            "rmse": round(float(rmse), 3),
-            "f1": round(float(f1), 3),
+            "quadratic_weighted_kappa": round(float(qwk), 3),
+            "pearson_correlation": round(float(pearson_r), 3),
+            "spearman_correlation": round(float(spearman_r), 3),
+            "mean_absolute_error": round(float(mae), 3),
+            "root_mean_squared_error": round(float(rmse), 3),
+            "f1_score": round(float(f1), 3),
             "accuracy": round(float(accuracy), 3),
-            "distribution": {
-                "human_mean": round(float(np.mean(true_arr)), 2),
-                "model_mean": round(float(np.mean(pred_arr)), 2),
-                "human_std": round(float(np.std(true_arr)), 2),
-                "model_std": round(float(np.std(pred_arr)), 2)
-            }
+            "essays_evaluated": len(matched_data)
         }
 
     except Exception as e:
         print(f"❌ Error calculating metrics: {e}")
         return {
-            "qwk": 0.0,
-            "pearson": 0.0,
-            "spearman": 0.0,
-            "mae": 999.0,
-            "rmse": 999.0,
-            "f1": 0.0,
+            "quadratic_weighted_kappa": 0.0,
+            "pearson_correlation": 0.0,
+            "spearman_correlation": 0.0,
+            "mean_absolute_error": 999.0,
+            "root_mean_squared_error": 999.0,
+            "f1_score": 0.0,
             "accuracy": 0.0,
-            "distribution": {}
+            "essays_evaluated": 0
         }
