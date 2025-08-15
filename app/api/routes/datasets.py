@@ -1,3 +1,4 @@
+# app/api/routes/datasets.py
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import StreamingResponse
 from typing import List, Dict, Any
@@ -7,12 +8,18 @@ import io
 import csv
 import pandas as pd
 
+# Import Pydantic models
+from app.models.pydantic_models import (
+    DatasetsListResponse, DatasetInfo, DatasetDetails, DatasetSample, 
+    DatasetHealthCheck, ErrorResponse
+)
+
 # Import the dynamic dataset manager instead of static config
 from app.services.dataset_loader import dataset_manager
 
 router = APIRouter(prefix="/datasets", tags=["datasets"])
 
-@router.get("/")
+@router.get("/", response_model=DatasetsListResponse)
 async def get_all_datasets():
     """Get all available datasets from dynamic HuggingFace configuration"""
     
@@ -23,34 +30,36 @@ async def get_all_datasets():
         # Format for API response
         datasets_list = []
         for dataset_name, config in datasets_config.items():
-            datasets_list.append({
-                "name": dataset_name,
-                "description": config["description"],
-                "huggingface_id": config["huggingface_id"],
-                "essay_column": config["essay_column"],
-                "score_column": config["score_column"],
-                "prompt_column": config["prompt_column"],
-                "score_range": config["score_range"],
-                "split": config["split"],
-                "status": "active"
-            })
+            dataset_info = DatasetInfo(
+                name=dataset_name,
+                description=config["description"],
+                huggingface_id=config["huggingface_id"],
+                essay_column=config["essay_column"],
+                score_column=config["score_column"],
+                prompt_column=config["prompt_column"],
+                score_range=config["score_range"],
+                split=config["split"],
+                status="active"
+            )
+            datasets_list.append(dataset_info)
         
-        return {
-            "datasets": datasets_list,
-            "total_count": len(datasets_list),
-            "data_source": "dynamic_huggingface",
-            "last_updated": datetime.now().isoformat()
-        }
+        return DatasetsListResponse(
+            datasets=datasets_list,
+            total_count=len(datasets_list),
+            data_source="dynamic_huggingface",
+            last_updated=datetime.now().isoformat()
+        )
         
     except Exception as e:
         print(f"❌ Error getting datasets: {e}")
-        return {
-            "datasets": [],
-            "total_count": 0,
-            "error": str(e)
-        }
+        return DatasetsListResponse(
+            datasets=[],
+            total_count=0,
+            data_source="error",
+            last_updated=datetime.now().isoformat()
+        )
 
-@router.get("/{dataset_name}")
+@router.get("/{dataset_name}", response_model=DatasetDetails)
 async def get_dataset_details(dataset_name: str):
     """Get detailed information about a specific dataset"""
     
@@ -58,40 +67,41 @@ async def get_dataset_details(dataset_name: str):
         datasets_config = dataset_manager.datasets_config
         
         if dataset_name not in datasets_config:
-            return {
-                "error": f"Dataset '{dataset_name}' not found",
-                "available_datasets": list(datasets_config.keys())
-            }
+            raise HTTPException(
+                status_code=404,
+                detail=f"Dataset '{dataset_name}' not found. Available datasets: {list(datasets_config.keys())}"
+            )
         
         config = datasets_config[dataset_name]
         
         # Try to get real dataset info from HuggingFace
-        hf_info = dataset_manager.hf_loader.get_dataset_info(config["huggingface_id"])
+        hf_info = dataset_manager.hf_loader.get_dataset_info(config["huggingface_id"]) if hasattr(dataset_manager.hf_loader, 'get_dataset_info') else None
         
-        return {
-            "name": dataset_name,
-            "description": config["description"],
-            "huggingface_id": config["huggingface_id"],
-            "configuration": {
-                "essay_column": config["essay_column"],
-                "score_column": config["score_column"],
-                "prompt_column": config["prompt_column"],
-                "score_range": config["score_range"],
-                "split": config["split"]
-            },
-            "huggingface_info": hf_info,
-            "sample_available": True,
-            "status": "active"
-        }
+        from app.models.pydantic_models import DatasetConfiguration
         
+        return DatasetDetails(
+            name=dataset_name,
+            description=config["description"],
+            huggingface_id=config["huggingface_id"],
+            configuration=DatasetConfiguration(
+                essay_column=config["essay_column"],
+                score_column=config["score_column"],
+                prompt_column=config["prompt_column"],
+                score_range=config["score_range"],
+                split=config["split"]
+            ),
+            huggingface_info=hf_info,
+            sample_available=True,
+            status="active"
+        )
+        
+    except HTTPException:
+        raise
     except Exception as e:
         print(f"❌ Error getting dataset details for {dataset_name}: {e}")
-        return {
-            "error": str(e),
-            "dataset_name": dataset_name
-        }
+        raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/{dataset_name}/sample")
+@router.get("/{dataset_name}/sample", response_model=DatasetSample)
 async def get_dataset_sample(dataset_name: str, size: int = 5):
     """Get a sample of essays from the dataset"""
     
@@ -105,40 +115,40 @@ async def get_dataset_sample(dataset_name: str, size: int = 5):
         )
         
         if not sample_essays:
-            return {
-                "error": f"Could not load sample from {dataset_name}",
-                "dataset_name": dataset_name,
-                "sample": []
-            }
+            raise HTTPException(
+                status_code=404,
+                detail=f"Could not load sample from {dataset_name}"
+            )
         
         # Format sample for API response (remove full essay text for privacy)
+        from app.models.pydantic_models import EssayPreview
+        
         formatted_sample = []
         for essay in sample_essays:
-            formatted_sample.append({
-                "essay_id": essay["essay_id"],
-                "essay_preview": essay["essay_text"][:200] + "..." if len(essay["essay_text"]) > 200 else essay["essay_text"],
-                "prompt": essay["prompt"],
-                "human_score": essay["human_score"],
-                "score_range": essay["score_range"],
-                "word_count": len(essay["essay_text"].split()),
-                "metadata": essay.get("metadata", {})
-            })
+            essay_preview = EssayPreview(
+                essay_id=essay["essay_id"],
+                essay_preview=essay["essay_text"][:200] + "..." if len(essay["essay_text"]) > 200 else essay["essay_text"],
+                prompt=essay["prompt"],
+                human_score=essay["human_score"],
+                score_range=essay["score_range"],
+                word_count=len(essay["essay_text"].split()),
+                metadata=essay.get("metadata", {})
+            )
+            formatted_sample.append(essay_preview)
         
-        return {
-            "dataset_name": dataset_name,
-            "sample_size": len(formatted_sample),
-            "requested_size": size,
-            "essays": formatted_sample,
-            "loaded_at": datetime.now().isoformat()
-        }
+        return DatasetSample(
+            dataset_name=dataset_name,
+            sample_size=len(formatted_sample),
+            requested_size=size,
+            essays=formatted_sample,
+            loaded_at=datetime.now().isoformat()
+        )
         
+    except HTTPException:
+        raise
     except Exception as e:
         print(f"❌ Error getting sample from {dataset_name}: {e}")
-        return {
-            "error": str(e),
-            "dataset_name": dataset_name,
-            "sample": []
-        }
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/download/all")
 async def download_all_datasets():
@@ -346,7 +356,7 @@ async def download_single_dataset(dataset_name: str):
         print(f"❌ Error downloading {dataset_name}: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to download {dataset_name}: {str(e)}")
 
-@router.get("/health/check")
+@router.get("/health/check", response_model=DatasetHealthCheck)
 async def dataset_health_check():
     """Check if dataset loading system is working"""
     
@@ -361,18 +371,19 @@ async def dataset_health_check():
         if first_dataset:
             test_sample = dataset_manager.load_dataset_for_evaluation(first_dataset, sample_size=1)
         
-        return {
-            "status": "healthy",
-            "total_datasets_configured": total_datasets,
-            "authentication": "authenticated" if dataset_manager.hf_loader.authenticated else "not_authenticated",
-            "test_dataset": first_dataset,
-            "test_sample_loaded": len(test_sample) > 0 if test_sample else False,
-            "timestamp": datetime.now().isoformat()
-        }
+        return DatasetHealthCheck(
+            status="healthy",
+            total_datasets_configured=total_datasets,
+            authentication="authenticated" if dataset_manager.hf_loader.authenticated else "not_authenticated",
+            test_dataset=first_dataset,
+            test_sample_loaded=len(test_sample) > 0 if test_sample else False,
+            timestamp=datetime.now().isoformat()
+        )
         
     except Exception as e:
-        return {
-            "status": "unhealthy",
-            "error": str(e),
-            "timestamp": datetime.now().isoformat()
-        }
+        return DatasetHealthCheck(
+            status="unhealthy",
+            total_datasets_configured=0,
+            authentication="error",
+            timestamp=datetime.now().isoformat()
+        )

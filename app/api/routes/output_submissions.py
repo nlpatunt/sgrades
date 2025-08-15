@@ -13,6 +13,11 @@ import statistics
 from app.services.database_service import DatabaseService
 from app.utils.metrics import calculate_evaluation_metrics
 from app.services.dataset_loader import BESESRDatasetManager
+from app.models.pydantic_models import (
+    BenchmarkSubmissionResponse, SingleTestResponse, CSVValidationResponse,
+    SubmissionTemplate, SubmissionStatus, RecentSubmissions, SubmissionsHealthCheck,
+    LeaderboardResponse, ResearcherProgress, EvaluationMetrics
+)
 
 # Initialize dataset manager
 dataset_manager = BESESRDatasetManager()
@@ -58,11 +63,7 @@ class ResultsSubmission:
             'score_range': (df['predicted_score'].min(), df['predicted_score'].max())
         }
 
-# ============================================================================
-# COMPLETE 15-DATASET BENCHMARK SUBMISSION
-# ============================================================================
-
-@router.post("/upload-complete-benchmark")
+@router.post("/upload-complete-benchmark", response_model=BenchmarkSubmissionResponse)
 async def upload_complete_benchmark(
     submitter_name: str = Form(...),
     submitter_email: str = Form(...),
@@ -254,27 +255,23 @@ async def upload_complete_benchmark(
         print(f"   📊 Average QWK: {avg_qwk:.3f}")
         print(f"   📊 Total essays: {total_essays}")
         
-        return {
-            'message': 'Complete benchmark processed successfully!',
-            'submitter_name': submitter_name,
-            'model_name': model_name,
-            'datasets_processed': len(successful_datasets),
-            'failed_datasets': failed_datasets,
-            'total_essays_evaluated': total_essays,
-            'submission_ids': submission_ids,
-            
-            # Aggregate metrics
-            'avg_quadratic_weighted_kappa': avg_qwk,
-            'avg_pearson_correlation': avg_pearson,
-            'avg_mean_absolute_error': avg_mae,
-            'avg_f1_score': avg_f1,
-            'avg_accuracy': avg_accuracy,
-            
-            # Status
-            'status': 'completed',
-            'benchmark_type': 'complete_15_dataset',
-            'completion_rate': (len(successful_datasets) / 15) * 100
-        }
+        return BenchmarkSubmissionResponse(
+            message='Complete benchmark processed successfully!',
+            submitter_name=submitter_name,
+            model_name=model_name,
+            datasets_processed=len(successful_datasets),
+            failed_datasets=failed_datasets,
+            total_essays_evaluated=total_essays,
+            submission_ids=submission_ids,
+            avg_quadratic_weighted_kappa=avg_qwk,
+            avg_pearson_correlation=avg_pearson,
+            avg_mean_absolute_error=avg_mae,
+            avg_f1_score=avg_f1,
+            avg_accuracy=avg_accuracy,
+            status='completed',
+            benchmark_type='complete_15_dataset',
+            completion_rate=(len(successful_datasets) / 15) * 100
+        )
         
     except HTTPException:
         raise
@@ -282,11 +279,7 @@ async def upload_complete_benchmark(
         print(f"❌ Error processing complete benchmark: {e}")
         raise HTTPException(status_code=500, detail=f"Benchmark processing error: {str(e)}")
 
-# ============================================================================
-# INDIVIDUAL DATASET UPLOAD (FOR TESTING ONLY)
-# ============================================================================
-
-@router.post("/upload-single-result")
+@router.post("/upload-single-result", response_model=SingleTestResponse)
 async def upload_single_result(
     model_name: str = Form(...),
     dataset_name: str = Form(...),
@@ -394,38 +387,35 @@ async def upload_single_result(
         # Calculate evaluation metrics
         metrics = calculate_evaluation_metrics(matched_data)
         
-        evaluation_result = {
-            'quadratic_weighted_kappa': metrics.get('quadratic_weighted_kappa', 0.0),
-            'pearson_correlation': metrics.get('pearson_correlation', 0.0),
-            'spearman_correlation': metrics.get('spearman_correlation', 0.0),
-            'mean_absolute_error': metrics.get('mean_absolute_error', 999.0),
-            'root_mean_squared_error': metrics.get('root_mean_squared_error', 999.0),
-            'f1_score': metrics.get('f1_score', 0.0),
-            'accuracy': metrics.get('accuracy', 0.0),
-            'essays_evaluated': len(matched_data),
-            'match_rate': len(matched_data) / len(df) if len(df) > 0 else 0,
-            'unmatched_essays': unmatched_count,
-            'total_submitted': len(df),
-            'test_submission': True  # Mark as test
-        }
+        evaluation_result = EvaluationMetrics(
+            quadratic_weighted_kappa=metrics.get('quadratic_weighted_kappa', 0.0),
+            pearson_correlation=metrics.get('pearson_correlation', 0.0),
+            spearman_correlation=metrics.get('spearman_correlation', 0.0),
+            mean_absolute_error=metrics.get('mean_absolute_error', 999.0),
+            root_mean_squared_error=metrics.get('root_mean_squared_error', 999.0),
+            f1_score=metrics.get('f1_score', 0.0),
+            accuracy=metrics.get('accuracy', 0.0),
+            essays_evaluated=len(matched_data),
+            match_rate=len(matched_data) / len(df) if len(df) > 0 else 0
+        )
         
         # Update submission with results
         DatabaseService.update_output_submission_status(
-            submission_id, "completed", evaluation_result, processing_time=1.0
+            submission_id, "completed", evaluation_result.dict(), processing_time=1.0
         )
         
-        print(f"   ✅ Individual test completed: QWK={evaluation_result['quadratic_weighted_kappa']:.3f}")
+        print(f"   ✅ Individual test completed: QWK={evaluation_result.quadratic_weighted_kappa:.3f}")
         
-        return {
-            'message': 'Individual test completed successfully!',
-            'note': 'This is a test submission and does NOT appear on the main leaderboard.',
-            'submission_id': submission_id,
-            'model_name': model_name,
-            'dataset_name': dataset_name,
-            'evaluation_results': evaluation_result,
-            'status': 'completed',
-            'submission_type': 'individual_test'
-        }
+        return SingleTestResponse(
+            message='Individual test completed successfully!',
+            note='This is a test submission and does NOT appear on the main leaderboard.',
+            submission_id=submission_id,
+            model_name=model_name,
+            dataset_name=dataset_name,
+            evaluation_results=evaluation_result,
+            status='completed',
+            submission_type='individual_test'
+        )
         
     except HTTPException:
         raise
@@ -433,29 +423,36 @@ async def upload_single_result(
         print(f"❌ Error processing individual test: {e}")
         raise HTTPException(status_code=500, detail=f"Test processing error: {str(e)}")
 
-# ============================================================================
-# RESEARCHER PROGRESS TRACKING
-# ============================================================================
-
-@router.get("/progress/{submitter_name}")
+@router.get("/progress/{submitter_name}", response_model=ResearcherProgress)
 async def get_researcher_progress(submitter_name: str):
     """Get progress for a specific researcher"""
     
     try:
-        progress = DatabaseService.get_researcher_progress(submitter_name)
-        return progress
+        progress_data = DatabaseService.get_researcher_progress(submitter_name)
+        
+        return ResearcherProgress(
+            submitter_name=progress_data.get("submitter_name", submitter_name),
+            completed_datasets=progress_data.get("completed_datasets", 0),
+            total_datasets=progress_data.get("total_datasets", 15),
+            completion_percentage=progress_data.get("completion_percentage", 0.0),
+            is_complete=progress_data.get("is_complete", False),
+            completed_dataset_names=progress_data.get("completed_dataset_names", []),
+            remaining_datasets=progress_data.get("remaining_datasets", 15)
+        )
         
     except Exception as e:
         print(f"❌ Error getting researcher progress: {e}")
-        return {
-            "submitter_name": submitter_name,
-            "completed_datasets": 0,
-            "total_datasets": 15,
-            "is_complete": False,
-            "error": str(e)
-        }
+        return ResearcherProgress(
+            submitter_name=submitter_name,
+            completed_datasets=0,
+            total_datasets=15,
+            completion_percentage=0.0,
+            is_complete=False,
+            completed_dataset_names=[],
+            remaining_datasets=15
+        )
 
-@router.get("/leaderboard")
+@router.get("/leaderboard", response_model=LeaderboardResponse)
 async def get_submissions_leaderboard(
     dataset_name: Optional[str] = None,
     metric: str = "quadratic_weighted_kappa",
@@ -472,26 +469,26 @@ async def get_submissions_leaderboard(
         else:
             leaderboard_entries = DatabaseService.get_output_leaderboard(limit=limit)
         
-        return {
-            "leaderboard_type": type,
-            "metric": metric,
-            "limit": limit,
-            "leaderboard": leaderboard_entries
-        }
+        return LeaderboardResponse(
+            leaderboard_type=type,
+            metric=metric,
+            limit=limit,
+            leaderboard=leaderboard_entries
+        )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching leaderboard: {str(e)}")
 
-# ============================================================================
-# VALIDATION & TEMPLATE ENDPOINTS
-# ============================================================================
-
-@router.post("/validate-csv")
+@router.post("/validate-csv", response_model=CSVValidationResponse)
 async def validate_csv_format(file: UploadFile = File(...)):
     """Validate CSV format before submission"""
     
     try:
         if not file.filename.endswith('.csv'):
-            raise HTTPException(status_code=400, detail="File must be a CSV")
+            return CSVValidationResponse(
+                valid=False,
+                error="File must be a CSV",
+                required_columns=['essay_id', 'predicted_score']
+            )
         
         # Read CSV content
         content = await file.read()
@@ -501,28 +498,28 @@ async def validate_csv_format(file: UploadFile = File(...)):
         validation = ResultsSubmission.validate_results_csv(df, "generic")
         
         if validation['valid']:
-            return {
-                'valid': True,
-                'message': 'CSV format is valid',
-                'row_count': len(df),
-                'columns': list(df.columns),
-                'sample_data': df.head(3).to_dict('records') if not df.empty else []
-            }
+            return CSVValidationResponse(
+                valid=True,
+                message='CSV format is valid',
+                row_count=len(df),
+                columns=list(df.columns),
+                sample_data=df.head(3).to_dict('records') if not df.empty else []
+            )
         else:
-            return {
-                'valid': False,
-                'error': validation['error'],
-                'required_columns': validation.get('required_columns', []),
-                'columns_found': list(df.columns)
-            }
+            return CSVValidationResponse(
+                valid=False,
+                error=validation['error'],
+                required_columns=validation.get('required_columns', []),
+                columns_found=list(df.columns)
+            )
             
     except Exception as e:
-        return {
-            'valid': False,
-            'error': f"File validation failed: {str(e)}"
-        }
+        return CSVValidationResponse(
+            valid=False,
+            error=f"File validation failed: {str(e)}"
+        )
 
-@router.get("/template")
+@router.get("/template", response_model=SubmissionTemplate)
 async def get_submission_template():
     """Get CSV template and upload instructions"""
     
@@ -532,8 +529,8 @@ async def get_submission_template():
     except:
         available_datasets = []
     
-    template_data = {
-        "csv_format": {
+    template_data = SubmissionTemplate(
+        csv_format={
             "required_columns": ["essay_id", "predicted_score"],
             "example_rows": [
                 {"essay_id": "ASAP-AES_001", "predicted_score": 3.5},
@@ -541,8 +538,8 @@ async def get_submission_template():
                 {"essay_id": "rice_chem_001", "predicted_score": 2.8}
             ]
         },
-        "available_datasets": available_datasets,
-        "upload_instructions": {
+        available_datasets=available_datasets,
+        upload_instructions={
             "complete_benchmark": {
                 "step1": "Download all 15 datasets",
                 "step2": "Train your model on train/validation splits", 
@@ -557,7 +554,7 @@ async def get_submission_template():
                 "step4": "Use for development and debugging"
             }
         },
-        "requirements": {
+        requirements={
             "complete_benchmark": {
                 "files_required": 15,
                 "file_formats_accepted": [".csv"],
@@ -571,19 +568,15 @@ async def get_submission_template():
                 "required_columns": ["essay_id", "predicted_score"]
             }
         },
-        "example_csv": """essay_id,predicted_score
+        example_csv="""essay_id,predicted_score
 ASAP-AES_001,3.5
 ASAP-AES_002,4.2
 ASAP-AES_003,2.8"""
-    }
+    )
     
     return template_data
 
-# ============================================================================
-# STATUS & MONITORING ENDPOINTS  
-# ============================================================================
-
-@router.get("/submission-status/{submission_id}")
+@router.get("/submission-status/{submission_id}", response_model=SubmissionStatus)
 async def get_submission_status(submission_id: int):
     """Get status of a submission"""
     
@@ -595,21 +588,21 @@ async def get_submission_status(submission_id: int):
         # Get evaluation results if completed
         evaluation_results = DatabaseService.get_evaluation_results_by_submission(submission_id)
         
-        return {
-            'submission_id': submission_id,
-            'dataset_name': submission['dataset_name'],
-            'submitter_name': submission['submitter_name'],
-            'status': submission['status'],
-            'submitted_at': submission['submission_time'],
-            'evaluation_result': submission.get('evaluation_result'),
-            'detailed_evaluations': evaluation_results,
-            'error_message': submission.get('error_message')
-        }
+        return SubmissionStatus(
+            submission_id=submission_id,
+            dataset_name=submission['dataset_name'],
+            submitter_name=submission['submitter_name'],
+            status=submission['status'],
+            submitted_at=submission['submission_time'],
+            evaluation_result=submission.get('evaluation_result'),
+            detailed_evaluations=evaluation_results,
+            error_message=submission.get('error_message')
+        )
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error retrieving status: {str(e)}")
 
-@router.get("/recent")
+@router.get("/recent", response_model=RecentSubmissions)
 async def get_recent_submissions(limit: int = 10, type: str = "all"):
     """Get recent submissions for monitoring"""
     
@@ -622,36 +615,32 @@ async def get_recent_submissions(limit: int = 10, type: str = "all"):
         elif type == "individual":
             submissions = [s for s in submissions if s['submitter_name'].startswith('TEST_')]
         
-        return {
-            'submissions': submissions,
-            'total_count': len(submissions),
-            'type_filter': type
-        }
+        return RecentSubmissions(
+            submissions=submissions,
+            total_count=len(submissions),
+            type_filter=type
+        )
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error retrieving submissions: {str(e)}")
 
-# ============================================================================
-# HEALTH & DEBUG ENDPOINTS
-# ============================================================================
-
-@router.get("/health")
+@router.get("/health", response_model=SubmissionsHealthCheck)
 async def submissions_health():
     """Health check for submissions service"""
-    return {
-        'service': 'submissions',
-        'status': 'healthy',
-        'timestamp': datetime.now().isoformat(),
-        'endpoints': [
+    return SubmissionsHealthCheck(
+        service='submissions',
+        status='healthy',
+        timestamp=datetime.now().isoformat(),
+        endpoints=[
             'POST /upload-complete-benchmark - Upload 15 datasets for leaderboard',
             'POST /upload-single-result - Upload single dataset for testing',
             'POST /validate-csv - Validate CSV format',
             'GET /template - Get upload instructions',
             'GET /progress/{name} - Check researcher progress'
         ],
-        'benchmark_requirements': {
+        benchmark_requirements={
             'total_datasets': 15,
             'file_format': 'CSV',
             'required_columns': ['essay_id', 'predicted_score']
         }
-    }
+    )
