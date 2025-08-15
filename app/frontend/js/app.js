@@ -36,12 +36,18 @@ const elements = {
 
 // ===== File Management =====
 let uploadedFiles = new Map(); // dataset_name -> file
-const requiredDatasets = [
-    'ASAP-AES', 'ASAP-SAS', 'ASAP2', 'ASAP_plus_plus', 'rice_chem',
-    'CSEE', 'EFL', 'grade_like_a_human_dataset_os', 'persuade_2',
-    'SciEntSBank', 'BEEtlE', 'automatic_short_answer_grading_mohlar',
-    'dataset_13', 'dataset_14', 'dataset_15'  // Update these with real names
-];
+let availableDatasets = [];
+
+async function loadAvailableDatasets() {
+    try {
+        const response = await fetchAPI('/submissions/template');
+        availableDatasets = response.available_datasets || [];
+        return availableDatasets;
+    } catch (error) {
+        console.error('Failed to load datasets:', error);
+        return [];
+    }
+}
 
 // ===== Utility Functions =====
 function showLoading(element, message = 'Loading...') {

@@ -156,6 +156,46 @@ class HuggingFaceDatasetLoader:
                 return configs
         
         return []  # Single config dataset
+    
+    def load_ground_truth_scores(self, dataset_name: str) -> List[Dict[str, Any]]:
+        cache_key = f"ground_truth_{dataset_name}"
+        cached_ground_truth = self.cache.get_dataset(cache_key)
+        if cached_ground_truth:
+            print(f"💾 Using cached ground truth for {dataset_name}")
+            return cached_ground_truth
+        
+        if dataset_name not in self.datasets_config:
+            return []
+        
+        config = self.datasets_config[dataset_name]
+        
+        # Load test split with human scores
+        raw_data = self.hf_loader.load_dataset_sample(
+            dataset_id=config["huggingface_id"],
+            config=config["config"], 
+            split="test",  # Use test split for evaluation
+            sample_size=1000
+        )
+        
+        ground_truth = []
+        for item in raw_data:
+            row = item.get("row", {})
+            
+            essay_id = self._get_column_value(row, ["essay_id", "id"])
+            human_score = self._get_column_value(row, [config["score_column"]])
+            
+            if essay_id and human_score is not None:
+                ground_truth.append({
+                    "essay_id": str(essay_id),
+                    "human_score": float(human_score),
+                    "score_range": config["score_range"]
+                })
+        
+        if ground_truth:
+            self.cache.set_dataset(cache_key, ground_truth)
+            print(f"💾 Cached ground truth for {dataset_name} ({len(ground_truth)} essays)")
+        
+        return ground_truth
 
     def _auto_configure_single_dataset(self, dataset_id: str, dataset_name: str, config_name: Optional[str]) -> Optional[Dict[str, Any]]:
         """Configure a single dataset with specific config"""
@@ -238,12 +278,19 @@ class HuggingFaceDatasetLoader:
                     )
             except TypeError:
                 # Fallback for older versions
-                dataset = load_dataset(
-                    dataset_id, 
-                    config_name,
-                    split=f"{split_needed}[:3]", 
-                    use_auth_token=self.hf_token
-                )
+                try:
+                    dataset = load_dataset(
+                        dataset_id, 
+                        config_name,
+                        split=f"{split_needed}[:3]", 
+                        use_auth_token=self.hf_token
+                    )
+                except Exception as e:
+                    print(f"❌ Failed to load {dataset_id} with config {config_name}: {e}")
+                    return None  # This will skip this dataset in auto-configuration
+            except Exception as e:
+                print(f"❌ Failed to load {dataset_id}: {e}")
+                return None  # This will skip this dataset in auto-configuration
             
             if len(dataset) == 0:
                 return None
@@ -295,20 +342,22 @@ class HuggingFaceDatasetLoader:
         split: str = "train",
         sample_size: int = 100
     ) -> List[Dict[str, Any]]:
-        """Load a sample from a HF dataset (public or private)"""
-
         print(f"📥 Loading sample from {dataset_id} (config={config}, split={split})")
 
         try:
-            # Try using the modern token parameter
             try:
                 ds = load_dataset(dataset_id, config, split=split, token=self.hf_token)
             except TypeError:
                 # Fallback for older versions
                 ds = load_dataset(dataset_id, config, split=split, use_auth_token=self.hf_token)
         except Exception as e:
-            print(f"❌ load_dataset failed: {e}")
-            return self._load_via_api(dataset_id, config, split, sample_size)
+            print(f"❌ load_dataset failed for {dataset_id}: {e}")
+            # Try API fallback first
+            api_result = self._load_via_api(dataset_id, config, split, sample_size)
+            if api_result:
+                return api_result
+            # If API also fails, return fallback data
+            return self._get_fallback_data(dataset_id)
 
         # Sample rows
         if len(ds) > sample_size:
@@ -719,6 +768,9 @@ class BESESRDatasetManager:
     
     def __init__(self):
         self.hf_loader = HuggingFaceDatasetLoader()
+       
+        from app.services.cache_service import DatasetCache
+        self.cache = DatasetCache()
         print("🚀 Initializing dynamic dataset discovery...")
         self.datasets_config = self.hf_loader.get_configured_datasets()
         print(f"📊 Initialized with {len(self.datasets_config)} datasets")
@@ -731,6 +783,11 @@ class BESESRDatasetManager:
     
     def load_dataset_for_evaluation(self, dataset_name: str, sample_size: int = 50) -> List[Dict[str, Any]]:
         """Load dataset with enhanced column detection"""
+        cache_key = f"{dataset_name}_{sample_size}"
+        cached_data = self.cache.get_dataset(cache_key)
+        if cached_data:
+            print(f"💾 Using cached data for {dataset_name}")
+            return cached_data
         
         if dataset_name not in self.datasets_config:
             print(f"❌ Unknown dataset: {dataset_name}")
@@ -739,18 +796,22 @@ class BESESRDatasetManager:
         config = self.datasets_config[dataset_name]
         print(f"🔐 Loading dataset: {dataset_name} ({'auto-discovered' if config.get('auto_discovered') else 'static'})")
         
-        # Load from HuggingFace dataset
-        raw_data = self.hf_loader.load_dataset_sample(
-            dataset_id=config["huggingface_id"],
-            config=config["config"],
-            split=config["split"],
-            sample_size=sample_size
-        )
+        try:
+            # Load from HuggingFace dataset
+            raw_data = self.hf_loader.load_dataset_sample(
+                dataset_id=config["huggingface_id"],
+                config=config["config"],
+                split=config["split"],
+                sample_size=sample_size
+            )
+        except Exception as e:
+            print(f"❌ Failed to load {dataset_name}: {e}")
+            print(f"🔄 Using fallback sample for {dataset_name}")
+            return [self.get_sample_essay(dataset_name)]
         
         if not raw_data:
             print(f"⚠️ No data loaded for {dataset_name}, using fallback")
             return [self.get_sample_essay(dataset_name)]
-        
         # Convert to standard format with flexible column mapping
         standardized_essays = []
         for item in raw_data:
@@ -806,6 +867,10 @@ class BESESRDatasetManager:
                 continue
         
         print(f"✅ Standardized {len(standardized_essays)} essays from {dataset_name}")
+        if standardized_essays:
+            self.cache.set_dataset(cache_key, standardized_essays)
+            print(f"💾 Cached {len(standardized_essays)} essays for {dataset_name}")
+        
         return standardized_essays
     
     def _get_column_value(self, row: dict, possible_columns: list):

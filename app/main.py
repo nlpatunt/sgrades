@@ -2,26 +2,18 @@ from fastapi import FastAPI
 from dotenv import load_dotenv
 import os
 from pathlib import Path
-
+from app.models.pydantic_models import HealthCheck
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
-
-# Import all route modules
-from app.services.openrouter_client import OpenRouterClient
-from app.api.routes import datasets, essays, leaderboard
+from datetime import datetime
+from app.api.routes import datasets, leaderboard
 from app.api.routes import output_submissions
 from app.config.database import init_database
 from app.services.database_service import DatabaseService
 
-# -------------------
-# Load env vars
-# -------------------
 load_dotenv()
 
-# -------------------
-# Startup task
-# -------------------
 async def startup_event():
     """Initialize database and default data on startup"""
     print("🚀 Starting BESESR Platform...")
@@ -87,9 +79,6 @@ async def root_redirect():
 # Dataset management (with download functionality)
 app.include_router(datasets.router, prefix="/api")
 
-# Essays management
-app.include_router(essays.router, prefix="/api")
-
 # Leaderboard and results
 app.include_router(leaderboard.router, prefix="/api")
 
@@ -97,46 +86,39 @@ app.include_router(leaderboard.router, prefix="/api")
 
 app.include_router(output_submissions.router)
 
-# -------------------
-# Services
-# -------------------
-openrouter_client = OpenRouterClient()
-
-# -------------------
-# Health & Debug endpoints
-# -------------------
-@app.get("/health")
+@app.get("/health", response_model=HealthCheck)
 async def health_check():
     """Health check endpoint with database and dataset status"""
     try:
         from app.services.dataset_loader import dataset_manager
         
         stats = DatabaseService.get_platform_stats()
-        db_status = "healthy"
+        db_status = "connected"
         
         # Check dataset loading capability
         datasets_config = dataset_manager.datasets_config
         hf_auth = dataset_manager.hf_loader.authenticated
         
-        dataset_status = {
-            "total_configured": len(datasets_config),
-            "huggingface_authenticated": hf_auth,
-            "sample_datasets": list(datasets_config.keys())[:3]
-        }
+        complete_benchmarks = len(DatabaseService.get_complete_benchmark_leaderboard(limit=1000))
+        
+        return HealthCheck(
+            status="healthy",
+            service="BESESR Benchmarking Platform",
+            database_connection=db_status,
+            timestamp=datetime.now().isoformat(),
+            complete_benchmarks_available=complete_benchmarks,
+            models_available=stats.get("total_models_submitted", 0),
+            evaluations_completed=stats.get("total_evaluations_completed", 0)
+        )
         
     except Exception as e:
-        db_status = f"error: {str(e)}"
-        dataset_status = {"error": str(e)}
-
-    return {
-        "status": "healthy",
-        "service": "BESESR Benchmarking Platform",
-        "database": db_status,
-        "datasets": dataset_status,
-        "workflow": "csv_submission",
-        "version": "1.0.0"
-    }
-
+        return HealthCheck(
+            status="unhealthy",
+            service="BESESR Benchmarking Platform",
+            database_connection="error",
+            timestamp=datetime.now().isoformat(),
+            error=str(e)
+        )
 
 @app.get("/api-info")
 async def api_info():
