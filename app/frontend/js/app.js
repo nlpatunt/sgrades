@@ -184,7 +184,7 @@ async function loadDatasets() {
         const datasetsHTML = data.available_datasets.map((datasetName, index) => `
             <div class="dataset-card fade-in" style="animation-delay: ${index * 0.1}s;">
                 <h3>${datasetName}</h3>
-                <p>Dataset for automatic essay scoring evaluation</p>
+                <p>Train/validation/test splits with essay data</p>
 
                 <div class="dataset-info">
                     <span>
@@ -282,7 +282,7 @@ function handleFileSelection(files) {
 function extractDatasetName(filename) {
     // Remove .csv extension
     const nameWithoutExt = filename.replace(/\.csv$/i, '');
-    
+    let requiredDatasets = [];
     // Try to match with known dataset names
     for (const dataset of requiredDatasets) {
         if (nameWithoutExt.includes(dataset) || dataset.includes(nameWithoutExt)) {
@@ -790,7 +790,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ===== Global Functions =====
-window.removeFile = removeFile;
 window.downloadSingleDataset = (datasetName) => {
-    downloadFile(`/api/datasets/download/${encodeURIComponent(datasetName)}`, `${datasetName}.csv`);
+    downloadFile(`/api/datasets/download/${encodeURIComponent(datasetName)}`, `${datasetName}_splits.zip`);
 };

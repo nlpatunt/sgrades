@@ -1,343 +1,242 @@
-## 🧠 BESESR: Benchmark for Summative Evaluation of Student Responses
+# BESESR — Benchmark for Essay Scoring Evaluation & Research
 
-This project leverages multiple open-source datasets to benchmark **automated scoring of long-form and short-form student responses**. Below is a summary of the key datasets currently used in this benchmark.
+BESESR is a FastAPI-based platform to **evaluate automatic essay scoring models** across a curated set of datasets.  
+Researchers download dataset CSVs, upload their model outputs, and get standardized metrics (QWK, Pearson, MAE, RMSE, F1, Accuracy) and a **live leaderboard**.
 
 ---
 
-### 🔹 [ASAP-AES](https://www.kaggle.com/competitions/asap-aes/data)
-- **HF Link**: [HFLink](https://huggingface.co/datasets/nlpatunt/ASAP-AES)
-- **Task**: Essay scoring for students in grades 7–10  
-- **Response type**: Long-form essays (multi-paragraph)  
-- **Score range**: 0–6 or 0–12 depending on the prompt  
-- **Example**:
+## ✨ Features
 
-```json
-{
-  "essay_id": 21112,
-  "essay_set": 8,
-  "essay": "Laughter plays a huge part in my life...",
-  "rater1_domain1": 17,
-  "rater2_domain1": 18,
-  "domain1_score": 35,
-  "rater1_trait1": 4,
-  "rater1_trait2": 4,
-  "rater1_trait3": 4,
-  "rater1_trait4": 4,
-  "rater1_trait5": 3,
-  "rater1_trait6": 3,
-  "rater2_trait1": 4,
-  "rater2_trait2": 4,
-  "rater2_trait3": 4,
-  "rater2_trait4": 4,
-  "rater2_trait5": 4,
-  "rater2_trait6": 3,
-  "rater3_domain1": null,
-  "rater3_trait1": null,
-  "rater3_trait2": null,
-  "rater3_trait3": null,
-  "rater3_trait4": null,
-  "rater3_trait5": null,
-  "rater3_trait6": null
-}
+- Dynamic dataset discovery from a Hugging Face profile (with static fallback)
+- CSV upload with validation and instant scoring
+- Standard metrics: **QWK**, **Pearson**, **MAE**, **RMSE**, **F1**, **Accuracy**
+- Leaderboard + platform stats
+- Typed API responses via **Pydantic models** (`app/models/pydantic_models.py`)
+- Simple vanilla JS frontend (`app/frontend/`)
+
+---
+
+## 🧱 Tech Stack
+
+- **FastAPI**, **Uvicorn**
+- **Pandas**, **NumPy**, **scikit-learn**
+- **datasets**, **huggingface_hub**
+- **SQLite** (auto-created) + **SQLAlchemy**
+- **Pydantic v2** models for response schemas
+
+---
+
+## 🚀 Quickstart
+
+### 1) Clone
+```bash
+git clone https://github.com/nlpatunt/besesr.git
+cd besesr
+```
+
+### 2) Create & activate a virtual env
+**Conda**
+```bash
+conda create -n besesr python=3.10 -y
+conda activate besesr
+```
+**OR venv**
+```bash
+python -m venv .venv
+# Windows: .venv\Scripts\activate
+# macOS/Linux:
+source .venv/bin/activate
+```
+
+### 3) Install dependencies
+If `requirements.txt` exists:
+```bash
+pip install -r requirements.txt
+```
+Otherwise:
+```bash
+pip install fastapi "uvicorn[standard]" pandas numpy scikit-learn             datasets huggingface_hub python-dotenv SQLAlchemy
+```
+
+### 4) (Optional) Hugging Face token
+Create a `.env` file in the repo root:
+```
+HUGGINGFACE_TOKEN=hf_xxx_your_token_here
+```
+> Without this, the app falls back to a small static dataset configuration.
+
+### 5) Run the server
+```bash
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+- App UI: http://localhost:8000  
+- API docs: http://localhost:8000/docs
+
+> The SQLite DB is created automatically (via app code).  
+> If you hit DB state issues locally, stop the server, delete `app/app.db`, start again.
+
+---
+
+## 📦 Project Structure
+
+```
+app/
+  api/
+    routes/
+      datasets.py
+      leaderboard.py
+      output_submissions.py
+  frontend/
+    index.html
+    css/style.css
+    js/app.js
+  models/
+    database.py
+    pydantic_models.py
+  services/
+    dataset_loader.py
+    database_service.py
+  db.py
+  main.py
 ```
 
 ---
 
-### 🔹 [ASAP-SAS](https://www.kaggle.com/datasets/asap-sas/data)
-- **HF Link**: [HFLink](https://huggingface.co/datasets/nlpatunt/ASAP-SAS)
-- **Task**: Short-answer scoring focused on science/math comprehension  
-- **Response type**: Short, rubric-based answers (typically 1–3 sentences)  
-- **Score range**: 0–3  
-- **Example**:
+## 📚 Datasets
 
-```json
-{
-  "Id": 1,
-  "EssaySet": 1,
-  "EssayText": "Some additional information that we would need to replicate the experiment is how much vinegar should be placed in each identical container, how or what tool to use to measure the mass of the four different samples and how much distilled water to use to rinse the four samples after taking them out of the vinegar.",
-  "Score1": 1,
-  "Score2": 1
-}
+- On startup, datasets are auto-discovered from a Hugging Face user (see `services/dataset_loader.py`).
+- If discovery fails or no token is provided, a **static fallback** is used.
+
+List available datasets:
+```
+GET /api/datasets/
 ```
 
----
-### 🔹 [AES](https://www.kaggle.com/datasets/jaytonde/aes-dataset)
-- **HF Link**: [HFLink](https://huggingface.co/datasets/nlpatunt/AES)
-- **Task**: Essay scoring for educational essays across multiple prompts  
-- **Response type**: Full-length student essays  
-- **Score range**: 1–6
-- **No Rubric**
-- **Example**:
-
-```json
-{
-  "essay_id": "000d118",
-  "full_text": "Many people have car where they live. The thing that people do more than everything is go to work...",
-  "score": 3
-}
+Download (if enabled in your build):
 ```
----
-
-### 🔹 [ASAP2](https://www.kaggle.com/datasets/lburleigh/asap-2-0)
-- **HF Link**: [HFLink](https://huggingface.co/datasets/nlpatunt/ASAP2)
-- **Task**: Essay evaluation based on reading comprehension and evidence-based argumentation  
-- **Response type**: Long-form student essays in response to informational article prompts  
-- **Score range**: 0–4 or 0–6 depending on rubric  
-- **Includes**: Demographic indicators, source article, and prompt text  
-- **Example**:
-
-```json
-{
-  "essay_id": "AAAVUP14319000159574",
-  "score": 4,
-  "full_text": "The author suggests that studying Venus is worthy enough even though it is very dangerous. The author mentioned that on the planet's surface, temperatures average over 800 degrees Fahrenheit, and the atmospheric pressure is 90 times greater than what we experience on our own planet ...",
-  "assignment": "In \"The Challenge of Exploring Venus,\" the author suggests studying Venus is a worthy pursuit despite the dangers it presents. Using details from the article, write an essay evaluating how well the author supports this idea...",
-  "prompt_name": "Exploring Venus",
-  "economically_disadvantaged": "Economically disadvantaged",
-  "student_disability_status": "Identified as having disability",
-  "ell_status": "No",
-  "race_ethnicity": "Black/African American",
-  "gender": "F",
-  "source_text_1": "The Challenge of Exploring Venus\nVenus, sometimes called the “Evening Star,” is one of the brightest points of light in the night sky... [full article truncated for brevity]",
-  "source_text_2": null,
-  "source_text_3": null,
-  "source_text_4": null
-}
+GET /api/datasets/download/all
+GET /api/datasets/download/{dataset_name}
 ```
----
 
-### 🔹 [Rice Chemistry (RICE_CHEM:HFLink)](https://huggingface.co/datasets/nlpatunt/rice__chem)
-- **Task**: Rubric-based scoring of chemistry student responses  
-- **Response type**: Short-form but structured explanations (around 150 words)  
-- **Score range**: Typically 0–5  
-- **Example**:
-
-```json
-{
-  "sis_id": "a068db7d-6013-4d2d-8ff0-eb6700954f61",
-  "question_id": "Q1",
-  "Prompt": "When studying the emission sources within the Milky Way, a satellite detected interplanetary clouds... briefly explain 1) why the removal of each additional electron requires more energy than the removal of the previous one, and 2) the relative magnitude of the values observed.",
-  "student_response": "Coulomb's Law (V(r)=q₁q₂/r) takes into consideration three things: electron-electron repulsion, nuclear charge (Z_eff), and the distance between the observed electron and the nucleus...",
-  "Score": 5.0,
-  "correctly cites decreased electron electron repulsion": true,
-  "relates decreased electron electron repulsion to decreased potential energy": true,
-  "3rd and 4th electrons ionized feel same core charge": true,
-  "3rd and 4th electrons ionized from n=3 shell and have same radius": true,
-  "5th electron ionized from n=2 shell and feels higher core charge": false,
-  "5th electron ionized from n=2 shell and has smaller radius": false,
-  "correctly explains relationship of potential energy to ionization energy": false,
-  "partially explains relationship between potential energy and ionization energy": true
-}
-
+Dataset sample preview:
 ```
----
-
-
-### 🔹 [SciEntSBank](https://huggingface.co/datasets/nlpatunt/SciEntSBank)
-- **Task**: Short-answer grading for science education questions  
-- **Response type**: 1–3 sentence explanations to open-ended questions  
-- **Variants**:
-  - **2-way classification**: `correct` / `incorrect`
-  - **3-way classification**: `correct` / `partially_correct` / `incorrect`
-
----
-
-#### 🔹 Example: 2-way Classification
-
-```json
-{
-  "question_id": "SE_22c",
-  "question_text": "Andi and Scott decided to investigate solar water heaters using collectors of different colors (but the same size) as one variable and covered versus uncovered as a second variable. Look at the graph of their data and answer the questions below. Why would comparing only the red uncovered heater with the blue covered heater not provide useful information?",
-  "student_answer": "I think red reflected the heat away.",
-  "label": "incorrect"
-}
+GET /api/datasets/{dataset_name}/sample?size=3
 ```
 
 ---
 
-#### 🔹 Example: 3-way Classification
+## 📤 Submitting Results
 
-```json
-{
-  "question_id": "SE_22c",
-  "question_text": "Andi and Scott decided to investigate solar water heaters using collectors of different colors (but the same size) as one variable and covered versus uncovered as a second variable. Look at the graph of their data and answer the questions below. Why would comparing only the red uncovered heater with the blue covered heater not provide useful information?",
-  "student_answer": "I think red reflected the heat away.",
-  "label": "incorrect"
-}
+### CSV format (required)
 ```
-> *(Note: This example had the same content for both 2-way and 3-way due to dataset overlap — labels differ in other entries.)*
+essay_id,predicted_score
+ASAP-AES_001,3.5
+ASAP-AES_002,4.2
+```
 
----
+### Validate CSV
+```
+POST /submissions/validate-csv
+form-data: file=<your.csv>
+```
 
-### 🔹 [BEEtlE](https://huggingface.co/datasets/nlpatunt/BEEtlE)
-- **Task**: Short-answer grading on electronics and physical science topics  
-- **Response type**: Short conceptual explanations  
-- **Variants**:
-  - **2-way classification**: `correct` / `incorrect`
-  - **3-way classification**: `correct` / `partially_correct` / `incorrect`
+### Upload single dataset results
+```
+POST /submissions/upload-single-result
+form-data:
+  model_name          (text, required)
+  dataset_name        (text, required)
+  submitter_name      (text, required)
+  submitter_email     (text, required)
+  result_file         (file .csv, required)
+  model_description   (text, optional)
+```
 
----
-
-#### 🔹 Example: 2-way Classification
-
-```json
-{
-  "question_id": "BULB_C_VOLTAGE_EXPLAIN_WHY1",
-  "question_text": "Explain why you got a voltage reading of 1.5 for terminal 1 and the positive terminal.",
-  "student_answer": "there is no connection",
-  "label": "incorrect"
-}
+### Check submission status
+```
+GET /submissions/submission-status/{submission_id}
 ```
 
 ---
 
-#### 🔹 Example: 3-way Classification
+## 🏆 Leaderboard & Stats
 
-```json
-{
-  "question_id": "BULB_C_VOLTAGE_EXPLAIN_WHY1",
-  "question_text": "Explain why you got a voltage reading of 1.5 for terminal 1 and the positive terminal.",
-  "student_answer": "there is no connection",
-  "label": "incorrect"
-}
+Leaderboard (metric is optional; defaults to QWK):
 ```
-> *(Note: In this sample, both variants share the same data row; label granularity differs across the dataset.)*
----
+GET /api/leaderboard/?metric=avg_quadratic_weighted_kappa&limit=20
+```
 
-### 🔹 [Grade Like a Human – OS](https://huggingface.co/datasets/nlpatunt/grade_like_a_human_dataset_os)
-- **Task**: Rubric-based grading of long-form student answers to Operating Systems questions  
-- **Response type**: Multi-sentence conceptual explanations and numerical reasoning  
-- **Score range**: Varies by question (e.g., 0–19 or 0–40), typically using sub-scores  
-- **Includes**: Criteria and sample answers for reference  
-- **Adversarial flag**: `score_outlier` is used to mark responses flagged as outliers
-
----
-
-#### 🔹 Example 1 (Q1: Scheduling Algorithms)
-
-```json
-{
-  "question_id": 1,
-  "question": "Now do the same but with jobs of different lengths: 100, 200, and 300. The commands are (./scheduler.py -p SJF -l 100,200,300) and (./scheduler.py -p FIFO -l 100,200,300)...",
-  "answer": "The result with SJF is still the same as with FIFO. If the order is changed, the result may be different...",
-  "score_1": 6.5,
-  "score_2": 6.5,
-  "score_3": 6.0,
-  "full_points": 19
-}
+Platform stats (for homepage counters):
+```
+GET /api/leaderboard/stats
 ```
 
 ---
 
-#### 🔹 Example 2 (Q6: Paging Translation)
+## 🧾 Typed Responses (Pydantic)
 
-```json
-{
-  "question_id": 6,
-  "question": "Use the simulator paging-multilevel-translate.py to perform translations... For each of the following virtual addresses, write down the physical address it translates to or write down that it is a fault...",
-  "answer": "Virtual Address 5a23: 101 1010 0010 0011 ... Fault\nVirtual Address 14ab: 0001 0010 1010 1011 ... Fault\n...",
-  "score_1": 23.0,
-  "score_2": null,
-  "score_3": 28,
-  "full_points": 40
-}
+Core response schemas live in `app/models/pydantic_models.py`:
+- Datasets: `DatasetInfo`, `DatasetsListResponse`, `DatasetSample`, etc.
+- Submissions: `BenchmarkSubmissionResponse`, `SingleTestResponse`, `CSVValidationResponse`, `SubmissionStatus`
+- Leaderboard: `LeaderboardEntry`, `CompleteLeaderboardEntry`, `LeaderboardResponse`
+- Platform/Health: `PlatformStats`, `HealthCheck`, etc.
+
+Typed responses keep the API consistent and consumable by the frontend and external users.
+
+---
+
+## 🔧 Troubleshooting
+
+**Dataset dropdown empty in UI**  
+- Open browser console → check errors  
+- Visit `GET /api/datasets/` directly  
+- Set `HUGGINGFACE_TOKEN` in `.env` and restart the server if empty
+
+**SQLite locked / weird DB state**  
+- Stop server → delete `app/app.db` → start again
+
+**Port in use**  
+- Change port: `uvicorn app.main:app --port 8080`
+
+**CORS**  
+- Keep frontend & API on same origin (default)
+
+---
+
+## 🌐 Run on Another Computer
+
+On the target machine, follow **Quickstart**.  
+Run with `--host 0.0.0.0` and open from another device at `http://SERVER_IP:8000`.  
+Ensure port **8000/TCP** is allowed by the OS/firewall.
+
+---
+
+## 🔁 Dev Workflow
+
+```bash
+# create a branch
+git checkout -b feat/my-change
+
+# run locally
+uvicorn app.main:app --reload
+
+# commit & push
+git add -A
+git commit -m "feat: describe your change"
+git push origin feat/my-change
 ```
----
 
-### 🔹 [Automatic Short Answer Grading (ASAG)](https://huggingface.co/datasets/nlpatunt/automatic_short_answer_grading)
-- **Task**: Automatic scoring of short student answers using reference answers and rubric feedback  
-- **Response type**: 1–3 sentence technical or conceptual answers  
-- **Score range**: Typically 0–5 (decimal scoring supported)  
-- **Includes**: Model-generated comments and human-graded score annotations  
+Open a PR to `main`.
 
 ---
 
-#### 🔹 Example
+## 📜 License
 
-```json
-{
-  "question": "What is the Euler tour traversal of a tree?",
-  "desired_answer": "A walk around the tree, starting with the root, where each node is seen three times: from the left, from below, from the right.",
-  "student_answer": "it starts node on the left of the root and then proceeds to visits each node in a left to right order, visits the root, and then proceeds to repeat the previous step on the right side of the tree.",
-  "grade": 2,
-  "comment": "Grade: 2.5/5\n\nComment: The student answer partially describes the traversal but misses some important details..."
-}
-```
----
-
-### 🔹 [Utilizing Large Language Models for EFL Essay Grading](https://huggingface.co/datasets/nlpatunt/utilizing_large_language_models_for_EFL_essay_grading)
-- **Task**: Multi-trait essay scoring using analytic rubrics  
-- **Response type**: Long-form argumentative essays by EFL (English as a Foreign Language) students  
-- **Score range**: 1–5 (per trait); includes both human and LLM-assigned scores  
-- **Domains**: Grammar, Content, Organization, Style, Mechanics  
-- **Includes**: Prompts, full essays, rubrics, and comparisons between human and LLM scores  
+MIT (update if needed).
 
 ---
 
-#### 🔹 Example (Essay on Information Technologies in Learning)
+## 🙏 Acknowledgments
 
-```json
-{
-  "essay_text": "The Importance of Information Technologies in Learning...",
-  "default_prompt": "Grade the student essay below based on the rubric provided.",
-  "rubrics": {
-    "Grammar": {
-      "Human_Mean": 4.0,
-      "ChatGPT": 4.3,
-      "Bard": 3.6
-    },
-    "Content": {
-      "Human_Mean": 3.73,
-      "ChatGPT": 4.9,
-      "Bard": 4.0
-    },
-    "Organization": {
-      "Human_Mean": 3.87,
-      "ChatGPT": 5.0,
-      "Bard": 3.6
-    },
-    "Style": {
-      "Human_Mean": 3.73,
-      "ChatGPT": 4.1,
-      "Bard": 3.5
-    },
-    "Mechanics": {
-      "Human_Mean": 4.13,
-      "ChatGPT": 4.3,
-      "Bard": 3.5
-    }
-  }
-}
-```
----
-
-### 🔹 [Human-AI-Collaborative-Essay-Scoring (CSEE)](https://huggingface.co/datasets/nlpatunt/Human-AI-Collaborative-Essay-Scoring)
-- **Task**: Multi-dimensional scoring of English-as-a-Foreign-Language (EFL) essays written in response to open-ended prompts  
-- **Response type**: Formal English emails or essays written by Chinese high school students  
-- **Score range**: Each essay is rated across three traits:
-  - `content_score` (1–5),
-  - `language_score` (1–5),
-  - `structure_score` (1–5),  
-  - with a derived `overall_score` (e.g., 12.0)
-- **Includes**: Full essay text, prompt, and scores
-
----
-
-#### 🔹 Example
-
-```json
-{
-  "essay_id": 11039372,
-  "prompt_id": 1,
-  "prompt": "Suppose you are Li Hua, a senior student at Hongxing High School. Your school is currently soliciting ideas for the senior graduation ceremony... Please write an email to your British friend Jim asking for his advice.",
-  "essay": "Dear Jim,\nI'm willing to share some ideas about my school's graduation ceremony and I'm writing to ask for your suggestions...\nYours,\nLi Hua",
-  "content_score": 4.5,
-  "language_score": 4.5,
-  "structure_score": 3.0,
-  "overall_score": 12.0,
-}
-```
----
-
-**Note**: All the above examples are taken from the **training splits** of their respective datasets.  
-This benchmark currently includes **11 curated datasets** for summative evaluation of student responses.
+Thanks to dataset authors and the open-source community (FastAPI, Hugging Face, etc.) that make BESESR possible.

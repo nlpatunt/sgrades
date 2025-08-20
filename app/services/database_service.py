@@ -14,10 +14,6 @@ from app.config.database import get_db_session
 class DatabaseService:
     """Service for database operations for BESESR platform"""
 
-    # ============================================================================
-    # OUTPUT SUBMISSIONS (CSV file uploads)
-    # ============================================================================
-
     @staticmethod
     def save_output_submission(submission_data: Dict[str, Any]) -> Dict[str, Any]:
         """Save a new dataset output submission (CSV) - Fixed session management"""
