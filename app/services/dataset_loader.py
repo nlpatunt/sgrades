@@ -5,19 +5,30 @@ import random
 from datetime import datetime
 import os
 import json
-from datasets import load_dataset
+from datasets import load_dataset, get_dataset_config_names
 from huggingface_hub import HfApi, login
 from dotenv import load_dotenv
 
 load_dotenv()
 
 class HuggingFaceDatasetLoader:
-    """FULLY DYNAMIC dataset loader - auto-discovers datasets from HuggingFace profile"""
+    """FULLY DYNAMIC dataset loader with config support - auto-discovers datasets from HuggingFace profile"""
     
     def __init__(self):
         self.hf_api_base = "https://datasets-server.huggingface.co"
         self.cache: Dict[str, Any] = {}
         self.hf_token = os.getenv("HUGGINGFACE_TOKEN")
+        
+        # Try fallback token loading
+        if not self.hf_token:
+            try:
+                with open(os.path.expanduser("~/.cache/huggingface/token"), "r") as f:
+                    self.hf_token = f.read().strip()
+                print(f"🔑 Loaded HF token from file: {self.hf_token[:15]}...")
+            except Exception as e:
+                print(f"❌ Could not load HF token: {e}")
+                self.hf_token = None
+        
         self.username = "nlpatunt"  # Your HuggingFace username
         self.authenticated = False
         
@@ -26,7 +37,7 @@ class HuggingFaceDatasetLoader:
             try:
                 login(token=self.hf_token, add_to_git_credential=False)
                 self.authenticated = True
-                print("🔐 Successfully authenticated with HuggingFace for dynamic discovery")
+                print("✅ HF authentication successful")
             except Exception as e:
                 self.authenticated = False
                 print(f"⚠️ HF authentication failed: {e}")
@@ -35,33 +46,42 @@ class HuggingFaceDatasetLoader:
             print("⚠️ No HuggingFace token found - dynamic discovery disabled")
     
     def get_configured_datasets(self) -> Dict[str, Dict[str, Any]]:
-        """TRULY dynamic with multi-config dataset support"""
+        """Load datasets from HuggingFace Collection with config support"""
         
         if not self.authenticated:
-            print("❌ Not authenticated - cannot discover datasets dynamically")
+            print("❌ Not authenticated - cannot access collection")
             return self._get_fallback_datasets()
         
         try:
-            print("🔍 Dynamically discovering datasets from HuggingFace profile...")
+            print("🔍 Loading datasets from HuggingFace Collection with config support...")
             
             api = HfApi(token=self.hf_token)
-            user_datasets = list(api.list_datasets(author=self.username))
             
-            print(f"📊 Found {len(user_datasets)} total datasets in profile")
+            # Your collection ID (from the URL)
+            collection_name = "nlpatunt/automatic-grading-datasets-without-labels-68a38400f057ffe50522c401"
+            
+            # Get the collection
+            collection = api.get_collection(collection_name)
+            print(f"📋 Found collection: {collection.title}")
+            print(f"📊 Collection has {len(collection.items)} items")
             
             dynamic_datasets = {}
             processed_count = 0
             
-            for dataset in user_datasets:
+            # Process each dataset in the collection
+            for item in collection.items:
                 try:
-                    dataset_id = dataset.id
-                    dataset_name = dataset_id.split('/')[-1]
-                    
-                    # 🔧 FIXED: Only use filtering, remove private bypass
-                    if self._should_include_dataset(dataset_name):
-                        print(f"📋 Auto-configuring: {dataset_name}")
+                    if item.item_type == "dataset":
+                        dataset_id = item.item_id
+                        dataset_name = dataset_id.split('/')[-1]  # Get just the name part
                         
-                        # ✅ Handle multi-config datasets
+                        # Remove D_ prefix if it exists
+                        if dataset_name.startswith('D_'):
+                            dataset_name = dataset_name[2:]
+                        
+                        print(f"📋 Processing collection dataset: {dataset_name}")
+                        
+                        # Handle multi-config datasets with enhanced detection
                         configs = self._auto_configure_dataset_with_configs(dataset_id, dataset_name)
                         
                         if configs:
@@ -69,180 +89,252 @@ class HuggingFaceDatasetLoader:
                             for config_name, config in configs.items():
                                 dynamic_datasets[config_name] = config
                                 processed_count += 1
-                                
-                        if processed_count >= 12:  # 🔧 Changed limit to 12 since you want 12 datasets
-                            print("✅ Reached target dataset count (12)")
-                            break
-                            
+                                print(f"   ✅ Added: {config_name}")
+                        
                 except Exception as e:
-                    print(f"⚠️ Error processing dataset {dataset.id}: {e}")
+                    print(f"⚠️ Error processing collection item {item.item_id}: {e}")
                     continue
             
             if dynamic_datasets:
-                print(f"✅ Successfully discovered {len(dynamic_datasets)} datasets dynamically!")
-                print(f"📋 Datasets: {list(dynamic_datasets.keys())}")
+                print(f"✅ Successfully loaded {len(dynamic_datasets)} dataset configs from collection!")
+                print(f"📋 Dataset configs: {list(dynamic_datasets.keys())}")
                 
                 self._cache_discovered_datasets(dynamic_datasets)
                 return dynamic_datasets
             else:
-                print("⚠️ No datasets discovered, falling back to static configuration")
+                print("⚠️ No datasets found in collection, falling back to static configuration")
                 return self._get_fallback_datasets()
                 
         except Exception as e:
-            print(f"❌ Error during dynamic discovery: {e}")
+            print(f"❌ Error loading collection: {e}")
+            print("🔄 Falling back to static configuration")
             return self._get_fallback_datasets()
     
-    def _should_include_dataset(self, dataset_name: str) -> bool:
-        """Ultra-strict filtering - exact name matching only"""
-        
-        # EXACT NAMES of your 12 target datasets (update with actual names from your HF profile)
-        exact_target_names = {
-            'ASAP-AES', 'ASAP-SAS', 'ASAP2', 'ASAP_plus_plus',
-            'rice__chem', 'CSEE', 'EFL', 'grade_like_a_human_dataset_os', 
-            'persuade_2', 'BEEtlE', 'SciEntSBank', 'automatic_short_answer_grading_mohlar'
-        }
-        print(f"🔍 Checking dataset: {dataset_name}")  
-        if dataset_name in exact_target_names:
-            print(f"   ✅ Including {dataset_name}: Exact target match")
-            return True
-        else:
-            print(f"   ❌ Excluding {dataset_name}: Not in exact target list")
-            return False
-    
     def _auto_configure_dataset_with_configs(self, dataset_id: str, dataset_name: str) -> Dict[str, Dict[str, Any]]:
-        """Auto-configure dataset handling multiple configs (2way/3way)"""
+        """Auto-configure dataset handling multiple configs with enhanced detection"""
         
-        configs_to_try = self._get_possible_configs(dataset_name)
+        # Known multi-config datasets - handle these specially (after D_ removal)
+        known_multi_config = {
+            'grade_like_a_human_dataset_os': ['q1', 'q2', 'q3', 'q4', 'q5', 'q6'],
+            'Rice_Chem': ['Q1', 'Q2', 'Q3', 'Q4'],
+            'BEEtlE': ['2way', '3way'],
+            'SciEntSBank': ['2way', '3way'] 
+        }
         
-        if not configs_to_try:
-            # Single config dataset
-            config = self._auto_configure_single_dataset(dataset_id, dataset_name, None)
-            if config:
-                return {dataset_name: config}
-            else:
+        # Check if this is a known multi-config dataset
+        if dataset_name in known_multi_config:
+            print(f"   📁 Known multi-config dataset: {dataset_name}")
+            configs = known_multi_config[dataset_name]
+            print(f"   🔧 Using known configs: {configs}")
+            
+            results = {}
+            for config_name in configs:
+                try:
+                    print(f"   🔧 Configuring {dataset_name} with config: {config_name}")
+                    config = self._auto_configure_single_dataset(dataset_id, dataset_name, config_name)
+                    
+                    if config:
+                        # Create unique name for each config
+                        unique_name = f"{dataset_name}_{config_name}"
+                        config['config'] = config_name
+                        results[unique_name] = config
+                        print(f"   ✅ Successfully configured: {unique_name}")
+                    else:
+                        print(f"   ❌ Failed to configure: {dataset_name}_{config_name}")
+                    
+                except Exception as e:
+                    print(f"   ❌ Error configuring {config_name}: {e}")
+                    continue
+            
+            if results:
+                return results
+        
+        # For other datasets, try automatic config detection
+        try:
+            print(f"   🔍 Checking for configs in {dataset_name}...")
+            configs = get_dataset_config_names(dataset_id, token=self.hf_token)
+            print(f"   📁 Found configs: {configs}")
+            
+            if configs and len(configs) > 1:
+                # Multiple configs detected
+                results = {}
+                for config_name in configs:
+                    try:
+                        print(f"   🔧 Configuring {dataset_name} with config: {config_name}")
+                        config = self._auto_configure_single_dataset(dataset_id, dataset_name, config_name)
+                        
+                        if config:
+                            # Create unique name for each config
+                            unique_name = f"{dataset_name}_{config_name}"
+                            config['config'] = config_name
+                            results[unique_name] = config
+                            print(f"   ✅ Successfully configured: {unique_name}")
+                        else:
+                            print(f"   ❌ Failed to configure: {dataset_name}_{config_name}")
+                        
+                    except Exception as e:
+                        print(f"   ❌ Error configuring {config_name}: {e}")
+                        continue
+                
+                if results:
+                    return results
+            
+            elif configs and len(configs) == 1:
+                # Single config
+                config_name = configs[0] if configs[0] != "default" else None
+                config = self._auto_configure_single_dataset(dataset_id, dataset_name, config_name)
+                if config:
+                    return {dataset_name: config}
+            
+        except Exception as e:
+            print(f"   ⚠️ Config detection failed: {e}")
+            # For known problematic datasets, don't try simple loading
+            if dataset_name in known_multi_config:
+                print(f"   ❌ Skipping simple config attempt for known multi-config dataset")
                 return {}
         
-        # Multi-config dataset
-        results = {}
-        
-        for config_name in configs_to_try:
+        # Try as simple dataset (no configs) - but not for known multi-config datasets
+        if dataset_name not in known_multi_config:
             try:
-                print(f"   🔧 Trying config: {config_name}")
-                config = self._auto_configure_single_dataset(dataset_id, dataset_name, config_name)
-                
+                config = self._auto_configure_single_dataset(dataset_id, dataset_name, None)
                 if config:
-                    # Create unique name for each config
-                    unique_name = f"{dataset_name}_{config_name}"
-                    config['config'] = config_name  # Store the config name
-                    results[unique_name] = config
-                    print(f"   ✅ Successfully configured: {unique_name}")
-                
+                    return {dataset_name: config}
             except Exception as e:
-                print(f"   ❌ Failed config {config_name}: {e}")
-                continue
+                print(f"   ❌ Simple dataset configuration also failed: {e}")
         
-        return results
+        return {}
     
-    def _get_possible_configs(self, dataset_name: str) -> List[str]:
-        """Get possible configurations for multi-config datasets"""
-        
-        multi_config_datasets = {
-        }
-        
-        dataset_lower = dataset_name.lower()
-        
-        for keyword, configs in multi_config_datasets.items():
-            if keyword in dataset_lower:
-                return configs
-        
-        return []  # Single config dataset
-    
-    def load_ground_truth_scores(self, dataset_name: str) -> List[Dict[str, Any]]:
-        cache_key = f"ground_truth_{dataset_name}"
-        cached_ground_truth = self.cache.get_dataset(cache_key)
-        if cached_ground_truth:
-            print(f"💾 Using cached ground truth for {dataset_name}")
-            return cached_ground_truth
-        
-        if dataset_name not in self.datasets_config:
-            return []
-        
-        config = self.datasets_config[dataset_name]
-        
-        # Load test split with human scores
-        raw_data = self.hf_loader.load_dataset_sample(
-            dataset_id=config["huggingface_id"],
-            config=config["config"], 
-            split="test",  # Use test split for evaluation
-            sample_size=1000
-        )
-        
-        ground_truth = []
-        for item in raw_data:
-            row = item.get("row", {})
-            
-            essay_id = self._get_column_value(row, ["essay_id", "id"])
-            human_score = self._get_column_value(row, [config["score_column"]])
-            
-            if essay_id and human_score is not None:
-                ground_truth.append({
-                    "essay_id": str(essay_id),
-                    "human_score": float(human_score),
-                    "score_range": config["score_range"]
-                })
-        
-        if ground_truth:
-            self.cache.set_dataset(cache_key, ground_truth)
-            print(f"💾 Cached ground truth for {dataset_name} ({len(ground_truth)} essays)")
-        
-        return ground_truth
-
     def _auto_configure_single_dataset(self, dataset_id: str, dataset_name: str, config_name: Optional[str]) -> Optional[Dict[str, Any]]:
         """Configure a single dataset with specific config"""
         try:
-            # MANUAL CONFIGS for problematic datasets
+            # COMPLETE MANUAL CONFIGS for all known datasets with correct column mappings
             manual_configs = {
+                'ASAP-AES': {
+                    "description": "ASAP Automated Essay Scoring",
+                    "essay_column": "essay",
+                    "score_column": "domain1_score",  # Main holistic score
+                    "prompt_column": "essay_set",
+                    "score_range": (0, 60)
+                },
                 'ASAP2': {
                     "description": "ASAP 2.0 Dataset - Automated Essay Scoring",
                     "essay_column": "full_text",
                     "score_column": "score", 
-                    "prompt_column": "prompt_name",
+                    "prompt_column": "assignment",
                     "score_range": (0, 60)
+                },
+                'ASAP-SAS': {
+                    "description": "ASAP Short Answer Scoring",
+                    "essay_column": "essay_text",
+                    "score_column": "Score1",  # Primary score
+                    "prompt_column": "essay_set",
+                    "score_range": (0, 60)
+                },
+                'ASAP_plus_plus': {
+                    "description": "ASAP++ Enhanced Dataset",
+                    "essay_column": "essay",
+                    "score_column": "overall_score",
+                    "prompt_column": "essay_set",
+                    "score_range": (0, 60)
+                },
+                'CSEE': {
+                    "description": "Computer Science Essay Evaluation Dataset",
+                    "essay_column": "essay",
+                    "score_column": "overall_score",
+                    "prompt_column": "prompt",
+                    "score_range": (0, 100)
                 },
                 'BEEtlE': {
                     "description": "Basic Elements of English Teaching and Learning Evaluation",
                     "essay_column": "student_answer",
                     "score_column": "label",
-                    "prompt_column": "question",
-                    "score_range": (0, 2)
+                    "prompt_column": "question_text",
+                    "score_range": (0, 2)  # For 2way classification
                 },
                 'SciEntSBank': {
                     "description": "Science Entailment Bank Dataset",
                     "essay_column": "student_answer",
                     "score_column": "label", 
-                    "prompt_column": "question",
-                    "score_range": (0, 2)
+                    "prompt_column": "question_text",
+                    "score_range": (0, 2)  # For 2way classification
+                },
+                'EFL': {
+                    "description": "English as Foreign Language Essays",
+                    "essay_column": "essay_link",  # Note: This might be a link, not actual text
+                    "score_column": "_Human_Mean",  # Mean of all raters
+                    "prompt_column": "default_prompt",
+                    "score_range": (1, 10)
+                },
+                'Mohlar': {
+                    "description": "Automatic Short Answer Grading - Mohlar Dataset",
+                    "essay_column": "student_answer",
+                    "score_column": "grade",
+                    "prompt_column": "question", 
+                    "score_range": (0, 5)
                 },
                 'automatic_short_answer_grading_mohlar': {
                     "description": "Automatic Short Answer Grading - Mohlar Dataset",
                     "essay_column": "student_answer",
-                    "score_column": "score",
+                    "score_column": "grade",
                     "prompt_column": "question", 
                     "score_range": (0, 5)
                 },
-                'CSEE': {
-                    "description": "Computer Science Essay Evaluation Dataset",
-                    "essay_column": "essay_text",
-                    "score_column": "score",
+                'Ielts_Writing_Dataset': {
+                    "description": "IELTS Writing Assessment Dataset",
+                    "essay_column": "Essay",
+                    "score_column": "Overall_Score",
+                    "prompt_column": "Question",
+                    "score_range": (1, 9)
+                },
+                'Ielst_Writing_Task_2_Dataset': {
+                    "description": "IELTS Writing Task 2 Dataset",
+                    "essay_column": "essay",
+                    "score_column": "band_score",
                     "prompt_column": "prompt",
-                    "score_range": (0, 5)
+                    "score_range": (1, 9)
+                },
+                'grade_like_a_human_dataset_os': {
+                    "description": "Grade Like a Human OS Dataset",
+                    "essay_column": "answer",
+                    "score_column": "score_1",  # Primary score
+                    "prompt_column": "question",
+                    "score_range": (0, 100)  # Based on full_points
+                },
+                'persuade_2': {
+                    "description": "Persuasive Essays Dataset v2",
+                    "essay_column": "full_text",
+                    "score_column": "holistic_essay_score",
+                    "prompt_column": "assignment",
+                    "score_range": (1, 6)
+                },
+                'Regrading_Dataset_J2C': {
+                    "description": "Regrading Dataset J2C",
+                    "essay_column": "student_answer",
+                    "score_column": "grade",
+                    "prompt_column": "Question",
+                    "score_range": (0, 100)
+                },
+                'Rice_Chem': {
+                    "description": "Rice University Chemistry Dataset",
+                    "essay_column": "student_response",
+                    "score_column": "Score",
+                    "prompt_column": "Prompt",
+                    "score_range": (0, 100)
                 }
             }
             
             # Check if this dataset needs manual config
-            if dataset_name in manual_configs:
+            base_dataset_name = dataset_name.split('_')[0] if '_' in dataset_name else dataset_name
+            if base_dataset_name in manual_configs or dataset_name in manual_configs:
                 print(f"   🔧 Using manual config for {dataset_name}")
-                base_config = manual_configs[dataset_name].copy()
+                base_config = manual_configs.get(dataset_name, manual_configs.get(base_dataset_name, {})).copy()
+                
+                # Adjust score range for 3way classification
+                if config_name == '3way' and base_dataset_name in ['BEEtlE', 'SciEntSBank']:
+                    base_config["score_range"] = (0, 2)  # 3-class: 0, 1, 2
+                elif config_name == '2way' and base_dataset_name in ['BEEtlE', 'SciEntSBank']:
+                    base_config["score_range"] = (0, 1)  # 2-class: 0, 1
+                
                 return {
                     "huggingface_id": dataset_id,
                     "config": config_name,
@@ -253,8 +345,8 @@ class HuggingFaceDatasetLoader:
                     **base_config
                 }
             
-            # Continue with auto-configuration for other datasets
-            print(f"   🔧 Starting auto-configuration for {dataset_name}...")
+            # Continue with auto-configuration for other datasets (should not happen with your datasets)
+            print(f"   🔧 Starting auto-configuration for {dataset_name} (config: {config_name})...")
             
             # Get appropriate split
             split_needed = self._get_dataset_split(dataset_name)
@@ -265,50 +357,66 @@ class HuggingFaceDatasetLoader:
                     dataset = load_dataset(
                         dataset_id, 
                         config_name,
-                        split=f"{split_needed}[:3]", 
+                        split=f"{split_needed}[:1]",  # Just load 1 sample for config detection
                         token=self.hf_token,
                         trust_remote_code=True
                     )
                 else:
                     dataset = load_dataset(
                         dataset_id, 
-                        split=f"{split_needed}[:3]", 
+                        split=f"{split_needed}[:1]", 
                         token=self.hf_token,
                         trust_remote_code=True
                     )
             except TypeError:
                 # Fallback for older versions
                 try:
-                    dataset = load_dataset(
-                        dataset_id, 
-                        config_name,
-                        split=f"{split_needed}[:3]", 
-                        use_auth_token=self.hf_token
-                    )
+                    if config_name:
+                        dataset = load_dataset(
+                            dataset_id, 
+                            config_name,
+                            split=f"{split_needed}[:1]", 
+                            use_auth_token=self.hf_token
+                        )
+                    else:
+                        dataset = load_dataset(
+                            dataset_id, 
+                            split=f"{split_needed}[:1]", 
+                            use_auth_token=self.hf_token
+                        )
                 except Exception as e:
-                    print(f"❌ Failed to load {dataset_id} with config {config_name}: {e}")
-                    return None  # This will skip this dataset in auto-configuration
+                    print(f"     ❌ Failed to load {dataset_id} with config {config_name}: {e}")
+                    return None
             except Exception as e:
-                print(f"❌ Failed to load {dataset_id}: {e}")
-                return None  # This will skip this dataset in auto-configuration
+                print(f"     ❌ Failed to load {dataset_id}: {e}")
+                return None
             
             if len(dataset) == 0:
+                print(f"     ❌ No data in {split_needed} split")
                 return None
             
             sample = dataset[0]
             columns = list(sample.keys())
+            
+            print(f"     📋 Available columns: {columns}")
             
             # Smart column detection
             essay_col = self._detect_essay_column(columns, sample)
             score_col = self._detect_score_column(columns, sample)
             prompt_col = self._detect_prompt_column(columns, sample)
             
+            if not essay_col:
+                print(f"     ❌ Could not detect essay column")
+                return None
+            
+            if not score_col:
+                print(f"     ❌ Could not detect score column")
+                return None
+            
             # Auto-detect score range
             score_range = self._detect_score_range(dataset, score_col)
             
-            # Skip if essential columns not found
-            if not essay_col or not score_col:
-                return None
+            print(f"     📊 Detected - Essay: {essay_col}, Score: {score_col}, Range: {score_range}")
             
             # Generate enhanced description
             description = self._generate_enhanced_description(dataset_name, config_name, columns, sample)
@@ -332,9 +440,9 @@ class HuggingFaceDatasetLoader:
             return config
             
         except Exception as e:
-            print(f"   ❌ Error configuring {dataset_name} with config {config_name}: {e}")
+            print(f"     ❌ Error configuring {dataset_name} with config {config_name}: {e}")
             return None
-        
+    
     def load_dataset_sample(
         self,
         dataset_id: str,
@@ -342,22 +450,54 @@ class HuggingFaceDatasetLoader:
         split: str = "train",
         sample_size: int = 100
     ) -> List[Dict[str, Any]]:
+        """Load a sample from a HF dataset with config support"""
+        
         print(f"📥 Loading sample from {dataset_id} (config={config}, split={split})")
 
         try:
-            try:
-                ds = load_dataset(dataset_id, config, split=split, token=self.hf_token)
-            except TypeError:
-                # Fallback for older versions
-                ds = load_dataset(dataset_id, config, split=split, use_auth_token=self.hf_token)
+            # Special handling for q1 - force reload without cache
+            if config == "q1":
+                print(f"🔧 Special handling for q1 - bypassing cache")
+                try:
+                    ds = load_dataset(
+                        dataset_id, 
+                        name=config, 
+                        split=split,
+                        cache_dir=None,  # Bypass cache
+                        download_mode="force_redownload",
+                        token=self.hf_token,
+                        trust_remote_code=True
+                    )
+                except TypeError:
+                    # Fallback for older versions
+                    ds = load_dataset(
+                        dataset_id, 
+                        name=config, 
+                        split=split,
+                        use_auth_token=self.hf_token
+                    )
+            else:
+                # Normal loading for other configs
+                try:
+                    if config:
+                        ds = load_dataset(dataset_id, config, split=split, token=self.hf_token, trust_remote_code=True)
+                    else:
+                        ds = load_dataset(dataset_id, split=split, token=self.hf_token, trust_remote_code=True)
+                except TypeError:
+                    # Fallback for older versions
+                    if config:
+                        ds = load_dataset(dataset_id, config, split=split, use_auth_token=self.hf_token)
+                    else:
+                        ds = load_dataset(dataset_id, split=split, use_auth_token=self.hf_token)
+                        
         except Exception as e:
             print(f"❌ load_dataset failed for {dataset_id}: {e}")
             # Try API fallback first
             api_result = self._load_via_api(dataset_id, config, split, sample_size)
             if api_result:
                 return api_result
-            # If API also fails, return fallback data
-            return self._get_fallback_data(dataset_id)
+            # If API also fails, return empty list
+            return []
 
         # Sample rows
         if len(ds) > sample_size:
@@ -414,118 +554,20 @@ class HuggingFaceDatasetLoader:
                 base_desc += " (2-way classification)"
             elif config_name == '3way':
                 base_desc += " (3-way classification)"
+            elif config_name.startswith('q') or config_name.startswith('Q'):
+                base_desc += f" (Question {config_name.upper()})"
             else:
                 base_desc += f" ({config_name} configuration)"
         
         return base_desc
 
-    def _get_dataset_config(self, dataset_name: str) -> Optional[str]:
-        """Get required config for datasets that need specific configs"""
-        config_mapping = {
-            'beetle': '2way',
-            'scientsbank': '2way', 
-        }
-        
-        dataset_lower = dataset_name.lower()
-        for keyword, config in config_mapping.items():
-            if keyword in dataset_lower:
-                return config
-        
-        return None
-
-    def _get_dataset_split(self, dataset_name: str) -> str:
-        """Get appropriate split for dataset"""
-        
-        # Some datasets only have test split
-        test_only_keywords = []
-        dataset_lower = dataset_name.lower()
-        
-        if any(keyword in dataset_lower for keyword in test_only_keywords):
-            return 'test'
-        
-        return 'train'  # Default
-
-    def _detect_essay_column_enhanced(self, columns: list, sample: dict, dataset_name: str) -> str:
-        """Enhanced essay column detection with dataset-specific fixes"""
-        
-        # Dataset-specific fixes
-        if 'efl' in dataset_name.lower():
-            # For EFL dataset, look for actual text columns
-            for col in ['essay_text', 'text', 'essay', 'content']:
-                if col in columns and isinstance(sample.get(col), str):
-                    if len(sample[col]) > 50:  # Ensure it's actual essay text
-                        return col
-        
-        # Original detection logic
-        essay_keywords = [
-            'full_text','essay_text', 'essay', 'text', 'content', 'response', 
-            'student_answer', 'answer', 'writing', 'student_response'
-        ]
-        
-        # Check for exact matches first
-        candidates = []
-        for col in columns:
-            col_lower = col.lower()
-            for keyword in essay_keywords:
-                if keyword in col_lower:
-                    if isinstance(sample[col], str) and len(sample[col]) > 30:
-                        priority = essay_keywords.index(keyword)
-                        candidates.append((col, priority, len(sample[col])))
-                    break
-        
-        if candidates:
-            candidates.sort(key=lambda x: (x[1], -x[2]))
-            return candidates[0][0]
-        
-        # Fallback: find longest text column
-        text_columns = []
-        for col in columns:
-            if isinstance(sample[col], str) and len(sample[col]) > 20:
-                text_columns.append((col, len(sample[col])))
-        
-        if text_columns:
-            return max(text_columns, key=lambda x: x[1])[0]
-        
-        return columns[0] if columns else "text"
-
-    def _detect_score_column_enhanced(self, columns: list, sample: dict, dataset_name: str) -> str:
-        """Enhanced score column detection"""
-        
-        score_keywords = [
-            'overall_score', 'holistic_score', 'domain1_score', 'grade', 
-            'score', 'rating', 'total_score', 'final_score', 'label'
-        ]
-        
-        # Check for exact matches first
-        for keyword in score_keywords:
-            for col in columns:
-                if keyword.lower() == col.lower():
-                    if isinstance(sample[col], (int, float)) and sample[col] is not None:
-                        return col
-        
-        # Check for partial matches
-        for keyword in score_keywords:
-            for col in columns:
-                if keyword.lower() in col.lower():
-                    if isinstance(sample[col], (int, float)) and sample[col] is not None:
-                        return col
-        
-        # Fallback: find first numeric column
-        for col in columns:
-            if isinstance(sample[col], (int, float)) and sample[col] is not None:
-                if 0 <= sample[col] <= 100:  # Reasonable score range
-                    return col
-        
-        return columns[1] if len(columns) > 1 else columns[0]
-
-    
     def _detect_essay_column(self, columns: list, sample: dict) -> str:
         """Auto-detect essay/text column using smart heuristics"""
         
         # Priority keywords for essay columns
         essay_keywords = [
-            'full_text','essay', 'text', 'content', 'response', 'student_answer', 
-            'answer', 'writing', 'student_response', 'full_text'
+            'full_text', 'essay_text', 'essay', 'text', 'content', 'response', 
+            'student_answer', 'answer', 'writing', 'student_response'
         ]
         
         # Check for exact/partial matches
@@ -562,7 +604,7 @@ class HuggingFaceDatasetLoader:
         
         score_keywords = [
             'holistic_score', 'domain1_score', 'score', 'grade', 'rating', 
-            'overall_score', 'total_score', 'final_score','label'
+            'overall_score', 'total_score', 'final_score', 'label'
         ]
         
         # Check for exact/partial matches
@@ -587,7 +629,7 @@ class HuggingFaceDatasetLoader:
         """Auto-detect prompt column"""
         
         prompt_keywords = [
-            'question_text','prompt_name', 'prompt', 'question', 'task', 'essay_set', 'set', 
+            'question_text', 'prompt_name', 'prompt', 'question', 'task', 'essay_set', 'set', 
             'prompt_text', 'writing_prompt', 'assignment'
         ]
         
@@ -602,23 +644,6 @@ class HuggingFaceDatasetLoader:
                 return col
         
         return "prompt"  # Default fallback
-    
-    def _detect_rubric_columns(self, columns: list, sample: dict) -> List[str]:
-        """Detect rubric/dimension scoring columns"""
-        
-        rubric_keywords = [
-            'domain', 'trait', 'dimension', 'criteria', 'rubric',
-            'content', 'organization', 'style', 'grammar', 'mechanics'
-        ]
-        
-        rubric_cols = []
-        for col in columns:
-            col_lower = col.lower()
-            if any(keyword in col_lower for keyword in rubric_keywords):
-                if isinstance(sample[col], (int, float)) and sample[col] is not None:
-                    rubric_cols.append(col)
-        
-        return rubric_cols
     
     def _detect_score_range(self, dataset, score_col: str) -> tuple:
         """Auto-detect score range from dataset sample"""
@@ -648,38 +673,6 @@ class HuggingFaceDatasetLoader:
             print(f"   ⚠️ Error detecting score range: {e}")
             return (0, 5)  # Default fallback
     
-    def _generate_description(self, dataset_name: str, columns: list, sample: dict) -> str:
-        """Generate a description based on dataset name and structure"""
-        
-        # Known dataset patterns
-        if 'asap' in dataset_name.lower():
-            if 'sas' in dataset_name.lower():
-                return "Automated Student Assessment Prize - Short Answer Scoring"
-            else:
-                return "Automated Student Assessment Prize - Automated Essay Scoring"
-        
-        elif 'rice' in dataset_name.lower():
-            return "Rice University Chemistry Dataset"
-        
-        elif 'beetle' in dataset_name.lower():
-            return "Basic Elements of English Teaching and Learning Evaluation"
-        
-        elif 'persuade' in dataset_name.lower():
-            return "Persuasive Essays Dataset"
-        
-        elif 'csee' in dataset_name.lower():
-            return "Computer Science Essay Evaluation"
-        
-        elif 'efl' in dataset_name.lower():
-            return "English as Foreign Language Essays"
-        
-        elif 'grade' in dataset_name.lower():
-            return "Grade Like a Human Dataset"
-        
-        else:
-            # Generate based on content
-            return f"Auto-discovered essay dataset: {dataset_name.replace('_', ' ').title()}"
-    
     def _cache_discovered_datasets(self, datasets: Dict[str, Dict[str, Any]]):
         """Cache discovered datasets for performance"""
         try:
@@ -705,7 +698,7 @@ class HuggingFaceDatasetLoader:
         
         return {
             "ASAP-AES": {
-                "huggingface_id": "nlpatunt/ASAP-AES",
+                "huggingface_id": "nlpatunt/D_ASAP-AES",
                 "description": "Automated Student Assessment Prize - Automated Essay Scoring",
                 "essay_column": "essay",
                 "score_column": "domain1_score",
@@ -715,18 +708,17 @@ class HuggingFaceDatasetLoader:
                 "score_range": (0, 60),
                 "auto_discovered": False
             },
-            "rice_chem": {
-                "huggingface_id": "nlpatunt/rice_chem",
-                "description": "Rice University Chemistry Dataset",
-                "essay_column": "essay_text",
-                "score_column": "holistic_score",
-                "prompt_column": "prompt",
-                "config": None,
+            "BEEtlE_2way": {
+                "huggingface_id": "nlpatunt/D_BEEtlE",
+                "description": "Basic Elements of English Teaching and Learning Evaluation (2-way)",
+                "essay_column": "student_answer",
+                "score_column": "label",
+                "prompt_column": "question_text",
+                "config": "2way",
                 "split": "train",
-                "score_range": (1, 5),
+                "score_range": (0, 1),
                 "auto_discovered": False
             }
-            # Add minimal fallback datasets here...
         }
     
     def _load_via_api(self, dataset_id: str, config: str = None, split: str = "train", 
@@ -764,30 +756,37 @@ class HuggingFaceDatasetLoader:
 
 
 class BESESRDatasetManager:
-    """Enhanced dataset manager with dynamic discovery support"""
+    """Enhanced dataset manager with dynamic discovery and config support"""
     
     def __init__(self):
         self.hf_loader = HuggingFaceDatasetLoader()
        
-        from app.services.cache_service import DatasetCache
-        self.cache = DatasetCache()
-        print("🚀 Initializing dynamic dataset discovery...")
+        try:
+            from app.services.cache_service import DatasetCache
+            self.cache = DatasetCache()
+        except ImportError:
+            self.cache = None
+            
+        print("🚀 Initializing dynamic dataset discovery with config support...")
         self.datasets_config = self.hf_loader.get_configured_datasets()
-        print(f"📊 Initialized with {len(self.datasets_config)} datasets")
-    
-    def refresh_datasets(self) -> int:
-        """Refresh dataset discovery from HuggingFace"""
-        print("🔄 Refreshing dataset discovery...")
-        self.datasets_config = self.hf_loader.refresh_dataset_discovery()
-        return len(self.datasets_config)
+        print(f"📊 Initialized with {len(self.datasets_config)} dataset configurations")
+        
+        # Print discovered datasets
+        for name, config in self.datasets_config.items():
+            status = "auto-discovered" if config.get('auto_discovered') else "static"
+            config_info = f" (config: {config.get('config')})" if config.get('config') else ""
+            print(f"  - {name}{config_info} [{status}]")
     
     def load_dataset_for_evaluation(self, dataset_name: str, sample_size: int = 50) -> List[Dict[str, Any]]:
-        """Load dataset with enhanced column detection"""
-        cache_key = f"{dataset_name}_{sample_size}"
-        cached_data = self.cache.get_dataset(cache_key)
-        if cached_data:
-            print(f"💾 Using cached data for {dataset_name}")
-            return cached_data
+        """Load dataset with enhanced column detection and caching"""
+        
+        # Check cache first
+        if self.cache:
+            cache_key = f"{dataset_name}_{sample_size}"
+            cached_data = self.cache.get_dataset(cache_key)
+            if cached_data:
+                print(f"💾 Using cached data for {dataset_name}")
+                return cached_data
         
         if dataset_name not in self.datasets_config:
             print(f"❌ Unknown dataset: {dataset_name}")
@@ -797,89 +796,123 @@ class BESESRDatasetManager:
         print(f"🔐 Loading dataset: {dataset_name} ({'auto-discovered' if config.get('auto_discovered') else 'static'})")
         
         try:
-            # Load from HuggingFace dataset
+            # Load from HuggingFace dataset with config support
             raw_data = self.hf_loader.load_dataset_sample(
                 dataset_id=config["huggingface_id"],
-                config=config["config"],
+                config=config.get("config"),  # Pass the config (q1, q2, etc.)
                 split=config["split"],
                 sample_size=sample_size
             )
-        except Exception as e:
-            print(f"❌ Failed to load {dataset_name}: {e}")
-            print(f"🔄 Using fallback sample for {dataset_name}")
-            return [self.get_sample_essay(dataset_name)]
-        
-        if not raw_data:
-            print(f"⚠️ No data loaded for {dataset_name}, using fallback")
-            return [self.get_sample_essay(dataset_name)]
-        # Convert to standard format with flexible column mapping
-        standardized_essays = []
-        for item in raw_data:
-            try:
+            
+            if not raw_data:
+                print(f"⚠️ No data loaded for {dataset_name}")
+                return []
+
+            # Standardize the data structure
+            standardized_essays = []
+            
+            for i, item in enumerate(raw_data):
                 row = item.get("row", {})
                 
-                # Flexible column mapping
-                essay_text = self._get_column_value(row, [
-                    config["essay_column"],
-                    "essay", "text", "essay_text", "content", "student_answer", "response"
-                ])
+                # Extract values using configured column names
+                essay_text = self._get_column_value(row, [config["essay_column"]])
+                score = self._get_column_value(row, [config["score_column"]])
+                prompt = self._get_column_value(row, [config.get("prompt_column", "prompt")])
+                essay_id = self._get_column_value(row, ["essay_id", "id", "sis_id"])
                 
-                prompt = self._get_column_value(row, [
-                    config["prompt_column"],
-                    "prompt", "question", "essay_set", "task", "assignment"
-                ])
+                # Use fallback ID if not found
+                if not essay_id:
+                    essay_id = f"{dataset_name}_{i}"
                 
-                human_score = self._get_column_value(row, [
-                    config["score_column"],
-                    "score", "holistic_score", "domain1_score", "grade", "rating"
-                ])
+                # Use fallback prompt if not found
+                if not prompt:
+                    prompt = f"Default prompt for {dataset_name}"
                 
-                # Get rubric scores if available
-                rubric_scores = {}
-                if config.get("has_rubric", False):
-                    for rubric_col in config.get("rubric_columns", []):
-                        if rubric_col in row and row[rubric_col] is not None:
-                            rubric_scores[rubric_col] = row[rubric_col]
-                
-                if essay_text and human_score is not None:
-                    essay = {
-                        "essay_id": f"{dataset_name}_{len(standardized_essays)}",
-                        "dataset_name": dataset_name,
+                if essay_text and score is not None:
+                    standardized_essays.append({
+                        "essay_id": str(essay_id),
                         "essay_text": str(essay_text),
-                        "prompt": str(prompt) if prompt else f"Prompt for {dataset_name}",
+                        "prompt": str(prompt),
+                        "score": float(score),
+                        "dataset_name": dataset_name,
+                        "config": config.get("config"),  # Track which config this came from
+                        "score_range": config["score_range"]
+                    })
+
+            print(f"✅ Standardized {len(standardized_essays)} essays from {dataset_name}")
+            
+            # Cache the result
+            if self.cache and standardized_essays:
+                self.cache.set_dataset(cache_key, standardized_essays)
+                print(f"💾 Cached {len(standardized_essays)} essays for {dataset_name}")
+            
+            return standardized_essays
+
+        except Exception as e:
+            print(f"❌ Error loading {dataset_name}: {e}")
+            return [self.get_sample_essay(dataset_name)]
+
+    def load_ground_truth_scores(self, dataset_name: str) -> List[Dict[str, Any]]:
+        """Load ground truth scores for evaluation with config support"""
+        
+        # Check cache first
+        if self.cache:
+            cache_key = f"ground_truth_{dataset_name}"
+            cached_ground_truth = self.cache.get_dataset(cache_key)
+            if cached_ground_truth:
+                print(f"💾 Using cached ground truth for {dataset_name}")
+                return cached_ground_truth
+        
+        if dataset_name not in self.datasets_config:
+            print(f"❌ Unknown dataset for ground truth: {dataset_name}")
+            return []
+        
+        config = self.datasets_config[dataset_name]
+        
+        try:
+            # Load test split with human scores using config
+            raw_data = self.hf_loader.load_dataset_sample(
+                dataset_id=config["huggingface_id"],
+                config=config.get("config"),  # Use the same config as training data
+                split="test",  # Use test split for evaluation
+                sample_size=999999
+            )
+            
+            ground_truth = []
+            for item in raw_data:
+                row = item.get("row", {})
+                
+                essay_id = self._get_column_value(row, ["essay_id", "id", "sis_id"])
+                human_score = self._get_column_value(row, [config["score_column"]])
+                
+                if essay_id and human_score is not None:
+                    ground_truth.append({
+                        "essay_id": str(essay_id),
                         "human_score": float(human_score),
                         "score_range": config["score_range"],
-                        "rubric_scores": rubric_scores,
-                        "metadata": {
-                            "original_row": row,
-                            "loaded_at": datetime.now().isoformat(),
-                            "source": "dynamic_huggingface" if config.get("auto_discovered") else "static_config",
-                            "discovery_time": config.get("discovery_time")
-                        }
-                    }
-                    
-                    # Validate essay has sufficient content
-                    if len(essay["essay_text"].strip()) > 20:
-                        standardized_essays.append(essay)
-                        
-            except Exception as e:
-                print(f"⚠️ Error processing essay in {dataset_name}: {e}")
-                continue
-        
-        print(f"✅ Standardized {len(standardized_essays)} essays from {dataset_name}")
-        if standardized_essays:
-            self.cache.set_dataset(cache_key, standardized_essays)
-            print(f"💾 Cached {len(standardized_essays)} essays for {dataset_name}")
-        
-        return standardized_essays
-    
-    def _get_column_value(self, row: dict, possible_columns: list):
-        """Try multiple possible column names and return first found value"""
+                        "config": config.get("config")
+                    })
+            
+            print(f"✅ Loaded ground truth for {dataset_name}: {len(ground_truth)} essays")
+            
+            # Cache the ground truth
+            if self.cache and ground_truth:
+                self.cache.set_dataset(cache_key, ground_truth)
+                print(f"💾 Cached ground truth for {dataset_name}")
+            
+            return ground_truth
+            
+        except Exception as e:
+            print(f"❌ Error loading ground truth for {dataset_name}: {e}")
+            return []
+
+    def _get_column_value(self, row: Dict[str, Any], possible_columns: List[str]) -> Any:
+        """Get value from row using possible column names"""
         for col in possible_columns:
-            if col in row and row[col] is not None:
+            if col and col in row and row[col] is not None:
                 return row[col]
         return None
-    
+
     def get_sample_essay(self, dataset_name: str) -> Dict[str, Any]:
         """Get a fallback sample essay"""
         return {
@@ -892,10 +925,153 @@ class BESESRDatasetManager:
             However, the integration of technology also presents challenges that must be addressed.
             """,
             "prompt": f"Sample prompt for {dataset_name}",
-            "human_score": 3.5,
+            "score": 3.5,
             "score_range": (1, 5),
+            "config": None,
             "metadata": {"type": "fallback", "reason": "dataset_load_failed"}
         }
 
-# Global instance with dynamic discovery
+    def get_dataset_configs(self) -> Dict[str, Any]:
+        """Get information about all available dataset configurations"""
+        config_info = {}
+        
+        for dataset_name, config in self.datasets_config.items():
+            config_info[dataset_name] = {
+                "huggingface_id": config["huggingface_id"],
+                "config": config.get("config"),
+                "description": config["description"],
+                "essay_column": config["essay_column"],
+                "score_column": config["score_column"],
+                "score_range": config["score_range"],
+                "auto_discovered": config.get("auto_discovered", False),
+                "available_columns": config.get("columns_detected", [])
+            }
+        
+        return config_info
+
+    def refresh_datasets(self) -> int:
+        """Refresh dataset discovery from HuggingFace"""
+        print("🔄 Refreshing dataset discovery...")
+        self.datasets_config = self.hf_loader.get_configured_datasets()
+        return len(self.datasets_config)
+
+
+# Upload validation configurations for each dataset
+EXPECTED_UPLOAD_FORMATS = {
+    "ASAP-AES": {
+        "required_columns": ["essay_id", "predicted_score"],
+        "score_range": (0, 60),
+        "essay_id_pattern": r"^ASAP-AES_\d+$",
+        "score_type": "float"
+    },
+    "ASAP2": {
+        "required_columns": ["essay_id", "predicted_score"],
+        "score_range": (0, 60),
+        "essay_id_pattern": r"^ASAP2_\d+$",
+        "score_type": "float"
+    },
+    "ASAP-SAS": {
+        "required_columns": ["essay_id", "predicted_score"],
+        "score_range": (0, 60),
+        "essay_id_pattern": r"^ASAP-SAS_\d+$",
+        "score_type": "float"
+    },
+    "ASAP_plus_plus": {
+        "required_columns": ["essay_id", "predicted_score"],
+        "score_range": (0, 60),
+        "essay_id_pattern": r"^ASAP_plus_plus_\d+$",
+        "score_type": "float"
+    },
+    "CSEE": {
+        "required_columns": ["essay_id", "predicted_score"],
+        "score_range": (0, 100),
+        "essay_id_pattern": r"^CSEE_\d+$",
+        "score_type": "float"
+    },
+    "BEEtlE_2way": {
+        "required_columns": ["essay_id", "predicted_score"],
+        "score_range": (0, 1),
+        "essay_id_pattern": r"^BEEtlE_2way_\d+$",
+        "score_type": "int",
+        "valid_values": [0, 1]
+    },
+    "BEEtlE_3way": {
+        "required_columns": ["essay_id", "predicted_score"],
+        "score_range": (0, 2),
+        "essay_id_pattern": r"^BEEtlE_3way_\d+$",
+        "score_type": "int",
+        "valid_values": [0, 1, 2]
+    },
+    "SciEntSBank_2way": {
+        "required_columns": ["essay_id", "predicted_score"],
+        "score_range": (0, 1),
+        "essay_id_pattern": r"^SciEntSBank_2way_\d+$",
+        "score_type": "int",
+        "valid_values": [0, 1]
+    },
+    "SciEntSBank_3way": {
+        "required_columns": ["essay_id", "predicted_score"],
+        "score_range": (0, 2),
+        "essay_id_pattern": r"^SciEntSBank_3way_\d+$",
+        "score_type": "int",
+        "valid_values": [0, 1, 2]
+    },
+    "EFL": {
+        "required_columns": ["essay_id", "predicted_score"],
+        "score_range": (1, 10),
+        "essay_id_pattern": r"^EFL_\d+$",
+        "score_type": "float"
+    },
+    "Mohlar": {
+        "required_columns": ["essay_id", "predicted_score"],
+        "score_range": (0, 5),
+        "essay_id_pattern": r"^Mohlar_\d+$",
+        "score_type": "float"
+    },
+    "Ielts_Writing_Dataset": {
+        "required_columns": ["essay_id", "predicted_score"],
+        "score_range": (1, 9),
+        "essay_id_pattern": r"^Ielts_Writing_Dataset_\d+$",
+        "score_type": "float"
+    },
+    "Ielst_Writing_Task_2_Dataset": {
+        "required_columns": ["essay_id", "predicted_score"],
+        "score_range": (1, 9),
+        "essay_id_pattern": r"^Ielst_Writing_Task_2_Dataset_\d+$",
+        "score_type": "float"
+    },
+    "persuade_2": {
+        "required_columns": ["essay_id", "predicted_score"],
+        "score_range": (1, 6),
+        "essay_id_pattern": r"^persuade_2_\d+$",
+        "score_type": "float"
+    },
+    "Regrading_Dataset_J2C": {
+        "required_columns": ["essay_id", "predicted_score"],
+        "score_range": (0, 100),
+        "essay_id_pattern": r"^Regrading_Dataset_J2C_\d+$",
+        "score_type": "float"
+    }
+}
+
+# Add grade_like_a_human configs for q1-q6
+for q in ["q1", "q2", "q3", "q4", "q5", "q6"]:
+    EXPECTED_UPLOAD_FORMATS[f"grade_like_a_human_dataset_os_{q}"] = {
+        "required_columns": ["essay_id", "predicted_score"],
+        "score_range": (0, 100),
+        "essay_id_pattern": f"^grade_like_a_human_dataset_os_{q}_\\d+$",
+        "score_type": "float"
+    }
+
+# Add Rice_Chem configs for Q1-Q4  
+for Q in ["Q1", "Q2", "Q3", "Q4"]:
+    EXPECTED_UPLOAD_FORMATS[f"Rice_Chem_{Q}"] = {
+        "required_columns": ["essay_id", "predicted_score"],
+        "score_range": (0, 100),
+        "essay_id_pattern": f"^Rice_Chem_{Q}_\\d+$",
+        "score_type": "float"
+    }
+
+
+# Global instance with dynamic discovery and config support
 dataset_manager = BESESRDatasetManager()
