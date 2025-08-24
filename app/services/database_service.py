@@ -6,7 +6,6 @@ from typing import List, Optional, Dict, Any
 from datetime import datetime, timedelta
 import json
 import statistics
-
 from app.models.database import OutputSubmission, Dataset, EvaluationResult, Essay
 from app.config.database import get_db_session
 
@@ -614,3 +613,8 @@ class DatabaseService:
                 "database": "disconnected",
                 "error": str(e)
             }
+        
+def get_database():
+    """Get database session for direct database operations"""
+    from app.config.database import get_db_session
+    return get_db_session().__enter__()

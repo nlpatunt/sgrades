@@ -17,6 +17,187 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+
+    <style>
+        /* Enhanced Upload Styles */
+        .overall-progress-section {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .progress-counter {
+            font-weight: 600;
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+        }
+
+        .progress-bar-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 12px;
+            background: #e9ecef;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            transition: width 0.3s ease;
+        }
+
+        .progress-percentage {
+            font-weight: 600;
+            color: var(--primary-blue);
+            min-width: 45px;
+        }
+
+        .dataset-upload-section {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .dataset-dropdown {
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .dataset-dropdown option {
+            padding: 8px;
+        }
+
+        .dataset-dropdown optgroup {
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+
+        .format-helper {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .format-details {
+            font-family: monospace;
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+
+        .uploaded-datasets-section {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .datasets-progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .dataset-progress-item {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .dataset-progress-item.uploaded {
+            background: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .dataset-progress-item.error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
+        .dataset-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .dataset-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .dataset-status {
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-uploaded {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .dataset-details {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        .upload-animation {
+            animation: uploadPulse 1.5s infinite;
+        }
+
+        @keyframes uploadPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -43,13 +224,13 @@
                 <h2>A Benchmark for Essay Scoring Evaluation and Research</h2>
                 <p class="hero-description">
                     BESESR is a comprehensive benchmarking platform for automatic essay grading models.
-                    It provides evaluation across 15 curated datasets with standardized metrics to advance
+                    It provides evaluation across multiple curated datasets with standardized metrics to advance
                     research in educational assessment and natural language processing.
                 </p>
 
                 <div class="hero-stats">
                     <div class="stat-item">
-                        <span class="stat-number" id="total-datasets">15</span>
+                        <span class="stat-number" id="total-datasets-hero">-</span>
                         <span class="stat-label">Datasets</span>
                     </div>
                     <div class="stat-item">
@@ -81,7 +262,7 @@
             <div class="overview-grid">
                 <div class="overview-card">
                     <h3>Complete Benchmark Evaluation</h3>
-                    <p>Test your models across all 15 diverse datasets. Only complete submissions (15/15) appear on the leaderboard for fair comparison.</p>
+                    <p>Test your models across all datasets. Only complete submissions appear on the leaderboard for fair comparison.</p>
                 </div>
                 <div class="overview-card">
                     <h3>Standardized Metrics</h3>
@@ -100,10 +281,10 @@
     <div class="container">
         <div class="section-header">
         <h2>Datasets</h2>
-        <p>Download all 15 datasets for comprehensive benchmark evaluation</p>
+        <p>Download all datasets for comprehensive benchmark evaluation</p>
         <div class="section-actions" style="margin-top: 1rem;">
             <button id="download-all-btn" class="btn btn-outline">
-            <i class="fas fa-download"></i> Download All 15 Datasets (ZIP)
+            <i class="fas fa-download"></i> Download All Datasets (ZIP)
             </button>
         </div>
         </div>
@@ -117,23 +298,22 @@
         <div style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-white); border-radius: 12px; border-left: 4px solid var(--primary-blue);">
             <h3>📋 Benchmark Requirements</h3>
             <ul style="margin-top: 1rem;">
-                <li>Download all 15 datasets as train/validation/test splits</li>
+                <li>Download all datasets as train/validation/test splits</li>
                 <li>Train your model using train/validation data (includes human scores)</li>
                 <li>Generate predictions on test data (no human scores provided)</li>
-                <li>Submit all 15 prediction CSV files for complete evaluation</li>
-                <li>Only complete benchmarks (15/15) appear on the official leaderboard</li>
+                <li>Submit prediction CSV files for complete evaluation</li>
+                <li>Only complete benchmarks appear on the official leaderboard</li>
             </ul>
         </div>
 
     </div>
     </section>
 
-    <!-- Leaderboard Section -->
     <section id="leaderboard" class="section">
         <div class="container">
             <div class="section-header">
                 <h2>Leaderboard</h2>
-                <p>Complete benchmark rankings - researchers who submitted all 15 datasets</p>
+                <p>Complete benchmark rankings - researchers who submitted all datasets</p>
             </div>
 
             <div class="leaderboard-controls">
@@ -142,10 +322,14 @@
                     <select id="metric-selector" class="control-select">
                         <option value="avg_quadratic_weighted_kappa">Average Quadratic Weighted Kappa</option>
                         <option value="avg_pearson_correlation">Average Pearson Correlation</option>
+                        <option value="avg_f1_score">Average F1 Score</option>
+                        <option value="avg_precision">Average Precision</option>
+                        <option value="avg_recall">Average Recall</option>
+                        <option value="avg_mae">Average Mean Absolute Error (Lower is Better)</option>
                     </select>
                 </div>
                 <button id="refresh-leaderboard" class="btn btn-outline">
-                    Refresh
+                    <i class="fas fa-sync-alt"></i> Refresh
                 </button>
             </div>
 
@@ -155,131 +339,488 @@
         </div>
     </section>
 
-<section id="submit" class="section bg-light">
-    <div class="container">
-        <div class="section-header">
-            <h2>Submit Complete Benchmark</h2>
-            <p>Upload predictions for all 15 datasets to appear on the leaderboard</p>
-        </div>
 
-        <div class="submit-container">
-            <div class="submit-info">
-                <h3>📋 Complete Benchmark Submission</h3>
-                <ul>
-                    <li><strong>Download all 15 datasets</strong> using the button above</li>
-                    <li><strong>Train your model</strong> on the provided train/validation splits</li>
-                    <li><strong>Generate predictions</strong> on the test splits (unlabeled)</li>
-                    <li><strong>Upload all 15 CSV files</strong> with your predictions</li>
-                    <li><strong>Automatic evaluation</strong> calculates aggregate metrics</li>
-                    <li><strong>Leaderboard ranking</strong> based on average performance</li>
-                </ul>
+    <!-- Submit Section with Enhanced Upload -->
+    <section id="submit" class="section bg-light">
+        <div class="container">
+            <div class="section-header">
+                <h2>Submit Complete Benchmark</h2>
+                <p>Upload predictions for all datasets to appear on the leaderboard</p>
+            </div>
 
-                <div class="api-format">
-                    <h4>📄 Required CSV Format</h4>
-                    <div class="code-block">
-<pre>essay_id,predicted_score
-ASAP-AES_001,3.5
-ASAP-AES_002,4.2
-rice_chem_001,3.8</pre>
+            <div class="submit-container">
+                <div class="submit-info">
+                    <h3>📋 Complete Benchmark Submission</h3>
+                    <ul>
+                        <li><strong>Download all datasets</strong> using the button above</li>
+                        <li><strong>Train your model</strong> on the provided train/validation splits</li>
+                        <li><strong>Generate predictions</strong> on the test splits (unlabeled)</li>
+                        <li><strong>Upload CSV files individually</strong> using the dropdown selector</li>
+                        <li><strong>Track progress</strong> as you upload each dataset</li>
+                        <li><strong>Submit complete benchmark</strong> when all datasets are uploaded</li>
+                    </ul>
+
+                    <div class="api-format">
+                        <h4>📄 Required CSV Format (varies by dataset)</h4>
+                        <div class="code-block">
+<pre># ASAP-AES format:
+essay_id,domain1_score
+ASAP-AES_test_0,3.5
+ASAP-AES_test_1,4.2
+
+# BEEtlE_2way format:
+question_id,label
+BEEtlE_2way_test_0,1
+BEEtlE_2way_test_1,0
+
+# Grade_like_human_q1 format:
+id,score_1
+grade_like_a_human_dataset_os_q1_test_0,85.5</pre>
+                        </div>
                     </div>
-                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-muted);">
-                        You need 15 separate CSV files - one for each dataset
-                    </p>
+                </div>
+
+                <div class="submit-form-wrapper">
+                    <!-- Researcher Information -->
+                    <form id="benchmark-submit-form" class="submit-form">
+                        <div class="form-section">
+                            <h3>Researcher Information</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="researcher-name">Researcher Name *</label>
+                                    <input type="text" id="researcher-name" name="submitter_name" placeholder="Dr. Jane Smith" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="researcher-email">Email Address *</label>
+                                    <input type="email" id="researcher-email" name="submitter_email" placeholder="jane.smith@university.edu" required />
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="model-name">Model Name *</label>
+                                <input type="text" id="model-name" name="model_name" placeholder="e.g., BERT-Essay-Scorer-v2" required />
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="model-description">Model Description</label>
+                                <textarea id="model-description" name="model_description" placeholder="Brief description of your approach, architecture, training procedure..." rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Dataset Upload Progress Section -->
+                        <div class="form-section">
+                            <h3>📊 Dataset Upload Progress</h3>
+                            
+                            <!-- Overall Progress Bar -->
+                            <div class="overall-progress-section">
+                                <div class="progress-header">
+                                    <h4>Overall Progress</h4>
+                                    <span class="progress-counter">
+                                        <span id="uploaded-count">0</span> / <span id="total-datasets">0</span> datasets
+                                    </span>
+                                </div>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="overall-progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <div class="progress-percentage" id="overall-progress-text">0%</div>
+                                </div>
+                            </div>
+
+                            <!-- Replace the dataset upload section in your HTML with this enhanced version -->
+                            <div class="dataset-upload-section">
+                                <h4>📁 Upload Individual Datasets</h4>
+                                <div class="upload-controls">
+                                    <div class="form-row">
+                                        <div class="form-group" style="flex: 3; min-width: 0;">
+                                            <label for="dataset-selector">Select Dataset *</label>
+                                            <select id="dataset-selector" class="form-control dataset-dropdown">
+                                                <option value="">🔄 Loading datasets...</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" style="flex: 3;">
+                                            <label>CSV File *</label>
+                                            
+                                            <!-- Enhanced File Input with Drag & Drop -->
+                                            <div class="file-upload-container">
+                                                <!-- Traditional File Input (Hidden) -->
+                                                <input type="file" id="dataset-file" class="form-control file-input-hidden" accept=".csv" />
+                                                
+                                                <!-- Drag & Drop Zone -->
+                                                <div id="drop-zone" class="drop-zone">
+                                                    <div class="drop-zone-content">
+                                                        <i class="fas fa-cloud-upload-alt drop-icon"></i>
+                                                        <p class="drop-text">
+                                                            <strong>Drop CSV file here</strong><br>
+                                                            or <span class="browse-link">browse files</span>
+                                                        </p>
+                                                        <div class="file-info" id="file-info" style="display: none;">
+                                                            <i class="fas fa-file-csv"></i>
+                                                            <span class="file-name" id="file-name"></span>
+                                                            <button type="button" class="remove-file" id="remove-file">
+                                                                <i class="fas fa-times"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" style="flex: 1;">
+                                            <label>&nbsp;</label>
+                                            <button type="button" id="upload-single-btn" class="btn btn-primary" disabled>
+                                                <i class="fas fa-upload"></i> Upload
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Format Helper -->
+                                <div id="format-helper" class="format-helper" style="display: none;">
+                                    <h5>📋 Expected Format for <span id="format-dataset-name"></span>:</h5>
+                                    <div id="format-details" class="format-details"></div>
+                                </div>
+                            </div>
+
+                            <style>
+                            /* Enhanced File Upload Styles */
+                            .file-upload-container {
+                                position: relative;
+                            }
+
+                            .file-input-hidden {
+                                position: absolute;
+                                opacity: 0;
+                                pointer-events: none;
+                            }
+
+                            .drop-zone {
+                                border: 2px dashed #cbd5e0;
+                                border-radius: 8px;
+                                padding: 2rem;
+                                text-align: center;
+                                background: #f8f9fa;
+                                transition: all 0.3s ease;
+                                cursor: pointer;
+                                min-height: 120px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                            }
+
+                            .drop-zone:hover {
+                                border-color: var(--primary-blue);
+                                background: #e3f2fd;
+                            }
+
+                            .drop-zone.drag-over {
+                                border-color: var(--primary-blue);
+                                background: #e3f2fd;
+                                transform: scale(1.02);
+                            }
+
+                            .drop-zone.has-file {
+                                border-color: var(--success);
+                                background: #d4edda;
+                            }
+
+                            .drop-zone.error {
+                                border-color: var(--error);
+                                background: #f8d7da;
+                            }
+
+                            .drop-zone-content {
+                                width: 100%;
+                            }
+
+                            .drop-icon {
+                                font-size: 2.5rem;
+                                color: #6c757d;
+                                margin-bottom: 1rem;
+                                display: block;
+                            }
+
+                            .drop-zone:hover .drop-icon,
+                            .drop-zone.drag-over .drop-icon {
+                                color: var(--primary-blue);
+                            }
+
+                            .drop-text {
+                                color: #6c757d;
+                                margin: 0;
+                                font-size: 0.95rem;
+                            }
+
+                            .browse-link {
+                                color: var(--primary-blue);
+                                text-decoration: underline;
+                                cursor: pointer;
+                            }
+
+                            .browse-link:hover {
+                                color: var(--primary-dark);
+                            }
+
+                            .file-info {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                gap: 10px;
+                                padding: 10px;
+                                background: white;
+                                border-radius: 6px;
+                                margin-top: 10px;
+                            }
+
+                            .file-name {
+                                font-weight: 500;
+                                color: var(--text-primary);
+                            }
+
+                            .remove-file {
+                                background: none;
+                                border: none;
+                                color: #dc3545;
+                                cursor: pointer;
+                                padding: 5px;
+                                border-radius: 3px;
+                                transition: background-color 0.2s;
+                            }
+
+                            .remove-file:hover {
+                                background: #f8d7da;
+                            }
+
+                            /* Animation for file upload success */
+                            @keyframes fileSuccess {
+                                0% { transform: scale(1); }
+                                50% { transform: scale(1.05); }
+                                100% { transform: scale(1); }
+                            }
+
+                            .drop-zone.file-success {
+                                animation: fileSuccess 0.3s ease;
+                            }
+                            </style>
+
+                            <script>
+                            // Enhanced file upload functionality - add this to your app.js
+
+                            function setupDragDropUpload() {
+                                const dropZone = document.getElementById('drop-zone');
+                                const fileInput = document.getElementById('dataset-file');
+                                const fileInfo = document.getElementById('file-info');
+                                const fileName = document.getElementById('file-name');
+                                const removeFileBtn = document.getElementById('remove-file');
+                                const browseLink = dropZone.querySelector('.browse-link');
+                                const dropText = dropZone.querySelector('.drop-text');
+
+                                if (!dropZone || !fileInput) return;
+
+                                // Click to browse files
+                                dropZone.addEventListener('click', () => {
+                                    fileInput.click();
+                                });
+
+                                // Browse link click
+                                if (browseLink) {
+                                    browseLink.addEventListener('click', (e) => {
+                                        e.stopPropagation();
+                                        fileInput.click();
+                                    });
+                                }
+
+                                // File input change
+                                fileInput.addEventListener('change', (e) => {
+                                    handleFileSelection(e.target.files[0]);
+                                });
+
+                                // Remove file button
+                                if (removeFileBtn) {
+                                    removeFileBtn.addEventListener('click', (e) => {
+                                        e.stopPropagation();
+                                        clearFileSelection();
+                                    });
+                                }
+
+                                // Drag and drop events
+                                dropZone.addEventListener('dragover', (e) => {
+                                    e.preventDefault();
+                                    dropZone.classList.add('drag-over');
+                                });
+
+                                dropZone.addEventListener('dragleave', (e) => {
+                                    e.preventDefault();
+                                    dropZone.classList.remove('drag-over');
+                                });
+
+                                dropZone.addEventListener('drop', (e) => {
+                                    e.preventDefault();
+                                    dropZone.classList.remove('drag-over');
+                                    
+                                    const files = e.dataTransfer.files;
+                                    if (files.length > 0) {
+                                        const file = files[0];
+                                        
+                                        // Check if it's a CSV file
+                                        if (!file.name.toLowerCase().endsWith('.csv')) {
+                                            showFileError('Please select a CSV file');
+                                            return;
+                                        }
+                                        
+                                        // Set the file to the input element
+                                        const dt = new DataTransfer();
+                                        dt.items.add(file);
+                                        fileInput.files = dt.files;
+                                        
+                                        handleFileSelection(file);
+                                    }
+                                });
+
+                                function handleFileSelection(file) {
+                                    if (!file) return;
+
+                                    // Validate file type
+                                    if (!file.name.toLowerCase().endsWith('.csv')) {
+                                        showFileError('Please select a CSV file');
+                                        return;
+                                    }
+
+                                    // Validate file size (max 10MB)
+                                    if (file.size > 10 * 1024 * 1024) {
+                                        showFileError('File size must be less than 10MB');
+                                        return;
+                                    }
+
+                                    // Show file info
+                                    fileName.textContent = file.name;
+                                    fileInfo.style.display = 'flex';
+                                    dropText.style.display = 'none';
+                                    
+                                    dropZone.classList.add('has-file', 'file-success');
+                                    dropZone.classList.remove('error');
+                                    
+                                    // Remove success animation after it completes
+                                    setTimeout(() => {
+                                        dropZone.classList.remove('file-success');
+                                    }, 300);
+
+                                    // Update upload button state
+                                    updateUploadButtonState();
+                                    
+                                    console.log('✅ File selected:', file.name);
+                                }
+
+                                function clearFileSelection() {
+                                    fileInput.value = '';
+                                    fileInfo.style.display = 'none';
+                                    dropText.style.display = 'block';
+                                    
+                                    dropZone.classList.remove('has-file', 'error');
+                                    
+                                    // Update upload button state
+                                    updateUploadButtonState();
+                                    
+                                    console.log('🗑️ File selection cleared');
+                                }
+
+                                function showFileError(message) {
+                                    dropZone.classList.add('error');
+                                    dropZone.classList.remove('has-file');
+                                    
+                                    // Show error briefly
+                                    const originalText = dropText.innerHTML;
+                                    dropText.innerHTML = `<strong style="color: var(--error);">${message}</strong>`;
+                                    
+                                    setTimeout(() => {
+                                        dropText.innerHTML = originalText;
+                                        dropZone.classList.remove('error');
+                                    }, 3000);
+                                }
+
+                                function updateUploadButtonState() {
+                                    const selectedDataset = document.getElementById('dataset-selector')?.value;
+                                    const hasFile = fileInput.files.length > 0;
+                                    
+                                    const uploadBtn = document.getElementById('upload-single-btn');
+                                    if (uploadBtn) {
+                                        uploadBtn.disabled = !selectedDataset || !hasFile;
+                                    }
+                                }
+
+                                // Expose clear function for external use
+                                window.clearFileSelection = clearFileSelection;
+                            }
+
+                            // Update your existing handleFileSelection function to work with the new interface
+                            function handleFileSelection() {
+                                const selectedDataset = elements.datasetSelector.value;
+                                const hasFile = elements.datasetFile.files.length > 0;
+                                
+                                // Update upload button state
+                                elements.uploadSingleBtn.disabled = !selectedDataset || !hasFile;
+                            }
+
+                            // Make sure to call setupDragDropUpload() in your DOMContentLoaded event listener
+                            document.addEventListener('DOMContentLoaded', async function() {
+                                // ... your existing initialization code ...
+                                
+                                // Add this line to set up drag & drop
+                                setupDragDropUpload();
+                                
+                                // ... rest of your initialization code ...
+                            });
+                            </script>
+
+                            <!-- Uploaded Datasets List -->
+                            <div id="uploaded-datasets-list" class="uploaded-datasets-section">
+                                <h4>✅ Uploaded Datasets</h4>
+                                <div id="datasets-progress-grid" class="datasets-progress-grid">
+                                    <!-- Dataset progress items will be populated here -->
+                                </div>
+                            </div>
+
+                            <!-- Submit Complete Benchmark -->
+                            <div class="form-actions" style="margin-top: 2rem;">
+                                <button type="submit" class="btn btn-large btn-primary" id="submit-benchmark-btn" disabled>
+                                    <i class="fas fa-rocket"></i> Submit Complete Benchmark (<span id="submit-count">0</span>/<span id="submit-total">0</span>)
+                                </button>
+                                <button type="button" id="validate-all-btn" class="btn btn-secondary" disabled>
+                                    <i class="fas fa-check-circle"></i> Validate All Files
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Result Display -->
+                    <div id="submit-result" class="submit-result" style="display: none;"></div>
                 </div>
             </div>
 
-            <div class="submit-form-wrapper">
-                <!-- Complete Benchmark Upload Form -->
-                <form id="benchmark-submit-form" class="submit-form">
-                    <div class="form-section">
-                        <h3>Researcher Information</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="researcher-name">Researcher Name *</label>
-                                <input type="text" id="researcher-name" name="submitter_name" placeholder="Dr. Jane Smith" required />
-                            </div>
-                            <div class="form-group">
-                                <label for="researcher-email">Email Address *</label>
-                                <input type="email" id="researcher-email" name="submitter_email" placeholder="jane.smith@university.edu" required />
-                            </div>
-                        </div>
-                        
+            <!-- Individual Testing Section -->
+            <div style="margin-top: 3rem; padding: 1.5rem; background: var(--bg-white); border-radius: 12px; border: 1px solid var(--border-light);">
+                <h3>🧪 Individual Dataset Testing</h3>
+                <p>For development and debugging only. These submissions do NOT appear on the leaderboard.</p>
+                
+                <form id="single-test-form" class="submit-form" style="margin-top: 1rem;">
+                    <div class="form-row">
                         <div class="form-group">
-                            <label for="model-name">Model Name *</label>
-                            <input type="text" id="model-name" name="model_name" placeholder="e.g., BERT-Essay-Scorer-v2" required />
+                            <label for="test-dataset">Dataset</label>
+                            <select id="test-dataset" name="dataset_name">
+                                <option value="">-- Choose dataset --</option>
+                            </select>
                         </div>
-                        
                         <div class="form-group">
-                            <label for="model-description">Model Description</label>
-                            <textarea id="model-description" name="model_description" placeholder="Brief description of your approach, architecture, training procedure..." rows="3"></textarea>
+                            <label for="test-file">CSV File</label>
+                            <input type="file" id="test-file" name="file" accept=".csv" />
                         </div>
                     </div>
-
-                    <div class="form-section">
-                        <h3>📦 Upload All 15 Datasets</h3>
-                        <p class="upload-instructions">
-                            Select all 15 CSV files with your model's predictions. 
-                            Each file should be named with the dataset name (e.g., ASAP-AES.csv, rice_chem.csv).
-                        </p>
-                        
-                        <div class="upload-area" id="file-drop-area">
-                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
-                            <div class="upload-text">
-                                <strong>Drop 15 CSV files here or click to browse</strong>
-                            </div>
-                            <div class="upload-subtext">
-                                Each file must contain essay_id and predicted_score columns
-                            </div>
-                            <input type="file" id="csv-files" name="csv_files" multiple accept=".csv" class="file-input" />
-                        </div>
-
-                        <!-- File List Display -->
-                        <div id="file-list" class="uploaded-files" style="display: none;">
-                            <h4>📁 Uploaded Files (<span id="file-count">0</span>/15)</h4>
-                            <div id="file-items"></div>
-                        </div>
-
-                        <div class="form-actions" style="margin-top: 1.5rem;">
-                            <button type="submit" class="btn btn-large btn-primary" id="submit-benchmark-btn" disabled>
-                                <i class="fas fa-rocket"></i> Submit Complete Benchmark
-                            </button>
-                            <button type="button" id="validate-files-btn" class="btn btn-secondary" disabled>
-                                <i class="fas fa-check"></i> Validate Files
-                            </button>
-                        </div>
-                    </div>
+                    <button type="submit" class="btn btn-outline">
+                        <i class="fas fa-flask"></i> Test Single Dataset
+                    </button>
                 </form>
-
-                <!-- Result Display -->
-                <div id="submit-result" class="submit-result" style="display: none;"></div>
             </div>
         </div>
-
-        <!-- Individual Testing Section -->
-        <div style="margin-top: 3rem; padding: 1.5rem; background: var(--bg-white); border-radius: 12px; border: 1px solid var(--border-light);">
-            <h3>🧪 Individual Dataset Testing</h3>
-            <p>For development and debugging only. These submissions do NOT appear on the leaderboard.</p>
-            
-            <form id="single-test-form" class="submit-form" style="margin-top: 1rem;">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="test-dataset">Dataset</label>
-                        <select id="test-dataset" name="dataset_name">
-                            <option value="">-- Choose dataset --</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="test-file">CSV File</label>
-                        <input type="file" id="test-file" name="result_file" accept=".csv" />
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-outline">
-                    <i class="fas fa-flask"></i> Test Single Dataset
-                </button>
-            </form>
-        </div>
-    </div>
-</section>
+    </section>
 
     <!-- Footer -->
     <footer class="footer">
@@ -311,6 +852,6 @@ rice_chem_001,3.8</pre>
     </footer>
 
     <!-- Scripts -->
-    <script src="js/app.js?v=2025-07-24-4"></script>
+    <script src="js/app.js?v=2025-07-24-5"></script>
 </body>
 </html>

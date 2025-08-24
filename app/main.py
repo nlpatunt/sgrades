@@ -7,12 +7,13 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
+
+load_dotenv()
+
 from app.api.routes import datasets, leaderboard
 from app.api.routes import output_submissions
 from app.config.database import init_database
 from app.services.database_service import DatabaseService
-
-load_dotenv()
 
 async def startup_event():
     """Initialize database and default data on startup"""
@@ -29,7 +30,8 @@ async def startup_event():
         print("🎉 BESESR Platform startup completed successfully!")
     except Exception as e:
         print(f"❌ Error during startup: {e}")
-        raise e
+        # Don't raise the error - let the app continue
+        print("⚠️ Continuing without database initialization...")
 
 # -------------------
 # FastAPI app
@@ -42,10 +44,10 @@ app = FastAPI(
     ## New Workflow:
     1. **Download datasets** using `/datasets/download/all`
     2. **Run your model** locally on all datasets
-    3. **Submit CSV results** using `/outputs/upload-results`
+    3. **Submit CSV results** using `/api/submissions/upload-single`
     4. **View leaderboard** with your model's performance
     
-    Submit your model results for evaluation across 12 curated academic datasets.
+    Submit your model results for evaluation across 25 curated academic datasets.
     """,
     version="1.0.0",
     on_startup=[startup_event]
@@ -73,20 +75,24 @@ app.mount("/frontend", StaticFiles(directory=FRONTEND_DIR, html=True), name="fro
 async def root_redirect():
     return RedirectResponse(url="/frontend/")
 
+app.include_router(datasets.router, prefix="/api", tags=["datasets"])
+app.include_router(leaderboard.router, prefix="/api", tags=["leaderboard"])
+app.include_router(output_submissions.router, prefix="/api/submissions", tags=["submissions"])
+app.include_router(output_submissions.router, prefix="/submissions", tags=["submissions-legacy"])
+
+from fastapi.responses import RedirectResponse  # (you already import this above)
+
+@app.get("/submissions/leaderboard", include_in_schema=False)
+async def _legacy_lb(metric: str = "avg_quadratic_weighted_kappa", limit: int = 20):
+    return RedirectResponse(
+        url=f"/api/submissions/leaderboard?metric={metric}&limit={limit}",
+        status_code=307
+    )
+
 # -------------------
-# API Routers
+# Health Check Endpoint
 # -------------------
-# Dataset management (with download functionality)
-app.include_router(datasets.router, prefix="/api")
-
-# Leaderboard and results
-app.include_router(leaderboard.router, prefix="/api")
-
-# CSV Results submission (new workflow)
-
-app.include_router(output_submissions.router)
-
-@app.get("/health", response_model=HealthCheck)
+@app.get("/health", response_model=HealthCheck, tags=["health"])
 async def health_check():
     """Health check endpoint with database and dataset status"""
     try:
@@ -96,8 +102,12 @@ async def health_check():
         db_status = "connected"
         
         # Check dataset loading capability
-        datasets_config = dataset_manager.datasets_config
-        hf_auth = dataset_manager.hf_loader.authenticated
+        try:
+            datasets_config = dataset_manager.datasets_config
+            hf_auth = dataset_manager.hf_loader.authenticated
+        except:
+            datasets_config = {}
+            hf_auth = False
         
         complete_benchmarks = len(DatabaseService.get_complete_benchmark_leaderboard(limit=1000))
         
@@ -120,7 +130,10 @@ async def health_check():
             error=str(e)
         )
 
-@app.get("/api-info")
+# -------------------
+# API Info Endpoint
+# -------------------
+@app.get("/api-info", tags=["info"])
 async def api_info():
     """Information about the new API workflow"""
     return {
@@ -129,30 +142,54 @@ async def api_info():
         "endpoints": {
             "download_all_datasets": "/api/datasets/download/all",
             "download_single_dataset": "/api/datasets/download/{dataset_name}",
-            "submit_single_result": "/submissions/upload-single-result",  # ✅ Fixed
-            "submit_multiple_results": "/submissions/upload-results",     # ✅ Fixed
-            "view_leaderboard": "/api/leaderboard/",
-            "get_submission_template": "/submissions/template",           # ✅ Fixed
-            "validate_csv": "/submissions/validate-csv",                 # ✅ Added
-            "check_submission_status": "/submissions/submission-status/{id}" # ✅ Added
+            "submit_single_result": "/api/submissions/upload-single",
+            "submit_multiple_results": "/api/submissions/upload-batch",
+            "view_leaderboard": "/api/submissions/leaderboard",
+            "get_submission_template": "/api/submissions/template",
+            "validate_csv": "/api/submissions/validate-csv",
+            "check_submission_status": "/api/submissions/{submission_id}"
         },
         "workflow_steps": [
             "1. Download datasets using /api/datasets/download/all",
             "2. Extract ZIP file and read README.md for instructions",
             "3. Run your model on each dataset CSV file",
-            "4. Create results CSV files with essay_id,predicted_score columns",
-            "5. Submit results using /submissions/upload-single-result or /submissions/upload-results",
+            "4. Create results CSV files with required columns for each dataset",
+            "5. Submit results using /api/submissions/upload-single for each dataset",
             "6. View your model's performance on the leaderboard"
         ],
-        "required_csv_format": {
-            "columns": ["essay_id", "predicted_score"],
-            "example": "essay_id,predicted_score\nASAP-AES_0,3.5\nASAP-AES_1,4.2"
+        "csv_format_info": {
+            "note": "Each dataset has different required columns",
+            "get_format": "GET /api/submissions/format/{dataset_name}",
+            "get_template": "GET /api/submissions/template",
+            "validation": "POST /api/submissions/validate-csv"
         },
         "available_endpoints": [
-            "POST /submissions/upload-single-result - Upload single CSV file",
-            "POST /submissions/upload-results - Upload multiple CSV files",
-            "GET /submissions/template - Get CSV format template",
-            "POST /submissions/validate-csv - Validate CSV before submission",
-            "GET /submissions/submission-status/{id} - Check submission status"
+            "POST /api/submissions/upload-single - Upload single CSV file",
+            "POST /api/submissions/upload-batch - Upload multiple CSV files",
+            "GET /api/submissions/template - Get CSV format template",
+            "POST /api/submissions/validate-csv - Validate CSV before submission",
+            "GET /api/submissions/{submission_id} - Check submission details",
+            "GET /api/submissions/leaderboard - View rankings"
         ]
     }
+
+# -------------------
+# Startup Message
+# -------------------
+@app.on_event("startup")
+async def startup_message():
+    """Print startup message"""
+    print("\n" + "="*60)
+    print("🎉 BESESR Platform Started Successfully!")
+    print("="*60)
+    print("📍 Frontend: http://localhost:8000/")
+    print("📖 API Docs: http://localhost:8000/docs")
+    print("🔍 Health Check: http://localhost:8000/health")
+    print("📊 Datasets: http://localhost:8000/api/datasets/")
+    print("📤 Submissions: http://localhost:8000/api/submissions/template")
+    print("🏆 Leaderboard: http://localhost:8000/api/submissions/leaderboard")
+    print("="*60 + "\n")
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
