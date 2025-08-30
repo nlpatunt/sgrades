@@ -25,7 +25,7 @@ class Dataset(Base):
 
 
 class BenchmarkSession(Base):
-    """Database table for tracking complete 25-dataset benchmark submissions"""
+    """Database table for tracking complete 15-dataset benchmark submissions"""
     __tablename__ = "benchmark_sessions"
     
     id = Column(Integer, primary_key=True, index=True)
@@ -39,7 +39,7 @@ class BenchmarkSession(Base):
     # Progress tracking
     status = Column(String(50), default="active")  # "active", "completed", "failed"
     datasets_completed = Column(Integer, default=0)
-    total_datasets = Column(Integer, default=25)  # Updated to 25 datasets
+    total_datasets = Column(Integer, default=24)  # Updated to 25 datasets
     
     # Results
     average_score = Column(Float)

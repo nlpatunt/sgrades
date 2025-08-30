@@ -200,7 +200,7 @@ This archive contains all datasets in their **original format** exactly as prepa
 
 ## Directory Structure:
 - Each dataset has its own folder
-- Configuration-based datasets (q1-q6, Q1-Q4) have subdirectories
+- Configuration-based datasets (q1-q5, Q1-Q4) have subdirectories
 - Multi-way datasets (2way/3way) use file suffixes
 
 ## File Types:

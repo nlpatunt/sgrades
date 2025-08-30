@@ -166,8 +166,7 @@ class SubmissionValidator:
             }
         }
         
-        # Add grade_like_a_human configs (q1-q6)
-        for q in ['q1', 'q2', 'q3', 'q4', 'q5', 'q6']:
+        for q in ['q1', 'q2', 'q3', 'q4', 'q5']:
             self.DATASET_SCHEMAS[f'grade_like_a_human_dataset_os_{q}'] = {
                 'required_columns': ['id', 'score_1'],
                 'optional_score_columns': ['score_2', 'score_3', 'score_outlier'],
