@@ -16,7 +16,6 @@ from app.config.database import init_database
 from app.services.database_service import DatabaseService
 
 async def startup_event():
-    """Initialize database and default data on startup"""
     print("🚀 Starting BESESR Platform...")
     print("🗄️ Initializing database...")
     try:
@@ -30,7 +29,6 @@ async def startup_event():
         print("🎉 BESESR Platform startup completed successfully!")
     except Exception as e:
         print(f"❌ Error during startup: {e}")
-        # Don't raise the error - let the app continue
         print("⚠️ Continuing without database initialization...")
 
 # -------------------
@@ -185,7 +183,7 @@ async def startup_message():
     print("📍 Frontend: http://localhost:8000/")
     print("📖 API Docs: http://localhost:8000/docs")
     print("🔍 Health Check: http://localhost:8000/health")
-    print("📊 Datasets: http://localhost:8000/api/datasets/")
+    print("📊 Datasets: http://localhost:8000/api/available-datasets/")
     print("📤 Submissions: http://localhost:8000/api/submissions/template")
     print("🏆 Leaderboard: http://localhost:8000/api/submissions/leaderboard")
     print("="*60 + "\n")

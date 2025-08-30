@@ -40,9 +40,10 @@ const elements = {
     submitBenchmarkBtn: document.getElementById('submit-benchmark-btn'),
     submitResult: document.getElementById('submit-result'),
     
-    // Individual Testing
+    // Individual Testing (add these)
     singleTestForm: document.getElementById('single-test-form'),
     testDataset: document.getElementById('test-dataset'),
+    testFile: document.getElementById('test-file'),
     
     // Leaderboard
     metricSelector: document.getElementById('metric-selector'),
@@ -94,57 +95,33 @@ async function fetchAPI(endpoint) {
     }
 }
 
-// ===== Dataset Loading Functions =====
 async function loadAvailableDatasets() {
     try {
-        console.log('🔄 Loading available datasets from API...');
+        console.log('Loading available datasets from API...');
         
         let datasets = [];
-        let formats = {};
         
         try {
-            // Primary method: Get datasets from datasets API
-            const response = await fetchAPI('/api/datasets/');
-            if (response.datasets && Array.isArray(response.datasets)) {
-                datasets = response.datasets.map(d => d.name);
-                console.log('✅ Loaded datasets from /api/datasets/');
+            const availableResponse = await fetchAPI('/api/submissions/available-datasets');
+            if (availableResponse.datasets && Array.isArray(availableResponse.datasets)) {
+                datasets = availableResponse.datasets;
+                console.log('Loaded from available-datasets endpoint');
             }
-        } catch (error) {
-            console.log('⚠️ Primary datasets API failed, trying template endpoint...');
-            
-            try {
-                // Fallback method: Get from template
-                const templateResponse = await fetchAPI('/api/submissions/template');
-                if (templateResponse.datasets && typeof templateResponse.datasets === 'object') {
-                    datasets = Object.keys(templateResponse.datasets);
-                    console.log('✅ Loaded datasets from /api/submissions/template');
-                }
-            } catch (templateError) {
-                console.log('⚠️ All endpoints failed, using minimal fallback...');
-                datasets = ['ASAP-AES', 'BEEtlE_2way', 'CSEE']; // Minimal fallback
-            }
-        }
-        
-        // Load format information for each dataset
-        for (const dataset of datasets) {
-            try {
-                const formatResponse = await fetchAPI('/api/submissions/format/' + encodeURIComponent(dataset));
-                if (formatResponse && !formatResponse.error) {
-                    formats[dataset] = formatResponse;
-                }
-            } catch (error) {
-                // Use fallback format
-                formats[dataset] = getDatasetFormatFallback(dataset);
-            }
+        } catch (availableError) {
+            console.log('Available-datasets failed, using hardcoded fallback');
+            datasets = [
+                'ASAP-AES', 'ASAP2', 'ASAP_plus_plus', 'ASAP-SAS', 'BEEtlE_2way', 'BEEtlE_3way',
+                'SciEntSBank_2way', 'SciEntSBank_3way', 'CSEE', 'EFL', 'Mohlar',
+                'Regrading_Dataset_J2C', 'Ielts_Writing_Dataset', 'Ielst_Writing_Task_2_Dataset',
+                'persuade_2', 'grade_like_a_human_dataset_os_q1', 'grade_like_a_human_dataset_os_q2',
+                'grade_like_a_human_dataset_os_q3', 'grade_like_a_human_dataset_os_q4',
+                'grade_like_a_human_dataset_os_q5','Rice_Chem_Q1', 'Rice_Chem_Q2', 'Rice_Chem_Q3', 'Rice_Chem_Q4'
+            ];
         }
         
         availableDatasets = datasets;
-        datasetFormats = formats;
         totalDatasetsCount = datasets.length;
         
-        console.log('✅ Loaded ' + datasets.length + ' datasets with formats');
-        
-        // Update UI elements
         updateDatasetCounts();
         populateDatasetDropdowns();
         initializeProgressGrid();
@@ -152,16 +129,12 @@ async function loadAvailableDatasets() {
         return datasets;
         
     } catch (error) {
-        console.error('❌ Failed to load datasets:', error);
-        
-        // Use minimal fallback
-        availableDatasets = ['ASAP-AES', 'BEEtlE_2way', 'CSEE'];
+        console.error('Complete failure loading datasets:', error);
+        // Ultimate fallback - use hardcoded list
+        availableDatasets = ['ASAP-AES', 'BEEtlE_2way', 'CSEE']; // Minimal working set
         totalDatasetsCount = availableDatasets.length;
-        
         updateDatasetCounts();
         populateDatasetDropdowns();
-        initializeProgressGrid();
-        
         return availableDatasets;
     }
 }
@@ -200,7 +173,6 @@ function getDatasetFormatFallback(datasetName) {
         }
     };
     
-    // Default format for grade_like_a_human datasets
     if (datasetName.includes('grade_like_a_human_dataset_os')) {
         return { 
             required_columns: ['id', 'score_1'], 
@@ -435,6 +407,29 @@ function generateExampleCSV(datasetName, format) {
     return example;
 }
 
+async function testFileValidation(datasetName, file) {
+    try {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('dataset_name', datasetName);
+        
+        const response = await fetch('/api/submissions/test-single-dataset', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (!result.success) {
+            throw new Error(result.error || 'Test failed');
+        }
+        
+        return true;
+    } catch (error) {
+        throw error;
+    }
+}
+
 async function handleSingleUpload() {
     const selectedDataset = elements.datasetSelector.value;
     const file = elements.datasetFile.files[0];
@@ -455,7 +450,7 @@ async function handleSingleUpload() {
     
     try {
         // Validate file first
-        const isValid = await validateSingleFile(selectedDataset, file);
+        const isValid = await testFileValidation(selectedDataset, file);
         if (!isValid) {
             throw new Error('File validation failed');
         }
@@ -487,30 +482,6 @@ async function handleSingleUpload() {
         // Reset button
         elements.uploadSingleBtn.disabled = true;
         elements.uploadSingleBtn.innerHTML = '<i class="fas fa-upload"></i> Upload';
-    }
-}
-
-async function validateSingleFile(datasetName, file) {
-    try {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('dataset_name', datasetName);
-        
-        const response = await fetch('/api/submissions/validate-csv', {
-            method: 'POST',
-            body: formData
-        });
-        
-        const result = await response.json();
-        
-        if (!result.valid) {
-            throw new Error(result.errors ? result.errors.join(', ') : 'Validation failed');
-        }
-        
-        return true;
-    } catch (error) {
-        console.error('Validation error:', error);
-        throw error;
     }
 }
 
@@ -586,19 +557,19 @@ async function validateAllFiles() {
         return;
     }
     
-    console.log('🔍 Validating ' + uploadedDatasets.size + ' uploaded files...');
+    console.log('🔍 Testing ' + uploadedDatasets.size + ' uploaded files...');
     
     elements.validateAllBtn.disabled = true;
-    elements.validateAllBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Validating...';
+    elements.validateAllBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Testing...';
     
     let validFiles = 0;
     let errors = [];
     
     for (const [datasetName, uploadInfo] of uploadedDatasets) {
         try {
-            updateDatasetProgress(datasetName, 'uploading', 'Validating...');
+            updateDatasetProgress(datasetName, 'uploading', 'Testing...');
             
-            const isValid = await validateSingleFile(datasetName, uploadInfo.file);
+            const isValid = await testFileValidation(datasetName, uploadInfo.file);
             if (isValid) {
                 validFiles++;
                 updateDatasetProgress(datasetName, 'uploaded', 'Valid: ' + uploadInfo.file.name);
@@ -609,16 +580,8 @@ async function validateAllFiles() {
         }
     }
     
-    // Show validation results
-    if (errors.length === 0) {
-        alert('✅ All ' + validFiles + ' files are valid and ready for submission!');
-    } else {
-        const errorMessage = 'Validation Results:\n✅ Valid: ' + validFiles + '\n❌ Errors: ' + errors.length + '\n\nErrors:\n' + errors.slice(0, 5).join('\n') + (errors.length > 5 ? '\n... and more' : '');
-        alert(errorMessage);
-    }
-    
-    elements.validateAllBtn.disabled = uploadedDatasets.size === 0;
-    elements.validateAllBtn.innerHTML = '<i class="fas fa-check-circle"></i> Validate All Files';
+    // Show results...
+    elements.validateAllBtn.innerHTML = '<i class="fas fa-check-circle"></i> Test All Files';
 }
 
 // ===== Download Functions =====
@@ -735,6 +698,351 @@ async function loadDatasets() {
     }
 }
 
+async function loadTestDatasets() {
+    try {
+        const response = await fetchAPI('/api/available-datasets/'); // Use the working endpoint
+        const data = response;
+        
+        const select = elements.testDataset;
+        if (!select) return;
+        
+        select.innerHTML = '<option value="">-- Choose dataset --</option>';
+        
+        // Process the different data structure
+        data.datasets.forEach(dataset => {
+            const option = document.createElement('option');
+            option.value = dataset.name;
+            option.textContent = dataset.name;
+            select.appendChild(option);
+        });
+        
+        console.log('Loaded test datasets');
+    } catch (error) {
+        console.error('Failed to load test datasets:', error);
+    }
+}
+
+async function loadTestDatasetInfo(datasetName) {
+    const infoDiv = document.getElementById('test-dataset-info');
+    const detailsDiv = document.getElementById('test-dataset-details');
+    
+    if (!datasetName) {
+        if (infoDiv) infoDiv.style.display = 'none';
+        return;
+    }
+
+    try {
+        const response = await fetchAPI(`/api/output-submissions/dataset-info/${datasetName}`);
+        const data = await response.json();
+        
+        if (data.error) {
+            if (detailsDiv) detailsDiv.innerHTML = `<div class="error">Error: ${data.error}</div>`;
+        } else {
+            const verification = data.content_verification ? ' (with content verification)' : '';
+            if (detailsDiv) {
+                detailsDiv.innerHTML = `
+                    <strong>Required columns:</strong> ${data.required_columns.join(', ')}<br>
+                    <strong>Score column:</strong> ${data.primary_score_column}<br>
+                    <strong>Matching:</strong> ${data.matching_method}${verification}<br>
+                    <strong>Ground truth examples:</strong> ${data.ground_truth.total_examples || 'Unknown'}
+                `;
+            }
+        }
+        
+        if (infoDiv) infoDiv.style.display = 'block';
+        
+    } catch (error) {
+        console.error('Failed to load dataset info:', error);
+        if (detailsDiv) {
+            detailsDiv.innerHTML = '<div class="error">Could not load dataset information</div>';
+        }
+        if (infoDiv) infoDiv.style.display = 'block';
+    }
+}
+
+
+function updateTestSubmitButton() {
+    const testDatasetSelect = document.getElementById('test-dataset');
+    const testFileInput = document.getElementById('test-file');
+    const testSubmitBtn = document.getElementById('test-submit-btn');
+    
+    if (!testDatasetSelect || !testFileInput || !testSubmitBtn) {
+        console.log('Missing elements for test button update');
+        return;
+    }
+    
+    const datasetSelected = testDatasetSelect.value;
+    const fileSelected = testFileInput.files.length > 0;
+    
+    console.log('Button update:', { datasetSelected, fileSelected });
+    
+    testSubmitBtn.disabled = !datasetSelected || !fileSelected;
+    
+    if (datasetSelected && fileSelected) {
+        testSubmitBtn.innerHTML = '<i class="fas fa-flask"></i> Test Single Dataset';
+        testSubmitBtn.classList.remove('btn-disabled');
+    } else {
+        testSubmitBtn.innerHTML = '<i class="fas fa-flask"></i> Select dataset and file';
+        testSubmitBtn.classList.add('btn-disabled');
+    }
+}
+
+async function handleTestSubmission(event) {
+    event.preventDefault();
+    console.log('Test submission started');
+    
+    const datasetSelect = document.getElementById('test-dataset');
+    const fileInput = document.getElementById('test-file');
+    const testSubmitBtn = document.getElementById('test-submit-btn');
+    
+    if (!datasetSelect?.value || !fileInput?.files[0]) {
+        alert('Please select a dataset and upload a CSV file');
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('dataset_name', datasetSelect.value);
+    formData.append('file', fileInput.files[0]);
+    
+    const originalText = testSubmitBtn.innerHTML;
+    testSubmitBtn.disabled = true;
+    testSubmitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Testing...';
+    
+    try {
+        const response = await fetch('/api/submissions/test-single-dataset', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const result = await response.json();
+        console.log('Test result:', result);
+        
+        if (response.ok && result.success) {
+            // Store the latest result
+            lastTestResult = {
+                dataset: datasetSelect.value,
+                filename: fileInput.files[0].name,
+                evaluation: result.evaluation,
+                // keep metrics from the root of the response
+                evaluation_metrics: result.evaluation_metrics || result.metrics?.all_metrics || result.metrics,
+                validation: result.validation,
+                success: result.success,
+                timestamp: new Date()
+                };
+                            
+            // Update the results table
+            updateIndividualTestResults(lastTestResult);
+            
+            alert('Test completed! Results shown in table below.');
+        } else {
+            alert(`Test failed: ${result.error || result.detail || 'Unknown error'}`);
+        }
+        
+    } catch (error) {
+        console.error('Testing failed:', error);
+        alert('Network error: ' + error.message);
+    } finally {
+        testSubmitBtn.disabled = false;
+        testSubmitBtn.innerHTML = originalText;
+        updateTestSubmitButton();
+    }
+}
+
+function updateIndividualTestResults(testResult) {
+    const resultsDiv = document.getElementById('individual-test-results');
+    const resultsBody = document.getElementById('individual-test-results-body');
+    
+    if (!resultsDiv || !resultsBody) return;
+    
+    // Show the results section
+    resultsDiv.style.display = 'block';
+    
+    // Extract metrics from the evaluation
+    const metrics =
+        testResult.evaluation_metrics ||
+        testResult.metrics ||
+        (testResult.evaluation && testResult.evaluation.metrics) ||
+        {};
+    const qwk = metrics.quadratic_weighted_kappa ?? 'N/A';
+    const pearson = metrics.pearson_correlation ?? 'N/A';
+    const f1 = metrics.f1_score ?? 'N/A';
+    const precision = metrics.precision ?? 'N/A';
+    const recall = metrics.recall ?? 'N/A';
+    const mae = metrics.mean_absolute_error ?? 'N/A';
+
+    const formatScore = (score) => {
+        if (score === null || score === undefined) return 'N/A';
+        if (score === 'N/A') return 'N/A';
+        return Number(score).toFixed(3);
+    };
+        
+    const status = (testResult.validation?.valid ?? testResult.success ?? false)
+        ? '<span style="color: green;">✅ Success</span>'
+        : '<span style="color: red;">❌ Failed</span>';
+    
+    const rowHTML = `
+        <tr style="border-bottom: 1px solid var(--border-light);">
+            <td style="padding: 0.75rem;">${testResult.dataset}</td>
+            <td style="padding: 0.75rem;">${testResult.filename}</td>
+            <td style="padding: 0.75rem; text-align: center;">${formatScore(qwk)}</td>
+            <td style="padding: 0.75rem; text-align: center;">${formatScore(pearson)}</td>
+            <td style="padding: 0.75rem; text-align: center;">${formatScore(f1)}</td>
+            <td style="padding: 0.75rem; text-align: center;">${formatScore(precision)}</td>
+            <td style="padding: 0.75rem; text-align: center;">${formatScore(recall)}</td>
+            <td style="padding: 0.75rem; text-align: center;">${formatScore(mae)}</td>
+            <td style="padding: 0.75rem; text-align: center;">${status}</td>
+        </tr>
+    `;
+    
+    // Replace the table body content (always shows only the latest result)
+    resultsBody.innerHTML = rowHTML;
+    
+    console.log('✅ Updated individual test results table');
+}
+
+function showTestResults(result) {
+    const testResults = document.getElementById('test-results');
+    const testResultsTitle = document.getElementById('test-results-title');
+    const testResultsSubtitle = document.getElementById('test-results-subtitle');
+    const testPerformanceItems = document.getElementById('test-performance-items');
+    const testMetricsGrid = document.getElementById('test-metrics-grid');
+    const testDetailsGrid = document.getElementById('test-details-grid');
+    const testPerformanceSummary = document.getElementById('test-performance-summary');
+    const testEvaluationDetails = document.getElementById('test-evaluation-details');
+    const testWarnings = document.getElementById('test-warnings');
+    
+    if (testResults) testResults.style.display = 'block';
+    if (testResultsTitle) testResultsTitle.textContent = `Test Results: ${result.dataset}`;
+    if (testResultsSubtitle) {
+        testResultsSubtitle.textContent = 
+            `File: ${result.filename} | ${result.evaluation.matched_examples} examples evaluated`;
+    }
+
+    // Performance Summary
+    if (testPerformanceItems && result.performance_summary) {
+        testPerformanceItems.innerHTML = '';
+        
+        Object.entries(result.performance_summary).forEach(([key, value]) => {
+            const item = document.createElement('div');
+            item.className = 'performance-item';
+            
+            const badgeClass = getBadgeClass(value);
+            item.innerHTML = `
+                <span class="detail-label">${formatLabel(key)}</span>
+                <span class="performance-badge ${badgeClass}">${value}</span>
+            `;
+            testPerformanceItems.appendChild(item);
+        });
+        
+        if (testPerformanceSummary) testPerformanceSummary.style.display = 'block';
+    }
+
+    // Primary Metrics
+    if (testMetricsGrid && result.metrics) {
+        testMetricsGrid.innerHTML = '';
+        
+        Object.entries(result.metrics.primary_metrics).forEach(([key, value]) => {
+            const card = document.createElement('div');
+            card.className = 'metric-card';
+            card.innerHTML = `
+                <h6>${key}</h6>
+                <div class="metric-value">${value}</div>
+            `;
+            testMetricsGrid.appendChild(card);
+        });
+
+        // Additional metrics
+        Object.entries(result.metrics.additional_metrics).forEach(([key, value]) => {
+            const card = document.createElement('div');
+            card.className = 'metric-card';
+            card.innerHTML = `
+                <h6>${key}</h6>
+                <div class="metric-value">${value}</div>
+            `;
+            testMetricsGrid.appendChild(card);
+        });
+    }
+
+    // Evaluation Details
+    if (testDetailsGrid && result.evaluation) {
+        testDetailsGrid.innerHTML = '';
+        
+        const details = [
+            ['Matched Examples', result.evaluation.matched_examples],
+            ['Total Predictions', result.evaluation.total_predictions],
+            ['Matching Method', result.evaluation.matching_method],
+            ['Score Column', result.evaluation.score_column],
+            ['Prediction Range', `${result.evaluation.score_range_pred[0]} - ${result.evaluation.score_range_pred[1]}`],
+            ['Ground Truth Range', `${result.evaluation.score_range_true[0]} - ${result.evaluation.score_range_true[1]}`]
+        ];
+        
+        details.forEach(([label, value]) => {
+            const item = document.createElement('div');
+            item.className = 'detail-item';
+            item.innerHTML = `
+                <div class="detail-label">${label}:</div>
+                <div class="detail-value">${value}</div>
+            `;
+            testDetailsGrid.appendChild(item);
+        });
+        
+        if (testEvaluationDetails) testEvaluationDetails.style.display = 'block';
+    }
+
+    // Show warnings if any
+    if (testWarnings && result.validation?.warnings?.length > 0) {
+        testWarnings.innerHTML = `
+            <strong>Warnings:</strong><br>${result.validation.warnings.join('<br>')}
+        `;
+        testWarnings.style.display = 'block';
+    }
+}
+
+function showTestError(message, details = null) {
+    const testResults = document.getElementById('test-results');
+    const testWarnings = document.getElementById('test-warnings');
+    
+    if (testResults) testResults.style.display = 'none';
+    
+    let errorHtml = `<div class="error"><strong>Error:</strong> ${message}`;
+    if (details && details.validation && details.validation.errors) {
+        errorHtml += `<br><br><strong>Validation errors:</strong><br>${details.validation.errors.join('<br>')}`;
+    }
+    errorHtml += '</div>';
+    
+    if (testWarnings) {
+        testWarnings.innerHTML = errorHtml;
+        testWarnings.style.display = 'block';
+    }
+}
+
+function showTestLoading() {
+    const testLoading = document.getElementById('test-loading');
+    const testResults = document.getElementById('test-results');
+    const testWarnings = document.getElementById('test-warnings');
+    
+    if (testLoading) testLoading.style.display = 'block';
+    if (testResults) testResults.style.display = 'none';
+    if (testWarnings) testWarnings.style.display = 'none';
+}
+
+function hideTestLoading() {
+    const testLoading = document.getElementById('test-loading');
+    if (testLoading) testLoading.style.display = 'none';
+}
+
+function formatLabel(key) {
+    return key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+}
+
+function getBadgeClass(value) {
+    const lowerValue = value.toLowerCase();
+    if (lowerValue.includes('excellent')) return 'badge-excellent';
+    if (lowerValue.includes('good')) return 'badge-good';
+    if (lowerValue.includes('fair')) return 'badge-fair';
+    return 'badge-poor';
+}
+
 // ===== FINAL FIXED: loadLeaderboard() function =====
 async function loadLeaderboard() {
     if (!elements.leaderboardTable) return;
@@ -813,7 +1121,7 @@ async function loadLeaderboard() {
             const f1 = entry.avg_f1_score || 0;
             const precision = entry.avg_precision || 0;
             const recall = entry.avg_recall || 0;
-            const mae = entry.avg_mae || 0;
+            const mae = entry.avg_mean_absolute_error || 0;
             
             // ✅ FIXED: Style classes for each metric
             const qwkClass = getScoreClass(qwk);
@@ -927,6 +1235,7 @@ function setupBenchmarkSubmission() {
             // Add all uploaded files
             uploadedDatasets.forEach((uploadInfo, datasetName) => {
                 formData.append('files', uploadInfo.file, datasetName + '.csv');
+                formData.append('dataset_names', datasetName); // <-- ADD THIS LINE
             });
 
             console.log('🚀 Submitting complete benchmark with ' + uploadedDatasets.size + ' datasets');
@@ -1016,50 +1325,46 @@ function showBenchmarkError(message) {
     elements.submitResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-// ===== Individual Testing =====
 function setupIndividualTesting() {
-    if (!elements.singleTestForm) return;
+    console.log('Setting up individual testing...');
+    
+    if (!elements.singleTestForm) {
+        console.log('Single test form not found');
+        return;
+    }
 
-    elements.singleTestForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
+    // Load test datasets
+    loadTestDatasets();
+    
+    // Set up event listeners with error checking
+    const testDatasetSelect = document.getElementById('test-dataset');
+    const testFileInput = document.getElementById('test-file');
+    
+    if (testDatasetSelect) {
+        testDatasetSelect.addEventListener('change', (e) => {
+            console.log('Dataset changed:', e.target.value);
+            updateTestSubmitButton();
+        });
+    } else {
+        console.log('Test dataset select not found');
+    }
+    
+    if (testFileInput) {
+        testFileInput.addEventListener('change', (e) => {
+            console.log('File changed:', e.target.files.length);
+            updateTestSubmitButton();
+        });
+    } else {
+        console.log('Test file input not found');
+    }
 
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Testing...';
-
-        try {
-            const formData = new FormData(this);
-            
-            // Add required fields for single upload
-            formData.append('model_name', 'Test Model');
-            formData.append('contact_email', 'test@example.com');
-
-            const response = await fetch('/api/submissions/upload-single', {
-                method: 'POST',
-                body: formData
-            });
-
-            const result = await response.json();
-
-            if (!response.ok) {
-                throw new Error(result.detail || result.message || 'HTTP ' + response.status);
-            }
-
-            // Show test result
-            const alertMessage = 'Test Upload Successful for ' + result.dataset + '!\nRows: ' + result.row_count + '\nNote: This is for testing only.';
-            alert(alertMessage);
-            
-            this.reset();
-
-        } catch (error) {
-            alert('Test failed: ' + error.message);
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalText;
-        }
-    });
+    // Form submission handler
+    elements.singleTestForm.addEventListener('submit', handleTestSubmission);
+    
+    // Initial button state
+    updateTestSubmitButton();
+    
+    console.log('Individual testing setup complete');
 }
 
 // ===== Utility Functions =====
@@ -1156,7 +1461,6 @@ function setupSmoothScrolling() {
     });
 }
 
-// ===== Initialize Application =====
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('🚀 Enhanced BESESR Platform Initialized');
     
@@ -1173,7 +1477,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Setup enhanced upload after datasets are loaded
         setupEnhancedUpload();
         setupBenchmarkSubmission();
-        setupIndividualTesting();
+        setupIndividualTesting(); // This is already here, just make sure it's called
         
         // Load other data
         loadPlatformStats();

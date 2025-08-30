@@ -1055,7 +1055,7 @@ EXPECTED_UPLOAD_FORMATS = {
 }
 
 # Add grade_like_a_human configs for q1-q6
-for q in ["q1", "q2", "q3", "q4", "q5", "q6"]:
+for q in ["q1", "q2", "q3", "q4", "q5"]:
     EXPECTED_UPLOAD_FORMATS[f"grade_like_a_human_dataset_os_{q}"] = {
         "required_columns": ["essay_id", "predicted_score"],
         "score_range": (0, 100),
