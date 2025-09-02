@@ -467,7 +467,9 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {
+                                    "$ref": "#/components/schemas/DatasetFormatResponse"
+                                }
                             }
                         }
                     },
@@ -496,7 +498,9 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {
+                                    "$ref": "#/components/schemas/AvailableDatasetsResponse"
+                                }
                             }
                         }
                     }
@@ -525,7 +529,9 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {
+                                    "$ref": "#/components/schemas/SubmissionResponse"
+                                }
                             }
                         }
                     },
@@ -564,7 +570,9 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {
+                                    "$ref": "#/components/schemas/BatchSubmissionResponse"
+                                }
                             }
                         }
                     },
@@ -603,7 +611,9 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {
+                                    "$ref": "#/components/schemas/TestSubmissionResponse"
+                                }
                             }
                         }
                     },
@@ -665,7 +675,10 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {
+                                    "type": "object",
+                                    "title": "Response Get Leaderboard Api Submissions Leaderboard Get"
+                                }
                             }
                         }
                     },
@@ -676,25 +689,6 @@
                                 "schema": {
                                     "$ref": "#/components/schemas/HTTPValidationError"
                                 }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/submissions/health": {
-            "get": {
-                "tags": [
-                    "submissions"
-                ],
-                "summary": "Health Check",
-                "operationId": "health_check_api_submissions_health_get",
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
                             }
                         }
                     }
@@ -714,285 +708,9 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/submissions/format/{dataset_name}": {
-            "get": {
-                "tags": [
-                    "submissions-legacy"
-                ],
-                "summary": "Get Dataset Format",
-                "description": "Get specific format requirements for a dataset",
-                "operationId": "get_dataset_format_submissions_format__dataset_name__get",
-                "parameters": [
-                    {
-                        "name": "dataset_name",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "title": "Dataset Name"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                    "$ref": "#/components/schemas/SubmissionsStatsResponse"
                                 }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/submissions/available-datasets": {
-            "get": {
-                "tags": [
-                    "submissions-legacy"
-                ],
-                "summary": "Get Available Datasets",
-                "operationId": "get_available_datasets_submissions_available_datasets_get",
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/submissions/upload-single": {
-            "post": {
-                "tags": [
-                    "submissions-legacy"
-                ],
-                "summary": "Upload Single Submission",
-                "operationId": "upload_single_submission_submissions_upload_single_post",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Body_upload_single_submission_submissions_upload_single_post"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/submissions/upload-batch": {
-            "post": {
-                "tags": [
-                    "submissions-legacy"
-                ],
-                "summary": "Upload Batch Submissions",
-                "operationId": "upload_batch_submissions_submissions_upload_batch_post",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Body_upload_batch_submissions_submissions_upload_batch_post"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/submissions/test-single-dataset": {
-            "post": {
-                "tags": [
-                    "submissions-legacy"
-                ],
-                "summary": "Test Single Dataset",
-                "operationId": "test_single_dataset_submissions_test_single_dataset_post",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Body_test_single_dataset_submissions_test_single_dataset_post"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/submissions/leaderboard": {
-            "get": {
-                "tags": [
-                    "submissions-legacy"
-                ],
-                "summary": "Get Leaderboard",
-                "description": "Get leaderboard with real evaluation results",
-                "operationId": "get_leaderboard_submissions_leaderboard_get",
-                "parameters": [
-                    {
-                        "name": "dataset",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "default": "All Datasets",
-                            "title": "Dataset"
-                        }
-                    },
-                    {
-                        "name": "metric",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "default": "avg_quadratic_weighted_kappa",
-                            "title": "Metric"
-                        }
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "default": 20,
-                            "title": "Limit"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/submissions/health": {
-            "get": {
-                "tags": [
-                    "submissions-legacy"
-                ],
-                "summary": "Health Check",
-                "operationId": "health_check_submissions_health_get",
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/submissions/stats": {
-            "get": {
-                "tags": [
-                    "submissions-legacy"
-                ],
-                "summary": "Get Platform Stats",
-                "description": "Get platform statistics",
-                "operationId": "get_platform_stats_submissions_stats_get",
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
                             }
                         }
                     }
@@ -1044,6 +762,27 @@
     },
     "components": {
         "schemas": {
+            "AvailableDatasetsResponse": {
+                "properties": {
+                    "datasets": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Datasets"
+                    },
+                    "total": {
+                        "type": "integer",
+                        "title": "Total"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "datasets",
+                    "total"
+                ],
+                "title": "AvailableDatasetsResponse"
+            },
             "AvailableMetrics": {
                 "properties": {
                     "primary_metrics": {
@@ -1076,6 +815,52 @@
                 ],
                 "title": "AvailableMetrics"
             },
+            "BatchSubmissionResponse": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success"
+                    },
+                    "total_files": {
+                        "type": "integer",
+                        "title": "Total Files"
+                    },
+                    "successful_uploads": {
+                        "type": "integer",
+                        "title": "Successful Uploads"
+                    },
+                    "failed_uploads": {
+                        "type": "integer",
+                        "title": "Failed Uploads"
+                    },
+                    "model_name": {
+                        "type": "string",
+                        "title": "Model Name"
+                    },
+                    "results": {
+                        "items": {
+                            "type": "object"
+                        },
+                        "type": "array",
+                        "title": "Results"
+                    },
+                    "note": {
+                        "type": "string",
+                        "title": "Note"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "success",
+                    "total_files",
+                    "successful_uploads",
+                    "failed_uploads",
+                    "model_name",
+                    "results",
+                    "note"
+                ],
+                "title": "BatchSubmissionResponse"
+            },
             "Body_test_single_dataset_api_submissions_test_single_dataset_post": {
                 "properties": {
                     "file": {
@@ -1094,25 +879,6 @@
                     "dataset_name"
                 ],
                 "title": "Body_test_single_dataset_api_submissions_test_single_dataset_post"
-            },
-            "Body_test_single_dataset_submissions_test_single_dataset_post": {
-                "properties": {
-                    "file": {
-                        "type": "string",
-                        "format": "binary",
-                        "title": "File"
-                    },
-                    "dataset_name": {
-                        "type": "string",
-                        "title": "Dataset Name"
-                    }
-                },
-                "type": "object",
-                "required": [
-                    "file",
-                    "dataset_name"
-                ],
-                "title": "Body_test_single_dataset_submissions_test_single_dataset_post"
             },
             "Body_upload_batch_submissions_api_submissions_upload_batch_post": {
                 "properties": {
@@ -1159,51 +925,6 @@
                 ],
                 "title": "Body_upload_batch_submissions_api_submissions_upload_batch_post"
             },
-            "Body_upload_batch_submissions_submissions_upload_batch_post": {
-                "properties": {
-                    "files": {
-                        "items": {
-                            "type": "string",
-                            "format": "binary"
-                        },
-                        "type": "array",
-                        "title": "Files"
-                    },
-                    "dataset_names": {
-                        "items": {
-                            "type": "string"
-                        },
-                        "type": "array",
-                        "title": "Dataset Names"
-                    },
-                    "model_name": {
-                        "type": "string",
-                        "title": "Model Name"
-                    },
-                    "description": {
-                        "type": "string",
-                        "title": "Description",
-                        "default": ""
-                    },
-                    "institution": {
-                        "type": "string",
-                        "title": "Institution",
-                        "default": ""
-                    },
-                    "contact_email": {
-                        "type": "string",
-                        "title": "Contact Email",
-                        "default": ""
-                    }
-                },
-                "type": "object",
-                "required": [
-                    "files",
-                    "dataset_names",
-                    "model_name"
-                ],
-                "title": "Body_upload_batch_submissions_submissions_upload_batch_post"
-            },
             "Body_upload_single_submission_api_submissions_upload_single_post": {
                 "properties": {
                     "file": {
@@ -1248,51 +969,6 @@
                     "dataset_name"
                 ],
                 "title": "Body_upload_single_submission_api_submissions_upload_single_post"
-            },
-            "Body_upload_single_submission_submissions_upload_single_post": {
-                "properties": {
-                    "file": {
-                        "type": "string",
-                        "format": "binary",
-                        "title": "File"
-                    },
-                    "dataset_name": {
-                        "type": "string",
-                        "title": "Dataset Name"
-                    },
-                    "model_name": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Model Name"
-                    },
-                    "description": {
-                        "type": "string",
-                        "title": "Description",
-                        "default": "Individual dataset test"
-                    },
-                    "institution": {
-                        "type": "string",
-                        "title": "Institution",
-                        "default": ""
-                    },
-                    "contact_email": {
-                        "type": "string",
-                        "title": "Contact Email",
-                        "default": ""
-                    }
-                },
-                "type": "object",
-                "required": [
-                    "file",
-                    "dataset_name"
-                ],
-                "title": "Body_upload_single_submission_submissions_upload_single_post"
             },
             "CompleteLeaderboardEntry": {
                 "properties": {
@@ -1466,6 +1142,42 @@
                     "configuration"
                 ],
                 "title": "DatasetDetails"
+            },
+            "DatasetFormatResponse": {
+                "properties": {
+                    "dataset_name": {
+                        "type": "string",
+                        "title": "Dataset Name"
+                    },
+                    "required_columns": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Required Columns"
+                    },
+                    "score_column": {
+                        "type": "string",
+                        "title": "Score Column"
+                    },
+                    "id_column": {
+                        "type": "string",
+                        "title": "Id Column"
+                    },
+                    "matching_method": {
+                        "type": "string",
+                        "title": "Matching Method"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "dataset_name",
+                    "required_columns",
+                    "score_column",
+                    "id_column",
+                    "matching_method"
+                ],
+                "title": "DatasetFormatResponse"
             },
             "DatasetHealthCheck": {
                 "properties": {
@@ -2063,6 +1775,297 @@
                     "remaining_datasets"
                 ],
                 "title": "ResearcherProgress"
+            },
+            "SubmissionResponse": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success"
+                    },
+                    "evaluation": {
+                        "anyOf": [
+                            {
+                                "type": "object"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Evaluation"
+                    },
+                    "database": {
+                        "anyOf": [
+                            {
+                                "type": "object"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Database"
+                    },
+                    "dataset": {
+                        "type": "string",
+                        "title": "Dataset"
+                    },
+                    "model_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Model Name"
+                    },
+                    "filename": {
+                        "type": "string",
+                        "title": "Filename"
+                    },
+                    "encoding_used": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Encoding Used"
+                    },
+                    "validation_errors": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Validation Errors"
+                    },
+                    "validation_warnings": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Validation Warnings"
+                    },
+                    "testing_mode": {
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Testing Mode"
+                    },
+                    "note": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Note"
+                    },
+                    "error": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Error"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "success",
+                    "dataset",
+                    "filename"
+                ],
+                "title": "SubmissionResponse"
+            },
+            "SubmissionsStatsResponse": {
+                "properties": {
+                    "total_submissions": {
+                        "type": "integer",
+                        "title": "Total Submissions"
+                    },
+                    "total_researchers": {
+                        "type": "integer",
+                        "title": "Total Researchers"
+                    },
+                    "complete_benchmarks": {
+                        "type": "integer",
+                        "title": "Complete Benchmarks"
+                    },
+                    "available_datasets": {
+                        "type": "integer",
+                        "title": "Available Datasets"
+                    },
+                    "evaluation_type": {
+                        "type": "string",
+                        "title": "Evaluation Type"
+                    },
+                    "matching_method": {
+                        "type": "string",
+                        "title": "Matching Method"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "total_submissions",
+                    "total_researchers",
+                    "complete_benchmarks",
+                    "available_datasets",
+                    "evaluation_type",
+                    "matching_method"
+                ],
+                "title": "SubmissionsStatsResponse"
+            },
+            "TestSubmissionResponse": {
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "title": "Success"
+                    },
+                    "testing_mode": {
+                        "type": "boolean",
+                        "title": "Testing Mode"
+                    },
+                    "dataset": {
+                        "type": "string",
+                        "title": "Dataset"
+                    },
+                    "filename": {
+                        "type": "string",
+                        "title": "Filename"
+                    },
+                    "evaluation": {
+                        "anyOf": [
+                            {
+                                "type": "object"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Evaluation"
+                    },
+                    "metrics": {
+                        "anyOf": [
+                            {
+                                "additionalProperties": {
+                                    "type": "number"
+                                },
+                                "type": "object"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Metrics"
+                    },
+                    "encoding_used": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Encoding Used"
+                    },
+                    "validation_warnings": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Validation Warnings"
+                    },
+                    "validation_errors": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Validation Errors"
+                    },
+                    "evaluation_error": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Evaluation Error"
+                    },
+                    "note": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Note"
+                    },
+                    "error": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Error"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "success",
+                    "testing_mode",
+                    "dataset",
+                    "filename"
+                ],
+                "title": "TestSubmissionResponse"
             },
             "ValidationError": {
                 "properties": {

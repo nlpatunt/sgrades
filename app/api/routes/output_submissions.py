@@ -12,6 +12,7 @@ import statistics
 import numpy as np
 import json
 from app.models.database import OutputSubmission, Dataset, EvaluationResult
+from app.models.pydantic_models import DatasetFormatResponse, AvailableDatasetsResponse, SubmissionResponse, TestSubmissionResponse, SubmissionsStatsResponse, BatchSubmissionResponse
 from app.services.database_service import get_database
 
 try:
@@ -77,7 +78,7 @@ def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
             dataset = load_dataset("nlpatunt/Rice_Chem", data_files=f"{q_num}/test.csv")
             dataset = dataset["train"]
         elif dataset_name.startswith("grade_like_a_human_dataset_os_q"):
-            q_num = dataset_name.split("_q")[-1]  # Extract q1, q2, etc.
+            q_num = dataset_name.split("_q")[-1]
             dataset = load_dataset("nlpatunt/grade_like_a_human_dataset_os", 
                                 name=f"q{q_num}", 
                                 split="test",
@@ -1039,7 +1040,7 @@ def decode_file_content(content: bytes) -> tuple:
 
 router = APIRouter()
 
-@router.get("/format/{dataset_name}")
+@router.get("/format/{dataset_name}", response_model=DatasetFormatResponse)
 async def get_dataset_format(dataset_name: str):
     """Get specific format requirements for a dataset"""
     try:
@@ -1061,7 +1062,7 @@ async def get_dataset_format(dataset_name: str):
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
 
-@router.get("/available-datasets")
+@router.get("/available-datasets", response_model=AvailableDatasetsResponse)
 async def get_available_datasets():
     try:
         datasets = list(real_evaluation_engine.validators.keys())
@@ -1075,7 +1076,7 @@ async def get_available_datasets():
             "datasets": []
         })
 
-@router.post("/upload-single")
+@router.post("/upload-single", response_model=SubmissionResponse)
 async def upload_single_submission(
     file: UploadFile = File(...),
     dataset_name: str = Form(...),
@@ -1155,7 +1156,7 @@ async def upload_single_submission(
             "filename": file.filename if file else "unknown"
         })
 
-@router.post("/upload-batch")
+@router.post("/upload-batch", response_model=BatchSubmissionResponse)
 async def upload_batch_submissions(
     files: List[UploadFile] = File(...),
     dataset_names: List[str] = Form(...),
@@ -1261,7 +1262,7 @@ async def upload_batch_submissions(
         "note": "REAL EVALUATION: All metrics calculated from actual ground truth comparisons"
     })
 
-@router.post("/test-single-dataset")
+@router.post("/test-single-dataset", response_model=TestSubmissionResponse)
 async def test_single_dataset(
     file: UploadFile = File(...),
     dataset_name: str = Form(...)
@@ -1331,7 +1332,7 @@ async def test_single_dataset(
             "testing_mode": True
         })
 
-@router.get("/leaderboard")
+@router.get("/leaderboard", response_model=Dict[str, Any]) 
 async def get_leaderboard(
     dataset: str = "All Datasets",
     metric: str = "avg_quadratic_weighted_kappa",
@@ -1412,18 +1413,7 @@ async def get_leaderboard(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to generate leaderboard: {str(e)}")
 
-@router.get("/health")
-async def health_check():
-    return clean_for_json({
-        "status": "healthy",
-        "timestamp": datetime.now().isoformat(),
-        "version": "2.0.0 - Simplified ID-based matching",
-        "supported_datasets": 24,
-        "evaluation_type": "REAL_GROUND_TRUTH",
-        "matching_method": "ID_based_only"
-    })
-
-@router.get("/stats")
+@router.get("/stats", response_model=SubmissionsStatsResponse)
 async def get_platform_stats():
     """Get platform statistics"""
     try:
