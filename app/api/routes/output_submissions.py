@@ -77,9 +77,11 @@ def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
             dataset = load_dataset("nlpatunt/Rice_Chem", data_files=f"{q_num}/test.csv")
             dataset = dataset["train"]
         elif dataset_name.startswith("grade_like_a_human_dataset_os_q"):
-            q_num = dataset_name.split("_q")[-1]
-            dataset = load_dataset("nlpatunt/grade_like_a_human_dataset_os", name=f"q{q_num}", split="test", trust_remote_code=True)
-            
+            q_num = dataset_name.split("_q")[-1]  # Extract q1, q2, etc.
+            dataset = load_dataset("nlpatunt/grade_like_a_human_dataset_os", 
+                                name=f"q{q_num}", 
+                                split="test",
+                                trust_remote_code=True)
         elif dataset_name == "persuade_2":
             dataset = load_dataset("nlpatunt/persuade_2", data_files="test.csv")
             dataset = dataset["train"] 
@@ -1061,7 +1063,6 @@ async def get_dataset_format(dataset_name: str):
 
 @router.get("/available-datasets")
 async def get_available_datasets():
-    """Get list of all available datasets"""
     try:
         datasets = list(real_evaluation_engine.validators.keys())
         return clean_for_json({
