@@ -210,12 +210,6 @@ class AvailableMetrics(BaseModel):
     secondary_metrics: List[MetricInfo]
     supported_sorting: List[str]
 
-class LeaderboardResponse(BaseModel):
-    leaderboard_type: str
-    metric: str
-    limit: int
-    leaderboard: List[Union[LeaderboardEntry, CompleteLeaderboardEntry]]
-
 class HealthCheck(BaseModel):
     status: str
     service: str
@@ -226,13 +220,6 @@ class HealthCheck(BaseModel):
     evaluations_completed: Optional[int] = None
     error: Optional[str] = None
 
-class SubmissionsHealthCheck(BaseModel):
-    service: str = "submissions"
-    status: str = "healthy"
-    timestamp: str
-    endpoints: List[str]
-    benchmark_requirements: Dict[str, Any]
-
 class ErrorResponse(BaseModel):
     error: str
     detail: Optional[str] = None
@@ -241,3 +228,65 @@ class ErrorResponse(BaseModel):
 class NotFoundResponse(BaseModel):
     error: str
     available_options: Optional[List[str]] = None
+
+class DatasetFormatResponse(BaseModel):
+    dataset_name: str
+    required_columns: List[str]
+    score_column: str
+    id_column: str
+    matching_method: str
+
+class AvailableDatasetsResponse(BaseModel):
+    datasets: List[str]
+    total: int
+
+class SubmissionResponse(BaseModel):
+    success: bool
+    evaluation: Optional[Dict[str, Any]] = None
+    database: Optional[Dict[str, Any]] = None
+    dataset: str
+    model_name: Optional[str] = None
+    filename: str
+    encoding_used: Optional[str] = None
+    validation_errors: Optional[List[str]] = None
+    validation_warnings: Optional[List[str]] = None
+    testing_mode: Optional[bool] = None
+    note: Optional[str] = None
+    error: Optional[str] = None
+
+class TestSubmissionResponse(BaseModel):
+    success: bool
+    testing_mode: bool
+    dataset: str
+    filename: str
+    evaluation: Optional[Dict[str, Any]] = None
+    metrics: Optional[Dict[str, float]] = None
+    encoding_used: Optional[str] = None
+    validation_warnings: Optional[List[str]] = None
+    validation_errors: Optional[List[str]] = None
+    evaluation_error: Optional[str] = None
+    note: Optional[str] = None
+    error: Optional[str] = None
+
+class SubmissionsStatsResponse(BaseModel):
+    total_submissions: int
+    total_researchers: int
+    complete_benchmarks: int
+    available_datasets: int
+    evaluation_type: str
+    matching_method: str
+
+class BatchSubmissionResponse(BaseModel):
+    success: bool
+    total_files: int
+    successful_uploads: int
+    failed_uploads: int
+    model_name: str
+    results: List[Dict[str, Any]]
+    note: str
+
+class ApiInfoResponse(BaseModel):
+    workflow: List[str]
+    version: str
+    supported_datasets: int
+    documentation: str

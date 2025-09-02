@@ -76,20 +76,10 @@ async def root_redirect():
 app.include_router(datasets.router, prefix="/api", tags=["datasets"])
 app.include_router(leaderboard.router, prefix="/api", tags=["leaderboard"])
 app.include_router(output_submissions.router, prefix="/api/submissions", tags=["submissions"])
-app.include_router(output_submissions.router, prefix="/submissions", tags=["submissions-legacy"])
 
 from fastapi.responses import RedirectResponse  # (you already import this above)
 
-@app.get("/submissions/leaderboard", include_in_schema=False)
-async def _legacy_lb(metric: str = "avg_quadratic_weighted_kappa", limit: int = 20):
-    return RedirectResponse(
-        url=f"/api/submissions/leaderboard?metric={metric}&limit={limit}",
-        status_code=307
-    )
 
-# -------------------
-# Health Check Endpoint
-# -------------------
 @app.get("/health", response_model=HealthCheck, tags=["health"])
 async def health_check():
     """Health check endpoint with database and dataset status"""
