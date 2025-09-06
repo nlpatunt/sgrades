@@ -32,6 +32,12 @@ except ImportError:
     from scipy.stats import pearsonr
 
 def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
+    normalized_name = dataset_name[2:] if dataset_name.startswith("D_") else dataset_name
+    
+    print(f"🔍 DEBUG: Original dataset request: {dataset_name}")
+    print(f"🔍 DEBUG: Normalized for ground truth: {normalized_name}")
+    print(f"🔍 DEBUG: Attempting to load dataset: {normalized_name}")
+    
     if not HF_DATASETS_AVAILABLE:
         return {"status": "error", "error": "HuggingFace datasets library not available"}
     
@@ -63,56 +69,56 @@ def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
     }
         
     try:
-        print(f"Loading private ground truth dataset: nlpatunt/{dataset_name}")
+        print(f"📥 Loading private ground truth dataset: nlpatunt/{normalized_name}")
         
-        if dataset_name == "BEEtlE_2way":
+        if normalized_name == "BEEtlE_2way":
             dataset = load_dataset("nlpatunt/BEEtlE", "2way", split="test", trust_remote_code=True)
-        elif dataset_name == "BEEtlE_3way":
+        elif normalized_name == "BEEtlE_3way":
             dataset = load_dataset("nlpatunt/BEEtlE", "3way", split="test", trust_remote_code=True)
-        elif dataset_name == "SciEntSBank_2way":
+        elif normalized_name == "SciEntSBank_2way":
             dataset = load_dataset("nlpatunt/SciEntSBank", "2way", split="test", trust_remote_code=True)
-        elif dataset_name == "SciEntSBank_3way":
+        elif normalized_name == "SciEntSBank_3way":
             dataset = load_dataset("nlpatunt/SciEntSBank", "3way", split="test", trust_remote_code=True)
-        elif dataset_name in ["Rice_Chem_Q1", "Rice_Chem_Q2", "Rice_Chem_Q3", "Rice_Chem_Q4"]:
-            q_num = dataset_name.split("_")[-1]
+        elif normalized_name in ["Rice_Chem_Q1", "Rice_Chem_Q2", "Rice_Chem_Q3", "Rice_Chem_Q4"]:
+            q_num = normalized_name.split("_")[-1]
             dataset = load_dataset("nlpatunt/Rice_Chem", data_files=f"{q_num}/test.csv")
             dataset = dataset["train"]
-        elif dataset_name.startswith("grade_like_a_human_dataset_os_q"):
-            q_num = dataset_name.split("_q")[-1]
+        elif normalized_name.startswith("grade_like_a_human_dataset_os_q"):
+            q_num = normalized_name.split("_q")[-1]
             dataset = load_dataset("nlpatunt/grade_like_a_human_dataset_os", 
                                 name=f"q{q_num}", 
                                 split="test",
                                 trust_remote_code=True)
-        elif dataset_name == "persuade_2":
+        elif normalized_name == "persuade_2":
             dataset = load_dataset("nlpatunt/persuade_2", data_files="test.csv")
             dataset = dataset["train"] 
-        elif dataset_name == "EFL":
+        elif normalized_name == "EFL":
             dataset = load_dataset("nlpatunt/EFL", data_files="test.csv")
             dataset = dataset["train"]
-        elif dataset_name == "Mohlar":
+        elif normalized_name == "Mohlar":
             dataset = load_dataset("nlpatunt/Mohlar", data_files="test.csv")
             dataset = dataset["train"]
         else:
             try:
-                dataset = load_dataset(f"nlpatunt/{dataset_name}", split="test", trust_remote_code=True)
+                dataset = load_dataset(f"nlpatunt/{normalized_name}", split="test", trust_remote_code=True)
             except:
-                dataset = load_dataset(f"nlpatunt/{dataset_name}")
+                dataset = load_dataset(f"nlpatunt/{normalized_name}")
                 if hasattr(dataset, 'keys'):
                     first_split = list(dataset.keys())[0]
                     dataset = dataset[first_split]
         
         df = dataset.to_pandas()
         
-        if dataset_name.startswith("grade_like_a_human_dataset_os") and "ID" not in df.columns:
+        if normalized_name.startswith("grade_like_a_human_dataset_os") and "ID" not in df.columns:
             df["ID"] = range(1, len(df) + 1)
-            print(f"Added ID column to {dataset_name}")
+            print(f"Added ID column to {normalized_name}")
 
         columns_to_drop = [col for col in df.columns if col.startswith('Unnamed:')]
         if columns_to_drop:
             df = df.drop(columns=columns_to_drop)
             print(f"DEBUG: Dropped empty columns: {columns_to_drop}")
 
-        id_column = id_columns_map.get(dataset_name, "ID")
+        id_column = id_columns_map.get(normalized_name, "ID")
         
         print(f"DEBUG: After pandas conversion - {id_column} column: {df[id_column].head(10).tolist()}")
         print(f"DEBUG: {id_column} column dtype: {df[id_column].dtype}")
@@ -123,13 +129,14 @@ def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
             df[id_column] = df.index + 1
             print(f"FIXED: {id_column} column now: {df[id_column].head(10).tolist()}")
             
-        if dataset_name == "BEEtlE_2way":
+        if normalized_name == "BEEtlE_2way":
             print(f"DEBUG: Ground truth first 10 rows:")
             print(df[[id_column, 'label']].head(10))
-            df.to_csv(f"ground_truth_{dataset_name}.csv", index=False)
-            print(f"Saved ground truth to ground_truth_{dataset_name}.csv for comparison")
+            df.to_csv(f"ground_truth_{normalized_name}.csv", index=False)
+            print(f"Saved ground truth to ground_truth_{normalized_name}.csv for comparison")
             
-        print(f"Loaded private dataset: {len(df)} rows, columns: {list(df.columns)}")
+        print(f"✅ Loaded private dataset: {len(df)} rows, columns: {list(df.columns)}")
+        print(f"🎯 Ground truth for {dataset_name} loaded from {normalized_name} repository")
         
         return {
             "status": "success",
@@ -141,17 +148,17 @@ def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
     except Exception as e:
         print(f"HuggingFace datasets library failed: {str(e)}")
         
-        if dataset_name in ["BEEtlE_2way", "BEEtlE_3way", "SciEntSBank_2way", "SciEntSBank_3way"]:
+        if normalized_name in ["BEEtlE_2way", "BEEtlE_3way", "SciEntSBank_2way", "SciEntSBank_3way"]:
             try:
                 import pandas as pd
                 import requests
                 from io import StringIO
                 
-                if "BEEtlE" in dataset_name:
-                    suffix = "2way" if "2way" in dataset_name else "3way"
+                if "BEEtlE" in normalized_name:
+                    suffix = "2way" if "2way" in normalized_name else "3way"
                     url = f"https://huggingface.co/datasets/nlpatunt/BEEtlE/raw/main/test_{suffix}.csv"
                 else:  # SciEntSBank
-                    suffix = "2way" if "2way" in dataset_name else "3way"
+                    suffix = "2way" if "2way" in normalized_name else "3way"
                     url = f"https://huggingface.co/datasets/nlpatunt/SciEntSBank/raw/main/test_{suffix}.csv"
                 
                 print(f"Attempting direct CSV download from: {url}")
@@ -159,7 +166,7 @@ def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
                 response.raise_for_status()
                 
                 df = pd.read_csv(StringIO(response.text))
-                print(f"Loaded {dataset_name} via direct download: {len(df)} rows, columns: {list(df.columns)}")
+                print(f"Loaded {normalized_name} via direct download: {len(df)} rows, columns: {list(df.columns)}")
                 
                 return {
                     "status": "success",
@@ -606,6 +613,11 @@ class RealEvaluationEngine:
     def validate_submission_format(self, dataset_name: str, predictions_df: pd.DataFrame, testing_mode: bool = False) -> Dict[str, Any]:
         """Validate submission format using ground truth structure"""
         try:
+            # Normalize dataset name - remove D_ prefix for validator lookup
+            normalized_name = dataset_name[2:] if dataset_name.startswith("D_") else dataset_name
+            
+            print(f"Validating submission for {dataset_name} using {normalized_name} validator")
+            
             gt_result = self.get_ground_truth(dataset_name)
             if gt_result["status"] != "success":
                 return {
@@ -613,30 +625,30 @@ class RealEvaluationEngine:
                     "errors": [f"Cannot load dataset schema: {gt_result.get('error')}"],
                     "warnings": []
                 }
-            
+                        
             ground_truth_df = gt_result["dataset"]
-            
-            # Use the enhanced validator with testing_mode parameter
-            if dataset_name in self.validators:
-                validator = self.validators[dataset_name]
+                        
+            # Use normalized name to find validator
+            if normalized_name in self.validators:
+                validator = self.validators[normalized_name]
                 validation_result = validator.validate(predictions_df, testing_mode=testing_mode)
-                
+                                
                 return {
                     "valid": validation_result["valid"],
                     "errors": validation_result.get("errors", []),
                     "warnings": validation_result.get("warnings", []),
                     "expected_columns": validator.required_columns,
-                    "score_column": self.get_score_column(dataset_name),
+                    "score_column": self.get_score_column(normalized_name),  # Use normalized name
                     "matching_method": "id_based",
                     "cleaned_df": validation_result.get("cleaned_df", predictions_df)
                 }
             else:
                 return {
                     "valid": False,
-                    "errors": [f"No validator found for dataset: {dataset_name}"],
+                    "errors": [f"No validator found for dataset: {normalized_name}"],
                     "warnings": []
                 }
-                
+                        
         except Exception as e:
             print(f"Validation error for {dataset_name}: {e}")
             return {
@@ -646,9 +658,10 @@ class RealEvaluationEngine:
             }
         
     def match_predictions_to_ground_truth(self, dataset_name: str, prediction_df: pd.DataFrame, ground_truth_df: pd.DataFrame) -> Dict[str, Any]:
-   
-        score_col = self.get_score_column(dataset_name)
-        id_col = self.get_id_column(dataset_name)
+        normalized_name = dataset_name[2:] if dataset_name.startswith("D_") else dataset_name
+    
+        score_col = self.get_score_column(normalized_name)  # Use normalized name
+        id_col = self.get_id_column(normalized_name)
         
         print(f"Using ID-based matching for {dataset_name} with column '{id_col}'")
         
@@ -817,9 +830,10 @@ class RealEvaluationEngine:
                     "error": f"Failed to load ground truth: {gt_result.get('error')}"
                 }
             ground_truth_df = gt_result["dataset"]
-            
+            normalized_name = dataset_name[2:] if dataset_name.startswith("D_") else dataset_name
+        
             # Validate structure
-            validation_result = self.validate_full_structure(dataset_name, predictions_df, ground_truth_df)
+            validation_result = self.validate_full_structure(normalized_name, predictions_df, ground_truth_df)
             if not validation_result["valid"]:
                 return {
                     "status": "error",
@@ -1165,6 +1179,9 @@ async def upload_batch_submissions(
     institution: str = Form(""),
     contact_email: str = Form("")
 ):
+    print(f"DEBUG: Received batch upload with {len(files)} files")
+    print(f"DEBUG: Dataset names: {dataset_names}")
+    print(f"DEBUG: Model name: {model_name}")
     results = []
     successful_uploads = 0
     failed_uploads = 0
@@ -1180,8 +1197,16 @@ async def upload_batch_submissions(
             dataset_name = dataset_names[idx].strip()
            
             content = await file.read()
-            csv_content, encoding_used = decode_file_content(content)
-            
+            csv_content = None
+            encoding_used = None
+            for encoding in ['utf-8', 'latin-1', 'cp1252']:
+                try:
+                    csv_content = content.decode(encoding)
+                    encoding_used = encoding
+                    break
+                except UnicodeDecodeError:
+                    continue
+                        
             if csv_content is None:
                 results.append({
                     "filename": file.filename,
@@ -1195,7 +1220,7 @@ async def upload_batch_submissions(
             df = pd.read_csv(io.StringIO(csv_content))
             df_clean = clean_dataframe_safe(df)
             
-            validation_result = real_evaluation_engine.validate_submission_format(dataset_name, df_clean, testing_mode=False)
+            validation_result = real_evaluation_engine.validate_submission_format(dataset_name, df_clean)
             
             if not validation_result["valid"]:
                 results.append({
@@ -1261,6 +1286,12 @@ async def upload_batch_submissions(
         "results": results,
         "note": "REAL EVALUATION: All metrics calculated from actual ground truth comparisons"
     })
+
+def normalize_dataset_name_for_evaluation(dataset_name: str) -> str:
+    """Convert D_ dataset names to regular names for evaluation"""
+    if dataset_name.startswith("D_"):
+        return dataset_name[2:]  # Remove "D_" prefix
+    return dataset_name
 
 @router.post("/test-single-dataset", response_model=TestSubmissionResponse)
 async def test_single_dataset(

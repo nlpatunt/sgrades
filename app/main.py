@@ -14,6 +14,7 @@ from app.api.routes import datasets, leaderboard
 from app.api.routes import output_submissions
 from app.config.database import init_database
 from app.services.database_service import DatabaseService
+from app.models.pydantic_models import HealthCheck, DatasetsListResponse, DatasetInfo
 
 async def startup_event():
     print("🚀 Starting BESESR Platform...")
@@ -79,6 +80,50 @@ app.include_router(output_submissions.router, prefix="/api/submissions", tags=["
 
 from fastapi.responses import RedirectResponse  # (you already import this above)
 
+
+@app.get("/api/available-datasets", response_model=DatasetsListResponse)
+async def get_available_datasets_direct():
+    """Direct route for frontend compatibility"""
+    try:
+        from app.services.dataset_loader import dataset_manager
+        datasets_config = dataset_manager.datasets_config
+        
+        # Only show D_ datasets
+        public_datasets = {}
+        for name, config in datasets_config.items():
+            if name.startswith("D_") and config.get("dataset_type") == "unlabeled":
+                public_datasets[name] = config
+        
+        from app.models.pydantic_models import DatasetInfo, DatasetsListResponse
+        datasets_list = []
+        for dataset_name, config in public_datasets.items():
+            dataset_info = DatasetInfo(
+                name=dataset_name,
+                description=config["description"],
+                huggingface_id=config["huggingface_id"],
+                essay_column=config["essay_column"],
+                score_column=config["score_column"],
+                prompt_column=config.get("prompt_column", "prompt"),
+                score_range=config["score_range"],
+                split=config["split"],
+                status="active"
+            )
+            datasets_list.append(dataset_info)
+        
+        return DatasetsListResponse(
+            datasets=datasets_list,
+            total_count=len(datasets_list),
+            data_source="direct_d_datasets",
+            last_updated=datetime.now().isoformat()
+        )
+        
+    except Exception as e:
+        return DatasetsListResponse(
+            datasets=[],
+            total_count=0,
+            data_source="error",
+            last_updated=datetime.now().isoformat()
+        )
 
 @app.get("/health", response_model=HealthCheck, tags=["health"])
 async def health_check():

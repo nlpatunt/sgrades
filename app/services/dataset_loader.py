@@ -95,12 +95,39 @@ class HuggingFaceDatasetLoader:
                     print(f"⚠️ Error processing collection item {item.item_id}: {e}")
                     continue
             
+            # MOVE THIS OUTSIDE THE LOOP - process all datasets after collection is complete
             if dynamic_datasets:
                 print(f"✅ Successfully loaded {len(dynamic_datasets)} dataset configs from collection!")
-                print(f"📋 Dataset configs: {list(dynamic_datasets.keys())}")
                 
-                self._cache_discovered_datasets(dynamic_datasets)
-                return dynamic_datasets
+                # Create both D_ and regular versions
+                expanded_datasets = {}
+                
+                for name, config in dynamic_datasets.items():
+                    if name.startswith("D_"):
+                        # This is already a D_ dataset (unlabeled)
+                        expanded_datasets[name] = {**config, "dataset_type": "unlabeled"}
+                        
+                        # Create regular version for ground truth
+                        regular_name = name[2:]  # Remove "D_" prefix
+                        gt_config = config.copy()
+                        gt_config["huggingface_id"] = gt_config["huggingface_id"].replace("/D_", "/")
+                        gt_config["dataset_type"] = "ground_truth"
+                        expanded_datasets[regular_name] = gt_config
+                        
+                    else:
+                        # This is a regular dataset name, create both versions
+                        # Regular version (ground truth)
+                        expanded_datasets[name] = {**config, "dataset_type": "ground_truth"}
+                        
+                        # D_ version (unlabeled) 
+                        d_name = f"D_{name}"
+                        d_config = config.copy()
+                        d_config["huggingface_id"] = d_config["huggingface_id"].replace(f"/{name}", f"/D_{name}")
+                        d_config["dataset_type"] = "unlabeled"
+                        expanded_datasets[d_name] = d_config
+                
+                self._cache_discovered_datasets(expanded_datasets)
+                return expanded_datasets
             else:
                 print("⚠️ No datasets found in collection, falling back to static configuration")
                 return self._get_fallback_datasets()
@@ -115,7 +142,7 @@ class HuggingFaceDatasetLoader:
         
         # Known multi-config datasets - handle these specially (after D_ removal)
         known_multi_config = {
-            'grade_like_a_human_dataset_os': ['q1', 'q2', 'q3', 'q4', 'q5', 'q6'],
+            'grade_like_a_human_dataset_os': ['q1', 'q2', 'q3', 'q4', 'q5'],
             'Rice_Chem': ['Q1', 'Q2', 'Q3', 'Q4'],
             'BEEtlE': ['2way', '3way'],
             'SciEntSBank': ['2way', '3way'] 
@@ -693,34 +720,61 @@ class HuggingFaceDatasetLoader:
             print(f"⚠️ Failed to cache discoveries: {e}")
     
     def _get_fallback_datasets(self) -> Dict[str, Dict[str, Any]]:
-        """Fallback static configuration if dynamic discovery fails"""
-        print("🔄 Using fallback static dataset configuration")
+        print("Using fallback static dataset configuration with D_ separation")
         
         return {
-            "ASAP-AES": {
+            # UNLABELED DATASETS (D_ prefix) - for researcher download
+            "D_ASAP-AES": {
                 "huggingface_id": "nlpatunt/D_ASAP-AES",
-                "description": "Automated Student Assessment Prize - Automated Essay Scoring",
+                "description": "ASAP-AES Test Data (Unlabeled)",
                 "essay_column": "essay",
                 "score_column": "domain1_score",
                 "prompt_column": "essay_set",
                 "config": None,
-                "split": "train",
+                "split": "test",
                 "score_range": (0, 60),
-                "auto_discovered": False
+                "auto_discovered": False,
+                "dataset_type": "unlabeled"
             },
-            "BEEtlE_2way": {
+            "D_BEEtlE_2way": {
                 "huggingface_id": "nlpatunt/D_BEEtlE",
-                "description": "Basic Elements of English Teaching and Learning Evaluation (2-way)",
+                "description": "BEEtlE 2-way Test Data (Unlabeled)",
                 "essay_column": "student_answer",
                 "score_column": "label",
                 "prompt_column": "question_text",
                 "config": "2way",
-                "split": "train",
+                "split": "test",
                 "score_range": (0, 1),
-                "auto_discovered": False
+                "auto_discovered": False,
+                "dataset_type": "unlabeled"
+            },
+            
+            # LABELED DATASETS (no D_ prefix) - for ground truth evaluation (private)
+            "ASAP-AES": {
+                "huggingface_id": "nlpatunt/ASAP-AES",
+                "description": "ASAP-AES Ground Truth (Labeled)",
+                "essay_column": "essay", 
+                "score_column": "domain1_score",
+                "prompt_column": "essay_set",
+                "config": None,
+                "split": "test",
+                "score_range": (0, 60),
+                "auto_discovered": False,
+                "dataset_type": "ground_truth"
+            },
+            "BEEtlE_2way": {
+                "huggingface_id": "nlpatunt/BEEtlE",
+                "description": "BEEtlE 2-way Ground Truth (Labeled)",
+                "essay_column": "student_answer",
+                "score_column": "label", 
+                "prompt_column": "question_text",
+                "config": "2way",
+                "split": "test",
+                "score_range": (0, 1),
+                "auto_discovered": False,
+                "dataset_type": "ground_truth"
             }
         }
-    
     def _load_via_api(self, dataset_id: str, config: str = None, split: str = "train", 
                      sample_size: int = 100) -> List[Dict[str, Any]]:
         """Fallback method using HuggingFace API"""
