@@ -28,8 +28,13 @@ async def get_all_datasets():
     try:
         datasets_config = dataset_manager.datasets_config
         
+        public_datasets = {}
+        for name, config in datasets_config.items():
+            if name.startswith("D_") and config.get("dataset_type") == "unlabeled":
+                public_datasets[name] = config
+                
         datasets_list = []
-        for dataset_name, config in datasets_config.items():
+        for dataset_name, config in public_datasets.items():
             dataset_info = DatasetInfo(
                 name=dataset_name,
                 description=config["description"],
@@ -46,7 +51,7 @@ async def get_all_datasets():
         return DatasetsListResponse(
             datasets=datasets_list,
             total_count=len(datasets_list),
-            data_source="dynamic_huggingface",
+            data_source="public_d_datasets_only",
             last_updated=datetime.now().isoformat()
         )
         
@@ -59,6 +64,50 @@ async def get_all_datasets():
             last_updated=datetime.now().isoformat()
         )
 
+
+@router.get("/available-datasets", response_model=DatasetsListResponse)
+async def get_available_datasets_alias():
+    """Alias endpoint for frontend compatibility - returns only D_ datasets"""
+    try:
+        datasets_config = dataset_manager.datasets_config
+        
+        # Only show D_ datasets to researchers (unlabeled test data)
+        public_datasets = {}
+        for name, config in datasets_config.items():
+            if name.startswith("D_") and config.get("dataset_type") == "unlabeled":
+                public_datasets[name] = config
+        
+        datasets_list = []
+        for dataset_name, config in public_datasets.items():
+            dataset_info = DatasetInfo(
+                name=dataset_name,
+                description=config["description"],
+                huggingface_id=config["huggingface_id"],
+                essay_column=config["essay_column"],
+                score_column=config["score_column"],
+                prompt_column=config.get("prompt_column", "prompt"),
+                score_range=config["score_range"],
+                split=config["split"],
+                status="active"
+            )
+            datasets_list.append(dataset_info)
+        
+        return DatasetsListResponse(
+            datasets=datasets_list,
+            total_count=len(datasets_list),
+            data_source="public_d_datasets_alias",
+            last_updated=datetime.now().isoformat()
+        )
+        
+    except Exception as e:
+        print(f"Error getting available datasets: {e}")
+        return DatasetsListResponse(
+            datasets=[],
+            total_count=0,
+            data_source="error",
+            last_updated=datetime.now().isoformat()
+        )
+    
 @router.get("/download/all")
 async def download_all_datasets():
     """Download all datasets as ZIP with proper directory structure - ORIGINAL FORMAT"""
@@ -313,7 +362,11 @@ async def get_dataset_details(dataset_name: str):
 @router.get("/download/{dataset_name}")
 async def download_single_dataset(dataset_name: str):
     """Download a single dataset as ZIP with train/validation/test splits - ORIGINAL FORMAT"""
-    
+    if not dataset_name.startswith("D_"):
+        raise HTTPException(
+            status_code=403, 
+            detail=f"Dataset '{dataset_name}' is private. Use 'D_{dataset_name}' for unlabeled test data."
+        )
     try:
         if dataset_name not in dataset_manager.datasets_config:
             raise HTTPException(status_code=404, detail=f"Dataset '{dataset_name}' not found")

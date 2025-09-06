@@ -37,6 +37,7 @@ const elements = {
     
     // Forms
     benchmarkForm: document.getElementById('benchmark-submit-form'),
+
     submitBenchmarkBtn: document.getElementById('submit-benchmark-btn'),
     submitResult: document.getElementById('submit-result'),
     
@@ -50,7 +51,44 @@ const elements = {
     refreshLeaderboard: document.getElementById('refresh-leaderboard'),
     leaderboardTable: document.getElementById('leaderboard-table')
 };
+    console.log("DEBUG: Form element check:", {
+        formElement: elements.benchmarkForm,
+        formExists: !!elements.benchmarkForm,
+        formId: elements.benchmarkForm ? elements.benchmarkForm.id : 'NOT FOUND'
+    });
 
+    // Dataset display name mapping - maps D_ names to user-friendly names
+const DATASET_DISPLAY_NAMES = {
+    'D_ASAP-AES': 'ASAP-AES: Automated Essay Scoring',
+    'D_ASAP2': 'ASAP2: Essay Scoring Dataset',
+    'D_ASAP_plus_plus': 'ASAP++: Enhanced Essay Dataset',
+    'D_ASAP-SAS': 'ASAP-SAS: Short Answer Scoring',
+    'D_BEEtlE_2way': 'BEEtlE: 2-Way Classification',
+    'D_BEEtlE_3way': 'BEEtlE: 3-Way Classification',
+    'D_CSEE': 'CSEE: Computer Science Essays',
+    'D_EFL': 'EFL: English as Foreign Language',
+    'D_Mohlar': 'Mohlar: Short Answer Grading',
+    'D_SciEntSBank_2way': 'SciEntSBank: 2-Way Science QA',
+    'D_SciEntSBank_3way': 'SciEntSBank: 3-Way Science QA',
+    'D_Ielts_Writing_Dataset': 'IELTS Writing Assessment',
+    'D_Ielst_Writing_Task_2_Dataset': 'IELTS Writing Task 2',
+    'D_persuade_2': 'Persuade Essays v2',
+    'D_Regrading_Dataset_J2C': 'Regrading Dataset J2C',
+    'D_grade_like_a_human_dataset_os_q1': 'OS Concepts: Question 1',
+    'D_grade_like_a_human_dataset_os_q2': 'OS Concepts: Question 2',
+    'D_grade_like_a_human_dataset_os_q3': 'OS Concepts: Question 3',
+    'D_grade_like_a_human_dataset_os_q4': 'OS Concepts: Question 4',
+    'D_grade_like_a_human_dataset_os_q5': 'OS Concepts: Question 5',
+    'D_Rice_Chem_Q1': 'Chemistry: Question 1',
+    'D_Rice_Chem_Q2': 'Chemistry: Question 2',
+    'D_Rice_Chem_Q3': 'Chemistry: Question 3',
+    'D_Rice_Chem_Q4': 'Chemistry: Question 4'
+};
+
+// Helper function to get display name
+function getDisplayName(datasetName) {
+    return DATASET_DISPLAY_NAMES[datasetName] || datasetName;
+}
 // ===== Utility Functions =====
 function showLoading(element, message = 'Loading...') {
     if (!element) return;
@@ -102,20 +140,21 @@ async function loadAvailableDatasets() {
         let datasets = [];
         
         try {
-            const availableResponse = await fetchAPI('/api/submissions/available-datasets');
-            if (availableResponse.datasets && Array.isArray(availableResponse.datasets)) {
-                datasets = availableResponse.datasets;
+            const response = await fetchAPI('/api/available-datasets');
+            if (response.datasets && Array.isArray(response.datasets)) {
+                // Extract just the names from the dataset objects
+                datasets = response.datasets.map(dataset => dataset.name);
                 console.log('Loaded from available-datasets endpoint');
             }
         } catch (availableError) {
             console.log('Available-datasets failed, using hardcoded fallback');
             datasets = [
-                'ASAP-AES', 'ASAP2', 'ASAP_plus_plus', 'ASAP-SAS', 'BEEtlE_2way', 'BEEtlE_3way',
-                'SciEntSBank_2way', 'SciEntSBank_3way', 'CSEE', 'EFL', 'Mohlar',
-                'Regrading_Dataset_J2C', 'Ielts_Writing_Dataset', 'Ielst_Writing_Task_2_Dataset',
-                'persuade_2', 'grade_like_a_human_dataset_os_q1', 'grade_like_a_human_dataset_os_q2',
-                'grade_like_a_human_dataset_os_q3', 'grade_like_a_human_dataset_os_q4',
-                'grade_like_a_human_dataset_os_q5','Rice_Chem_Q1', 'Rice_Chem_Q2', 'Rice_Chem_Q3', 'Rice_Chem_Q4'
+                'D_ASAP-AES', 'D_ASAP2', 'D_ASAP_plus_plus', 'D_ASAP-SAS', 'D_BEEtlE_2way', 'D_BEEtlE_3way',
+                'D_SciEntSBank_2way', 'D_SciEntSBank_3way', 'D_CSEE', 'D_EFL', 'D_Mohlar',
+                'D_Regrading_Dataset_J2C', 'D_Ielts_Writing_Dataset', 'D_Ielst_Writing_Task_2_Dataset',
+                'D_persuade_2', 'D_grade_like_a_human_dataset_os_q1', 'D_grade_like_a_human_dataset_os_q2',
+                'D_grade_like_a_human_dataset_os_q3', 'D_grade_like_a_human_dataset_os_q4',
+                'D_grade_like_a_human_dataset_os_q5','D_Rice_Chem_Q1', 'D_Rice_Chem_Q2', 'D_Rice_Chem_Q3', 'D_Rice_Chem_Q4'
             ];
         }
         
@@ -130,8 +169,7 @@ async function loadAvailableDatasets() {
         
     } catch (error) {
         console.error('Complete failure loading datasets:', error);
-        // Ultimate fallback - use hardcoded list
-        availableDatasets = ['ASAP-AES', 'BEEtlE_2way', 'CSEE']; // Minimal working set
+        availableDatasets = ['D_ASAP-AES', 'D_BEEtlE_2way', 'D_CSEE'];
         totalDatasetsCount = availableDatasets.length;
         updateDatasetCounts();
         populateDatasetDropdowns();
@@ -258,10 +296,11 @@ function populateDropdown(selectElement, showDetails = false) {
         optionsHTML += '<optgroup label="📚 Main Datasets">';
         categories.main.sort().forEach(dataset => {
             const format = datasetFormats[dataset] || getDatasetFormatFallback(dataset);
+            const displayName = getDisplayName(dataset); // Use friendly name
             const displayText = showDetails 
-                ? dataset + ' (' + format.required_columns.join(', ') + ')'
-                : dataset;
-            optionsHTML += '<option value="' + dataset + '">' + displayText + '</option>';
+                ? displayName + ' (' + format.required_columns.join(', ') + ')'
+                : displayName;
+            optionsHTML += '<option value="' + dataset + '">' + displayText + '</option>'; // value=D_ name, text=friendly
         });
         optionsHTML += '</optgroup>';
     }
@@ -674,14 +713,16 @@ async function loadDatasets() {
         var datasetsHTML = '';
         availableDatasets.forEach((datasetName, index) => {
             const animationDelay = index * 0.1;
+            const displayName = getDisplayName(datasetName); // Get friendly name
+            
             datasetsHTML += '<div class="dataset-card fade-in" style="animation-delay: ' + animationDelay + 's;">';
-            datasetsHTML += '<h3>' + datasetName + '</h3>';
+            datasetsHTML += '<h3>' + displayName + '</h3>'; // Show friendly name
             datasetsHTML += '<p>Train/validation/test splits with essay data</p>';
             datasetsHTML += '<div class="dataset-info">';
             datasetsHTML += '<span><i class="fas fa-database"></i> Original format preserved</span>';
             datasetsHTML += '</div>';
             datasetsHTML += '<div class="dataset-actions">';
-            datasetsHTML += '<button onclick="downloadSingleDataset(\'' + datasetName + '\')" class="btn btn-sm btn-primary">';
+            datasetsHTML += '<button onclick="downloadSingleDataset(\'' + datasetName + '\')" class="btn btn-sm btn-primary">'; // Use actual D_ name for download
             datasetsHTML += '<i class="fas fa-download"></i> Download';
             datasetsHTML += '</button>';
             datasetsHTML += '</div>';
@@ -700,7 +741,7 @@ async function loadDatasets() {
 
 async function loadTestDatasets() {
     try {
-        const response = await fetchAPI('/api/available-datasets/'); // Use the working endpoint
+        const response = await fetchAPI('/api/available-datasets');
         const data = response;
         
         const select = elements.testDataset;
@@ -1210,7 +1251,11 @@ async function loadLeaderboard() {
 
 // ===== Form Submission =====
 function setupBenchmarkSubmission() {
-    if (!elements.benchmarkForm) return;
+    console.log("Form element found:", elements.benchmarkForm);
+    if (!elements.benchmarkForm){
+         console.log("ERROR: benchmarkForm element not found!");
+        return;
+    }
 
     elements.benchmarkForm.addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -1231,11 +1276,15 @@ function setupBenchmarkSubmission() {
         try {
             // Create FormData with all files and form data
             const formData = new FormData(this);
+            const datasetNamesArray = Array.from(uploadedDatasets.keys());
             
             // Add all uploaded files
             uploadedDatasets.forEach((uploadInfo, datasetName) => {
-                formData.append('files', uploadInfo.file, datasetName + '.csv');
-                formData.append('dataset_names', datasetName); // <-- ADD THIS LINE
+                formData.append('files', uploadInfo.file);
+            });
+
+            datasetNamesArray.forEach(name => {
+                formData.append('dataset_names', name);
             });
 
             console.log('🚀 Submitting complete benchmark with ' + uploadedDatasets.size + ' datasets');
@@ -1281,6 +1330,10 @@ function setupBenchmarkSubmission() {
 function showBenchmarkSuccess(result) {
     elements.submitResult.className = 'submit-result success';
     
+    const totalFiles = result.total_files || 0;
+    const successfulUploads = result.successful_uploads || 0;
+    const successRate = totalFiles > 0 ? Math.round((successfulUploads / totalFiles) * 100) : 0;
+    
     var successHTML = '<h3><i class="fas fa-trophy"></i> Complete Benchmark Submitted Successfully!</h3>';
     successHTML += '<p><strong>Researcher:</strong> ' + (result.model_name || 'Unknown') + '</p>';
     successHTML += '<p><strong>Model:</strong> ' + (result.model_name || 'Unknown') + '</p>';
@@ -1289,9 +1342,9 @@ function showBenchmarkSuccess(result) {
     successHTML += '<h4 style="margin-bottom: 1rem; color: var(--primary-blue);">🏆 Submission Results</h4>';
     successHTML += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">';
     successHTML += '<div><strong>Files Uploaded:</strong><br>';
-    successHTML += '<span style="font-size: 1.2em; color: var(--success);">' + (result.successful_uploads || 0) + '/' + (result.total_files || 0) + '</span></div>';
+    successHTML += '<span style="font-size: 1.2em; color: var(--success);">' + + successfulUploads + '/' + totalFiles + '</span></div>';
     successHTML += '<div><strong>Success Rate:</strong><br>';
-    successHTML += '<span style="font-size: 1.2em; color: var(--success);">' + (result.success_rate || 0) + '%</span></div>';
+    successHTML += '<span style="font-size: 1.2em; color: var(--success);">' + successRate + '%</span></div>';
     successHTML += '<div><strong>Upload Date:</strong><br>';
     successHTML += '<span style="font-size: 1.2em; color: var(--primary-blue);">' + formatDate(result.upload_date) + '</span></div>';
     successHTML += '</div>';
@@ -1473,7 +1526,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     try {
         // Load datasets first (this is crucial for everything else)
         await loadAvailableDatasets();
-        
+        setupDragDropUpload();
         // Setup enhanced upload after datasets are loaded
         setupEnhancedUpload();
         setupBenchmarkSubmission();
