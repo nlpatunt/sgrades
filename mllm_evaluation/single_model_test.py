@@ -30,10 +30,11 @@ class SingleModelTester:
     def get_available_datasets(self):
         """Get list of available datasets"""
         try:
-            response = requests.get(f"{self.base_url}/api/datasets/")
+            response = requests.get(f"{self.base_url}/api/available-datasets")  # Fixed endpoint
             data = response.json()
             return [ds['name'] for ds in data.get('datasets', [])]
-        except:
+        except Exception as e:
+            print(f"Error getting datasets: {e}")
             return []
     
     def get_dataset_range_info(self, dataset_name: str, row=None):
@@ -186,7 +187,7 @@ class SingleModelTester:
         
         return config
     
-    def download_test_data(self, dataset_name: str, num_essays: int = 10):
+    def download_test_data(self, dataset_name: str, num_essays: int = None):
         """Download unlabeled test data from D_{dataset_name}"""
         test_dataset_name = f"{dataset_name}"
         print(f"Downloading test data (unlabeled): {test_dataset_name}")
@@ -225,11 +226,15 @@ class SingleModelTester:
             with zip_content.open(csv_file) as f:
                 df = pd.read_csv(f)
             
-            print(f"Loaded {len(df)} unlabeled test essays from {csv_file}")
+            total_essays = len(df)
+            print(f"Loaded {total_essays} unlabeled test essays from {csv_file}")
             
-            # Sample essays
-            if len(df) > num_essays:
+            # Sample essays only if num_essays is specified
+            if num_essays is not None and total_essays > num_essays:
                 df = df.sample(n=num_essays, random_state=42)
+                print(f"Sampled {num_essays} essays for testing")
+            else:
+                print(f"Using all {total_essays} essays for testing")
             
             return df
             
@@ -301,7 +306,7 @@ class SingleModelTester:
         id_column = ID_COLUMNS.get(dataset_name, "ID")
         
         # Common essay text column names to try (case-sensitive)
-        essay_columns = ['essay', 'Essay', 'text', 'Text', 'answer', 'Answer', 'student_answer', 'response', 'Response']
+        essay_columns = ['full_text','essay', 'essay_text', 'Essay', 'text', 'Text', 'answer', 'Answer', 'student_answer', 'Student_Answer','response', 'Response', 'student_response', 'Student_Response']
         
         for idx, row in df.iterrows():
             # Find essay text
@@ -313,10 +318,7 @@ class SingleModelTester:
                     found_column = col
                     break
             
-            print(f"DEBUG: Row {idx}, found column: {found_column}, essay length: {len(essay_text)}")
-            print(f"DEBUG: Essay preview: {essay_text[:100]}...")
-            
-            if len(essay_text) < 20:  # Skip very short essays
+            if len(essay_text) < 5:  # Skip very short essays
                 print(f"DEBUG: Skipping essay {idx} - too short ({len(essay_text)} chars)")
                 continue
                 
@@ -338,73 +340,96 @@ class SingleModelTester:
         return essays
     
     def call_api_model(self, essay_text: str, prompt: str, model_type: str, range_info=None, question=""):
-        """Call API model to score essay with dataset-specific range"""
+        """Route to appropriate model API"""
         
         if model_type == "gpt4o":
             return self.call_gpt4o(essay_text, prompt, range_info, question)
         elif model_type == "gpt4o-mini":
-            return self.call_gpt4o(essay_text, prompt, range_info, question)  # Use existing gpt4o method for now
+            return self.call_gpt4o_mini(essay_text, prompt, range_info, question)
         elif model_type == "claude-sonnet":
-            return self.call_claude(essay_text, prompt, range_info, question)  # Use existing claude method
+            return self.call_claude_sonnet(essay_text, prompt, range_info, question)
         elif model_type == "claude-haiku":
-            return self.call_claude(essay_text, prompt, range_info, question)  # Use existing claude method
-        elif model_type in ["gemini-pro", "gemini-flash", "qwen-max", "step-1v"]:
-            print(f"Model {model_type} not implemented yet, using simulation")
-            return self.simulate_model(essay_text, range_info)
+            return self.call_claude_haiku(essay_text, prompt, range_info, question)
+        elif model_type == "gemini-pro":
+            return self.call_gemini_pro(essay_text, prompt, range_info, question)
+        elif model_type == "gemini-flash":
+            return self.call_gemini_flash(essay_text, prompt, range_info, question)
         elif model_type == "simulation":
             return self.simulate_model(essay_text, range_info)
         else:
-            print(f"Model {model_type} not implemented yet")
+            print(f"Model {model_type} not implemented")
             return None
-    
-    def call_gpt4o(self, essay_text: str, prompt: str, range_info=None, question=""):
-        """Call GPT-4o API with dataset-specific range"""
+        
+    def call_gemini_pro(self, essay_text: str, prompt: str, range_info=None, question=""):
+        """Call Gemini Pro via OpenRouter"""
         import openai
         
         try:
-            client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+            scoring_prompt = self.create_scoring_prompt(essay_text, question, range_info)
+            if scoring_prompt is None:
+                return None
             
-            # Create range-specific scoring prompt
-            if range_info:
-                if range_info["type"] == "categorical":
-                    categories = range_info["categories"]
-                    scoring_prompt = f"""You are an expert grader. Classify this answer as one of: {', '.join(categories)}
-
-Question: {question}
-Student Answer: {essay_text}
-
-Classification Guidelines:
-- Choose the most appropriate category based on correctness and completeness
-- Consider partial credit where applicable
-
-Provide only one of these exact words: {', '.join(categories)}"""
-
-                else:  # numeric ranges (both fixed and dynamic)
-                    min_score, max_score = range_info["min"], range_info["max"]
-                    description = range_info["description"]
-                    
-                    scoring_prompt = f"""You are an expert grader. Rate this answer using the {description}.
-
-Question: {question}
-Student Answer: {essay_text}
-
-Scoring Guidelines:
-- {max_score} = Perfect answer, demonstrates complete understanding
-- {max_score*0.8:.1f} = Good answer, addresses most key concepts correctly
-- {max_score*0.6:.1f} = Adequate answer, shows basic understanding  
-- {max_score*0.4:.1f} = Poor answer, significant gaps in understanding
-- {max_score*0.2:.1f} = Very poor answer, major misconceptions
-- {min_score} = No meaningful content or completely incorrect
-
-Provide only a numerical score between {min_score} and {max_score}. For example: {max_score*0.7:.1f}"""
-            else:
-                # Fallback generic prompt
-                scoring_prompt = f"""Rate this essay on a 0-5 scale where 5=Excellent, 0=Very Poor.
-Essay: {essay_text}
-Score:"""
-
+            client = openai.OpenAI(
+                base_url="https://openrouter.ai/api/v1",
+                api_key=os.getenv("OPENROUTER_API_KEY")
+            )
+            
             response = client.chat.completions.create(
-                model="gpt-4o",
+                model="google/gemini-pro-1.5",
+                messages=[{"role": "user", "content": scoring_prompt}],
+                max_tokens=15,
+                temperature=0.3
+            )
+            
+            return self.parse_model_response(response.choices[0].message.content.strip(), range_info)
+            
+        except Exception as e:
+            print(f"Gemini Pro API error: {e}")
+            return None
+
+    def call_gemini_flash(self, essay_text: str, prompt: str, range_info=None, question=""):
+        """Call Gemini Flash via OpenRouter"""
+        import openai
+        
+        try:
+            scoring_prompt = self.create_scoring_prompt(essay_text, prompt, range_info)
+            if scoring_prompt is None:
+                return None
+            
+            client = openai.OpenAI(
+                base_url="https://openrouter.ai/api/v1",
+                api_key=os.getenv("OPENROUTER_API_KEY")
+            )
+        
+            
+            response = client.chat.completions.create(
+                model="google/gemini-flash-1.5",
+                messages=[{"role": "user", "content": scoring_prompt}],
+                max_tokens=15,
+                temperature=0.3
+            )
+            
+            return self.parse_model_response(response.choices[0].message.content.strip(), range_info)
+            
+        except Exception as e:
+            print(f"Gemini Flash API error: {e}")
+            return None
+    
+    def call_gpt4o(self, essay_text: str, prompt: str, range_info=None, question=""):
+        """Call GPT-4o via OpenRouter"""
+        import openai
+        
+        try:
+            scoring_prompt = self.create_scoring_prompt(essay_text, question, range_info)
+            if scoring_prompt is None:
+                return None
+            client = openai.OpenAI(
+                base_url="https://openrouter.ai/api/v1",
+                api_key=os.getenv("OPENROUTER_API_KEY")
+            )
+            
+            response = client.chat.completions.create(
+                model="openai/gpt-4o",
                 messages=[{"role": "user", "content": scoring_prompt}],
                 max_tokens=15,
                 temperature=0.3
@@ -415,98 +440,185 @@ Score:"""
         except Exception as e:
             print(f"GPT-4o API error: {e}")
             return None
-    
-    def call_gemini_pro(self, essay_text: str, prompt: str, range_info=None, question=""):
-        """Call Gemini Pro API with free tier"""
-        try:
-            import google.generativeai as genai
-            genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-            
-            # Use the free tier model
-            model = genai.GenerativeModel('gemini-1.5-flash')
-            
-            # Create scoring prompt
-            if range_info:
-                if range_info["type"] == "categorical":
-                    categories = range_info["categories"]
-                    scoring_prompt = f"""You are an expert grader. Classify this answer as one of: {', '.join(categories)}
 
-    Question: {question}
-    Student Answer: {essay_text}
-
-    Provide only one of these exact words: {', '.join(categories)}"""
-
-                else:  # numeric ranges
-                    min_score, max_score = range_info["min"], range_info["max"]
-                    description = range_info["description"]
-                    
-                    scoring_prompt = f"""You are an expert grader. Rate this answer using the {description}.
-
-    Question: {question}
-    Student Answer: {essay_text}
-
-    Provide only a numerical score between {min_score} and {max_score}."""
-            else:
-                scoring_prompt = f"""Rate this essay on a 0-5 scale where 5=Excellent, 0=Very Poor.
-    Essay: {essay_text}
-    Score:"""
-
-            response = model.generate_content(scoring_prompt)
-            return self.parse_model_response(response.text.strip(), range_info)
-            
-        except Exception as e:
-            print(f"Gemini API error: {e}")
-            return None
-
-    def call_gemini_flash(self, essay_text: str, prompt: str, range_info=None, question=""):
-        """Call Gemini Flash API (same as Pro for now)"""
-        return self.call_gemini_pro(essay_text, prompt, range_info, question)
-
-    def call_claude(self, essay_text: str, prompt: str, range_info=None, question=""):
-        """Call Claude API with dataset-specific range"""
-        import anthropic
+    def call_gpt4o_mini(self, essay_text: str, prompt: str, range_info=None, question=""):
+        """Call GPT-4o-mini via OpenRouter"""
+        import openai
         
         try:
-            client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+            scoring_prompt = self.create_scoring_prompt(essay_text, question, range_info)
+            if scoring_prompt is None:
+                return None
             
-            # Create range-specific scoring prompt (similar to GPT-4o)
-            if range_info:
-                if range_info["type"] == "categorical":
-                    categories = range_info["categories"]
-                    scoring_prompt = f"""You are an expert grader. Classify this answer as one of: {', '.join(categories)}
-
-Question: {question}
-Student Answer: {essay_text}
-
-Provide only one of these exact words: {', '.join(categories)}"""
-
-                else:  # numeric ranges
-                    min_score, max_score = range_info["min"], range_info["max"]
-                    description = range_info["description"]
-                    
-                    scoring_prompt = f"""You are an expert grader. Rate this answer using the {description}.
-
-Question: {question}
-Student Answer: {essay_text}
-
-Provide only a numerical score between {min_score} and {max_score}."""
-            else:
-                scoring_prompt = f"""Rate this essay on a 0-5 scale where 5=Excellent, 0=Very Poor.
-Essay: {essay_text}
-Score:"""
-
-            response = client.messages.create(
-                model="claude-3-5-sonnet-20241022",
-                max_tokens=15,
-                messages=[{"role": "user", "content": scoring_prompt}]
+            client = openai.OpenAI(
+                base_url="https://openrouter.ai/api/v1",
+                api_key=os.getenv("OPENROUTER_API_KEY")
             )
             
-            return self.parse_model_response(response.content[0].text.strip(), range_info)
+            response = client.chat.completions.create(
+                model="openai/gpt-4o-mini",
+                messages=[{"role": "user", "content": scoring_prompt}],
+                max_tokens=15,
+                temperature=0.3
+            )
+            
+            return self.parse_model_response(response.choices[0].message.content.strip(), range_info)
             
         except Exception as e:
-            print(f"Claude API error: {e}")
+            print(f"GPT-4o-mini API error: {e}")
             return None
-    
+
+    def call_claude_sonnet(self, essay_text: str, prompt: str, range_info=None, question=""):
+        """Call Claude Sonnet via OpenRouter"""
+        import openai
+        
+        try:
+            scoring_prompt = self.create_scoring_prompt(essay_text, question, range_info)
+            if scoring_prompt is None:
+                return None
+            
+            client = openai.OpenAI(
+                base_url="https://openrouter.ai/api/v1",
+                api_key=os.getenv("OPENROUTER_API_KEY")
+            )
+            
+            response = client.chat.completions.create(
+                model="anthropic/claude-3.5-sonnet",
+                messages=[{"role": "user", "content": scoring_prompt}],
+                max_tokens=15,
+                temperature=0.3
+            )
+            
+            return self.parse_model_response(response.choices[0].message.content.strip(), range_info)
+            
+        except Exception as e:
+            print(f"Claude Sonnet API error: {e}")
+            return None
+
+    def call_claude_haiku(self, essay_text: str, prompt: str, range_info=None, question=""):
+        """Call Claude Haiku via OpenRouter"""
+        import openai
+        
+        try:
+            scoring_prompt = self.create_scoring_prompt(essay_text, question, range_info)
+            if scoring_prompt is None:
+                return None
+            
+            client = openai.OpenAI(
+                base_url="https://openrouter.ai/api/v1",
+                api_key=os.getenv("OPENROUTER_API_KEY")
+            )
+            
+            response = client.chat.completions.create(
+                model="anthropic/claude-3.5-haiku",
+                messages=[{"role": "user", "content": scoring_prompt}],
+                max_tokens=15,
+                temperature=0.3
+            )
+            
+            return self.parse_model_response(response.choices[0].message.content.strip(), range_info)
+            
+        except Exception as e:
+            print(f"Claude Haiku API error: {e}")
+            return None
+
+
+    def calculate_additional_metrics(self, predictions, actuals, task_type="regression"):
+        """Calculate QWK, F1, Precision, Recall"""
+        import numpy as np
+        from sklearn.metrics import f1_score, precision_score, recall_score, cohen_kappa_score
+        
+        metrics = {}
+        
+        try:
+            # Quadratic Weighted Kappa (QWK)
+            def quadratic_weighted_kappa(y_true, y_pred):
+                """Calculate QWK for continuous scores"""
+                # Convert to integer bins for kappa calculation
+                y_true_int = np.round(y_true).astype(int)
+                y_pred_int = np.round(y_pred).astype(int)
+                
+                return cohen_kappa_score(y_true_int, y_pred_int, weights='quadratic')
+            
+            metrics['qwk'] = quadratic_weighted_kappa(actuals, predictions)
+            
+            # For classification tasks (like BEEtlE, SciEntSBank)
+            if task_type == "classification":
+                # Convert categorical to numeric if needed
+                if isinstance(predictions[0], str):
+                    label_map = {"incorrect": 0, "partial_correct": 1, "correct": 2}
+                    pred_numeric = [label_map.get(p, 0) for p in predictions]
+                    actual_numeric = [label_map.get(a, 0) for a in actuals]
+                else:
+                    pred_numeric = predictions
+                    actual_numeric = actuals
+                
+                metrics['f1_macro'] = f1_score(actual_numeric, pred_numeric, average='macro')
+                metrics['f1_micro'] = f1_score(actual_numeric, pred_numeric, average='micro')
+                metrics['precision_macro'] = precision_score(actual_numeric, pred_numeric, average='macro')
+                metrics['recall_macro'] = recall_score(actual_numeric, pred_numeric, average='macro')
+            
+            # For regression tasks - create binary classification at threshold
+            else:
+                # Binary classification: good (>= median) vs poor (< median)
+                median_score = np.median(actuals)
+                actual_binary = (np.array(actuals) >= median_score).astype(int)
+                pred_binary = (np.array(predictions) >= median_score).astype(int)
+                
+                metrics['f1_binary'] = f1_score(actual_binary, pred_binary)
+                metrics['precision_binary'] = precision_score(actual_binary, pred_binary)
+                metrics['recall_binary'] = recall_score(actual_binary, pred_binary)
+        
+        except Exception as e:
+            print(f"Error calculating additional metrics: {e}")
+            metrics = {
+                'qwk': 0.0, 'f1_macro': 0.0, 'f1_micro': 0.0,
+                'precision_macro': 0.0, 'recall_macro': 0.0
+            }
+        
+        return metrics
+
+    def create_scoring_prompt(self, essay_text: str, question: str, range_info=None):
+        """Create standardized scoring prompt"""
+        # Clean and validate essay text
+        essay_text = str(essay_text).strip()
+        
+        # Skip completely empty essays
+        if len(essay_text) < 5:
+            return None  # Return None for empty essays
+        
+        # Truncate very long essays to avoid token limits
+        if len(essay_text) > 2000:
+            essay_text = essay_text[:2000] + "..."
+        
+        if range_info and range_info["type"] != "categorical":
+            min_score, max_score = range_info["min"], range_info["max"]
+            description = range_info["description"]
+            
+            return f"""You are an expert essay grader. Rate this essay using the {description}.
+
+    Essay: {essay_text}
+
+    Scoring Guidelines for {min_score}-{max_score} scale:
+    - {max_score}: Exceptional essay with sophisticated ideas, excellent organization, and strong writing
+    - {max_score*0.8:.0f}: Good essay with clear ideas and solid writing
+    - {max_score*0.6:.0f}: Adequate essay meeting basic requirements
+    - {max_score*0.4:.0f}: Below average essay with some issues
+    - {max_score*0.2:.0f}: Poor essay with significant problems
+    - {min_score}: Very poor or off-topic essay
+
+    Consider: Content quality, organization, language use, development of ideas, and adherence to prompt.
+
+    Provide only a numerical score between {min_score} and {max_score}:"""
+
+        else:
+            # Handle categorical or default case
+            return f"""Rate this essay on a 0-5 scale where 5=Excellent, 0=Very Poor.
+
+    Essay: {essay_text}
+
+    Score:"""
+ 
     def parse_model_response(self, response_text: str, range_info):
         """Parse model response based on range type"""
         import re
@@ -578,7 +690,7 @@ Score:"""
         else:
             return round(score, 2)
     
-    def evaluate_with_ground_truth(self, dataset_name: str, predictions: List[Dict]):
+    def evaluate_with_ground_truth(self, dataset_name: str, predictions: List[Dict], model_type: str = "Unknown"):
         """Submit predictions to BESESR for evaluation against ground truth from {dataset_name}"""
         try:
             # Complete Dataset submission requirements with D_ versions
@@ -669,7 +781,10 @@ Score:"""
                 'file': ('predictions.csv', csv_data, 'text/csv')
             }
             data = {
-                'dataset_name': dataset_name  # Use original dataset name for ground truth
+                'dataset_name': dataset_name,
+                'methodology': 'zero-shot',
+                'model_name': f'{model_type.upper()} Zero-shot',  # Add this line
+                'submitter_name': f'{model_type.upper()} Zero-shot Model'  
             }
             
             print(f"Submitting predictions to {dataset_name} for ground truth evaluation...")
@@ -712,9 +827,26 @@ Score:"""
     def get_ground_truth_scores(self, dataset_name: str, essay_ids: List[str]) -> Dict[str, float]:
         """Fetch ground truth scores for given essay IDs"""
         try:
-            # Normalize dataset name to get ground truth from non-D_ version
             gt_dataset_name = dataset_name[2:] if dataset_name.startswith("D_") else dataset_name
+            dev_key = os.getenv("DEV_GROUND_TRUTH_KEY")
+            url = f"{self.base_url}/api/download-ground-truth/{gt_dataset_name}"
+            print(f"DEBUG: Fetching from URL: {url}")
+            print(f"DEBUG: Using dev key: {dev_key}")
+            
+            response = requests.get(url, params={"dev_key": dev_key})
+            
+            print(f"DEBUG: Response status: {response.status_code}")
+            print(f"DEBUG: Response text: {response.text[:200]}")
             print(f"Fetching ground truth from: {gt_dataset_name}")
+            
+            response = requests.get(
+                f"{self.base_url}/api/datasets/download-ground-truth/{gt_dataset_name}",
+                params={"dev_key": "your_dev_key_here"}
+            )
+            
+            if response.status_code != 200:
+                print(f"Failed to download ground truth dataset: HTTP {response.status_code}")
+                return {}
             
             # Download ground truth dataset
             response = requests.get(f"{self.base_url}/api/datasets/download/{gt_dataset_name}")
@@ -879,26 +1011,41 @@ Score:"""
             })
         
         # Step 5: Evaluate against ground truth from {dataset_name}
-        metrics = self.evaluate_with_ground_truth(dataset_name, besesr_predictions)
+        metrics = self.evaluate_with_ground_truth(dataset_name, besesr_predictions, model_type)
         
         if metrics:
             print("✓ Ground truth evaluation completed successfully")
             
-            # Add local prediction statistics
-            metrics.update({
-                'num_predictions': len(predictions),
-                'prediction_mean': np.mean(predictions),
-                'prediction_std': np.std(predictions)
-            })
+            # Handle string vs numeric predictions - FIXED VERSION
+            if predictions and isinstance(predictions[0], str):
+                # Handle categorical predictions
+                unique_preds = list(set(predictions))
+                metrics.update({
+                    'num_predictions': len(predictions),
+                    'prediction_mean': 0.0,
+                    'prediction_std': 0.0, 
+                    'prediction_min': unique_preds[0] if unique_preds else 'unknown',
+                    'prediction_max': unique_preds[-1] if unique_preds else 'unknown',
+                })
+            else:
+                # Handle numeric predictions
+                metrics.update({
+                    'num_predictions': len(predictions),
+                    'prediction_mean': np.mean(predictions),
+                    'prediction_std': np.std(predictions),
+                    'prediction_min': np.min(predictions),
+                    'prediction_max': np.max(predictions),
+                })    
             
-            # Update results with proper actual scores if we didn't get them earlier
             for detail in results_detail:
                 if detail.get('actual') == "Unknown":
-                    # If we still don't have actual scores, use MAE-based estimation
                     if metrics.get('mean_absolute_error', 0) > 0:
                         predicted = detail['predicted']
                         mae = metrics['mean_absolute_error']
-                        estimated_actual = round(predicted + mae, 1)
+                        if isinstance(predicted, str):
+                            estimated_actual = predicted 
+                        else:
+                            estimated_actual = round(predicted + mae, 1)
                         detail['actual'] = f"~{estimated_actual} (est)"
                     else:
                         detail['actual'] = 'Not available'
@@ -909,19 +1056,36 @@ Score:"""
             print("  - Prediction format incorrect")
             print("  - ID mismatch between test and ground truth")
             
-            # Provide basic statistics without ground truth
-            metrics = {
-                'num_predictions': len(predictions),
-                'prediction_mean': np.mean(predictions),
-                'prediction_std': np.std(predictions),
-                'prediction_min': np.min(predictions),
-                'prediction_max': np.max(predictions),
-                'mean_absolute_error': 0.0,
-                'root_mean_squared_error': 0.0,
-                'pearson_correlation': 0.0,
-                'accuracy_within_1.0': 0.0,
-                'accuracy_within_0.5': 0.0
-            }
+            # Provide basic statistics without ground truth - FIXED VERSION
+            if predictions and isinstance(predictions[0], str):
+                # Handle categorical predictions
+                unique_preds = list(set(predictions))
+                metrics = {
+                    'num_predictions': len(predictions),
+                    'prediction_mean': 0.0,
+                    'prediction_std': 0.0,
+                    'prediction_min': unique_preds[0] if unique_preds else 'unknown',
+                    'prediction_max': unique_preds[-1] if unique_preds else 'unknown',
+                    'mean_absolute_error': 0.0,
+                    'root_mean_squared_error': 0.0,
+                    'pearson_correlation': 0.0,
+                    'accuracy_within_1.0': 0.0,
+                    'accuracy_within_0.5': 0.0
+                }
+            else:
+                # Handle numeric predictions
+                metrics = {
+                    'num_predictions': len(predictions),
+                    'prediction_mean': np.mean(predictions),
+                    'prediction_std': np.std(predictions),
+                    'prediction_min': np.min(predictions),
+                    'prediction_max': np.max(predictions),
+                    'mean_absolute_error': 0.0,
+                    'root_mean_squared_error': 0.0,
+                    'pearson_correlation': 0.0,
+                    'accuracy_within_1.0': 0.0,
+                    'accuracy_within_0.5': 0.0
+                }
             
             for detail in results_detail:
                 detail['actual'] = 'Evaluation failed'
@@ -964,14 +1128,33 @@ Score:"""
         print(f"├─ Mean Absolute Error: {metrics.get('mean_absolute_error', 0):.3f}")
         print(f"├─ Root Mean Squared Error: {metrics.get('root_mean_squared_error', 0):.3f}")
         print(f"├─ Correlation: {metrics.get('pearson_correlation', 0):.3f}")
+        print(f"├─ Quadratic Weighted Kappa: {metrics.get('quadratic_weighted_kappa', 0):.3f}")
+        print(f"├─ F1 Score: {metrics.get('f1_score', 0):.3f}")
+        print(f"├─ Precision: {metrics.get('precision', 0):.3f}")
+        print(f"├─ Recall: {metrics.get('recall', 0):.3f}")
         print(f"├─ Accuracy within 1.0: {metrics.get('accuracy_within_1.0', 0):.1%}")
         print(f"└─ Accuracy within 0.5: {metrics.get('accuracy_within_0.5', 0):.1%}")
         
         print(f"\nSCORE STATISTICS:")
-        print(f"├─ Predicted Mean: {metrics.get('prediction_mean', 0):.2f}")
-        print(f"├─ Predicted Std: {metrics.get('prediction_std', 0):.2f}")
-        print(f"├─ Predicted Min: {metrics.get('prediction_min', 0):.2f}")
-        print(f"└─ Predicted Max: {metrics.get('prediction_max', 0):.2f}")
+        
+        # Handle string vs numeric values for display
+        pred_mean = metrics.get('prediction_mean', 0)
+        pred_std = metrics.get('prediction_std', 0)
+        pred_min = metrics.get('prediction_min', 0)
+        pred_max = metrics.get('prediction_max', 0)
+        
+        is_categorical = any(isinstance(val, str) for val in [pred_mean, pred_std, pred_min, pred_max])
+
+        if is_categorical:
+            print(f"├─ Predicted Mean: {pred_mean}")
+            print(f"├─ Predicted Std: {pred_std}")
+            print(f"├─ Predicted Min: {pred_min}")
+            print(f"└─ Predicted Max: {pred_max}")
+        else:
+            print(f"├─ Predicted Mean: {pred_mean:.2f}")
+            print(f"├─ Predicted Std: {pred_std:.2f}")
+            print(f"├─ Predicted Min: {pred_min:.2f}")
+            print(f"└─ Predicted Max: {pred_max:.2f}")
         
         print(f"\nSAMPLE PREDICTIONS:")
         for i, detail in enumerate(details[:5], 1):
@@ -1004,7 +1187,7 @@ def main():
                    ], 
                    help="Model to test")
     
-    parser.add_argument("--essays", type=int, default=10, help="Number of essays to test")
+    parser.add_argument("--essays", type=int, default=None, help="Number of essays to test (default: all available)")
     parser.add_argument("--list-datasets", action="store_true", help="List available datasets")
     
     args = parser.parse_args()
@@ -1018,7 +1201,7 @@ def main():
             print(f"{i:2d}. {ds}")
         return
     
-    result = tester.run_single_test(args.dataset, args.model, args.essays)
+    result = tester.run_single_test(args.dataset, args.model, args.essays) 
     
     if result and result['success']:
         print(f"\nTest completed successfully!")

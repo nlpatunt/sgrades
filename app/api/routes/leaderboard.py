@@ -83,7 +83,7 @@ async def get_leaderboard_stats():
             from app.services.dataset_loader import dataset_manager
             datasets_available = list(dataset_manager.datasets_config.keys())
         except:
-            datasets_available = ["ASAP-AES", "ASAP-SAS", "ASAP2", "rice_chem", "CSEE", "EFL", 
+            datasets_available = ["ASAP-AES", "ASAP-SAS", "ASAP2", "rice_chem", "CSEE",
                                 "grade_like_a_human_dataset_os", "persuade_2", "SciEntSBank", 
                                 "BEEtlE", "automatic_short_answer_grading_mohlar"]
         
@@ -178,7 +178,7 @@ async def get_individual_leaderboard(metric: str = "quadratic_weighted_kappa", l
                 mean_absolute_error=entry.get('mean_absolute_error', 999.0),
                 accuracy=entry.get('accuracy', 0.0),
                 essays_evaluated=entry.get('essays_evaluated', 0),
-                submission_time=entry.get('submission_time'),
+                upload_timestamp=entry.get('upload_timestamp'),
                 submission_type=entry.get('submission_type', 'individual_testing')
             )
             leaderboard_entries.append(leaderboard_entry)

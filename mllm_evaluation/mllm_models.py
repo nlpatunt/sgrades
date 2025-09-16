@@ -1,6 +1,3 @@
-# MLLM Model Implementations for BESESR Testing
-# Based on EssayJudge paper models
-
 import torch
 from transformers import (
     AutoTokenizer, AutoModelForCausalLM, 
@@ -77,9 +74,7 @@ Provide only a numerical score from 0-5 where:
 Score:"""
 
     def _extract_score(self, response: str) -> float:
-        """Extract numerical score from model response"""
         import re
-        # Look for numbers 0-5 in the response
         numbers = re.findall(r'\b[0-5](?:\.[0-9]+)?\b', response)
         if numbers:
             try:
@@ -92,13 +87,7 @@ Score:"""
         logger.warning(f"Could not extract score from response: {response[:100]}")
         return 2.5  # Average score as fallback
 
-# =============================================================================
-# OPEN-SOURCE MODELS
-# =============================================================================
-
 class YiVLModel(BaseMLLMModel):
-    """Yi-VL 6B implementation"""
-    
     def __init__(self):
         super().__init__("Yi-VL-6B")
         
@@ -137,8 +126,6 @@ class YiVLModel(BaseMLLMModel):
             return "Error in generation"
 
 class Qwen2VLModel(BaseMLLMModel):
-    """Qwen2-VL 7B implementation"""
-    
     def __init__(self):
         super().__init__("Qwen2-VL-7B")
         
@@ -161,7 +148,6 @@ class Qwen2VLModel(BaseMLLMModel):
             return "Model not loaded"
             
         try:
-            # Prepare multimodal inputs
             if images:
                 inputs = self.processor(text=prompt, images=images[0], return_tensors="pt")
             else:
@@ -181,8 +167,6 @@ class Qwen2VLModel(BaseMLLMModel):
             return "Error in generation"
 
 class DeepSeekVLModel(BaseMLLMModel):
-    """DeepSeek-VL 7B implementation"""
-    
     def __init__(self):
         super().__init__("DeepSeek-VL-7B")
         
@@ -201,13 +185,10 @@ class DeepSeekVLModel(BaseMLLMModel):
             logger.error(f"Failed to load {self.model_name}: {e}")
 
 class LLaVANextModel(BaseMLLMModel):
-    """LLaVA-NEXT 8B implementation"""
-    
     def __init__(self):
         super().__init__("LLaVA-NEXT-8B")
         
     def load_model(self):
-        # LLaVA-NEXT typically requires specific loading procedures
         model_path = "llava-hf/llava-v1.6-mistral-7b-hf"
         try:
             self.processor = AutoProcessor.from_pretrained(model_path)
@@ -221,8 +202,6 @@ class LLaVANextModel(BaseMLLMModel):
             logger.error(f"Failed to load {self.model_name}: {e}")
 
 class InternVL2Model(BaseMLLMModel):
-    """InternVL2 8B implementation"""
-    
     def __init__(self):
         super().__init__("InternVL2-8B")
         
@@ -373,7 +352,7 @@ class Claude35SonnetModel(BaseMLLMModel):
                     })
             
             response = self.client.messages.create(
-                model="claude-3-5-sonnet-20241022",
+                model="claude-3-5-sonnet-20241220" ,
                 max_tokens=200,
                 messages=[{"role": "user", "content": content}]
             )

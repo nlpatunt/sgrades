@@ -24,6 +24,43 @@ class Dataset(Base):
     updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
 
 
+class OutputSubmission(Base):
+    __tablename__ = "output_submissions"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    dataset_name = Column(String, nullable=False)
+    submitter_name = Column(String, nullable=False)
+    submitter_email = Column(String, nullable=False)
+    methodology = Column(String, default="fully-trained")
+
+    # File storage fields
+    original_filename = Column(String, nullable=True)
+    stored_file_path = Column(String, nullable=True)
+    file_hash = Column(String, nullable=True)
+    file_size = Column(Integer, nullable=True)
+    
+    # Metadata
+    upload_timestamp = Column(DateTime, default=datetime.utcnow)
+    ip_address = Column(String)
+    user_agent = Column(String)
+    
+    # Evaluation results
+    evaluation_result = Column(Text)
+    status = Column(String, default="pending")
+    description = Column(String, nullable=True)
+    
+    # Audit fields
+    is_archived = Column(Boolean, default=False)
+    archive_reason = Column(String)
+    
+    # Foreign key for benchmark session
+    benchmark_session_id = Column(Integer, ForeignKey("benchmark_sessions.id"), nullable=True)
+    
+    # Relationships
+    benchmark_session = relationship("BenchmarkSession", back_populates="submissions")
+    evaluations = relationship("EvaluationResult", back_populates="submission")
+
+
 class BenchmarkSession(Base):
     """Database table for tracking complete 15-dataset benchmark submissions"""
     __tablename__ = "benchmark_sessions"
@@ -37,13 +74,13 @@ class BenchmarkSession(Base):
     paper_url = Column(String(512))
     
     # Progress tracking
-    status = Column(String(50), default="active")  # "active", "completed", "failed"
+    status = Column(String(50), default="active")
     datasets_completed = Column(Integer, default=0)
-    total_datasets = Column(Integer, default=24)  # Updated to 25 datasets
+    total_datasets = Column(Integer, default=24)
     
     # Results
     average_score = Column(Float)
-    benchmark_results = Column(JSON)  # Store complete results
+    benchmark_results = Column(JSON)
     
     # Timestamps
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
@@ -55,32 +92,6 @@ class BenchmarkSession(Base):
     submissions = relationship("OutputSubmission", back_populates="benchmark_session")
 
 
-class OutputSubmission(Base):
-    """Database table for storing individual dataset submissions"""
-    __tablename__ = "output_submissions"
-    
-    id = Column(Integer, primary_key=True, index=True)
-    submitter_name = Column(String(255), nullable=False, index=True)
-    dataset_name = Column(String(255), nullable=False, index=True)
-    status = Column(String(50), default="submitted", index=True)  
-    submitter_email = Column(String(255), nullable=False)
-    file_path = Column(String(512), nullable=False)
-    file_format = Column(String(10), default="csv")
-    description = Column(Text)
-    evaluation_result = Column(JSON)
-    error_message = Column(Text)
-    submission_time = Column(DateTime, default=lambda: datetime.now(timezone.utc))
-    processing_time = Column(Float)
-    
-    # Foreign key to benchmark session (optional)
-    benchmark_session_id = Column(String(255), ForeignKey("benchmark_sessions.session_id"))
-    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
-    
-    # Relationships
-    evaluations = relationship("EvaluationResult", back_populates="submission", cascade="all, delete-orphan")
-    benchmark_session = relationship("BenchmarkSession", back_populates="submissions")
-
-
 class EvaluationResult(Base):
     """Database table for storing evaluation metrics for each submission"""
     __tablename__ = "evaluation_results"
@@ -89,7 +100,7 @@ class EvaluationResult(Base):
     submission_id = Column(Integer, ForeignKey("output_submissions.id"), nullable=False)
     dataset_name = Column(String(255), nullable=False)
     
-    # Core metrics (your 5 evaluation metrics)
+    # Core metrics
     quadratic_weighted_kappa = Column(Float, nullable=True)
     pearson_correlation = Column(Float, nullable=True)
     spearman_correlation = Column(Float, nullable=True)
@@ -120,7 +131,7 @@ class Essay(Base):
     essay_text = Column(Text, nullable=False)
     prompt = Column(Text, nullable=True)
     
-    # Human scores (reference scores for evaluation)
+    # Human scores
     holistic_score = Column(Float, nullable=True)
     content_score = Column(Float, nullable=True)
     organization_score = Column(Float, nullable=True)
