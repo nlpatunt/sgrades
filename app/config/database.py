@@ -1,4 +1,4 @@
-#app/api/config/database.py
+# app/config/database.py
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.pool import StaticPool
@@ -8,7 +8,7 @@ from contextlib import contextmanager
 # Database configuration
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./besesr.db")
 
-# Create engine with SQLite-specific settings
+# Create engine with database-specific settings
 if DATABASE_URL.startswith("sqlite"):
     engine = create_engine(
         DATABASE_URL,
@@ -16,7 +16,18 @@ if DATABASE_URL.startswith("sqlite"):
         poolclass=StaticPool,
         echo=False  # Set to True for SQL debugging
     )
+elif DATABASE_URL.startswith("postgresql"):
+    # PostgreSQL configuration
+    engine = create_engine(
+        DATABASE_URL,
+        pool_pre_ping=True,
+        pool_recycle=3600,
+        pool_size=10,
+        max_overflow=20,
+        echo=False  # Set to True for SQL debugging
+    )
 else:
+    # Fallback for other databases
     engine = create_engine(DATABASE_URL)
 
 # Create session factory

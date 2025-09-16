@@ -1,0 +1,789 @@
+{
+  "discovered_at": "2025-09-16T23:42:08.881418",
+  "username": "nlpatunt",
+  "dataset_count": 46,
+  "datasets": {
+    "ASAP-AES": {
+      "huggingface_id": "nlpatunt/D_ASAP-AES",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:41:54.563890",
+      "description": "ASAP Automated Essay Scoring",
+      "essay_column": "essay",
+      "score_column": "domain1_score",
+      "prompt_column": "essay_set",
+      "score_range": [
+        0,
+        60
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_ASAP-AES": {
+      "huggingface_id": "nlpatunt/D_ASAP-AES",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:41:54.563890",
+      "description": "ASAP Automated Essay Scoring",
+      "essay_column": "essay",
+      "score_column": "domain1_score",
+      "prompt_column": "essay_set",
+      "score_range": [
+        0,
+        60
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "ASAP2": {
+      "huggingface_id": "nlpatunt/D_ASAP2",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:41:56.111072",
+      "description": "ASAP 2.0 Dataset - Automated Essay Scoring",
+      "essay_column": "full_text",
+      "score_column": "score",
+      "prompt_column": "assignment",
+      "score_range": [
+        0,
+        60
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_ASAP2": {
+      "huggingface_id": "nlpatunt/D_ASAP2",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:41:56.111072",
+      "description": "ASAP 2.0 Dataset - Automated Essay Scoring",
+      "essay_column": "full_text",
+      "score_column": "score",
+      "prompt_column": "assignment",
+      "score_range": [
+        0,
+        60
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "ASAP_plus_plus": {
+      "huggingface_id": "nlpatunt/D_ASAP_plus_plus",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:41:57.977771",
+      "description": "ASAP++ Enhanced Dataset",
+      "essay_column": "essay",
+      "score_column": "overall_score",
+      "prompt_column": "essay_set",
+      "score_range": [
+        0,
+        60
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_ASAP_plus_plus": {
+      "huggingface_id": "nlpatunt/D_ASAP_plus_plus",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:41:57.977771",
+      "description": "ASAP++ Enhanced Dataset",
+      "essay_column": "essay",
+      "score_column": "overall_score",
+      "prompt_column": "essay_set",
+      "score_range": [
+        0,
+        60
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "BEEtlE_2way": {
+      "huggingface_id": "nlpatunt/D_BEEtlE",
+      "config": "2way",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:41:57.977840",
+      "description": "Basic Elements of English Teaching and Learning Evaluation",
+      "essay_column": "student_answer",
+      "score_column": "label",
+      "prompt_column": "question_text",
+      "score_range": [
+        0,
+        1
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_BEEtlE_2way": {
+      "huggingface_id": "nlpatunt/D_BEEtlE",
+      "config": "2way",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:41:57.977840",
+      "description": "Basic Elements of English Teaching and Learning Evaluation",
+      "essay_column": "student_answer",
+      "score_column": "label",
+      "prompt_column": "question_text",
+      "score_range": [
+        0,
+        1
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "BEEtlE_3way": {
+      "huggingface_id": "nlpatunt/D_BEEtlE",
+      "config": "3way",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:41:57.977870",
+      "description": "Basic Elements of English Teaching and Learning Evaluation",
+      "essay_column": "student_answer",
+      "score_column": "label",
+      "prompt_column": "question_text",
+      "score_range": [
+        0,
+        2
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_BEEtlE_3way": {
+      "huggingface_id": "nlpatunt/D_BEEtlE",
+      "config": "3way",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:41:57.977870",
+      "description": "Basic Elements of English Teaching and Learning Evaluation",
+      "essay_column": "student_answer",
+      "score_column": "label",
+      "prompt_column": "question_text",
+      "score_range": [
+        0,
+        2
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "CSEE": {
+      "huggingface_id": "nlpatunt/D_CSEE",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:41:59.661125",
+      "description": "Computer Science Essay Evaluation Dataset",
+      "essay_column": "essay",
+      "score_column": "overall_score",
+      "prompt_column": "prompt",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_CSEE": {
+      "huggingface_id": "nlpatunt/D_CSEE",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:41:59.661125",
+      "description": "Computer Science Essay Evaluation Dataset",
+      "essay_column": "essay",
+      "score_column": "overall_score",
+      "prompt_column": "prompt",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "ASAP-SAS": {
+      "huggingface_id": "nlpatunt/D_ASAP-SAS",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:01.191743",
+      "description": "ASAP Short Answer Scoring",
+      "essay_column": "essay_text",
+      "score_column": "Score1",
+      "prompt_column": "essay_set",
+      "score_range": [
+        0,
+        60
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_ASAP-SAS": {
+      "huggingface_id": "nlpatunt/D_ASAP-SAS",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:01.191743",
+      "description": "ASAP Short Answer Scoring",
+      "essay_column": "essay_text",
+      "score_column": "Score1",
+      "prompt_column": "essay_set",
+      "score_range": [
+        0,
+        60
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "Mohlar": {
+      "huggingface_id": "nlpatunt/D_Mohlar",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:02.694923",
+      "description": "Automatic Short Answer Grading - Mohlar Dataset",
+      "essay_column": "student_answer",
+      "score_column": "grade",
+      "prompt_column": "question",
+      "score_range": [
+        0,
+        5
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_Mohlar": {
+      "huggingface_id": "nlpatunt/D_Mohlar",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:02.694923",
+      "description": "Automatic Short Answer Grading - Mohlar Dataset",
+      "essay_column": "student_answer",
+      "score_column": "grade",
+      "prompt_column": "question",
+      "score_range": [
+        0,
+        5
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "Ielts_Writing_Dataset": {
+      "huggingface_id": "nlpatunt/D_Ielts_Writing_Dataset",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:04.389305",
+      "description": "IELTS Writing Assessment Dataset",
+      "essay_column": "Essay",
+      "score_column": "Overall_Score",
+      "prompt_column": "Question",
+      "score_range": [
+        1,
+        9
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_Ielts_Writing_Dataset": {
+      "huggingface_id": "nlpatunt/D_Ielts_Writing_Dataset",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:04.389305",
+      "description": "IELTS Writing Assessment Dataset",
+      "essay_column": "Essay",
+      "score_column": "Overall_Score",
+      "prompt_column": "Question",
+      "score_range": [
+        1,
+        9
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "grade_like_a_human_dataset_os_q1": {
+      "huggingface_id": "nlpatunt/D_grade_like_a_human_dataset_os",
+      "config": "q1",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:04.389387",
+      "description": "Grade Like a Human OS Dataset",
+      "essay_column": "answer",
+      "score_column": "score_1",
+      "prompt_column": "question",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_grade_like_a_human_dataset_os_q1": {
+      "huggingface_id": "nlpatunt/D_grade_like_a_human_dataset_os",
+      "config": "q1",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:04.389387",
+      "description": "Grade Like a Human OS Dataset",
+      "essay_column": "answer",
+      "score_column": "score_1",
+      "prompt_column": "question",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "grade_like_a_human_dataset_os_q2": {
+      "huggingface_id": "nlpatunt/D_grade_like_a_human_dataset_os",
+      "config": "q2",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:04.389429",
+      "description": "Grade Like a Human OS Dataset",
+      "essay_column": "answer",
+      "score_column": "score_1",
+      "prompt_column": "question",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_grade_like_a_human_dataset_os_q2": {
+      "huggingface_id": "nlpatunt/D_grade_like_a_human_dataset_os",
+      "config": "q2",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:04.389429",
+      "description": "Grade Like a Human OS Dataset",
+      "essay_column": "answer",
+      "score_column": "score_1",
+      "prompt_column": "question",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "grade_like_a_human_dataset_os_q3": {
+      "huggingface_id": "nlpatunt/D_grade_like_a_human_dataset_os",
+      "config": "q3",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:04.389459",
+      "description": "Grade Like a Human OS Dataset",
+      "essay_column": "answer",
+      "score_column": "score_1",
+      "prompt_column": "question",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_grade_like_a_human_dataset_os_q3": {
+      "huggingface_id": "nlpatunt/D_grade_like_a_human_dataset_os",
+      "config": "q3",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:04.389459",
+      "description": "Grade Like a Human OS Dataset",
+      "essay_column": "answer",
+      "score_column": "score_1",
+      "prompt_column": "question",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "grade_like_a_human_dataset_os_q4": {
+      "huggingface_id": "nlpatunt/D_grade_like_a_human_dataset_os",
+      "config": "q4",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:04.389488",
+      "description": "Grade Like a Human OS Dataset",
+      "essay_column": "answer",
+      "score_column": "score_1",
+      "prompt_column": "question",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_grade_like_a_human_dataset_os_q4": {
+      "huggingface_id": "nlpatunt/D_grade_like_a_human_dataset_os",
+      "config": "q4",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:04.389488",
+      "description": "Grade Like a Human OS Dataset",
+      "essay_column": "answer",
+      "score_column": "score_1",
+      "prompt_column": "question",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "grade_like_a_human_dataset_os_q5": {
+      "huggingface_id": "nlpatunt/D_grade_like_a_human_dataset_os",
+      "config": "q5",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:04.389517",
+      "description": "Grade Like a Human OS Dataset",
+      "essay_column": "answer",
+      "score_column": "score_1",
+      "prompt_column": "question",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_grade_like_a_human_dataset_os_q5": {
+      "huggingface_id": "nlpatunt/D_grade_like_a_human_dataset_os",
+      "config": "q5",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:04.389517",
+      "description": "Grade Like a Human OS Dataset",
+      "essay_column": "answer",
+      "score_column": "score_1",
+      "prompt_column": "question",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "Ielst_Writing_Task_2_Dataset": {
+      "huggingface_id": "nlpatunt/D_Ielst_Writing_Task_2_Dataset",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:05.859156",
+      "description": "IELTS Writing Task 2 Dataset",
+      "essay_column": "essay",
+      "score_column": "band_score",
+      "prompt_column": "prompt",
+      "score_range": [
+        1,
+        9
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_Ielst_Writing_Task_2_Dataset": {
+      "huggingface_id": "nlpatunt/D_Ielst_Writing_Task_2_Dataset",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:05.859156",
+      "description": "IELTS Writing Task 2 Dataset",
+      "essay_column": "essay",
+      "score_column": "band_score",
+      "prompt_column": "prompt",
+      "score_range": [
+        1,
+        9
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "persuade_2": {
+      "huggingface_id": "nlpatunt/D_persuade_2",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:07.467025",
+      "description": "Persuasive Essays Dataset v2",
+      "essay_column": "full_text",
+      "score_column": "holistic_essay_score",
+      "prompt_column": "assignment",
+      "score_range": [
+        1,
+        6
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_persuade_2": {
+      "huggingface_id": "nlpatunt/D_persuade_2",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:07.467025",
+      "description": "Persuasive Essays Dataset v2",
+      "essay_column": "full_text",
+      "score_column": "holistic_essay_score",
+      "prompt_column": "assignment",
+      "score_range": [
+        1,
+        6
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "SciEntSBank_2way": {
+      "huggingface_id": "nlpatunt/D_SciEntSBank",
+      "config": "2way",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:07.467105",
+      "description": "Science Entailment Bank Dataset",
+      "essay_column": "student_answer",
+      "score_column": "label",
+      "prompt_column": "question_text",
+      "score_range": [
+        0,
+        1
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_SciEntSBank_2way": {
+      "huggingface_id": "nlpatunt/D_SciEntSBank",
+      "config": "2way",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:07.467105",
+      "description": "Science Entailment Bank Dataset",
+      "essay_column": "student_answer",
+      "score_column": "label",
+      "prompt_column": "question_text",
+      "score_range": [
+        0,
+        1
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "SciEntSBank_3way": {
+      "huggingface_id": "nlpatunt/D_SciEntSBank",
+      "config": "3way",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:07.467137",
+      "description": "Science Entailment Bank Dataset",
+      "essay_column": "student_answer",
+      "score_column": "label",
+      "prompt_column": "question_text",
+      "score_range": [
+        0,
+        2
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_SciEntSBank_3way": {
+      "huggingface_id": "nlpatunt/D_SciEntSBank",
+      "config": "3way",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:07.467137",
+      "description": "Science Entailment Bank Dataset",
+      "essay_column": "student_answer",
+      "score_column": "label",
+      "prompt_column": "question_text",
+      "score_range": [
+        0,
+        2
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "Regrading_Dataset_J2C": {
+      "huggingface_id": "nlpatunt/D_Regrading_Dataset_J2C",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:08.881336",
+      "description": "Regrading Dataset J2C",
+      "essay_column": "student_answer",
+      "score_column": "grade",
+      "prompt_column": "Question",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_Regrading_Dataset_J2C": {
+      "huggingface_id": "nlpatunt/D_Regrading_Dataset_J2C",
+      "config": null,
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:08.881336",
+      "description": "Regrading Dataset J2C",
+      "essay_column": "student_answer",
+      "score_column": "grade",
+      "prompt_column": "Question",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "Rice_Chem_Q1": {
+      "huggingface_id": "nlpatunt/D_Rice_Chem",
+      "config": "Q1",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:08.881363",
+      "description": "Rice University Chemistry Dataset",
+      "essay_column": "student_response",
+      "score_column": "Score",
+      "prompt_column": "Prompt",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_Rice_Chem_Q1": {
+      "huggingface_id": "nlpatunt/D_Rice_Chem",
+      "config": "Q1",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:08.881363",
+      "description": "Rice University Chemistry Dataset",
+      "essay_column": "student_response",
+      "score_column": "Score",
+      "prompt_column": "Prompt",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "Rice_Chem_Q2": {
+      "huggingface_id": "nlpatunt/D_Rice_Chem",
+      "config": "Q2",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:08.881372",
+      "description": "Rice University Chemistry Dataset",
+      "essay_column": "student_response",
+      "score_column": "Score",
+      "prompt_column": "Prompt",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_Rice_Chem_Q2": {
+      "huggingface_id": "nlpatunt/D_Rice_Chem",
+      "config": "Q2",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:08.881372",
+      "description": "Rice University Chemistry Dataset",
+      "essay_column": "student_response",
+      "score_column": "Score",
+      "prompt_column": "Prompt",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "Rice_Chem_Q3": {
+      "huggingface_id": "nlpatunt/D_Rice_Chem",
+      "config": "Q3",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:08.881380",
+      "description": "Rice University Chemistry Dataset",
+      "essay_column": "student_response",
+      "score_column": "Score",
+      "prompt_column": "Prompt",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_Rice_Chem_Q3": {
+      "huggingface_id": "nlpatunt/D_Rice_Chem",
+      "config": "Q3",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:08.881380",
+      "description": "Rice University Chemistry Dataset",
+      "essay_column": "student_response",
+      "score_column": "Score",
+      "prompt_column": "Prompt",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "unlabeled"
+    },
+    "Rice_Chem_Q4": {
+      "huggingface_id": "nlpatunt/D_Rice_Chem",
+      "config": "Q4",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:08.881387",
+      "description": "Rice University Chemistry Dataset",
+      "essay_column": "student_response",
+      "score_column": "Score",
+      "prompt_column": "Prompt",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "ground_truth"
+    },
+    "D_Rice_Chem_Q4": {
+      "huggingface_id": "nlpatunt/D_Rice_Chem",
+      "config": "Q4",
+      "split": "train",
+      "auto_discovered": false,
+      "manual_override": true,
+      "discovery_time": "2025-09-16T23:42:08.881387",
+      "description": "Rice University Chemistry Dataset",
+      "essay_column": "student_response",
+      "score_column": "Score",
+      "prompt_column": "Prompt",
+      "score_range": [
+        0,
+        100
+      ],
+      "dataset_type": "unlabeled"
+    }
+  }
+}

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fully-trained Leaderboard - BESESR</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/frontend/css/style.css?v=2025-07-24-4" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome (icons) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <style>
+        /* Page-specific styles */
+        .nav-link.active {
+            color: var(--primary-blue);
+            font-weight: 600;
+            border-bottom: 2px solid var(--primary-blue);
+        }
+
+        .breadcrumb {
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb a {
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .methodology-info {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--success);
+        }
+
+        .methodology-info h3 {
+            margin-bottom: 1rem;
+            color: var(--success);
+        }
+
+        .methodology-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header style="background: white; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 1000;">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; min-height: 60px;">
+                <h1 style="font-size: 2.5rem; font-weight: 700; color: #2563eb; margin: 0;">
+                    <a href="index.html" style="text-decoration: none; color: inherit;">BESESR</a>
+                </h1>
+                <nav style="display: flex; gap: 0.3rem; align-items: center;">
+                    <a href="index.html#overview" style="padding: 0.5rem 0.6rem; font-size: 0.8rem; text-decoration: none; color: #111827; border-radius: 6px;">Overview</a>
+                    <a href="index.html#datasets" style="padding: 0.5rem 0.6rem; font-size: 0.8rem; text-decoration: none; color: #111827; border-radius: 6px;">Datasets</a>
+                    <a href="leaderboard-zero-shot.html" style="padding: 0.5rem 0.6rem; font-size: 0.7rem; text-decoration: none; color: #111827; border-radius: 6px; text-align: center; line-height: 1.2;">Zero-shot<br>Leaderboard</a>
+                    <a href="leaderboard-few-shot.html" style="padding: 0.5rem 0.6rem; font-size: 0.7rem; text-decoration: none; color: #111827; border-radius: 6px; text-align: center; line-height: 1.2;">Few-shot<br>Leaderboard</a>
+                    <a href="leaderboard-fully-trained.html" style="padding: 0.5rem 0.6rem; font-size: 0.7rem; text-decoration: none; color: #111827; border-radius: 6px; text-align: center; line-height: 1.2;">Fully-trained<br>Leaderboard</a>
+                    <a href="index.html#submit" style="padding: 0.5rem 0.6rem; font-size: 0.8rem; text-decoration: none; color: #111827; border-radius: 6px;">Submit</a>
+                    <a href="http://127.0.0.1:8000/docs" style="padding: 0.5rem 0.6rem; font-size: 0.8rem; text-decoration: none; color: #111827; border-radius: 6px;" target="_blank">API</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <section class="section" style="padding-top: 6rem;">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb">
+                <a href="index.html">Home</a> > <span>Fully-trained Leaderboard</span>
+            </nav>
+
+            <!-- Page Header -->
+            <div class="section-header">
+                <div class="methodology-badge">Fully-trained Methodology</div>
+                <h1>Fully-trained Leaderboard</h1>
+                <p>Models fine-tuned on training splits of target datasets</p>
+            </div>
+
+            <!-- Methodology Info -->
+            <div class="methodology-info">
+                <h3>About Fully-trained Evaluation</h3>
+                <p>Fully-trained models have been fine-tuned or trained on the provided training and validation splits of each target dataset. This represents the traditional supervised learning approach where models learn from labeled examples in the target domain before making predictions on test data.</p>
+                
+                <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Evaluation Criteria:</h4>
+                <ul style="margin-left: 1.5rem;">
+                    <li>Models trained on provided train/validation splits</li>
+                    <li>Parameter updates through supervised learning</li>
+                    <li>Access to human-labeled examples during training</li>
+                    <li>Performance measured on held-out test data</li>
+                </ul>
+            </div>
+
+            <!-- Leaderboard Controls -->
+            <div class="leaderboard-controls">
+                <div class="control-group">
+                    <label for="metric-selector">Ranking Metric:</label>
+                    <select id="metric-selector" class="control-select">
+                        <option value="avg_quadratic_weighted_kappa">Average Quadratic Weighted Kappa</option>
+                        <option value="avg_pearson_correlation">Average Pearson Correlation</option>
+                        <option value="avg_f1_score">Average F1 Score</option>
+                        <option value="avg_precision">Average Precision</option>
+                        <option value="avg_recall">Average Recall</option>
+                        <option value="avg_mae">Average Mean Absolute Error (Lower is Better)</option>
+                    </select>
+                </div>
+                <button id="refresh-leaderboard" class="btn btn-outline">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+
+            <!-- Leaderboard Table -->
+            <div id="leaderboard-fully-trained-table" class="leaderboard-container">
+                <div class="loading">Loading fully-trained leaderboard...</div>
+            </div>
+
+            <!-- Navigation to Other Leaderboards -->
+            <div style="margin-top: 3rem; padding: 1.5rem; background: var(--bg-white); border-radius: 12px; text-align: center;">
+                <h3 style="margin-bottom: 1rem;">Explore Other Methodologies</h3>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="leaderboard-zero-shot.html" class="btn btn-outline">
+                        <i class="fas fa-bolt"></i> Zero-shot Leaderboard
+                    </a>
+                    <a href="leaderboard-few-shot.html" class="btn btn-outline">
+                        <i class="fas fa-brain"></i> Few-shot Leaderboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>BESESR</h4>
+                    <p>A comprehensive benchmarking platform for automatic essay grading research.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="http://127.0.0.1:8000/docs" target="_blank">API Documentation</a></li>
+                        <li><a href="https://github.com/nlpatunt/besesr" target="_blank">GitHub Repository</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:contact@besesr.org">contact@besesr.org</a></li>
+                        <li><a href="#">Research Team</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 BESESR. Built for academic research.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/leaderboard-fully-trained.js"></script>
+</body>
+</html>

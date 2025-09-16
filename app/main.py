@@ -7,6 +7,9 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 
 load_dotenv()
 
@@ -15,6 +18,8 @@ from app.api.routes import output_submissions
 from app.config.database import init_database
 from app.services.database_service import DatabaseService
 from app.models.pydantic_models import HealthCheck, DatasetsListResponse, DatasetInfo
+
+limiter = Limiter(key_func=get_remote_address)
 
 async def startup_event():
     print("🚀 Starting BESESR Platform...")
@@ -52,6 +57,8 @@ app = FastAPI(
     on_startup=[startup_event]
 )
 
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 # -------------------
 # CORS
 # -------------------

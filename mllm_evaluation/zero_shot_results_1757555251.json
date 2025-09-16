@@ -1,0 +1,1629 @@
+[
+  {
+    "model": "gpt4o-mini",
+    "dataset": "D_ASAP-AES",
+    "test_data_source": "D_ASAP-AES",
+    "ground_truth_source": "ASAP-AES",
+    "metrics": {
+      "quadratic_weighted_kappa": 0.015559545182525558,
+      "pearson_correlation": 0.2130130514321656,
+      "mean_absolute_error": 26.6,
+      "mean_squared_error": 724.8,
+      "root_mean_squared_error": 26.922109872742144,
+      "f1_score": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "num_predictions": 10,
+      "prediction_mean": 31.2,
+      "prediction_std": 3.6,
+      "prediction_min": 24.0,
+      "prediction_max": 36.0
+    },
+    "details": [
+      {
+        "essay_id": 3598,
+        "predicted": 30.0,
+        "actual": "~56.6 (est)",
+        "text_preview": "Reading it is a joy to some and a pain to others. Do I think objects in the library with offensive d...",
+        "time": 1.367999792098999,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 60,
+          "description": "0-60 scale (60 = exceptional essay)"
+        }
+      },
+      {
+        "essay_id": 12958,
+        "predicted": 36.0,
+        "actual": "~62.6 (est)",
+        "text_preview": "The mood Narciso Rodriguez creates in his memoir is a very good and bright. He and his parents survi...",
+        "time": 0.9468064308166504,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 60,
+          "description": "0-60 scale (60 = exceptional essay)"
+        }
+      },
+      {
+        "essay_id": 6920,
+        "predicted": 30.0,
+        "actual": "~56.6 (est)",
+        "text_preview": "When the cyclist is going on his trip, he is riding through as desert. All he sees the entire journe...",
+        "time": 0.6247437000274658,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 60,
+          "description": "0-60 scale (60 = exceptional essay)"
+        }
+      },
+      {
+        "essay_id": 12586,
+        "predicted": 36.0,
+        "actual": "~62.6 (est)",
+        "text_preview": "From the memoir Home: Blueprints of Our Lives by Narciso Rodriguez, the author creates a mood of gra...",
+        "time": 0.6793515682220459,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 60,
+          "description": "0-60 scale (60 = exceptional essay)"
+        }
+      },
+      {
+        "essay_id": 15919,
+        "predicted": 24.0,
+        "actual": "~50.6 (est)",
+        "text_preview": "The builders of the Empire State building faced not so many but difficult obstacles. one of the obst...",
+        "time": 0.6928279399871826,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 60,
+          "description": "0-60 scale (60 = exceptional essay)"
+        }
+      },
+      {
+        "essay_id": 9999,
+        "predicted": 30.0,
+        "actual": "~56.6 (est)",
+        "text_preview": "In the \u0093passage winter Hibiscus\u0094 by monfong Ho, the quote \u0093 when they come back, Saeng vowed silentl...",
+        "time": 0.6343438625335693,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 60,
+          "description": "0-60 scale (60 = exceptional essay)"
+        }
+      },
+      {
+        "essay_id": 690,
+        "predicted": 36.0,
+        "actual": "~62.6 (est)",
+        "text_preview": "Dear @LOCATION1 @CAPS1, I believe that computers do benefit society. People are able to read, shop, ...",
+        "time": 0.46037888526916504,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 60,
+          "description": "0-60 scale (60 = exceptional essay)"
+        }
+      },
+      {
+        "essay_id": 1184,
+        "predicted": 30.0,
+        "actual": "~56.6 (est)",
+        "text_preview": "In todays day in age, computers are a key part to business, education, and recreation and they benef...",
+        "time": 0.5937089920043945,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 60,
+          "description": "0-60 scale (60 = exceptional essay)"
+        }
+      },
+      {
+        "essay_id": 843,
+        "predicted": 30.0,
+        "actual": "~56.6 (est)",
+        "text_preview": "Alot of people would disagree that computers are benefiting people. But I think that computers are e...",
+        "time": 0.6976311206817627,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 60,
+          "description": "0-60 scale (60 = exceptional essay)"
+        }
+      },
+      {
+        "essay_id": 4481,
+        "predicted": 30.0,
+        "actual": "~56.6 (est)",
+        "text_preview": "Libraries have no right in my mind to decide what is offensive and what isn't. Libraries shouldn't h...",
+        "time": 0.48454952239990234,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 60,
+          "description": "0-60 scale (60 = exceptional essay)"
+        }
+      }
+    ],
+    "success": true
+  },
+  {
+    "model": "gpt4o-mini",
+    "dataset": "D_ASAP_plus_plus",
+    "test_data_source": "D_ASAP_plus_plus",
+    "ground_truth_source": "ASAP_plus_plus",
+    "metrics": {
+      "quadratic_weighted_kappa": 0.12260967379077625,
+      "pearson_correlation": 0.7339387175569192,
+      "mean_absolute_error": 4.7,
+      "mean_squared_error": 33.1,
+      "root_mean_squared_error": 5.75325994545701,
+      "f1_score": 0.1,
+      "precision": 0.1,
+      "recall": 0.1,
+      "num_predictions": 10,
+      "prediction_mean": 2.1,
+      "prediction_std": 0.5385164807134504,
+      "prediction_min": 1.0,
+      "prediction_max": 3.0
+    },
+    "details": [
+      {
+        "essay_id": 14871,
+        "predicted": 3.0,
+        "actual": "~7.7 (est)",
+        "text_preview": "Builders of the Empire State Building faced obstacles when attempting to allow dirigibles to dock th...",
+        "time": 0.6241154670715332,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 7469,
+        "predicted": 2.0,
+        "actual": "~6.7 (est)",
+        "text_preview": "The features of the setting affect the cyclist by getting dehydrated, getting tired, and by getting ...",
+        "time": 0.6620604991912842,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 12502,
+        "predicted": 2.0,
+        "actual": "~6.7 (est)",
+        "text_preview": "The mood created by the author was greatfulness and happiness. When the author was talking about his...",
+        "time": 0.8775248527526855,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 6428,
+        "predicted": 2.0,
+        "actual": "~6.7 (est)",
+        "text_preview": "The settings in the story affected the cyclist throughout the story with winding roads and hills ped...",
+        "time": 0.5608961582183838,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 12601,
+        "predicted": 2.0,
+        "actual": "~6.7 (est)",
+        "text_preview": "In the article \"Narciso Rodriguez\" from Home: The Blueprints of our Lives, the mood created by the a...",
+        "time": 0.4622070789337158,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 16425,
+        "predicted": 3.0,
+        "actual": "~7.7 (est)",
+        "text_preview": "The builders of the Empire State Building faced multiple obstacles in attempting to allow dirigibles...",
+        "time": 0.6158256530761719,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 10096,
+        "predicted": 2.0,
+        "actual": "~6.7 (est)",
+        "text_preview": "Because her school work was the whole reason as to why she was studying flowers in a green garden. A...",
+        "time": 0.593937873840332,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 15018,
+        "predicted": 2.0,
+        "actual": "~6.7 (est)",
+        "text_preview": "It was unrealistic and also unsafe of engineers to think that they could have dirigibles dock on the...",
+        "time": 0.538262128829956,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 7123,
+        "predicted": 1.0,
+        "actual": "~5.7 (est)",
+        "text_preview": "The setting is in a California which isn\u0092t really the coolest of places to be.[temperature]...",
+        "time": 0.4602017402648926,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 13328,
+        "predicted": 2.0,
+        "actual": "~6.7 (est)",
+        "text_preview": "This was a touching story of how this boy appreciates his family and parents so much. There is a moo...",
+        "time": 1.7554309368133545,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      }
+    ],
+    "success": true
+  },
+  {
+    "model": "gpt4o-mini",
+    "dataset": "D_CSEE",
+    "test_data_source": "D_CSEE",
+    "ground_truth_source": "CSEE",
+    "metrics": {
+      "quadratic_weighted_kappa": 0.017094017094017033,
+      "pearson_correlation": 0.3082573996425537,
+      "mean_absolute_error": 9.85,
+      "mean_squared_error": 101.575,
+      "root_mean_squared_error": 10.07844233996504,
+      "f1_score": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "num_predictions": 10,
+      "prediction_mean": 2.7,
+      "prediction_std": 0.45825756949558405,
+      "prediction_min": 2.0,
+      "prediction_max": 3.0
+    },
+    "details": [
+      {
+        "essay_id": 9906,
+        "predicted": 3.0,
+        "actual": "~12.8 (est)",
+        "text_preview": "Dear Jim,\nHaven't seen you for ages. I'm sorry to hear that your parents didn't allow your after pla...",
+        "time": 0.6070601940155029,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 11529,
+        "predicted": 3.0,
+        "actual": "~12.8 (est)",
+        "text_preview": "Dear Jim,\nHi! I'm indeed sorry when I learned that you were not allowed to go on your cycling trip. ...",
+        "time": 0.6931014060974121,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 9278,
+        "predicted": 3.0,
+        "actual": "~12.8 (est)",
+        "text_preview": "Dear Jim,\nI'm so sorry to hear the bad news. I can understand your feeling because I had similiar ex...",
+        "time": 0.6258041858673096,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 5386,
+        "predicted": 3.0,
+        "actual": "~12.8 (est)",
+        "text_preview": "Dear Jim,\nThe high school graduation ceremony will soon arrival in Hong Xing high school. I want to ...",
+        "time": 0.5203084945678711,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 8846,
+        "predicted": 3.0,
+        "actual": "~12.8 (est)",
+        "text_preview": "Dear Jim,\nGreetings! Knowing that your plan to ride and travel for a week with your friends was disa...",
+        "time": 0.7492990493774414,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 656,
+        "predicted": 2.0,
+        "actual": "~11.8 (est)",
+        "text_preview": "Dear Jim,\nI'm writing to tell you about the design of our graduating ceremony. I have some unfamilia...",
+        "time": 0.7247235774993896,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 6889,
+        "predicted": 3.0,
+        "actual": "~12.8 (est)",
+        "text_preview": "Dear Jim,\nI'm sad to hear that your plan about holiday riding with your friends hasn't got your pare...",
+        "time": 0.7730412483215332,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 9123,
+        "predicted": 2.0,
+        "actual": "~11.8 (est)",
+        "text_preview": "Dear Jim,\nI heared this bad message and I feel sad of you. But don't Sad of you parents, maybe they ...",
+        "time": 4.5849668979644775,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 12311,
+        "predicted": 3.0,
+        "actual": "~12.8 (est)",
+        "text_preview": "Dear Jim,\nI'm sorry to hear that your plan was not accepted. It is understandable that parents consi...",
+        "time": 0.6779031753540039,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 8042,
+        "predicted": 2.0,
+        "actual": "~11.8 (est)",
+        "text_preview": "Dear Jim,\nHearing that you're upset for your parents' attitudes against your riding tour plan, I fee...",
+        "time": 0.6811542510986328,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      }
+    ],
+    "success": true
+  },
+  {
+    "model": "gpt4o-mini",
+    "dataset": "D_Mohlar",
+    "test_data_source": "D_Mohlar",
+    "ground_truth_source": "Mohlar",
+    "metrics": {
+      "quadratic_weighted_kappa": -0.32432432432432456,
+      "pearson_correlation": -0.4160251471689218,
+      "mean_absolute_error": 1.8,
+      "mean_squared_error": 5.6,
+      "root_mean_squared_error": 2.3664319132398464,
+      "f1_score": 0.3333333333333333,
+      "precision": 0.375,
+      "recall": 0.3,
+      "num_predictions": 10,
+      "prediction_mean": 3.0,
+      "prediction_std": 1.61245154965971,
+      "prediction_min": 0.0,
+      "prediction_max": 6.0
+    },
+    "details": [
+      {
+        "essay_id": 303,
+        "predicted": 4.0,
+        "actual": "~5.8 (est)",
+        "text_preview": "A set of zero or more nodes, partitioned into a root node and two possibly empty sets that are binar...",
+        "time": 0.6941149234771729,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 10,
+          "description": "0-10 grade scale"
+        }
+      },
+      {
+        "essay_id": 40,
+        "predicted": 2.0,
+        "actual": "~3.8 (est)",
+        "text_preview": "Enqueue and dequeue, which add and remove elements from the queue...",
+        "time": 0.8142015933990479,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 10,
+          "description": "0-10 grade scale"
+        }
+      },
+      {
+        "essay_id": 394,
+        "predicted": 4.0,
+        "actual": "~5.8 (est)",
+        "text_preview": "Encapsulation - Objects use operations without knowing how the operation works. Inheritance - cuts r...",
+        "time": 0.8760919570922852,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 10,
+          "description": "0-10 grade scale"
+        }
+      },
+      {
+        "essay_id": 412,
+        "predicted": 4.0,
+        "actual": "~5.8 (est)",
+        "text_preview": "it is similar to a binary tree.  The keys in a nonempty left subtree (right subtree) are smaller (la...",
+        "time": 0.5202252864837646,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 10,
+          "description": "0-10 grade scale"
+        }
+      },
+      {
+        "essay_id": 156,
+        "predicted": 2.0,
+        "actual": "~3.8 (est)",
+        "text_preview": "The sizeof operator returns the size of the operand....",
+        "time": 0.6198503971099854,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 10,
+          "description": "0-10 grade scale"
+        }
+      },
+      {
+        "essay_id": 256,
+        "predicted": 6.0,
+        "actual": "~7.8 (est)",
+        "text_preview": "The FUNCTION PROTOTYPE is where the programmer declares that he/she is using a function other than m...",
+        "time": 0.5862088203430176,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 10,
+          "description": "0-10 grade scale"
+        }
+      },
+      {
+        "essay_id": 245,
+        "predicted": 0,
+        "actual": "~1.8 (est)",
+        "text_preview": "as many as the user decides to use....",
+        "time": 0.7733514308929443,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 10,
+          "description": "0-10 grade scale"
+        }
+      },
+      {
+        "essay_id": 102,
+        "predicted": 2.0,
+        "actual": "~3.8 (est)",
+        "text_preview": "A local variable can only be accessed within the scope of its declaration....",
+        "time": 0.6455986499786377,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 10,
+          "description": "0-10 grade scale"
+        }
+      },
+      {
+        "essay_id": 402,
+        "predicted": 2.0,
+        "actual": "~3.8 (est)",
+        "text_preview": "They grow dynamically, unlike the fixed size array...",
+        "time": 0.5784080028533936,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 10,
+          "description": "0-10 grade scale"
+        }
+      },
+      {
+        "essay_id": 31,
+        "predicted": 4.0,
+        "actual": "~5.8 (est)",
+        "text_preview": "A function definition is the code that defines the function placed in the {} brackets that determine...",
+        "time": 0.6004242897033691,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 10,
+          "description": "0-10 grade scale"
+        }
+      }
+    ],
+    "success": true
+  },
+  {
+    "model": "gpt4o-mini",
+    "dataset": "D_Ielts_Writing_Dataset",
+    "test_data_source": "D_Ielts_Writing_Dataset",
+    "ground_truth_source": "Ielts_Writing_Dataset",
+    "metrics": {
+      "quadratic_weighted_kappa": 0.4970414201183432,
+      "pearson_correlation": 0.8154053390343309,
+      "mean_absolute_error": 1.1,
+      "mean_squared_error": 1.6,
+      "root_mean_squared_error": 1.2649110640673518,
+      "f1_score": 0.25,
+      "precision": 0.3333333333333333,
+      "recall": 0.2,
+      "num_predictions": 10,
+      "prediction_mean": 5.2,
+      "prediction_std": 1.077032961426901,
+      "prediction_min": 3.0,
+      "prediction_max": 7.0
+    },
+    "details": [
+      {
+        "essay_id": 118,
+        "predicted": 5.0,
+        "actual": "~6.1 (est)",
+        "text_preview": "In this essay we will talk about why in so many countries students do not prefer to choose science a...",
+        "time": 0.8904013633728027,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 9,
+          "description": "0-9 IELTS band scale (9 = expert level)"
+        }
+      },
+      {
+        "essay_id": 20,
+        "predicted": 7.0,
+        "actual": "~8.1 (est)",
+        "text_preview": "The two given pictures compare the layout of a square park between the year 1980 and the present day...",
+        "time": 0.6005833148956299,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 9,
+          "description": "0-9 IELTS band scale (9 = expert level)"
+        }
+      },
+      {
+        "essay_id": 83,
+        "predicted": 6.0,
+        "actual": "~7.1 (est)",
+        "text_preview": "One of the main objectives of technology is to facilitate people's lives. Nowadays, modern technolog...",
+        "time": 0.6688759326934814,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 9,
+          "description": "0-9 IELTS band scale (9 = expert level)"
+        }
+      },
+      {
+        "essay_id": 98,
+        "predicted": 6.0,
+        "actual": "~7.1 (est)",
+        "text_preview": "The previous and current layouts of a museum were demonstrated in the pictures.\nOverall, while the p...",
+        "time": 1.0305218696594238,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 9,
+          "description": "0-9 IELTS band scale (9 = expert level)"
+        }
+      },
+      {
+        "essay_id": 57,
+        "predicted": 5.0,
+        "actual": "~6.1 (est)",
+        "text_preview": "The three pie graphs provide information on which methods is used to deal with hazardous waste produ...",
+        "time": 4.074408531188965,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 9,
+          "description": "0-9 IELTS band scale (9 = expert level)"
+        }
+      },
+      {
+        "essay_id": 13,
+        "predicted": 5.0,
+        "actual": "~6.1 (est)",
+        "text_preview": "The diagram displays the general principles of how electricity is generated in a dam. In general, to...",
+        "time": 0.6783018112182617,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 9,
+          "description": "0-9 IELTS band scale (9 = expert level)"
+        }
+      },
+      {
+        "essay_id": 133,
+        "predicted": 5.0,
+        "actual": "~6.1 (est)",
+        "text_preview": "In the last two decades cybernetics have experienced a major breakthrough .This led to the utilizati...",
+        "time": 0.47928476333618164,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 9,
+          "description": "0-9 IELTS band scale (9 = expert level)"
+        }
+      },
+      {
+        "essay_id": 66,
+        "predicted": 4.0,
+        "actual": "~5.1 (est)",
+        "text_preview": "These days many governments think that economic progress is their most important goal, while on the ...",
+        "time": 0.7673115730285645,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 9,
+          "description": "0-9 IELTS band scale (9 = expert level)"
+        }
+      },
+      {
+        "essay_id": 67,
+        "predicted": 3.0,
+        "actual": "~4.1 (est)",
+        "text_preview": "popular hobbies rather than their individual activities.Hobbies and are different for everyone; this...",
+        "time": 0.41343188285827637,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 9,
+          "description": "0-9 IELTS band scale (9 = expert level)"
+        }
+      },
+      {
+        "essay_id": 19,
+        "predicted": 6.0,
+        "actual": "~7.1 (est)",
+        "text_preview": "The two pie charts illustrate the satisfaction rated by visitors of Parkway Hotel's customer service...",
+        "time": 0.8972532749176025,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 9,
+          "description": "0-9 IELTS band scale (9 = expert level)"
+        }
+      }
+    ],
+    "success": true
+  },
+  {
+    "model": "gpt4o-mini",
+    "dataset": "D_grade_like_a_human_dataset_os_q1",
+    "test_data_source": "D_grade_like_a_human_dataset_os_q1",
+    "ground_truth_source": "grade_like_a_human_dataset_os_q1",
+    "metrics": {
+      "quadratic_weighted_kappa": 0.108108108108108,
+      "pearson_correlation": -0.09078412990032037,
+      "mean_absolute_error": 8.0,
+      "mean_squared_error": 106.0,
+      "root_mean_squared_error": 10.295630140987,
+      "f1_score": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "num_predictions": 3,
+      "prediction_mean": 2.3333333333333335,
+      "prediction_std": 0.4714045207910317,
+      "prediction_min": 2.0,
+      "prediction_max": 3.0
+    },
+    "details": [
+      {
+        "essay_id": 1,
+        "predicted": 2.0,
+        "actual": "~10.0 (est)",
+        "text_preview": "For SJF, The response time is 133.3 while the turnaround time is 333.33. When the order of job lengt...",
+        "time": 0.7205996513366699,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 2,
+        "predicted": 3.0,
+        "actual": "~11.0 (est)",
+        "text_preview": "For SJF the order of jobs doesn\u2019t matter because it anyway choosing the shortest job first. So respo...",
+        "time": 0.6163215637207031,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 3,
+        "predicted": 2.0,
+        "actual": "~10.0 (est)",
+        "text_preview": "If the order of the job length is changed like 300,100,200, the response time and turnaround time wi...",
+        "time": 0.5655748844146729,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      }
+    ],
+    "success": true
+  },
+  {
+    "model": "gpt4o-mini",
+    "dataset": "D_grade_like_a_human_dataset_os_q2",
+    "test_data_source": "D_grade_like_a_human_dataset_os_q2",
+    "ground_truth_source": "grade_like_a_human_dataset_os_q2",
+    "metrics": {
+      "quadratic_weighted_kappa": 0.05084745762711862,
+      "pearson_correlation": 0.6030226891555273,
+      "mean_absolute_error": 12.833333333333334,
+      "mean_squared_error": 181.83333333333334,
+      "root_mean_squared_error": 13.48455907077919,
+      "f1_score": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "num_predictions": 6,
+      "prediction_mean": 0.5,
+      "prediction_std": 0.5,
+      "prediction_min": 0.0,
+      "prediction_max": 1.0
+    },
+    "details": [
+      {
+        "essay_id": 1,
+        "predicted": 1.0,
+        "actual": "~13.8 (est)",
+        "text_preview": "dx Thread 0 0 -1 1000 sub $1,%dx -1 1001 test $0,%dx -1 1002 jgte .top -1 1003 halt Sub instruction ...",
+        "time": 0.529803991317749,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 2,
+        "predicted": 0,
+        "actual": "~12.8 (est)",
+        "text_preview": "%dx will be -1. dx Thread 0 0 1 1000 sub $1,%dx 1 1001 test $0,%dx 1 1002 jgte .top 1 1003 halt...",
+        "time": 0.6368846893310547,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 3,
+        "predicted": 0,
+        "actual": "~12.8 (est)",
+        "text_preview": "%dx will become 0 and -1 during the run....",
+        "time": 0.4746968746185303,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 4,
+        "predicted": 1.0,
+        "actual": "~13.8 (est)",
+        "text_preview": "%dx will be \n-1. Since the register is 0 in the beginning and subtract by 1. The value is -1 which i...",
+        "time": 0.7025375366210938,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 5,
+        "predicted": 1.0,
+        "actual": "~13.8 (est)",
+        "text_preview": "Initially dx will be 0 and it will become -1 after running the code...",
+        "time": 0.6694655418395996,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 6,
+        "predicted": 0,
+        "actual": "~12.8 (est)",
+        "text_preview": "%dx is -1 during the run...",
+        "time": 1.2468714714050293,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      }
+    ],
+    "success": true
+  },
+  {
+    "model": "gpt4o-mini",
+    "dataset": "D_grade_like_a_human_dataset_os_q3",
+    "test_data_source": "D_grade_like_a_human_dataset_os_q3",
+    "ground_truth_source": "grade_like_a_human_dataset_os_q3",
+    "metrics": {
+      "quadratic_weighted_kappa": 0.023255813953488413,
+      "pearson_correlation": 0.20662680686973134,
+      "mean_absolute_error": 5.625,
+      "mean_squared_error": 46.125,
+      "root_mean_squared_error": 6.791538853603062,
+      "f1_score": 0.05,
+      "precision": 0.03125,
+      "recall": 0.125,
+      "num_predictions": 8,
+      "prediction_mean": 1.25,
+      "prediction_std": 0.6614378277661477,
+      "prediction_min": 0.0,
+      "prediction_max": 2.0
+    },
+    "details": [
+      {
+        "essay_id": 1,
+        "predicted": 1.0,
+        "actual": "~6.6 (est)",
+        "text_preview": "It presents a challenge as it necessitates knowing in advance which locks to acquire, resulting in r...",
+        "time": 2.154651403427124,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 2,
+        "predicted": 2.0,
+        "actual": "~7.6 (est)",
+        "text_preview": "This approach is too rough. Even if the vectors are being manipulated by different threads, the glob...",
+        "time": 0.40950918197631836,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 3,
+        "predicted": 2.0,
+        "actual": "~7.6 (est)",
+        "text_preview": "The main problem is that each thread needs a lock on the vector before accessing. When multiple thre...",
+        "time": 0.6915497779846191,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 4,
+        "predicted": 1.0,
+        "actual": "~6.6 (est)",
+        "text_preview": "Using -p will decrease the running time....",
+        "time": 1.0096156597137451,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 5,
+        "predicted": 1.0,
+        "actual": "~6.6 (est)",
+        "text_preview": "When running with the parallelism flag (-p), the performance of `vector-avoid-hold-and-wait.c` may b...",
+        "time": 0.9678163528442383,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 6,
+        "predicted": 1.0,
+        "actual": "~6.6 (est)",
+        "text_preview": "There is no need for the approach to get both two values\u2019 lock. The performance is faster than vecto...",
+        "time": 0.6079063415527344,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 7,
+        "predicted": 0,
+        "actual": "~5.6 (est)",
+        "text_preview": "Without -p With -p ./vector-try-wait -d -n 2 -l 100000 -t ./vector-try-wait -d -n 2 -l 100000 -t -p ...",
+        "time": 1.415649652481079,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 8,
+        "predicted": 2.0,
+        "actual": "~7.6 (est)",
+        "text_preview": "The main problem is that the approach requires the threads to acquire the global lock before acquiri...",
+        "time": 0.7691175937652588,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      }
+    ],
+    "success": true
+  },
+  {
+    "model": "gpt4o-mini",
+    "dataset": "D_grade_like_a_human_dataset_os_q4",
+    "test_data_source": "D_grade_like_a_human_dataset_os_q4",
+    "ground_truth_source": "grade_like_a_human_dataset_os_q4",
+    "metrics": {
+      "quadratic_weighted_kappa": -0.15999999999999992,
+      "pearson_correlation": -0.35921060405354976,
+      "mean_absolute_error": 10.75,
+      "mean_squared_error": 136.0,
+      "root_mean_squared_error": 11.661903789690601,
+      "f1_score": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "num_predictions": 8,
+      "prediction_mean": 1.0,
+      "prediction_std": 1.0,
+      "prediction_min": 0.0,
+      "prediction_max": 3.0
+    },
+    "details": [
+      {
+        "essay_id": 1,
+        "predicted": 3.0,
+        "actual": "~13.8 (est)",
+        "text_preview": "There are 4 occurrences of \"cpu\" for Process 0 . The Process 1 starts with \"io-start\" and then trans...",
+        "time": 0.6235237121582031,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 2,
+        "predicted": 0,
+        "actual": "~10.8 (est)",
+        "text_preview": "It will take 10 ticks. Time PID: 0 PID: 1 CPU IOs 1 RUN:cpu READY 1 2 RUN:cpu READY 1 3 RUN:cpu READ...",
+        "time": 0.6415596008300781,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 3,
+        "predicted": 2.0,
+        "actual": "~12.8 (est)",
+        "text_preview": "The processes will take 10 clock cycles to complete the instructions as there are 4 instructions whi...",
+        "time": 0.41022276878356934,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 4,
+        "predicted": 0,
+        "actual": "~10.8 (est)",
+        "text_preview": "It takes 10 time-units to complete both processes....",
+        "time": 0.9450287818908691,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 5,
+        "predicted": 1.0,
+        "actual": "~11.8 (est)",
+        "text_preview": "It takes for 10 times to complete both proesss...",
+        "time": 0.529590368270874,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 6,
+        "predicted": 1.0,
+        "actual": "~11.8 (est)",
+        "text_preview": "The total time is 10. 4 CPU for the \frst process, 1 CPU and 4 I/O are waiting for the second process...",
+        "time": 0.8309826850891113,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 7,
+        "predicted": 0,
+        "actual": "~10.8 (est)",
+        "text_preview": "It takes 10 unit time to complete both processes....",
+        "time": 0.9678006172180176,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 8,
+        "predicted": 1.0,
+        "actual": "~11.8 (est)",
+        "text_preview": "9 time units. First processor 4:100 use 4 time units for running regular CPU instruction while secon...",
+        "time": 0.5940573215484619,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      }
+    ],
+    "success": true
+  },
+  {
+    "model": "gpt4o-mini",
+    "dataset": "D_grade_like_a_human_dataset_os_q5",
+    "test_data_source": "D_grade_like_a_human_dataset_os_q5",
+    "ground_truth_source": "grade_like_a_human_dataset_os_q5",
+    "metrics": {
+      "quadratic_weighted_kappa": 0.0430622009569378,
+      "pearson_correlation": 0.5347067781912225,
+      "mean_absolute_error": 12.25,
+      "mean_squared_error": 217.0,
+      "root_mean_squared_error": 14.730919862656235,
+      "f1_score": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "num_predictions": 8,
+      "prediction_mean": 2.125,
+      "prediction_std": 0.7806247497997998,
+      "prediction_min": 1.0,
+      "prediction_max": 3.0
+    },
+    "details": [
+      {
+        "essay_id": 1,
+        "predicted": 3.0,
+        "actual": "~15.2 (est)",
+        "text_preview": "With larger buffers, the producer can store multiple values in the buffer before pausing or switchin...",
+        "time": 0.4824995994567871,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 2,
+        "predicted": 2.0,
+        "actual": "~14.2 (est)",
+        "text_preview": "The enhancement of buffer size does not change the behavior of the code. The null_full will first go...",
+        "time": 0.5473918914794922,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 3,
+        "predicted": 3.0,
+        "actual": "~15.2 (est)",
+        "text_preview": "When using larger buffers, the code exhibits a change in behavior as the producer can store more val...",
+        "time": 0.9443495273590088,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 4,
+        "predicted": 1.0,
+        "actual": "~13.2 (est)",
+        "text_preview": "./main-two-cvs-while -p 1 -c 1 -m 1 -v -t NF P0 C0 0 [*--- ] p0 0 [*--- ] c0 0 [*--- ] p1 1 [* 0 ] p...",
+        "time": 0.7956674098968506,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 5,
+        "predicted": 2.0,
+        "actual": "~14.2 (est)",
+        "text_preview": "Behavior Changes :Producers can produce more items before they have to wait for consumers to consume...",
+        "time": 0.7292897701263428,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 6,
+        "predicted": 3.0,
+        "actual": "~15.2 (est)",
+        "text_preview": "The behavior of the code doesn\u2019t change since the default sleeping time for both producer and consum...",
+        "time": 0.8293502330780029,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 7,
+        "predicted": 2.0,
+        "actual": "~14.2 (est)",
+        "text_preview": "When m=1/2/3\\u2026, the result is the same as the increase in buffer size will not affect the produc...",
+        "time": 2.973872423171997,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": 8,
+        "predicted": 1.0,
+        "actual": "~13.2 (est)",
+        "text_preview": "The behavior of the code will become increase in the number of buffers. The prediction of num_full s...",
+        "time": 0.7765412330627441,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      }
+    ],
+    "success": true
+  },
+  {
+    "model": "gpt4o-mini",
+    "dataset": "D_Ielst_Writing_Task_2_Dataset",
+    "test_data_source": "D_Ielst_Writing_Task_2_Dataset",
+    "ground_truth_source": "Ielst_Writing_Task_2_Dataset",
+    "metrics": {
+      "quadratic_weighted_kappa": 0.002123142250530785,
+      "pearson_correlation": -0.03156915457894267,
+      "mean_absolute_error": 3.15,
+      "mean_squared_error": 12.425,
+      "root_mean_squared_error": 3.5249113464029134,
+      "f1_score": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "num_predictions": 10,
+      "prediction_mean": 3.1,
+      "prediction_std": 0.5385164807134505,
+      "prediction_min": 2.0,
+      "prediction_max": 4.0
+    },
+    "details": [
+      {
+        "essay_id": "453",
+        "predicted": 3.0,
+        "actual": "~6.2 (est)",
+        "text_preview": "In some countries, many more people don't encourage teenagers to work without paying in their free t...",
+        "time": 0.5567708015441895,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": "74",
+        "predicted": 2.0,
+        "actual": "~5.2 (est)",
+        "text_preview": "Education is an inevitable factor in life and most of the countries following the same in the case o...",
+        "time": 0.7758193016052246,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": "311",
+        "predicted": 4.0,
+        "actual": "~7.2 (est)",
+        "text_preview": "There is no denying that working shifts might be harder than other regular jobs. This essay is inten...",
+        "time": 0.9542181491851807,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": "176",
+        "predicted": 3.0,
+        "actual": "~6.2 (est)",
+        "text_preview": "There are more and more parents who would like to teach their children at home rather than letting t...",
+        "time": 0.5887582302093506,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": "333",
+        "predicted": 3.0,
+        "actual": "~6.2 (est)",
+        "text_preview": "Artificially intelligent robots are progressively replacing humans in the workforce. While it is pos...",
+        "time": 0.5439693927764893,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": "205",
+        "predicted": 4.0,
+        "actual": "~7.2 (est)",
+        "text_preview": "People have different views about the best way to cultivate children's collaborative spirit. Althoug...",
+        "time": 0.9329607486724854,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": "156",
+        "predicted": 3.0,
+        "actual": "~6.2 (est)",
+        "text_preview": "Many primary and secondary education students are find it challenging to focus on lectures at their ...",
+        "time": 0.7644026279449463,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": "56",
+        "predicted": 3.0,
+        "actual": "~6.2 (est)",
+        "text_preview": "In recent years, the increasing population has caused trouble in purchasing lands. On the one hand, ...",
+        "time": 1.201570987701416,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": "321",
+        "predicted": 3.0,
+        "actual": "~6.2 (est)",
+        "text_preview": "With the advancement of artificial intelligence, there are many people who advocate that humanoid ro...",
+        "time": 0.9215483665466309,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      },
+      {
+        "essay_id": "10",
+        "predicted": 3.0,
+        "actual": "~6.2 (est)",
+        "text_preview": "Education is the key to becoming successful in life, however, most of the students find it difficult...",
+        "time": 0.7709896564483643,
+        "range_info": {
+          "type": "fixed_range",
+          "min": 0,
+          "max": 5,
+          "description": "0-5 scale (5 = excellent)"
+        }
+      }
+    ],
+    "success": true
+  },
+  {
+    "model": "gpt4o-mini",
+    "dataset": "D_Regrading_Dataset_J2C",
+    "test_data_source": "D_Regrading_Dataset_J2C",
+    "ground_truth_source": "Regrading_Dataset_J2C",
+    "metrics": {
+      "quadratic_weighted_kappa": 0.1803278688524591,
+      "pearson_correlation": 0.36216765471117596,
+      "mean_absolute_error": 2.3,
+      "mean_squared_error": 6.5,
+      "root_mean_squared_error": 2.5495097567963922,
+      "f1_score": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "num_predictions": 10,
+      "prediction_mean": 2.9,
+      "prediction_std": 1.044030650891055,
+      "prediction_min": 1.0,
+      "prediction_max": 5.0
+    },
+    "details": [
+      {
+        "essay_id": 66,
+        "predicted": 3.0,
+        "actual": "~5.3 (est)",
+        "text_preview": "PLA would not be a good choice because the glass transition temperature is so low. We must look for ...",
+        "time": 0.7071976661682129,
+        "range_info": {
+          "type": "dynamic_range",
+          "min": 0,
+          "max": 8.0,
+          "description": "0-8.0 points (perfect answer)"
+        }
+      },
+      {
+        "essay_id": 115,
+        "predicted": 3.0,
+        "actual": "~5.3 (est)",
+        "text_preview": "The 30% reduction would have a larger activation energy than that of a 60% reduction. A reduction is...",
+        "time": 0.586829423904419,
+        "range_info": {
+          "type": "dynamic_range",
+          "min": 0,
+          "max": 7.5,
+          "description": "0-7.5 points (perfect answer)"
+        }
+      },
+      {
+        "essay_id": 17,
+        "predicted": 2.0,
+        "actual": "~4.3 (est)",
+        "text_preview": "In a three-point bending test, the middle support can shift which will cause the force to displace f...",
+        "time": 0.571117639541626,
+        "range_info": {
+          "type": "dynamic_range",
+          "min": 0,
+          "max": 5.0,
+          "description": "0-5.0 points (perfect answer)"
+        }
+      },
+      {
+        "essay_id": 142,
+        "predicted": 4.0,
+        "actual": "~6.3 (est)",
+        "text_preview": "I would recommend using a 4-point bending test when the material being tested cannot with stand shea...",
+        "time": 0.7604613304138184,
+        "range_info": {
+          "type": "dynamic_range",
+          "min": 0,
+          "max": 7.5,
+          "description": "0-7.5 points (perfect answer)"
+        }
+      },
+      {
+        "essay_id": 157,
+        "predicted": 3.0,
+        "actual": "~5.3 (est)",
+        "text_preview": "At rest, the molecules within the polymers are held in place by both the primary and secondary bonds...",
+        "time": 1.026794672012329,
+        "range_info": {
+          "type": "dynamic_range",
+          "min": 0,
+          "max": 5.0,
+          "description": "0-5.0 points (perfect answer)"
+        }
+      },
+      {
+        "essay_id": 127,
+        "predicted": 1.0,
+        "actual": "~3.3 (est)",
+        "text_preview": "Polymers are viscoelastic because they regain their shape when the load is removed. Polymers are als...",
+        "time": 0.5181241035461426,
+        "range_info": {
+          "type": "dynamic_range",
+          "min": 0,
+          "max": 4.0,
+          "description": "0-4.0 points (perfect answer)"
+        }
+      },
+      {
+        "essay_id": 141,
+        "predicted": 2.0,
+        "actual": "~4.3 (est)",
+        "text_preview": "60% reduction would have a higher activation energy because it has been cold worked more. It require...",
+        "time": 0.969855785369873,
+        "range_info": {
+          "type": "dynamic_range",
+          "min": 0,
+          "max": 7.5,
+          "description": "0-7.5 points (perfect answer)"
+        }
+      },
+      {
+        "essay_id": 31,
+        "predicted": 3.0,
+        "actual": "~5.3 (est)",
+        "text_preview": "These local reductions are most likely caused by impurities in the chalk. When the machine reaches a...",
+        "time": 0.9800565242767334,
+        "range_info": {
+          "type": "dynamic_range",
+          "min": 0,
+          "max": 5.0,
+          "description": "0-5.0 points (perfect answer)"
+        }
+      },
+      {
+        "essay_id": 19,
+        "predicted": 5.0,
+        "actual": "~7.3 (est)",
+        "text_preview": "PLA should not be used to manufacture a flexible spatula. This is because PLA would not be able to w...",
+        "time": 0.6425642967224121,
+        "range_info": {
+          "type": "dynamic_range",
+          "min": 0,
+          "max": 8.0,
+          "description": "0-8.0 points (perfect answer)"
+        }
+      },
+      {
+        "essay_id": 168,
+        "predicted": 3.0,
+        "actual": "~5.3 (est)",
+        "text_preview": "The hardness quantifies a material's resistance to localized plastic deformation, and it tends to be...",
+        "time": 0.6298763751983643,
+        "range_info": {
+          "type": "dynamic_range",
+          "min": 0,
+          "max": 5.0,
+          "description": "0-5.0 points (perfect answer)"
+        }
+      }
+    ],
+    "success": true
+  }
+]

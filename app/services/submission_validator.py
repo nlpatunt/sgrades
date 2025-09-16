@@ -110,16 +110,6 @@ class SubmissionValidator:
                 'primary_score': 'label'
             },
             
-            'EFL': {
-                'required_columns': ['Essay Id', '_Human_Mean'],
-                'optional_score_columns': ['R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8', 'R9', 
-                                         'R10', 'R11', 'R12', 'R13', 'R14', 'R15'],
-                'essay_id_pattern': r'^EFL_test_\d+$',
-                'score_range': (0, 100),
-                'score_type': 'float',
-                'primary_score': '_Human_Mean'
-            },
-            
             'Mohlar': {
                 'required_columns': ['question_id', 'grade'],
                 'optional_score_columns': [],

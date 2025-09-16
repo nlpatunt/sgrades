@@ -152,7 +152,7 @@ class LeaderboardEntry(BaseModel):
     mean_absolute_error: float
     accuracy: float
     essays_evaluated: int
-    submission_time: Optional[str] = None
+    upload_timestamp: Optional[str] = None
     submission_type: str
 
 class CompleteLeaderboardEntry(BaseModel):

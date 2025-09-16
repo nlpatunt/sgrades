@@ -10,7 +10,6 @@ import csv
 import pandas as pd
 from typing import Dict, List, Optional, Any
 
-# Import Pydantic models
 from app.models.pydantic_models import (
     DatasetsListResponse, DatasetInfo, DatasetDetails, DatasetSample, 
     DatasetHealthCheck, ErrorResponse
@@ -18,8 +17,6 @@ from app.models.pydantic_models import (
 
 from app.services.dataset_loader import dataset_manager
 
-# Single router declaration
-# Change this line in datasets.py:
 router = APIRouter(prefix="/datasets", tags=["datasets"])
 
 @router.get("/", response_model=DatasetsListResponse)
@@ -110,8 +107,6 @@ async def get_available_datasets_alias():
     
 @router.get("/download/all")
 async def download_all_datasets():
-    """Download all datasets as ZIP with proper directory structure - ORIGINAL FORMAT"""
-    
     try:
         print("📦 Preparing all datasets for download...")
         
@@ -177,7 +172,7 @@ async def download_all_datasets():
                             file_suffix = ""
                         
                         # Determine available splits
-                        if base_name in ['EFL', 'BEEtlE', 'SciEntSBank']:
+                        if base_name in [ 'BEEtlE', 'SciEntSBank']:
                             possible_splits = ['train', 'test']
                         else:
                             possible_splits = ['train', 'validation', 'test']
@@ -381,7 +376,7 @@ async def download_single_dataset(dataset_name: str):
             config = dataset_manager.datasets_config[dataset_name]
             
             # Define splits to create based on dataset type
-            if dataset_name in ['EFL', 'BEEtlE_2way', 'BEEtlE_3way', 'SciEntSBank_2way', 'SciEntSBank_3way']:
+            if dataset_name in ['BEEtlE_2way', 'BEEtlE_3way', 'SciEntSBank_2way', 'SciEntSBank_3way']:
                 splits = ['train', 'test']  # These datasets don't have validation
             else:
                 splits = ['train', 'validation', 'test']

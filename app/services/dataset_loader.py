@@ -285,13 +285,6 @@ class HuggingFaceDatasetLoader:
                     "prompt_column": "question_text",
                     "score_range": (0, 2)  # For 2way classification
                 },
-                'EFL': {
-                    "description": "English as Foreign Language Essays",
-                    "essay_column": "essay_link",  # Note: This might be a link, not actual text
-                    "score_column": "_Human_Mean",  # Mean of all raters
-                    "prompt_column": "default_prompt",
-                    "score_range": (1, 10)
-                },
                 'Mohlar': {
                     "description": "Automatic Short Answer Grading - Mohlar Dataset",
                     "essay_column": "student_answer",
@@ -557,7 +550,6 @@ class HuggingFaceDatasetLoader:
             'asap': "Automated Student Assessment Prize",
             'rice': "Rice University Chemistry Dataset",
             'csee': "Computer Science Essay Evaluation",
-            'efl': "English as Foreign Language Essays",
             'persuade': "Persuasive Essays Dataset",
             'grade': "Grade Like a Human Dataset",
             'mohlar': "Automatic Short Answer Grading - Mohlar Dataset"
@@ -1070,12 +1062,7 @@ EXPECTED_UPLOAD_FORMATS = {
         "score_type": "int",
         "valid_values": [0, 1, 2]
     },
-    "EFL": {
-        "required_columns": ["essay_id", "predicted_score"],
-        "score_range": (1, 10),
-        "essay_id_pattern": r"^EFL_\d+$",
-        "score_type": "float"
-    },
+  
     "Mohlar": {
         "required_columns": ["essay_id", "predicted_score"],
         "score_range": (0, 5),

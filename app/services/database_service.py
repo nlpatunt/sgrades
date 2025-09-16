@@ -22,10 +22,13 @@ class DatabaseService:
                     dataset_name=submission_data["dataset_name"],
                     submitter_name=submission_data["submitter_name"],
                     submitter_email=submission_data["submitter_email"],
-                    file_path=submission_data["file_path"],
-                    file_format=submission_data["file_format"],
-                    status=submission_data.get("status", "submitted"),
-                    description=submission_data.get("description")
+                    stored_file_path=submission_data.get("file_path"),
+                    original_filename=submission_data.get("filename"),
+                    methodology=submission_data.get("methodology", "fully-trained"),
+                    status=submission_data.get("status", "pending"),
+                    description=submission_data.get("description"),
+                    ip_address=submission_data.get("ip_address"),
+                    user_agent=submission_data.get("user_agent")
                 )
                 db.add(submission)
                 db.flush()  # This assigns the ID
@@ -40,7 +43,7 @@ class DatabaseService:
                     "file_format": submission.file_format,
                     "status": submission.status,
                     "description": submission.description,
-                    "submission_time": submission.submission_time
+                    "upload_timestamp": submission.upload_timestamp
                 }
                 
                 db.commit()  # Commit the transaction
@@ -106,7 +109,7 @@ class DatabaseService:
                         "description": submission.description,
                         "evaluation_result": evaluation_result,
                         "error_message": submission.error_message,
-                        "submission_time": submission.submission_time,
+                        "upload_timestamp": submission.upload_timestamp,
                         "processing_time": submission.processing_time
                     }
                 return None
@@ -123,7 +126,7 @@ class DatabaseService:
                 if dataset_name:
                     query = query.filter(OutputSubmission.dataset_name == dataset_name)
                 
-                submissions = query.order_by(desc(OutputSubmission.submission_time)).limit(limit).all()
+                submissions = query.order_by(desc(OutputSubmission.upload_timestamp)).limit(limit).all()
                 
                 results = []
                 for submission in submissions:
@@ -142,7 +145,7 @@ class DatabaseService:
                         "submitter_email": submission.submitter_email,
                         "status": submission.status,
                         "evaluation_result": evaluation_result,
-                        "submission_time": submission.submission_time,
+                        "upload_timestamp": submission.upload_timestamp,
                         "processing_time": submission.processing_time
                     })
                 
@@ -160,7 +163,7 @@ class DatabaseService:
                 submissions = db.query(OutputSubmission).filter(
                     OutputSubmission.status == "completed",
                     OutputSubmission.evaluation_result.isnot(None)
-                ).order_by(desc(OutputSubmission.submission_time)).limit(limit * 2).all()
+                ).order_by(desc(OutputSubmission.upload_timestamp)).limit(limit * 2).all()
 
                 leaderboard_data = []
                 for submission in submissions:
@@ -184,7 +187,7 @@ class DatabaseService:
                                     "mean_absolute_error": metrics.get("mean_absolute_error", 999.0),
                                     "accuracy": metrics.get("accuracy", 0.0),
                                     "essays_evaluated": metrics.get("essays_evaluated", 0),
-                                    "submission_time": submission.submission_time.isoformat() if submission.submission_time else None,
+                                    "upload_timestamp": submission.upload_timestamp.isoformat() if submission.upload_timestamp else None,
                                     "submission_type": "individual_testing"
                                 })
                         except Exception as e:
@@ -494,7 +497,7 @@ class DatabaseService:
                     "dataset_name": submission["dataset_name"],
                     "submitter_name": submission["submitter_name"],
                     "status": submission["status"],
-                    "created_at": submission["submission_time"].isoformat() if submission["submission_time"] else None,
+                    "created_at": submission["upload_timestamp"].isoformat() if submission["upload_timestamp"] else None,
                     "evaluation_score": eval_score
                 })
             

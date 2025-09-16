@@ -1494,6 +1494,40 @@ function setupEventListeners() {
     }
 }
 
+async function loadMethodologyLeaderboard(methodology, tableElementId) {
+    const tableElement = document.getElementById(tableElementId);
+    if (!tableElement) return;
+    
+    showLoading(tableElement, `Loading ${methodology} leaderboard...`);
+    
+    try {
+        const data = await fetchAPI(`/api/submissions/leaderboard?methodology=${methodology}&limit=20`);
+        
+        if (!data || !data.rankings || data.rankings.length === 0) {
+            const actionHtml = `<a href="#submit" class="btn btn-primary"><i class="fas fa-rocket"></i> Submit ${methodology} Benchmark</a>`;
+            showEmptyState(
+                tableElement,
+                `No ${methodology} Benchmarks Yet`,
+                `Be the first to submit a ${methodology} benchmark!`,
+                actionHtml
+            );
+            return;
+        }
+        
+        buildLeaderboardTable(data, tableElement, methodology);
+        
+    } catch (error) {
+        showError(tableElement, `Failed to load ${methodology} leaderboard.`);
+        console.error(`Failed to load ${methodology} leaderboard:`, error);
+    }
+}
+
+function loadAllLeaderboards() {
+    loadMethodologyLeaderboard('zero-shot', 'leaderboard-zero-shot-table');
+    loadMethodologyLeaderboard('few-shot', 'leaderboard-few-shot-table'); 
+    loadMethodologyLeaderboard('fully-trained', 'leaderboard-fully-trained-table');
+}
+
 // ===== Smooth Scrolling =====
 function setupSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1536,7 +1570,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         loadPlatformStats();
         loadDatasets(); // For the grid display
         loadLeaderboard();
-        
+        loadAllLeaderboards();
+
         console.log('✅ Enhanced BESESR Platform ready!');
         
     } catch (error) {
