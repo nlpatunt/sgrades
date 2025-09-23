@@ -89,7 +89,39 @@ const DATASET_DISPLAY_NAMES = {
 function getDisplayName(datasetName) {
     return DATASET_DISPLAY_NAMES[datasetName] || datasetName;
 }
-// ===== Utility Functions =====
+
+function getScoreRange(datasetName) {
+    const scoreRanges = {
+        // ASAP-AES splits
+        'D_ASAP-AES_Set1': '2-12',
+        'D_ASAP-AES_Set2_Domain1': '1-6', 
+        'D_ASAP-AES_Set2_Domain2': '1-4',
+        'D_ASAP-AES_Set3': '0-3',
+        'D_ASAP-AES_Set4': '0-3',
+        'D_ASAP-AES_Set5': '0-4',
+        'D_ASAP-AES_Set6': '0-4',
+        'D_ASAP-AES_Set7': '0-30',
+        'D_ASAP-AES_Set8': '0-60',
+        
+        // Other datasets with correct ranges
+        'D_BEEtlE_2way': 'Correct/Incorrect',
+        'D_BEEtlE_3way': 'Correct/Incorrect/Contradictory',
+        'D_SciEntSBank_2way': 'Correct/Incorrect', 
+        'D_SciEntSBank_3way': 'Correct/Incorrect/Contradictory',
+        'D_grade_like_a_human_dataset_os_q1': '0-19',
+        'D_grade_like_a_human_dataset_os_q2': '0-16',
+        'D_grade_like_a_human_dataset_os_q3': '0-15',
+        'D_grade_like_a_human_dataset_os_q4': '0-16', 
+        'D_grade_like_a_human_dataset_os_q5': '0-27',
+        'D_Rice_Chem_Q1': '0-8',
+        'D_Rice_Chem_Q2': '0-8',
+        'D_Rice_Chem_Q3': '0-9',
+        'D_Rice_Chem_Q4': '0-8',
+        // ... other datasets
+    };
+    return scoreRanges[datasetName] || 'Variable';
+}
+
 function showLoading(element, message = 'Loading...') {
     if (!element) return;
     element.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> ' + message + '</div>';
@@ -713,19 +745,23 @@ async function loadDatasets() {
         var datasetsHTML = '';
         availableDatasets.forEach((datasetName, index) => {
             const animationDelay = index * 0.1;
-            const displayName = getDisplayName(datasetName); // Get friendly name
+            const displayName = getDisplayName(datasetName);
+            const scoreRange = getScoreRange(datasetName); // New function needed
             
             datasetsHTML += '<div class="dataset-card fade-in" style="animation-delay: ' + animationDelay + 's;">';
-            datasetsHTML += '<h3>' + displayName + '</h3>'; // Show friendly name
+            datasetsHTML += '<h3>' + displayName + '</h3>';
             datasetsHTML += '<p>Train/validation/test splits with essay data</p>';
             datasetsHTML += '<div class="dataset-info">';
             datasetsHTML += '<span><i class="fas fa-database"></i> Original format preserved</span>';
+            datasetsHTML += '<span><i class="fas fa-chart-line"></i> Score Range: ' + scoreRange + '</span>';
             datasetsHTML += '</div>';
             datasetsHTML += '<div class="dataset-actions">';
-            datasetsHTML += '<button onclick="downloadSingleDataset(\'' + datasetName + '\')" class="btn btn-sm btn-primary">'; // Use actual D_ name for download
+            datasetsHTML += '<button onclick="showScoreRangeModal(\'' + datasetName + '\')" class="btn btn-sm btn-outline" style="margin-right: 0.5rem;">';
+            datasetsHTML += '<i class="fas fa-info-circle"></i> Score Range Info';
+            datasetsHTML += '</button>';
+            datasetsHTML += '<button onclick="downloadSingleDataset(\'' + datasetName + '\')" class="btn btn-sm btn-primary">';
             datasetsHTML += '<i class="fas fa-download"></i> Download';
             datasetsHTML += '</button>';
-            datasetsHTML += '</div>';
             datasetsHTML += '</div>';
         });
 
@@ -1548,6 +1584,221 @@ function setupSmoothScrolling() {
     });
 }
 
+// Score Range Modal Functions
+function showScoreRangeModal(datasetName) {
+    const scoreInfo = getDetailedScoreInfo(datasetName);
+    
+    // Create modal HTML
+    const modalHTML = `
+        <div class="score-range-modal-backdrop" onclick="closeScoreRangeModal()" style="
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.5); display: flex; align-items: center; 
+            justify-content: center; z-index: 10000;
+        ">
+            <div class="score-range-modal" onclick="event.stopPropagation()" style="
+                background: white; max-width: 500px; width: 90%; 
+                border-radius: 12px; padding: 2rem; box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+                animation: modalFadeIn 0.3s ease;
+            ">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1.5rem;">
+                    <h3 style="margin: 0; color: var(--text-primary);">
+                        Score Range: ${getDisplayName(datasetName)}
+                    </h3>
+                    <button onclick="closeScoreRangeModal()" style="
+                        background: none; border: none; font-size: 1.5rem; 
+                        color: var(--text-secondary); cursor: pointer; padding: 0;
+                        width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+                    ">&times;</button>
+                </div>
+                
+                <div style="background: #e3f2fd; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                        <i class="fas fa-chart-line" style="color: #1976d2; margin-right: 0.5rem;"></i>
+                        <span style="font-weight: 600; color: #1976d2;">Score Range</span>
+                    </div>
+                    <p style="font-size: 1.5rem; font-weight: bold; color: #1976d2; margin: 0;">
+                        ${scoreInfo.range}
+                    </p>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <h4 style="margin-bottom: 0.5rem; color: var(--text-primary);">Description</h4>
+                    <p style="color: var(--text-secondary); line-height: 1.5; margin: 0;">
+                        ${scoreInfo.description}
+                    </p>
+                </div>
+                
+                <div style="background: #f5f5f5; border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
+                    <h4 style="margin-bottom: 0.5rem; color: var(--text-primary);">Task Type</h4>
+                    <p style="color: var(--text-secondary); margin: 0; font-size: 0.9rem;">
+                        ${scoreInfo.taskType}
+                    </p>
+                </div>
+                
+                <button onclick="closeScoreRangeModal()" style="
+                    width: 100%; background: var(--primary-blue); color: white; 
+                    border: none; padding: 0.75rem 1rem; border-radius: 6px; 
+                    cursor: pointer; font-weight: 600;
+                ">Close</button>
+            </div>
+        </div>
+    `;
+    
+    const modalContainer = document.createElement('div');
+    modalContainer.id = 'score-range-modal-container';
+    modalContainer.innerHTML = modalHTML;
+    document.body.appendChild(modalContainer);
+}
+
+function closeScoreRangeModal() {
+    const modal = document.getElementById('score-range-modal-container');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+function getDetailedScoreInfo(datasetName) {
+    const scoreDetails = {
+        'D_ASAP-AES': {
+            range: '2-12 (Variable by set)',
+            description: 'ASAP-AES contains multiple essay sets with different scoring scales. Set 1 uses 2-12 for persuasive essays, while other sets range from 0-3 for source-dependent responses up to 0-60 for narrative essays.',
+            taskType: 'Regression Task - Holistic essay scoring with different scales per essay set'
+        },
+        'D_ASAP2': {
+            range: '0-4',
+            description: 'ASAP 2.0 Dataset for automated essay scoring with holistic scores from 0 to 4.',
+            taskType: 'Regression Task - Holistic essay scoring'
+        },
+        'D_ASAP-SAS': {
+            range: '0-3',
+            description: 'ASAP Short Answer Scoring dataset with scores ranging from 0 to 3 for short response evaluation.',
+            taskType: 'Regression Task - Short answer scoring'
+        },
+        'D_ASAP_plus_plus': {
+            range: '0-60',
+            description: 'ASAP++ Enhanced Dataset with extended scoring range from 0 to 60 for comprehensive essay evaluation.',
+            taskType: 'Regression Task - Enhanced essay scoring with extended range'
+        },
+        'D_CSEE': {
+            range: '0-16',
+            description: 'Computer Science Essay Evaluation Dataset with scores from 0 to 16 for CS-related essays.',
+            taskType: 'Regression Task - Computer science essay evaluation'
+        },
+        'D_BEEtlE_2way': {
+            range: 'Correct/Incorrect',
+            description: 'Binary classification for student answers in science education: Incorrect (0) for wrong answers and Correct (1) for accurate responses.',
+            taskType: 'Classification Task - Binary categories'
+        },
+        'D_BEEtlE_3way': {
+            range: 'Correct/Incorrect/Contradictory',
+            description: 'Three-way classification for student answers: Incorrect (0) for wrong answers, Contradictory (1) for answers that contradict known facts, and Correct (2) for accurate responses.',
+            taskType: 'Classification Task - Three discrete categories'
+        },
+        'D_SciEntSBank_2way': {
+            range: 'Correct/Incorrect',
+            description: 'Binary classification for science answers: Incorrect (0) for wrong answers and Correct (1) for accurate responses.',
+            taskType: 'Classification Task - Binary science answer evaluation'
+        },
+        'D_SciEntSBank_3way': {
+            range: 'Correct/Incorrect/Contradictory',
+            description: 'Three-way classification for science answers: Incorrect (0) for wrong answers, Contradictory (1) for contradictory responses, and Correct (2) for accurate answers.',
+            taskType: 'Classification Task - Three-way science answer evaluation'
+        },
+        'D_Mohlar': {
+            range: '0-5',
+            description: 'Automatic Short Answer Grading dataset with scores from 0 to 5 for short answer evaluation.',
+            taskType: 'Regression Task - Short answer grading'
+        },
+        'D_Ielts_Writing_Dataset': {
+            range: '1-9',
+            description: 'IELTS Writing Assessment Dataset with band scores from 1 to 9 following official IELTS scoring criteria.',
+            taskType: 'Regression Task - IELTS band scoring'
+        },
+        'D_Ielst_Writing_Task_2_Dataset': {
+            range: '1-9',
+            description: 'IELTS Writing Task 2 Dataset with band scores from 1 to 9 for argumentative and discursive essays.',
+            taskType: 'Regression Task - IELTS Task 2 band scoring'
+        },
+        'D_grade_like_a_human_dataset_os_q1': {
+            range: '0-19',
+            description: 'Operating Systems Question 1 with comprehensive point allocation from 0 to 19. Scores reflect understanding of OS concepts with detailed grading criteria.',
+            taskType: 'Regression Task - Academic grading with multiple evaluation criteria'
+        },
+        'D_grade_like_a_human_dataset_os_q2': {
+            range: '0-16',
+            description: 'Operating Systems Question 2 with point allocation from 0 to 16. Evaluates understanding of OS principles and implementation.',
+            taskType: 'Regression Task - Academic grading for OS concepts'
+        },
+        'D_grade_like_a_human_dataset_os_q3': {
+            range: '0-15',
+            description: 'Operating Systems Question 3 with scoring from 0 to 15. Assesses comprehension of advanced OS topics.',
+            taskType: 'Regression Task - Academic grading for advanced OS topics'
+        },
+        'D_grade_like_a_human_dataset_os_q4': {
+            range: '0-16',
+            description: 'Operating Systems Question 4 with point allocation from 0 to 16. Evaluates practical OS knowledge and application.',
+            taskType: 'Regression Task - Academic grading for practical OS knowledge'
+        },
+        'D_grade_like_a_human_dataset_os_q5': {
+            range: '0-27',
+            description: 'Operating Systems Question 5 with comprehensive scoring from 0 to 27. Covers complex OS scenarios and problem-solving.',
+            taskType: 'Regression Task - Academic grading for complex OS scenarios'
+        },
+        'D_persuade_2': {
+            range: '1-6',
+            description: 'Persuasive Essays Dataset v2 with holistic scores from 1 to 6 for argumentative and persuasive writing.',
+            taskType: 'Regression Task - Persuasive essay evaluation'
+        },
+        'D_Regrading_Dataset_J2C': {
+            range: '0-8',
+            description: 'Regrading Dataset J2C with scores from 0 to 8 for student answer evaluation and grading consistency studies.',
+            taskType: 'Regression Task - Grading consistency evaluation'
+        },
+        'D_Rice_Chem_Q1': {
+            range: '0-8',
+            description: 'Rice Chemistry Question 1 with detailed rubric scoring from 0 to 8. Points awarded for correct chemical concepts, proper reasoning, and complete explanations.',
+            taskType: 'Regression Task - Partial credit scoring with detailed chemistry rubric'
+        },
+        'D_Rice_Chem_Q2': {
+            range: '0-8',
+            description: 'Rice Chemistry Question 2 with scoring from 0 to 8. Evaluates understanding of chemical principles and problem-solving approaches.',
+            taskType: 'Regression Task - Chemistry problem-solving evaluation'
+        },
+        'D_Rice_Chem_Q3': {
+            range: '0-9',
+            description: 'Rice Chemistry Question 3 with point allocation from 0 to 9. Assesses advanced chemistry concepts and analytical thinking.',
+            taskType: 'Regression Task - Advanced chemistry concept evaluation'
+        },
+        'D_Rice_Chem_Q4': {
+            range: '0-8',
+            description: 'Rice Chemistry Question 4 with scoring from 0 to 8. Evaluates chemical reasoning and application of theoretical knowledge.',
+            taskType: 'Regression Task - Chemical reasoning and application assessment'
+        }
+    };
+    
+    const info = scoreDetails[datasetName];
+    if (info) return info;
+    
+    // Fallback for datasets not in detailed list
+    const basicRange = getScoreRange(datasetName);
+    const isClassification = basicRange.includes('/') || basicRange.toLowerCase().includes('correct');
+    
+    return {
+        range: basicRange,
+        description: `This dataset uses ${isClassification ? 'categorical scoring' : 'numerical scoring'} for evaluation. Please refer to the dataset documentation for detailed scoring criteria.`,
+        taskType: isClassification ? 'Classification Task - Discrete categories' : 'Regression Task - Numerical scoring'
+    };
+}
+
+const style = document.createElement('style');
+style.textContent = `
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+`;
+document.head.appendChild(style);
+
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('🚀 Enhanced BESESR Platform Initialized');
     
@@ -1558,17 +1809,14 @@ document.addEventListener('DOMContentLoaded', async function() {
     console.log('📊 Loading datasets and initializing platform...');
     
     try {
-        // Load datasets first (this is crucial for everything else)
         await loadAvailableDatasets();
         setupDragDropUpload();
-        // Setup enhanced upload after datasets are loaded
         setupEnhancedUpload();
         setupBenchmarkSubmission();
-        setupIndividualTesting(); // This is already here, just make sure it's called
+        setupIndividualTesting();
         
-        // Load other data
         loadPlatformStats();
-        loadDatasets(); // For the grid display
+        loadDatasets(); 
         loadLeaderboard();
         loadAllLeaderboards();
 
@@ -1577,18 +1825,15 @@ document.addEventListener('DOMContentLoaded', async function() {
     } catch (error) {
         console.error('❌ Failed to initialize platform:', error);
         
-        // Still try to setup basic functionality
         setupEnhancedUpload();
         setupBenchmarkSubmission();
         setupIndividualTesting();
         
-        // Show error message to user
         if (elements.datasetsGrid) {
             showError(elements.datasetsGrid, 'Failed to load platform data. Some features may not work correctly.');
         }
     }
     
-    // Auto-refresh data periodically
     setInterval(() => {
         console.log('🔄 Auto-refreshing data...');
         loadPlatformStats();
@@ -1596,12 +1841,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     }, 60000);
 });
 
-// ===== Global Functions =====
 window.downloadSingleDataset = (datasetName) => {
     downloadFile('/api/datasets/download/' + encodeURIComponent(datasetName), datasetName + '_splits.zip');
 };
 
-// ===== Debug Functions (for development) =====
 window.debugBesesr = {
     getUploadedDatasets: () => Array.from(uploadedDatasets.entries()),
     getAvailableDatasets: () => availableDatasets,

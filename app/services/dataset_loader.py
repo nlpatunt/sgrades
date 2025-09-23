@@ -106,7 +106,8 @@ class HuggingFaceDatasetLoader:
                     if name.startswith("D_"):
                         # This is already a D_ dataset (unlabeled)
                         expanded_datasets[name] = {**config, "dataset_type": "unlabeled"}
-                        
+                        expanded_datasets[name] = self._override_dataset_config(name, expanded_datasets[name])
+
                         # Create regular version for ground truth
                         regular_name = name[2:]  # Remove "D_" prefix
                         gt_config = config.copy()
@@ -232,15 +233,92 @@ class HuggingFaceDatasetLoader:
         return {}
     
     def _auto_configure_single_dataset(self, dataset_id: str, dataset_name: str, config_name: Optional[str]) -> Optional[Dict[str, Any]]:
-        """Configure a single dataset with specific config"""
         try:
+            # Initialize variables at the top
+            base_dataset_name = dataset_name.split('_')[0] if '_' in dataset_name else dataset_name
+            config_key = None
+            
             # COMPLETE MANUAL CONFIGS for all known datasets with correct column mappings
             manual_configs = {
-                'ASAP-AES': {
-                    "description": "ASAP Automated Essay Scoring",
+                'ASAP-AES_Set1': {
+                    "huggingface_id": "nlpatunt/D_ASAP-AES", 
+                    "description": "ASAP-AES Essay Set 1: Persuasive Essays (Score Range: 2-12)",
                     "essay_column": "essay",
-                    "score_column": "domain1_score",  # Main holistic score
+                    "score_column": "domain1_score",
                     "prompt_column": "essay_set",
+                    "essay_set_filter": 1,
+                    "score_range": (2, 12)
+                },
+                'ASAP-AES_Set2_Domain1': {
+                    "huggingface_id": "nlpatunt/D_ASAP-AES", 
+                    "description": "ASAP-AES Essay Set 2 Domain 1: Content (Score Range: 1-6)",
+                    "essay_column": "essay",
+                    "score_column": "domain1_score",
+                    "prompt_column": "essay_set",
+                    "essay_set_filter": 2,
+                    "score_range": (1, 6)
+                },
+                'ASAP-AES_Set2_Domain2': {
+                    "huggingface_id": "nlpatunt/D_ASAP-AES", 
+                    "description": "ASAP-AES Essay Set 2 Domain 2: Organization (Score Range: 1-4)",
+                    "essay_column": "essay",
+                    "score_column": "domain2_score",
+                    "prompt_column": "essay_set",
+                    "essay_set_filter": 2,
+                    "score_range": (1, 4)
+                },
+                'ASAP-AES_Set3': {
+                    "huggingface_id": "nlpatunt/D_ASAP-AES", 
+                    "description": "ASAP-AES Essay Set 3: Source Dependent Responses (Score Range: 0-3)",
+                    "essay_column": "essay",
+                    "score_column": "domain1_score",
+                    "prompt_column": "essay_set",
+                    "essay_set_filter": 3,
+                    "score_range": (0, 3)
+                },
+                'ASAP-AES_Set4': {
+                    "huggingface_id": "nlpatunt/D_ASAP-AES", 
+                    "description": "ASAP-AES Essay Set 4: Source Dependent Responses (Score Range: 0-3)",
+                    "essay_column": "essay",
+                    "score_column": "domain1_score",
+                    "prompt_column": "essay_set",
+                    "essay_set_filter": 4,
+                    "score_range": (0, 3)
+                },
+                'ASAP-AES_Set5': {
+                    "huggingface_id": "nlpatunt/D_ASAP-AES", 
+                    "description": "ASAP-AES Essay Set 5: Source Dependent Responses (Score Range: 0-4)",
+                    "essay_column": "essay",
+                    "score_column": "domain1_score",
+                    "prompt_column": "essay_set",
+                    "essay_set_filter": 5,
+                    "score_range": (0, 4)
+                },
+                'ASAP-AES_Set6': {
+                    "huggingface_id": "nlpatunt/D_ASAP-AES", 
+                    "description": "ASAP-AES Essay Set 6: Source Dependent Responses (Score Range: 0-4)",
+                    "essay_column": "essay",
+                    "score_column": "domain1_score",
+                    "prompt_column": "essay_set",
+                    "essay_set_filter": 6,
+                    "score_range": (0, 4)
+                },
+                'ASAP-AES_Set7': {
+                    "huggingface_id": "nlpatunt/D_ASAP-AES", 
+                    "description": "ASAP-AES Essay Set 7: Narrative Essays (Score Range: 0-30)",
+                    "essay_column": "essay",
+                    "score_column": "domain1_score",
+                    "prompt_column": "essay_set",
+                    "essay_set_filter": 7,
+                    "score_range": (0, 30)
+                },
+                'ASAP-AES_Set8': {
+                    "huggingface_id": "nlpatunt/D_ASAP-AES", 
+                    "description": "ASAP-AES Essay Set 8: Narrative Essays (Score Range: 0-60)",
+                    "essay_column": "essay",
+                    "score_column": "domain1_score",
+                    "prompt_column": "essay_set",
+                    "essay_set_filter": 8,
                     "score_range": (0, 60)
                 },
                 'ASAP2': {
@@ -248,14 +326,14 @@ class HuggingFaceDatasetLoader:
                     "essay_column": "full_text",
                     "score_column": "score", 
                     "prompt_column": "assignment",
-                    "score_range": (0, 60)
+                    "score_range": (0, 4)
                 },
                 'ASAP-SAS': {
                     "description": "ASAP Short Answer Scoring",
                     "essay_column": "essay_text",
-                    "score_column": "Score1",  # Primary score
+                    "score_column": "Score1",
                     "prompt_column": "essay_set",
-                    "score_range": (0, 60)
+                    "score_range": (0, 3)
                 },
                 'ASAP_plus_plus': {
                     "description": "ASAP++ Enhanced Dataset",
@@ -269,21 +347,35 @@ class HuggingFaceDatasetLoader:
                     "essay_column": "essay",
                     "score_column": "overall_score",
                     "prompt_column": "prompt",
-                    "score_range": (0, 100)
+                    "score_range": (0, 16)
                 },
-                'BEEtlE': {
-                    "description": "Basic Elements of English Teaching and Learning Evaluation",
+                'BEEtlE_2way': {
+                    "description": "BEEtlE 2-way: Correct/Incorrect",
                     "essay_column": "student_answer",
                     "score_column": "label",
                     "prompt_column": "question_text",
-                    "score_range": (0, 2)  # For 2way classification
+                    "score_range": (0, 1)
                 },
-                'SciEntSBank': {
-                    "description": "Science Entailment Bank Dataset",
+                'BEEtlE_3way': {
+                    "description": "BEEtlE 3-way: Correct/Incorrect/Partially Correct",
                     "essay_column": "student_answer",
-                    "score_column": "label", 
+                    "score_column": "label",
                     "prompt_column": "question_text",
-                    "score_range": (0, 2)  # For 2way classification
+                    "score_range": (0, 2)
+                },
+                'SciEntSBank_2way': {
+                    "description": "SciEntSBank 2-way: Correct/Incorrect",
+                    "essay_column": "student_answer",
+                    "score_column": "label",
+                    "prompt_column": "question_text",
+                    "score_range": (0, 1)
+                },
+                'SciEntSBank_3way': {
+                    "description": "SciEntSBank 3-way: Correct/Incorrect/Contradictory",
+                    "essay_column": "student_answer", 
+                    "score_column": "label",
+                    "prompt_column": "question_text",
+                    "score_range": (0, 2)
                 },
                 'Mohlar': {
                     "description": "Automatic Short Answer Grading - Mohlar Dataset",
@@ -313,12 +405,40 @@ class HuggingFaceDatasetLoader:
                     "prompt_column": "prompt",
                     "score_range": (1, 9)
                 },
-                'grade_like_a_human_dataset_os': {
-                    "description": "Grade Like a Human OS Dataset",
+                'grade_like_a_human_dataset_os_q1': {
+                    "description": "Grade Like a Human OS Question 1 (Score Range: 0-19)",
                     "essay_column": "answer",
-                    "score_column": "score_1",  # Primary score
+                    "score_column": "score_1",
                     "prompt_column": "question",
-                    "score_range": (0, 100)  # Based on full_points
+                    "score_range": (0, 19)
+                },
+                'grade_like_a_human_dataset_os_q2': {
+                    "description": "Grade Like a Human OS Question 2 (Score Range: 0-16)",
+                    "essay_column": "answer",
+                    "score_column": "score_1",
+                    "prompt_column": "question",
+                    "score_range": (0, 16)
+                },
+                'grade_like_a_human_dataset_os_q3': {
+                    "description": "Grade Like a Human OS Question 3 (Score Range: 0-15)",
+                    "essay_column": "answer",
+                    "score_column": "score_1",
+                    "prompt_column": "question",
+                    "score_range": (0, 15)
+                },
+                'grade_like_a_human_dataset_os_q4': {
+                    "description": "Grade Like a Human OS Question 4 (Score Range: 0-16)",
+                    "essay_column": "answer",
+                    "score_column": "score_1",
+                    "prompt_column": "question",
+                    "score_range": (0, 16)
+                },
+                'grade_like_a_human_dataset_os_q5': {
+                    "description": "Grade Like a Human OS Question 5 (Score Range: 0-27)",
+                    "essay_column": "answer",
+                    "score_column": "score_1",
+                    "prompt_column": "question",
+                    "score_range": (0, 27)
                 },
                 'persuade_2': {
                     "description": "Persuasive Essays Dataset v2",
@@ -332,28 +452,65 @@ class HuggingFaceDatasetLoader:
                     "essay_column": "student_answer",
                     "score_column": "grade",
                     "prompt_column": "Question",
-                    "score_range": (0, 100)
+                    "score_range": (0, 8)
                 },
-                'Rice_Chem': {
-                    "description": "Rice University Chemistry Dataset",
+                'Rice_Chem_Q1': {
+                    "description": "Rice Chemistry Question 1 (Score Range: 0-8)",
                     "essay_column": "student_response",
                     "score_column": "Score",
                     "prompt_column": "Prompt",
-                    "score_range": (0, 100)
-                }
+                    "score_range": (0, 8)
+                },
+                'Rice_Chem_Q2': {
+                    "description": "Rice Chemistry Question 2 (Score Range: 0-8)",
+                    "essay_column": "student_response",
+                    "score_column": "Score",
+                    "prompt_column": "Prompt",
+                    "score_range": (0, 8)
+                },
+                'Rice_Chem_Q3': {
+                    "description": "Rice Chemistry Question 3 (Score Range: 0-9)",
+                    "essay_column": "student_response",
+                    "score_column": "Score",
+                    "prompt_column": "Prompt",
+                    "score_range": (0, 9)
+                },
+                'Rice_Chem_Q4': {
+                    "description": "Rice Chemistry Question 4 (Score Range: 0-8)",
+                    "essay_column": "student_response",
+                    "score_column": "Score",
+                    "prompt_column": "Prompt",
+                    "score_range": (0, 8)
+                },
             }
             
-            # Check if this dataset needs manual config
-            base_dataset_name = dataset_name.split('_')[0] if '_' in dataset_name else dataset_name
-            if base_dataset_name in manual_configs or dataset_name in manual_configs:
-                print(f"   🔧 Using manual config for {dataset_name}")
-                base_config = manual_configs.get(dataset_name, manual_configs.get(base_dataset_name, {})).copy()
-                
-                # Adjust score range for 3way classification
-                if config_name == '3way' and base_dataset_name in ['BEEtlE', 'SciEntSBank']:
-                    base_config["score_range"] = (0, 2)  # 3-class: 0, 1, 2
-                elif config_name == '2way' and base_dataset_name in ['BEEtlE', 'SciEntSBank']:
-                    base_config["score_range"] = (0, 1)  # 2-class: 0, 1
+            print(f"DEBUG: dataset_name = {dataset_name}")
+            print(f"DEBUG: base_dataset_name = {base_dataset_name}")
+            print(f"DEBUG: config_name = {config_name}")
+            
+            # Special handling for ASAP-AES
+            if dataset_name == "ASAP-AES" or dataset_name == "D_ASAP-AES":
+                print(f"   🔧 ASAP-AES detected - using Set1 as default")
+                config_key = "ASAP-AES_Set1"
+ 
+            elif config_name:
+                combined_name = f"{dataset_name}_{config_name}"
+                if combined_name in manual_configs:
+                    config_key = combined_name
+                elif f"{base_dataset_name}_{config_name}" in manual_configs:
+                    config_key = f"{base_dataset_name}_{config_name}"
+
+            if not config_key:
+                if dataset_name in manual_configs:
+                    config_key = dataset_name
+                elif base_dataset_name in manual_configs:
+                    config_key = base_dataset_name
+
+            print(f"DEBUG: config_key found: {config_key}")
+
+            if config_key:
+                print(f"   🔧 Using manual config for {config_key}")
+                base_config = manual_configs[config_key].copy()
                 
                 return {
                     "huggingface_id": dataset_id,
@@ -365,19 +522,17 @@ class HuggingFaceDatasetLoader:
                     **base_config
                 }
             
-            # Continue with auto-configuration for other datasets (should not happen with your datasets)
+            # Continue with auto-configuration for other datasets
             print(f"   🔧 Starting auto-configuration for {dataset_name} (config: {config_name})...")
             
-            # Get appropriate split
             split_needed = self._get_dataset_split(dataset_name)
             
-            # Load sample with specific config
             try:
                 if config_name:
                     dataset = load_dataset(
                         dataset_id, 
                         config_name,
-                        split=f"{split_needed}[:1]",  # Just load 1 sample for config detection
+                        split=f"{split_needed}[:1]",
                         token=self.hf_token,
                         trust_remote_code=True
                     )
@@ -389,7 +544,6 @@ class HuggingFaceDatasetLoader:
                         trust_remote_code=True
                     )
             except TypeError:
-                # Fallback for older versions
                 try:
                     if config_name:
                         dataset = load_dataset(
@@ -420,29 +574,20 @@ class HuggingFaceDatasetLoader:
             
             print(f"     📋 Available columns: {columns}")
             
-            # Smart column detection
             essay_col = self._detect_essay_column(columns, sample)
             score_col = self._detect_score_column(columns, sample)
             prompt_col = self._detect_prompt_column(columns, sample)
             
-            if not essay_col:
-                print(f"     ❌ Could not detect essay column")
+            if not essay_col or not score_col:
+                print(f"     ❌ Could not detect required columns")
                 return None
             
-            if not score_col:
-                print(f"     ❌ Could not detect score column")
-                return None
-            
-            # Auto-detect score range
             score_range = self._detect_score_range(dataset, score_col)
+            description = self._generate_enhanced_description(dataset_name, config_name, columns, sample)
             
             print(f"     📊 Detected - Essay: {essay_col}, Score: {score_col}, Range: {score_range}")
             
-            # Generate enhanced description
-            description = self._generate_enhanced_description(dataset_name, config_name, columns, sample)
-            
-            # Generate configuration
-            config = {
+            return {
                 "huggingface_id": dataset_id,
                 "description": description,
                 "essay_column": essay_col,
@@ -457,12 +602,192 @@ class HuggingFaceDatasetLoader:
                 "dataset_variant": config_name
             }
             
-            return config
-            
         except Exception as e:
             print(f"     ❌ Error configuring {dataset_name} with config {config_name}: {e}")
             return None
-    
+
+    def _override_dataset_config(self, dataset_name: str, existing_config: Dict[str, Any]) -> Dict[str, Any]:
+        manual_overrides = {
+            'ASAP-AES': {
+                "description": "ASAP-AES Essay Set 1: Persuasive Essays (Score Range: 2-12)",
+                "essay_column": "essay",
+                "score_column": "domain1_score",
+                "prompt_column": "essay_set",
+                "essay_set_filter": 1,
+                "score_range": (2, 12)
+            },
+            'D_ASAP-AES': {
+                "description": "ASAP-AES Essay Set 1: Persuasive Essays (Score Range: 2-12)",
+                "essay_column": "essay",
+                "score_column": "domain1_score", 
+                "prompt_column": "essay_set",
+                "essay_set_filter": 1,
+                "score_range": (2, 12)
+            },
+            'ASAP-AES_Set1': {
+                "description": "ASAP-AES Essay Set 1: Persuasive Essays (Score Range: 2-12)",
+                "essay_column": "essay",
+                "score_column": "domain1_score",
+                "prompt_column": "essay_set",
+                "essay_set_filter": 1,
+                "score_range": (2, 12)
+            },
+            'D_ASAP-AES_Set1': {
+                "description": "ASAP-AES Essay Set 1: Persuasive Essays (Score Range: 2-12)",
+                "essay_column": "essay",
+                "score_column": "domain1_score",
+                "prompt_column": "essay_set",
+                "essay_set_filter": 1,
+                "score_range": (2, 12)
+            },
+            'ASAP-AES_Set2_Domain1': {
+                "description": "ASAP-AES Essay Set 2 Domain 1: Content (Score Range: 1-6)",
+                "essay_column": "essay",
+                "score_column": "domain1_score",
+                "prompt_column": "essay_set",
+                "essay_set_filter": 2,
+                "score_range": (1, 6)
+            },
+            'D_ASAP-AES_Set2_Domain1': {
+                "description": "ASAP-AES Essay Set 2 Domain 1: Content (Score Range: 1-6)",
+                "essay_column": "essay",
+                "score_column": "domain1_score",
+                "prompt_column": "essay_set",
+                "essay_set_filter": 2,
+                "score_range": (1, 6)
+            },
+            'ASAP-AES_Set2_Domain2': {
+                "description": "ASAP-AES Essay Set 2 Domain 2: Organization (Score Range: 1-4)",
+                "essay_column": "essay",
+                "score_column": "domain2_score",
+                "prompt_column": "essay_set",
+                "essay_set_filter": 2,
+                "score_range": (1, 4)
+            },
+            'D_ASAP-AES_Set2_Domain2': {
+                "description": "ASAP-AES Essay Set 2 Domain 2: Organization (Score Range: 1-4)",
+                "essay_column": "essay",
+                "score_column": "domain2_score",
+                "prompt_column": "essay_set",
+                "essay_set_filter": 2,
+                "score_range": (1, 4)
+            },
+            'ASAP-AES_Set3': {
+                "description": "ASAP-AES Essay Set 3: Source Dependent Responses (Score Range: 0-3)",
+                "essay_column": "essay",
+                "score_column": "domain1_score",
+                "prompt_column": "essay_set",
+                "essay_set_filter": 3,
+                "score_range": (0, 3)
+            },
+            'D_ASAP-AES_Set3': {
+                "description": "ASAP-AES Essay Set 3: Source Dependent Responses (Score Range: 0-3)",
+                "essay_column": "essay",
+                "score_column": "domain1_score",
+                "prompt_column": "essay_set",
+                "essay_set_filter": 3,
+                "score_range": (0, 3)
+            },
+            'ASAP-AES_Set4': {
+                "description": "ASAP-AES Essay Set 4: Source Dependent Responses (Score Range: 0-3)",
+                "essay_column": "essay",
+                "score_column": "domain1_score",
+                "prompt_column": "essay_set",
+                "essay_set_filter": 4,
+                "score_range": (0, 3)
+            },
+            'D_ASAP-AES_Set4': {
+                "description": "ASAP-AES Essay Set 4: Source Dependent Responses (Score Range: 0-3)",
+                "essay_column": "essay",
+                "score_column": "domain1_score",
+                "prompt_column": "essay_set",
+                "essay_set_filter": 4,
+                "score_range": (0, 3)
+            },
+            'ASAP-AES_Set5': {
+                "description": "ASAP-AES Essay Set 5: Source Dependent Responses (Score Range: 0-4)",
+                "essay_column": "essay",
+                "score_column": "domain1_score",
+                "prompt_column": "essay_set",
+                "essay_set_filter": 5,
+                "score_range": (0, 4)
+            },
+            'D_ASAP-AES_Set5': {
+                "description": "ASAP-AES Essay Set 5: Source Dependent Responses (Score Range: 0-4)",
+                "essay_column": "essay",
+                "score_column": "domain1_score",
+                "prompt_column": "essay_set",
+                "essay_set_filter": 5,
+                "score_range": (0, 4)
+            },
+            'ASAP-AES_Set6': {
+                "description": "ASAP-AES Essay Set 6: Source Dependent Responses (Score Range: 0-4)",
+                "essay_column": "essay",
+                "score_column": "domain1_score",
+                "prompt_column": "essay_set",
+                "essay_set_filter": 6,
+                "score_range": (0, 4)
+            },
+            'D_ASAP-AES_Set6': {
+                "description": "ASAP-AES Essay Set 6: Source Dependent Responses (Score Range: 0-4)",
+                "essay_column": "essay",
+                "score_column": "domain1_score",
+                "prompt_column": "essay_set",
+                "essay_set_filter": 6,
+                "score_range": (0, 4)
+            },
+            'ASAP-AES_Set7': {
+                "description": "ASAP-AES Essay Set 7: Narrative Essays (Score Range: 0-30)",
+                "essay_column": "essay",
+                "score_column": "domain1_score",
+                "prompt_column": "essay_set",
+                "essay_set_filter": 7,
+                "score_range": (0, 30)
+            },
+            'D_ASAP-AES_Set7': {
+                "description": "ASAP-AES Essay Set 7: Narrative Essays (Score Range: 0-30)",
+                "essay_column": "essay",
+                "score_column": "domain1_score",
+                "prompt_column": "essay_set",
+                "essay_set_filter": 7,
+                "score_range": (0, 30)
+            },
+            'ASAP-AES_Set8': {
+                "description": "ASAP-AES Essay Set 8: Narrative Essays (Score Range: 0-60)",
+                "essay_column": "essay",
+                "score_column": "domain1_score",
+                "prompt_column": "essay_set",
+                "essay_set_filter": 8,
+                "score_range": (0, 60)
+            },
+            'D_ASAP-AES_Set8': {
+                "description": "ASAP-AES Essay Set 8: Narrative Essays (Score Range: 0-60)",
+                "essay_column": "essay",
+                "score_column": "domain1_score",
+                "prompt_column": "essay_set",
+                "essay_set_filter": 8,
+                "score_range": (0, 60)
+            }
+        }
+        
+        if dataset_name in manual_overrides:
+            print(f"   🔧 Applying manual override for {dataset_name}")
+            override_config = manual_overrides[dataset_name].copy()
+            updated_config = existing_config.copy()
+            updated_config.update(override_config)
+            return updated_config
+        
+        return existing_config
+        
+        if dataset_name in manual_overrides:
+            print(f"   🔧 Applying manual override for {dataset_name}")
+            override_config = manual_overrides[dataset_name].copy()
+            updated_config = existing_config.copy()
+            updated_config.update(override_config)
+            return updated_config
+        
+        return existing_config
+
     def load_dataset_sample(
         self,
         dataset_id: str,
@@ -529,16 +854,19 @@ class HuggingFaceDatasetLoader:
         return essays
 
     def _get_dataset_split(self, dataset_name: str) -> str:
-        """Get appropriate split for dataset"""
+        no_validation_datasets = ['BEEtlE', 'SciEntSBank']
         
-        # Some datasets only have test split
         test_only_keywords = []
         dataset_lower = dataset_name.lower()
+        
+        for keyword in no_validation_datasets:
+            if keyword.lower() in dataset_lower:
+                return 'train' 
         
         if any(keyword in dataset_lower for keyword in test_only_keywords):
             return 'test'
         
-        return 'train'  # Default
+        return 'train' 
 
     def _generate_enhanced_description(self, dataset_name: str, config_name: Optional[str], columns: list, sample: dict) -> str:
         """Generate enhanced description including config info"""
@@ -802,8 +1130,6 @@ class HuggingFaceDatasetLoader:
 
 
 class BESESRDatasetManager:
-    """Enhanced dataset manager with dynamic discovery and config support"""
-    
     def __init__(self):
         self.hf_loader = HuggingFaceDatasetLoader()
        
@@ -824,9 +1150,7 @@ class BESESRDatasetManager:
             print(f"  - {name}{config_info} [{status}]")
     
     def load_dataset_for_evaluation(self, dataset_name: str, sample_size: int = 50) -> List[Dict[str, Any]]:
-        """Load dataset with enhanced column detection and caching"""
         
-        # Check cache first
         if self.cache:
             cache_key = f"{dataset_name}_{sample_size}"
             cached_data = self.cache.get_dataset(cache_key)
@@ -860,6 +1184,11 @@ class BESESRDatasetManager:
             for i, item in enumerate(raw_data):
                 row = item.get("row", {})
                 
+                if config.get("essay_set_filter"):
+                    essay_set = self._get_column_value(row, ["essay_set"])
+                    if str(essay_set) != str(config["essay_set_filter"]):
+                        continue
+        
                 # Extract values using configured column names
                 essay_text = self._get_column_value(row, [config["essay_column"]])
                 score = self._get_column_value(row, [config["score_column"]])
