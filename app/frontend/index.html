@@ -199,20 +199,17 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <!-- Replace your entire header section with this -->
     <header style="background: white; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 1000;">
         <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem;">
             <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; min-height: 60px;">
                 <h1 style="font-size: 2.5rem; font-weight: 700; color: #2563eb; margin: 0;">
                     <a href="index.html" style="text-decoration: none; color: inherit;">BESESR</a>
                 </h1>
+                <!-- Replace the entire nav section in your header with this: -->
                 <nav style="display: flex; gap: 0.3rem; align-items: center;">
                     <a href="index.html#overview" style="padding: 0.5rem 0.6rem; font-size: 0.8rem; text-decoration: none; color: #111827; border-radius: 6px;">Overview</a>
                     <a href="index.html#datasets" style="padding: 0.5rem 0.6rem; font-size: 0.8rem; text-decoration: none; color: #111827; border-radius: 6px;">Datasets</a>
-                    <a href="leaderboard-zero-shot.html" style="padding: 0.5rem 0.6rem; font-size: 0.7rem; text-decoration: none; color: #111827; border-radius: 6px; text-align: center; line-height: 1.2;">Zero-shot<br>Leaderboard</a>
-                    <a href="leaderboard-few-shot.html" style="padding: 0.5rem 0.6rem; font-size: 0.7rem; text-decoration: none; color: #111827; border-radius: 6px; text-align: center; line-height: 1.2;">Few-shot<br>Leaderboard</a>
-                    <a href="leaderboard-fully-trained.html" style="padding: 0.5rem 0.6rem; font-size: 0.7rem; text-decoration: none; color: #111827; border-radius: 6px; text-align: center; line-height: 1.2;">Fully-trained<br>Leaderboard</a>
+                    <a href="leaderboard.html" style="padding: 0.5rem 0.6rem; font-size: 0.8rem; text-decoration: none; color: #111827; border-radius: 6px;">Leaderboard</a>
                     <a href="index.html#submit" style="padding: 0.5rem 0.6rem; font-size: 0.8rem; text-decoration: none; color: #111827; border-radius: 6px;">Submit</a>
                     <a href="http://127.0.0.1:8000/docs" style="padding: 0.5rem 0.6rem; font-size: 0.8rem; text-decoration: none; color: #111827; border-radius: 6px;" target="_blank">API</a>
                 </nav>
@@ -249,7 +246,7 @@
 
                 <div class="hero-actions">
                     <a href="#submit" class="btn btn-primary">Submit Complete Benchmark</a>
-                    <a href="leaderboard-zero-shot.html" class="btn btn-secondary">View Leaderboards</a>
+                    <a href="leaderboard.html" class="btn btn-secondary">View Leaderboard</a>
                 </div>
             </div>
         </div>
@@ -373,15 +370,6 @@ grade_like_a_human_dataset_os_q1_test_0,85.5</pre>
                                 <div class="form-group">
                                     <label for="model-name">Model Name *</label>
                                     <input type="text" id="model-name" name="model_name" placeholder="e.g., BERT-Essay-Scorer-v2" required />
-                                </div>
-                                <div class="form-group">
-                                    <label for="methodology">Methodology *</label>
-                                    <select id="methodology" name="methodology" required>
-                                        <option value="">-- Select methodology --</option>
-                                        <option value="zero-shot">Zero-shot (no training data, prompt-only)</option>
-                                        <option value="few-shot">Few-shot (1-10 examples in context)</option>
-                                        <option value="fully-trained">Fully-trained (fine-tuned on training data)</option>
-                                    </select>
                                 </div>
                             </div>
                             

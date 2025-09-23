@@ -13,14 +13,6 @@ def submit_complete_zero_shot_benchmark():
     
     base_url = "http://localhost:8000"
     
-    # Prepare submission data
-    submission_data = {
-        'submitter_name': 'Your Name',
-        'submitter_email': 'your.email@example.com',
-        'model_name': 'GPT-4o-mini Zero-shot',
-        'model_description': 'Zero-shot evaluation using GPT-4o-mini with standardized prompts',
-        'methodology': 'zero-shot'
-    }
     
     # Submit each dataset result
     for result in results:

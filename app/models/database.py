@@ -31,7 +31,6 @@ class OutputSubmission(Base):
     dataset_name = Column(String, nullable=False)
     submitter_name = Column(String, nullable=False)
     submitter_email = Column(String, nullable=False)
-    methodology = Column(String, default="fully-trained")
 
     # File storage fields
     original_filename = Column(String, nullable=True)
@@ -122,7 +121,6 @@ class EvaluationResult(Base):
 
 
 class Essay(Base):
-    """Database table for storing individual essays and their scores"""
     __tablename__ = "essays"
     
     id = Column(Integer, primary_key=True, autoincrement=True)

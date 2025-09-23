@@ -241,4 +241,3 @@ MIT (update if needed).
 
 Thanks to dataset authors and the open-source community (FastAPI, Hugging Face, etc.) that make BESESR possible.
 
-postgresql://postgres:[YOUR-PASSWORD]@db.osugaozwiczewgsmlwbt.supabase.co:5432/postgres

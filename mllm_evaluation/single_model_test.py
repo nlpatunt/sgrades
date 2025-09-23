@@ -1,9 +1,3 @@
-#!/usr/bin/env python3
-"""
-Single Model Single Dataset Test with D_ prefix logic and dynamic range handling
-Test data from D_{dataset} (unlabeled) vs Ground truth from {dataset} (labeled)
-"""
-
 import requests
 import pandas as pd
 import numpy as np
@@ -14,6 +8,9 @@ from typing import Dict, List, Tuple
 import zipfile
 import io
 import csv
+
+from dotenv import load_dotenv
+load_dotenv()
 
 class SingleModelTester:
     def __init__(self, besesr_url="http://localhost:8000"):
@@ -38,155 +35,85 @@ class SingleModelTester:
             return []
     
     def get_dataset_range_info(self, dataset_name: str, row=None):
-        """Get scoring range information for different datasets"""
+        """Get scoring range information from BESESR API or dynamic per-essay"""
         
-        # Dataset-specific range configurations
-        range_configs = {
-            # Regrading dataset uses full_marks column for dynamic scoring
-            "Regrading_Dataset_J2C": {
-                "type": "dynamic_column",
-                "column": "Full marks",
-                "description": "points (perfect answer)"
-            },
-            "D_Regrading_Dataset_J2C": {
-                "type": "dynamic_column", 
-                "column": "Full marks",
-                "description": "points (perfect answer)"
-            },
+        # Special handling for ASAP-AES - dynamic range based on essay_set
+        if dataset_name in ["ASAP-AES", "D_ASAP-AES"] and row is not None:
+            essay_set = row.get('essay_set', 1)  # Default to Set 1 if missing
             
-            # Fixed range datasets
-            "ASAP-AES": {
-                "type": "fixed_range",
-                "min": 0, "max": 60,
-                "description": "0-60 scale (60 = exceptional essay)"
-            },
-            "D_ASAP-AES": {
-                "type": "fixed_range",
-                "min": 0, "max": 60, 
-                "description": "0-60 scale (60 = exceptional essay)"
-            },
-            
-            "ASAP2": {
-                "type": "fixed_range",
-                "min": 0, "max": 60,
-                "description": "0-60 scale (varies by essay set)"
-            },
-            "D_ASAP2": {
-                "type": "fixed_range",
-                "min": 0, "max": 60,
-                "description": "0-60 scale (varies by essay set)"
-            },
-            
-            "Ielts_Writing_Dataset": {
-                "type": "fixed_range",
-                "min": 0, "max": 9,
-                "description": "0-9 IELTS band scale (9 = expert level)"
-            },
-            "D_Ielts_Writing_Dataset": {
-                "type": "fixed_range",
-                "min": 0, "max": 9,
-                "description": "0-9 IELTS band scale (9 = expert level)"
-            },
-            
-            "BEEtlE_2way": {
-                "type": "categorical",
-                "categories": ["incorrect", "correct"],
-                "description": "correct/incorrect classification"
-            },
-            "D_BEEtlE_2way": {
-                "type": "categorical",
-                "categories": ["incorrect", "correct"],
-                "description": "correct/incorrect classification"
-            },
-            
-            "BEEtlE_3way": {
-                "type": "categorical",
-                "categories": ["incorrect", "partial_correct", "correct"],
-                "description": "three-way classification"
-            },
-            "D_BEEtlE_3way": {
-                "type": "categorical",
-                "categories": ["incorrect", "partial_correct", "correct"],
-                "description": "three-way classification"
-            },
-            
-            "SciEntSBank_2way": {
-                "type": "categorical",
-                "categories": ["incorrect", "correct"],
-                "description": "correct/incorrect classification"
-            },
-            "D_SciEntSBank_2way": {
-                "type": "categorical",
-                "categories": ["incorrect", "correct"],
-                "description": "correct/incorrect classification"
-            },
-            
-            "SciEntSBank_3way": {
-                "type": "categorical",
-                "categories": ["incorrect", "contradictory", "correct"],
-                "description": "three-way classification"
-            },
-            "D_SciEntSBank_3way": {
-                "type": "categorical",
-                "categories": ["incorrect", "contradictory", "correct"],
-                "description": "three-way classification"
-            },
-            
-            "persuade_2": {
-                "type": "fixed_range",
-                "min": 1, "max": 5,
-                "description": "1-5 holistic essay scale"
-            },
-            "D_persuade_2": {
-                "type": "fixed_range",
-                "min": 1, "max": 5,
-                "description": "1-5 holistic essay scale"
-            },
-            
-            # Add more datasets as needed
-            "EFL": {
-                "type": "fixed_range",
-                "min": 0, "max": 6,
-                "description": "0-6 scale (EFL scoring)"
-            },
-            "D_EFL": {
-                "type": "fixed_range",
-                "min": 0, "max": 6,
-                "description": "0-6 scale (EFL scoring)"
-            },
-            
-            "Mohlar": {
-                "type": "fixed_range",
-                "min": 0, "max": 10,
-                "description": "0-10 grade scale"
-            },
-            "D_Mohlar": {
-                "type": "fixed_range",
-                "min": 0, "max": 10,
-                "description": "0-10 grade scale"
+            # Essay set specific ranges
+            asap_ranges = {
+                1: {"min": 2, "max": 12, "description": "2-12 scale (Set 1: Persuasive Essays)"},
+                2: {"min": 1, "max": 6, "description": "1-6 scale (Set 2: Domain 1)"},  # Note: Domain 2 is 1-4, but using Domain 1 range
+                3: {"min": 0, "max": 3, "description": "0-3 scale (Set 3: Source Dependent)"},
+                4: {"min": 0, "max": 3, "description": "0-3 scale (Set 4: Source Dependent)"},
+                5: {"min": 0, "max": 4, "description": "0-4 scale (Set 5: Source Dependent)"},
+                6: {"min": 0, "max": 4, "description": "0-4 scale (Set 6: Source Dependent)"},
+                7: {"min": 0, "max": 30, "description": "0-30 scale (Set 7: Narrative Essays)"},
+                8: {"min": 0, "max": 60, "description": "0-60 scale (Set 8: Narrative Essays)"}
             }
-        }
+            
+            range_config = asap_ranges.get(essay_set, asap_ranges[1])  # Default to Set 1
+            
+            return {
+                "type": "fixed_range",
+                "min": range_config["min"],
+                "max": range_config["max"],
+                "description": range_config["description"]
+            }
         
-        config = range_configs.get(dataset_name, {
+        # For all other datasets, use API-based range detection
+        try:
+            # Fetch dataset configuration from BESESR API
+            response = requests.get(f"{self.base_url}/api/datasets/{dataset_name}")
+            if response.status_code == 200:
+                data = response.json()
+                config = data.get('configuration', {})
+                score_range = config.get('score_range', [0, 5])
+                
+                # Handle categorical datasets
+                if dataset_name in ["BEEtlE_2way", "D_BEEtlE_2way"]:
+                    return {
+                        "type": "categorical",
+                        "categories": ["incorrect", "correct"],
+                        "description": "correct/incorrect classification"
+                    }
+                elif dataset_name in ["BEEtlE_3way", "D_BEEtlE_3way"]:
+                    return {
+                        "type": "categorical", 
+                        "categories": ["incorrect", "partial_correct", "correct"],
+                        "description": "three-way classification"
+                    }
+                elif dataset_name in ["SciEntSBank_2way", "D_SciEntSBank_2way"]:
+                    return {
+                        "type": "categorical",
+                        "categories": ["incorrect", "correct"],
+                        "description": "correct/incorrect classification"
+                    }
+                elif dataset_name in ["SciEntSBank_3way", "D_SciEntSBank_3way"]:
+                    return {
+                        "type": "categorical",
+                        "categories": ["incorrect", "contradictory", "correct"],
+                        "description": "three-way classification"
+                    }
+                else:
+                    # Numeric ranges from API
+                    return {
+                        "type": "fixed_range",
+                        "min": score_range[0],
+                        "max": score_range[1],
+                        "description": f"{score_range[0]}-{score_range[1]} scale ({score_range[1]} = excellent)"
+                    }
+                    
+        except Exception as e:
+            print(f"Warning: Could not fetch range info from API: {e}")
+        
+        # Fallback to default
+        return {
             "type": "fixed_range", 
             "min": 0, "max": 5,
             "description": "0-5 scale (5 = excellent)"
-        })
-        
-        # Handle dynamic ranges from columns
-        if config["type"] == "dynamic_column" and row is not None:
-            column = config["column"]
-            if column in row and pd.notna(row[column]):
-                max_score = float(row[column])
-                return {
-                    "type": "dynamic_range",
-                    "min": 0,
-                    "max": max_score,
-                    "description": f"0-{max_score} {config['description']}"
-                }
-        
-        return config
-    
+        }
     def download_test_data(self, dataset_name: str, num_essays: int = None):
         """Download unlabeled test data from D_{dataset_name}"""
         test_dataset_name = f"{dataset_name}"
@@ -280,8 +207,6 @@ class SingleModelTester:
             "D_SciEntSBank_2way": "ID",
             "SciEntSBank_3way": "ID",
             "D_SciEntSBank_3way": "ID",
-            "EFL": "ID",
-            "D_EFL": "ID",
             "Mohlar": "ID",
             "D_Mohlar": "ID",
             "Ielts_Writing_Dataset": "ID",
@@ -325,8 +250,7 @@ class SingleModelTester:
             # Get ID using correct column name
             essay_id = row.get(id_column, f"{dataset_name}_test_{idx}")
             
-            # Get dataset-specific range info (may be dynamic based on row data)
-            range_info = self.get_dataset_range_info(dataset_name, row)
+            range_info = self.get_dataset_range_info(dataset_name, row) 
             
             essays.append({
                 'id': essay_id,
@@ -380,11 +304,12 @@ class SingleModelTester:
                 max_tokens=15,
                 temperature=0.3
             )
-            
+            time.sleep(2) 
             return self.parse_model_response(response.choices[0].message.content.strip(), range_info)
             
         except Exception as e:
             print(f"Gemini Pro API error: {e}")
+            time.sleep(5)
             return None
 
     def call_gemini_flash(self, essay_text: str, prompt: str, range_info=None, question=""):
@@ -408,11 +333,12 @@ class SingleModelTester:
                 max_tokens=15,
                 temperature=0.3
             )
-            
+            time.sleep(2) 
             return self.parse_model_response(response.choices[0].message.content.strip(), range_info)
             
         except Exception as e:
             print(f"Gemini Flash API error: {e}")
+            time.sleep(5)
             return None
     
     def call_gpt4o(self, essay_text: str, prompt: str, range_info=None, question=""):
@@ -434,11 +360,12 @@ class SingleModelTester:
                 max_tokens=15,
                 temperature=0.3
             )
-            
+            time.sleep(2) 
             return self.parse_model_response(response.choices[0].message.content.strip(), range_info)
             
         except Exception as e:
             print(f"GPT-4o API error: {e}")
+            time.sleep(5)
             return None
 
     def call_gpt4o_mini(self, essay_text: str, prompt: str, range_info=None, question=""):
@@ -461,11 +388,12 @@ class SingleModelTester:
                 max_tokens=15,
                 temperature=0.3
             )
-            
+            time.sleep(2) 
             return self.parse_model_response(response.choices[0].message.content.strip(), range_info)
             
         except Exception as e:
             print(f"GPT-4o-mini API error: {e}")
+            time.sleep(5)
             return None
 
     def call_claude_sonnet(self, essay_text: str, prompt: str, range_info=None, question=""):
@@ -488,15 +416,15 @@ class SingleModelTester:
                 max_tokens=15,
                 temperature=0.3
             )
-            
+            time.sleep(2) 
             return self.parse_model_response(response.choices[0].message.content.strip(), range_info)
             
         except Exception as e:
             print(f"Claude Sonnet API error: {e}")
+            time.sleep(5)
             return None
 
     def call_claude_haiku(self, essay_text: str, prompt: str, range_info=None, question=""):
-        """Call Claude Haiku via OpenRouter"""
         import openai
         
         try:
@@ -515,11 +443,12 @@ class SingleModelTester:
                 max_tokens=15,
                 temperature=0.3
             )
-            
+            time.sleep(2) 
             return self.parse_model_response(response.choices[0].message.content.strip(), range_info)
             
         except Exception as e:
             print(f"Claude Haiku API error: {e}")
+            time.sleep(5)
             return None
 
 
@@ -579,19 +508,34 @@ class SingleModelTester:
         return metrics
 
     def create_scoring_prompt(self, essay_text: str, question: str, range_info=None):
-        """Create standardized scoring prompt"""
-        # Clean and validate essay text
         essay_text = str(essay_text).strip()
         
-        # Skip completely empty essays
         if len(essay_text) < 5:
-            return None  # Return None for empty essays
-        
-        # Truncate very long essays to avoid token limits
+            return None 
+    
         if len(essay_text) > 2000:
             essay_text = essay_text[:2000] + "..."
         
-        if range_info and range_info["type"] != "categorical":
+        if range_info and range_info["type"] == "categorical":
+            if "3way" in range_info.get("description", "") or len(range_info.get("categories", [])) == 3:
+                return f"""Classify this student answer as exactly one of these three options:
+    - incorrect: The answer is wrong or completely off-topic
+    - contradictory: The answer contradicts established facts or reasoning
+    - correct: The answer is completely right and comprehensive
+
+    Student Answer: {essay_text}
+
+    Classification (respond with exactly one word - incorrect, contradictory, or correct):"""
+            else:
+                # 2-way classification
+                categories = range_info.get("categories", ["incorrect", "correct"])
+                return f"""Classify this student answer as exactly one of: {', '.join(categories)}
+
+    Student Answer: {essay_text}
+
+    Classification (respond with exactly one word):"""
+        
+        elif range_info and range_info["type"] != "categorical":
             min_score, max_score = range_info["min"], range_info["max"]
             description = range_info["description"]
             
@@ -612,24 +556,36 @@ class SingleModelTester:
     Provide only a numerical score between {min_score} and {max_score}:"""
 
         else:
-            # Handle categorical or default case
+            # Default case
             return f"""Rate this essay on a 0-5 scale where 5=Excellent, 0=Very Poor.
 
     Essay: {essay_text}
 
     Score:"""
- 
+    
     def parse_model_response(self, response_text: str, range_info):
-        """Parse model response based on range type"""
+        """Parse model response based on range type""" 
         import re
         
         if range_info and range_info["type"] == "categorical":
             # Handle categorical responses
             response_lower = response_text.lower().strip()
+            
+            # For 3-way classification, check for specific patterns
+            if "contradictory" in response_lower:
+                return "contradictory"
+            elif "correct" in response_lower and "incorrect" not in response_lower:
+                return "correct"
+            elif "incorrect" in response_lower or "wrong" in response_lower:
+                return "incorrect"
+            
+            # Fallback: try exact matching with categories
             for category in range_info["categories"]:
                 if category.lower() in response_lower:
                     return category
-            return range_info["categories"][0]  # Default to first category
+            
+            # Default to first category if nothing matches
+            return range_info["categories"][0]
         
         else:
             # Handle numeric responses
@@ -690,7 +646,7 @@ class SingleModelTester:
         else:
             return round(score, 2)
     
-    def evaluate_with_ground_truth(self, dataset_name: str, predictions: List[Dict], model_type: str = "Unknown"):
+    def evaluate_with_ground_truth(self, dataset_name: str, predictions: List[Dict], model_type: str = "Unknown", leaderboard_name: str = None):
         """Submit predictions to BESESR for evaluation against ground truth from {dataset_name}"""
         try:
             # Complete Dataset submission requirements with D_ versions
@@ -723,8 +679,6 @@ class SingleModelTester:
                 "D_SciEntSBank_2way": ["ID", "label"],
                 "SciEntSBank_3way": ["ID", "label"],
                 "D_SciEntSBank_3way": ["ID", "label"],
-                "EFL": ["ID", "_Human_Mean"],
-                "D_EFL": ["ID", "_Human_Mean"],
                 "Mohlar": ["ID", "grade"],
                 "D_Mohlar": ["ID", "grade"],
                 "Ielts_Writing_Dataset": ["ID", "Overall_Score"],
@@ -752,6 +706,38 @@ class SingleModelTester:
             else:
                 id_col, score_col = SUBMISSION_REQUIREMENTS[dataset_name]
             
+            # DEBUG: Check for duplicate IDs in predictions before submission
+            submission_ids = [str(pred['id']) for pred in predictions]  # Convert to string for consistency
+            unique_ids = set(submission_ids)
+            
+            if len(submission_ids) != len(unique_ids):
+                print(f"🐛 DEBUG: Found duplicate IDs in predictions!")
+                print(f"Total predictions: {len(submission_ids)}")
+                print(f"Unique IDs: {len(unique_ids)}")
+                
+                # Find and display duplicates
+                from collections import Counter
+                id_counts = Counter(submission_ids)
+                duplicates = {id_val: count for id_val, count in id_counts.items() if count > 1}
+                
+                print(f"Duplicate IDs: {duplicates}")
+                
+                # Remove duplicates - keep first occurrence
+                seen_ids = set()
+                filtered_predictions = []
+                for pred in predictions:
+                    pred_id = str(pred['id'])
+                    if pred_id not in seen_ids:
+                        filtered_predictions.append(pred)
+                        seen_ids.add(pred_id)
+                    else:
+                        print(f"Removing duplicate ID: {pred_id}")
+                
+                predictions = filtered_predictions
+                print(f"After removing duplicates: {len(predictions)} predictions")
+            else:
+                print(f"✓ No duplicate IDs found in {len(predictions)} predictions")
+            
             # Create CSV content in memory
             csv_content = io.StringIO()
             writer = csv.writer(csv_content)
@@ -761,9 +747,9 @@ class SingleModelTester:
             
             # Write predictions - now predictions already contain properly scaled scores
             for pred in predictions:
-                pred_id = pred['id']
-                final_score = pred['predicted_score']  # Already in correct range
-                
+                pred_id = str(pred['id']).replace(',', '_')
+                final_score = str(pred['predicted_score']).replace(',', '_')
+                print(f"DEBUG: Writing CSV row: ID='{pred_id}', Score='{final_score}'")
                 # Round appropriately
                 if isinstance(final_score, (int, float)):
                     if "Ielts" in dataset_name:
@@ -772,7 +758,7 @@ class SingleModelTester:
                         final_score = round(final_score, 2)
                 
                 writer.writerow([pred_id, final_score])
-            
+                print(f"DEBUG CSV row: {[pred_id, final_score]}")
             # Prepare file for submission
             csv_content.seek(0)
             csv_data = csv_content.getvalue()
@@ -780,14 +766,16 @@ class SingleModelTester:
             files = {
                 'file': ('predictions.csv', csv_data, 'text/csv')
             }
+
             data = {
                 'dataset_name': dataset_name,
-                'methodology': 'zero-shot',
-                'model_name': f'{model_type.upper()} Zero-shot',  # Add this line
-                'submitter_name': f'{model_type.upper()} Zero-shot Model'  
+                'model_name': leaderboard_name or f"Test_Model_{model_type}",
+                'submitter_name': leaderboard_name or f"Test_Model_{model_type}",
+                'submitter_email': 'test@example.com',
+                'description': f'Zero-shot evaluation using {model_type}'
             }
-            
-            print(f"Submitting predictions to {dataset_name} for ground truth evaluation...")
+                    
+            print(f"Submitting {len(predictions)} predictions to {dataset_name} for ground truth evaluation...")
             print(f"Format: {id_col}, {score_col} ({len(predictions)} predictions)")
             
             # Submit to BESESR test endpoint (uses ground truth from {dataset_name})
@@ -798,6 +786,8 @@ class SingleModelTester:
                 timeout=30
             )
             
+            print(f"DEBUG: Submission response status: {response.status_code}")
+            print(f"DEBUG: Submission response text: {response.text}")
             if response.status_code == 200:
                 result = response.json()
                 if result.get('success'):
@@ -823,7 +813,7 @@ class SingleModelTester:
         except Exception as e:
             print(f"✗ Exception during ground truth evaluation: {e}")
             return None
-    
+        
     def get_ground_truth_scores(self, dataset_name: str, essay_ids: List[str]) -> Dict[str, float]:
         """Fetch ground truth scores for given essay IDs"""
         try:
@@ -901,7 +891,7 @@ class SingleModelTester:
             print(f"Warning: Could not fetch ground truth scores: {e}")
             return {}
         
-    def run_single_test(self, dataset_name: str, model_type: str, num_essays: int = 10):
+    def run_single_test(self, dataset_name: str, model_type: str, num_essays: int = 10, leaderboard_name: str = None):
         if dataset_name.startswith("D_"):
             ground_truth_dataset = dataset_name[2:]  # Remove D_ prefix
         else:
@@ -1009,9 +999,9 @@ class SingleModelTester:
                 'id': detail['essay_id'],
                 'predicted_score': detail['predicted']
             })
-        
-        # Step 5: Evaluate against ground truth from {dataset_name}
-        metrics = self.evaluate_with_ground_truth(dataset_name, besesr_predictions, model_type)
+
+        metrics = self.evaluate_with_ground_truth(dataset_name, besesr_predictions, 
+                                            model_type, leaderboard_name)
         
         if metrics:
             print("✓ Ground truth evaluation completed successfully")
@@ -1100,7 +1090,7 @@ class SingleModelTester:
             'ground_truth_source': ground_truth_dataset,
             'metrics': metrics,
             'details': results_detail,
-            'success': metrics.get('mean_absolute_error', 0) > 0  # True if we got real evaluation
+            'success': bool(metrics and 'quadratic_weighted_kappa' in metrics)
         }
     
     def display_results(self, model_type: str, dataset_name: str, metrics: dict, details: list):

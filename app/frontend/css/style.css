@@ -1690,3 +1690,37 @@ a:hover {
     color: var(--primary-blue);
     font-weight: 600;
 }
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--primary-blue);
+    color: var(--primary-blue);
+    transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+    background: var(--primary-blue);
+    color: white;
+}
+
+.dataset-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.dataset-actions .btn {
+    flex: 1;
+    min-width: 120px;
+}
+
+@media (max-width: 768px) {
+    .dataset-actions {
+        flex-direction: column;
+    }
+    
+    .dataset-actions .btn {
+        width: 100%;
+    }
+}

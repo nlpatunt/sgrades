@@ -24,7 +24,6 @@ class DatabaseService:
                     submitter_email=submission_data["submitter_email"],
                     stored_file_path=submission_data.get("file_path"),
                     original_filename=submission_data.get("filename"),
-                    methodology=submission_data.get("methodology", "fully-trained"),
                     status=submission_data.get("status", "pending"),
                     description=submission_data.get("description"),
                     ip_address=submission_data.get("ip_address"),

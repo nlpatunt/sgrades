@@ -18,6 +18,7 @@ import json
 from app.models.database import OutputSubmission, Dataset, EvaluationResult
 from app.models.pydantic_models import DatasetFormatResponse, AvailableDatasetsResponse, SubmissionResponse, TestSubmissionResponse, SubmissionsStatsResponse, BatchSubmissionResponse
 from app.services.database_service import get_database
+from app.services.csv_security_validator import CSVSecurityValidator
 from app.services.file_storage import LocalFileStorage
 from slowapi import Limiter
 from fastapi import Request
@@ -80,43 +81,67 @@ def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
         
     try:
         print(f"📥 Loading private ground truth dataset: nlpatunt/{normalized_name}")
-        
-        if normalized_name == "BEEtlE_2way":
-            print(f"🔍 DEBUG: Attempting to load BEEtlE_2way ground truth")
-            try:
-                dataset = load_dataset("nlpatunt/BEEtlE", data_files="test_2way.csv", trust_remote_code=True)
-                dataset = dataset["train"]
-                print(f"✅ DEBUG: Successfully loaded BEEtlE_2way: {len(dataset)} rows")
-                print(f"📋 DEBUG: Columns: {dataset.column_names}")
-                print(f"🔍 DEBUG: Sample data: {dataset[0]}")
-            except Exception as e:
-                print(f"❌ DEBUG: BEEtlE_2way loading failed: {e}")
-                print(f"🔍 DEBUG: Trying fallback method...")
-                import requests
-                import pandas as pd
-                from io import StringIO
-                
-                url = "https://huggingface.co/datasets/nlpatunt/BEEtlE/raw/main/test_2way.csv"
-                response = requests.get(url)
-                if response.status_code == 200:
+       
+        if normalized_name in ["BEEtlE_2way", "BEEtlE_3way", "SciEntSBank_2way", "SciEntSBank_3way"]:
+            import pandas as pd
+            import requests
+            from io import StringIO
+            
+            if "BEEtlE" in normalized_name:
+                suffix = "2way" if "2way" in normalized_name else "3way"
+                urls = [
+                    f"https://huggingface.co/datasets/nlpatunt/BEEtlE/resolve/main/test_{suffix}.csv",
+                    f"https://huggingface.co/datasets/nlpatunt/BEEtlE/raw/main/test_{suffix}.csv"
+                ]
+            else:  # SciEntSBank
+                suffix = "2way" if "2way" in normalized_name else "3way"
+                urls = [
+                    f"https://huggingface.co/datasets/nlpatunt/SciEntSBank/resolve/main/test_{suffix}.csv",
+                    f"https://huggingface.co/datasets/nlpatunt/SciEntSBank/raw/main/test_{suffix}.csv"
+                ]
+
+            import os
+            hf_token = os.getenv("HUGGINGFACE_TOKEN")
+            if not hf_token:
+                try:
+                    with open(os.path.expanduser("~/.cache/huggingface/token"), "r") as f:
+                        hf_token = f.read().strip()
+                except:
+                    hf_token = None
+                    
+            headers = {}
+            if hf_token:
+                headers["Authorization"] = f"Bearer {hf_token}"
+
+            for url in urls:
+                try:
+                    print(f"Attempting direct CSV download from: {url}")
+                    response = requests.get(url, headers=headers, timeout=30)
+                    response.raise_for_status()
+                    
                     df = pd.read_csv(StringIO(response.text))
-                    print(f"✅ DEBUG: Fallback successful: {len(df)} rows")
+                    print(f"✅ Loaded {normalized_name} via direct download: {len(df)} rows, columns: {list(df.columns)}")
+                    
+                    # Ensure proper ID column handling
+                    id_column = id_columns_map.get(normalized_name, "ID")
+                    if id_column in df.columns:
+                        print(f"✅ ID column '{id_column}' found with {len(df)} rows")
+                    
                     return {
                         "status": "success",
                         "dataset": df,
                         "rows": len(df),
                         "columns": list(df.columns)
                     }
-                else:
-                    print(f"❌ DEBUG: Fallback also failed: {response.status_code}")
-                    return {"status": "error", "error": f"Both methods failed: {str(e)}"}
-        elif normalized_name == "BEEtlE_3way":
-            dataset = load_dataset("nlpatunt/BEEtlE", data_files="test_3way.csv")
-            dataset = dataset["train"]
-        elif normalized_name == "SciEntSBank_2way":
-            dataset = load_dataset("nlpatunt/SciEntSBank", "2way", split="test", trust_remote_code=True)
-        elif normalized_name == "SciEntSBank_3way":
-            dataset = load_dataset("nlpatunt/SciEntSBank", "3way", split="test", trust_remote_code=True)
+                    
+                except Exception as url_error:
+                    print(f"Failed to download from {url}: {url_error}")
+                    continue
+            
+            # If all URLs failed, return error
+            return {"status": "error", "error": f"All download URLs failed for {normalized_name}"}
+        
+        # Standard HuggingFace dataset loading for other datasets
         elif normalized_name in ["Rice_Chem_Q1", "Rice_Chem_Q2", "Rice_Chem_Q3", "Rice_Chem_Q4"]:
             q_num = normalized_name.split("_")[-1]
             dataset = load_dataset("nlpatunt/Rice_Chem", data_files=f"{q_num}/test.csv")
@@ -142,12 +167,18 @@ def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
                     first_split = list(dataset.keys())[0]
                     dataset = dataset[first_split]
         
-        df = dataset.to_pandas()
+        # Convert to pandas for non-direct download cases
+        if 'dataset' in locals():
+            df = dataset.to_pandas()
+        else:
+            return {"status": "error", "error": f"No dataset loaded for {normalized_name}"}
         
+        # Handle missing ID columns
         if normalized_name.startswith("grade_like_a_human_dataset_os") and "ID" not in df.columns:
             df["ID"] = range(1, len(df) + 1)
             print(f"Added ID column to {normalized_name}")
 
+        # Clean up dataframe
         columns_to_drop = [col for col in df.columns if col.startswith('Unnamed:')]
         if columns_to_drop:
             df = df.drop(columns=columns_to_drop)
@@ -157,18 +188,12 @@ def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
         
         print(f"DEBUG: After pandas conversion - {id_column} column: {df[id_column].head(10).tolist()}")
         print(f"DEBUG: {id_column} column dtype: {df[id_column].dtype}")
-        print(f"DEBUG: DataFrame index: {df.index.tolist()[:10]}")
 
+        # Fix ID column if it was replaced with index
         if id_column in df.columns and (df[id_column] == df.index).all():
             print("ERROR: ID column was replaced with DataFrame index!")
             df[id_column] = df.index + 1
             print(f"FIXED: {id_column} column now: {df[id_column].head(10).tolist()}")
-            
-        if normalized_name == "BEEtlE_2way":
-            print(f"DEBUG: Ground truth first 10 rows:")
-            print(df[[id_column, 'label']].head(10))
-            df.to_csv(f"ground_truth_{normalized_name}.csv", index=False)
-            print(f"Saved ground truth to ground_truth_{normalized_name}.csv for comparison")
             
         print(f"✅ Loaded private dataset: {len(df)} rows, columns: {list(df.columns)}")
         print(f"🎯 Ground truth for {dataset_name} loaded from {normalized_name} repository")
@@ -181,39 +206,7 @@ def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
         }
         
     except Exception as e:
-        print(f"HuggingFace datasets library failed: {str(e)}")
-        
-        if normalized_name in ["BEEtlE_2way", "BEEtlE_3way", "SciEntSBank_2way", "SciEntSBank_3way"]:
-            try:
-                import pandas as pd
-                import requests
-                from io import StringIO
-                
-                if "BEEtlE" in normalized_name:
-                    suffix = "2way" if "2way" in normalized_name else "3way"
-                    url = f"https://huggingface.co/datasets/nlpatunt/BEEtlE/raw/main/test_{suffix}.csv"
-                else:  # SciEntSBank
-                    suffix = "2way" if "2way" in normalized_name else "3way"
-                    url = f"https://huggingface.co/datasets/nlpatunt/SciEntSBank/raw/main/test_{suffix}.csv"
-                
-                print(f"Attempting direct CSV download from: {url}")
-                response = requests.get(url)
-                response.raise_for_status()
-                
-                df = pd.read_csv(StringIO(response.text))
-                print(f"Loaded {normalized_name} via direct download: {len(df)} rows, columns: {list(df.columns)}")
-                
-                return {
-                    "status": "success",
-                    "dataset": df,
-                    "rows": len(df),
-                    "columns": list(df.columns)
-                }
-                
-            except Exception as fallback_error:
-                print(f"Direct CSV download also failed: {fallback_error}")
-                return {"status": "error", "error": f"Both dataset API and direct download failed: {str(e)} | {str(fallback_error)}"}
-        
+        print(f"All loading methods failed: {str(e)}")
         return {"status": "error", "error": str(e)}
 
 def create_rice_chem_validators():
@@ -262,15 +255,16 @@ class BaseValidator:
                 warnings.append(f"Removed {missing_count} rows with missing labels")
         
         df_clean[self.primary_score_column] = df_clean[self.primary_score_column].astype(str).str.strip()
-        
+
         label_mapping = {}
         for valid_label in self.valid_labels:
-            label_mapping.update({
+            update_dict = {
                 valid_label.lower(): valid_label,
                 valid_label.upper(): valid_label,
                 valid_label.capitalize(): valid_label,
                 valid_label: valid_label
-            })
+            }
+            label_mapping.update(update_dict)
         
         if 'correct' in self.valid_labels:
             label_mapping.update({
@@ -280,9 +274,9 @@ class BaseValidator:
             label_mapping.update({
                 '0': 'incorrect', 'false': 'incorrect', 'no': 'incorrect', 'wrong': 'incorrect'
             })
-        if 'partial_correct' in self.valid_labels:
+        if 'contradictory' in self.valid_labels:
             label_mapping.update({
-                'partial': 'partial_correct', 'partially_correct': 'partial_correct'
+                'contradictory': 'contradictory'  
             })
         
         df_clean['_original_label'] = df_clean[self.primary_score_column].copy()
@@ -296,7 +290,7 @@ class BaseValidator:
             invalid_examples = df_clean[invalid_mask]['_original_label'].unique()[:5].tolist()
             
             if handle_invalid == 'assign_fallback' or testing_mode:
-                df_clean.loc[invalid_mask, self.primary_score_column] = '4'  # Invalid = 4
+                df_clean.loc[invalid_mask, self.primary_score_column] = '4'
                 warnings.append(f"Assigned fallback value 4 to {invalid_count} invalid labels. Examples: {invalid_examples}")
             else:
                 df_clean = df_clean[valid_mask]
@@ -314,7 +308,7 @@ class BaseValidator:
     def validate(self, df, testing_mode=False):
         errors = []
         warnings = []
-        
+   
         missing_cols = set(self.required_columns) - set(df.columns)
         if missing_cols:
             errors.append(f"Missing columns: {sorted(list(missing_cols))}")
@@ -480,6 +474,24 @@ class RealEvaluationEngine:
         self.validators = {
             "ASAP-AES": ASAPAESValidator(),
             "D_ASAP-AES": ASAPAESValidator(),
+            "ASAP-AES_Set1": ASAPAESValidator(),
+            "D_ASAP-AES_Set1": ASAPAESValidator(),
+            "ASAP-AES_Set2_Domain1": ASAPAESValidator(),
+            "D_ASAP-AES_Set2_Domain1": ASAPAESValidator(),
+            "ASAP-AES_Set2_Domain2": ASAPAESValidator(),
+            "D_ASAP-AES_Set2_Domain2": ASAPAESValidator(),
+            "ASAP-AES_Set3": ASAPAESValidator(),
+            "D_ASAP-AES_Set3": ASAPAESValidator(),
+            "ASAP-AES_Set4": ASAPAESValidator(),
+            "D_ASAP-AES_Set4": ASAPAESValidator(),
+            "ASAP-AES_Set5": ASAPAESValidator(),
+            "D_ASAP-AES_Set5": ASAPAESValidator(),
+            "ASAP-AES_Set6": ASAPAESValidator(),
+            "D_ASAP-AES_Set6": ASAPAESValidator(),
+            "ASAP-AES_Set7": ASAPAESValidator(),
+            "D_ASAP-AES_Set7": ASAPAESValidator(),
+            "ASAP-AES_Set8": ASAPAESValidator(),
+            "D_ASAP-AES_Set8": ASAPAESValidator(),
             "ASAP-SAS": ASAPSASValidator(),
             "D_ASAP-SAS": ASAPSASValidator(),
             "ASAP2": ASAP2Validator(),
@@ -682,7 +694,18 @@ class RealEvaluationEngine:
                 }
                         
             ground_truth_df = gt_result["dataset"]
-                        
+            
+            # ADD DEBUG CODE HERE
+            if dataset_name == "D_BEEtlE_3way":
+                print(f"DEBUG: Processing BEEtlE_3way validation")
+                print(f"DEBUG: predictions_df shape: {predictions_df.shape}")
+                print(f"DEBUG: predictions_df columns: {list(predictions_df.columns)}")
+                print(f"DEBUG: predictions_df dtypes: {predictions_df.dtypes}")
+                print(f"DEBUG: Sample prediction data:")
+                print(predictions_df.head(2))
+                print(f"DEBUG: ground_truth_df shape: {ground_truth_df.shape}")
+                print(f"DEBUG: ground_truth_df columns: {list(ground_truth_df.columns)}")
+            
             # Use normalized name to find validator
             if dataset_name in self.validators:
                 validator = self.validators[normalized_name]
@@ -693,7 +716,7 @@ class RealEvaluationEngine:
                     "errors": validation_result.get("errors", []),
                     "warnings": validation_result.get("warnings", []),
                     "expected_columns": validator.required_columns,
-                    "score_column": self.get_score_column(normalized_name),  # Use normalized name
+                    "score_column": self.get_score_column(normalized_name),
                     "matching_method": "id_based",
                     "cleaned_df": validation_result.get("cleaned_df", predictions_df)
                 }
@@ -886,24 +909,26 @@ class RealEvaluationEngine:
                         f1 = f1_score(y_true_class, y_pred_class, average="weighted", zero_division=0)
                         precision = precision_score(y_true_class, y_pred_class, average="weighted", zero_division=0)
                         recall = recall_score(y_true_class, y_pred_class, average="weighted", zero_division=0)
+                        accuracy = accuracy_score(y_true_class, y_pred_class)  # Add this line
                     except:
-                        f1 = precision = recall = 0.0
-                
-                # Calculate numeric metrics
-                mae = mean_absolute_error(y_true, y_pred) if len(y_true) > 0 else 0.0
-                mse = mean_squared_error(y_true, y_pred) if len(y_true) > 0 else 0.0
-                rmse = np.sqrt(mse)
+                        f1 = precision = recall = accuracy = 0.0  # Add accuracy here
 
-            metrics = {
-                "quadratic_weighted_kappa": float(qwk) if not pd.isna(qwk) else 0.0,
-                "pearson_correlation": float(correlation) if not pd.isna(correlation) else 0.0,
-                "mean_absolute_error": float(mae) if not pd.isna(mae) else 0.0,
-                "mean_squared_error": float(mse) if not pd.isna(mse) else 0.0,
-                "root_mean_squared_error": float(rmse) if not pd.isna(rmse) else 0.0,
-                "f1_score": float(f1) if not pd.isna(f1) else 0.0,
-                "precision": float(precision) if not pd.isna(precision) else 0.0,
-                "recall": float(recall) if not pd.isna(recall) else 0.0
-            }
+                    # Calculate numeric metrics
+                    mae = mean_absolute_error(y_true, y_pred) if len(y_true) > 0 else 0.0
+                    mse = mean_squared_error(y_true, y_pred) if len(y_true) > 0 else 0.0
+                    rmse = np.sqrt(mse)
+
+                    metrics = {
+                        "quadratic_weighted_kappa": float(qwk) if not pd.isna(qwk) else 0.0,
+                        "pearson_correlation": float(correlation) if not pd.isna(correlation) else 0.0,
+                        "mean_absolute_error": float(mae) if not pd.isna(mae) else 0.0,
+                        "mean_squared_error": float(mse) if not pd.isna(mse) else 0.0,
+                        "root_mean_squared_error": float(rmse) if not pd.isna(rmse) else 0.0,
+                        "f1_score": float(f1) if not pd.isna(f1) else 0.0,
+                        "precision": float(precision) if not pd.isna(precision) else 0.0,
+                        "recall": float(recall) if not pd.isna(recall) else 0.0,
+                        "accuracy": float(accuracy) if not pd.isna(accuracy) else 0.0  # Add this line
+                    }
             
             print(f"DEBUG: Final metrics: {metrics}")
             return metrics
@@ -916,6 +941,19 @@ class RealEvaluationEngine:
         
     def evaluate_submission(self, dataset_name: str, predictions_df: pd.DataFrame) -> Dict[str, Any]:
         """Main evaluation function"""
+        # Initialize metrics with default values at the start
+        metrics = {
+            'quadratic_weighted_kappa': 0.0,
+            'pearson_correlation': 0.0,
+            'mean_absolute_error': 0.0,
+            'mean_squared_error': 0.0,
+            'root_mean_squared_error': 0.0,
+            'f1_score': 0.0,
+            'precision': 0.0,
+            'recall': 0.0,
+            'accuracy': 0.0
+        }
+        
         try:
             print(f"Starting evaluation for {dataset_name}")
             
@@ -956,73 +994,63 @@ class RealEvaluationEngine:
                     "error": "No valid score pairs found for evaluation"
                 }
 
-            # Debug logging
-            print(f"DEBUG: Before conversion - y_pred[0]: '{y_pred[0]}', type: {type(y_pred[0])}")
-            print(f"DEBUG: Before conversion - y_true[0]: '{y_true[0]}', type: {type(y_true[0])}")
-
-        
-            if dataset_name in ["BEEtlE_2way", "BEEtlE_3way", "SciEntSBank_2way", "SciEntSBank_3way", "D_BEEtlE_2way", "D_BEEtlE_3way", "D_SciEntSBank_2way", "D_SciEntSBank_3way"]:
-                
-                print(f"DEBUG: Unique prediction labels: {pd.Series(y_pred).unique()}")
-                print(f"DEBUG: Unique ground truth labels: {pd.Series(y_true).unique()}")
-                print(f"DEBUG: Sample predictions: {y_pred[:10] if len(y_pred) >= 10 else y_pred}")
-                print(f"DEBUG: Sample ground truth: {y_true[:10] if len(y_true) >= 10 else y_true}")
+          
+            # Classification label conversion
+            if normalized_name in ["BEEtlE_2way", "BEEtlE_3way", "SciEntSBank_2way", "SciEntSBank_3way"]:
                 
                 # Define label mappings with variations for robustness
-                if "3way" in dataset_name:
+                if "3way" in normalized_name:
                     label_map = {
                         'correct': 2, 'Correct': 2, 'CORRECT': 2,
                         'incorrect': 0, 'Incorrect': 0, 'INCORRECT': 0,
-                        'partial_correct': 1, 'Partial_correct': 1, 'PARTIAL_CORRECT': 1, 'partial correct': 1,
                         'contradictory': 1, 'Contradictory': 1, 'CONTRADICTORY': 1,
-                        # Add numeric versions if needed
                         '2': 2, '1': 1, '0': 0, 2: 2, 1: 1, 0: 0
                     }
                 else:  # 2way
                     label_map = {
                         'correct': 1, 'Correct': 1, 'CORRECT': 1,
                         'incorrect': 0, 'Incorrect': 0, 'INCORRECT': 0,
-                        # Add numeric versions if needed  
                         '1': 1, '0': 0, 1: 1, 0: 0,
-                        # Add other possible variations
                         'True': 1, 'False': 0, 'true': 1, 'false': 0
                     }
-                
-                # Convert to numeric if they're strings
+               
                 if len(y_pred) > 0 and isinstance(y_pred[0], str):
-                    y_pred_series = pd.Series(y_pred).str.strip()  # Remove whitespace
+                    y_pred_series = pd.Series(y_pred).str.strip()  
                     y_pred = y_pred_series.map(label_map).fillna(-999).astype(int).to_numpy()
                     if -999 in y_pred:
                         unmapped = y_pred_series[y_pred == -999].unique()
                         print(f"WARNING: Unmapped prediction labels: {unmapped}")
-                    y_pred = np.where(y_pred == -999, 0, y_pred)  # Default unmapped to 0
+                    y_pred = np.where(y_pred == -999, 0, y_pred) 
                     
                 if len(y_true) > 0 and isinstance(y_true[0], str):
-                    y_true_series = pd.Series(y_true).str.strip()  # Remove whitespace
+                    y_true_series = pd.Series(y_true).str.strip() 
                     y_true = y_true_series.map(label_map).fillna(-999).astype(int).to_numpy()
                     if -999 in y_true:
                         unmapped = y_true_series[y_true == -999].unique()
                         print(f"WARNING: Unmapped ground truth labels: {unmapped}")
-                    y_true = np.where(y_true == -999, 0, y_true)  # Default unmapped to 0
+                    y_true = np.where(y_true == -999, 0, y_true) 
 
-            print(f"DEBUG: After conversion - y_pred[:5]: {y_pred[:5] if len(y_pred) >= 5 else y_pred}")
-            print(f"DEBUG: After conversion - y_true[:5]: {y_true[:5] if len(y_true) >= 5 else y_true}")
-            print(f"DEBUG: Unique pred values: {np.unique(y_pred)}, Unique true values: {np.unique(y_true)}")
+            # Calculate metrics with proper error handling
+            try:
+                calculated_metrics = self.calculate_metrics(y_true, y_pred)
+                if calculated_metrics and isinstance(calculated_metrics, dict):
+                    metrics.update(calculated_metrics)
+                    print(f"DEBUG: Metrics calculation successful: {metrics}")
+                else:
+                    print("DEBUG: Metrics calculation returned empty or invalid result")
+            except Exception as metrics_error:
+                print(f"WARNING: Metrics calculation failed: {metrics_error}")
+                print("DEBUG: Using default metrics values")
+                # metrics already initialized with defaults at the top
 
-            # Calculate metrics
-            metrics = self.calculate_metrics(y_true, y_pred)
-            
-            # Get the appropriate ID column for this dataset
             id_column = self.get_id_column(dataset_name)
-            
-            if dataset_name in ["BEEtlE_2way", "BEEtlE_3way", "SciEntSBank_2way", "SciEntSBank_3way", "D_BEEtlE_2way", "D_BEEtlE_3way", "D_SciEntSBank_2way", "D_SciEntSBank_3way"]:
-                # For classification, show unique classes instead of numeric ranges
+        
+            if normalized_name in ["BEEtlE_2way", "BEEtlE_3way", "SciEntSBank_2way", "SciEntSBank_3way"]:
                 unique_pred = list(set(y_pred)) if len(y_pred) > 0 else []
                 unique_true = list(set(y_true)) if len(y_true) > 0 else []
                 score_range_pred = unique_pred
                 score_range_true = unique_true
             else:
-                # For regression, use numeric ranges
                 score_range_pred = [float(np.nanmin(y_pred)), float(np.nanmax(y_pred))] if len(y_pred) > 0 else [0, 0]
                 score_range_true = [float(np.nanmin(y_true)), float(np.nanmax(y_true))] if len(y_true) > 0 else [0, 0]
 
@@ -1039,8 +1067,6 @@ class RealEvaluationEngine:
                     "score_range_pred": score_range_pred,
                     "score_range_true": score_range_true,
                     "id_column": id_column,
-                    # Handle score ranges differently for classification vs regression
-                    
                     "validation_warnings": validation_result.get("warnings", [])
                 }
             }
@@ -1052,7 +1078,8 @@ class RealEvaluationEngine:
             return {
                 "status": "error",
                 "error": str(e),
-                "dataset": dataset_name
+                "dataset": dataset_name,
+                "metrics": metrics  # Now metrics is always defined
             }
 
 real_evaluation_engine = RealEvaluationEngine()
@@ -1078,7 +1105,6 @@ def get_all_submissions_from_db():
                 "contact_email": sub.submitter_email,
                 "institution": "",
                 "description": sub.description or "",
-                "methodology": getattr(sub, 'methodology', 'fully-trained'),  # Add this line with fallback
                 "has_real_evaluation": "real_evaluation" in evaluation_data,
                 "metrics": evaluation_data.get("real_evaluation", {}).get("metrics", {})
             }
@@ -1091,8 +1117,7 @@ def get_all_submissions_from_db():
 
 def store_submission_in_db(dataset_name, model_name, metrics, description="", 
                           institution="", contact_email="", filename="",
-                          file_content: bytes = None,  # Add file content
-                          methodology="fully-trained", ip_address="", user_agent=""):
+                          file_content: bytes = None, ip_address="", user_agent=""):
     try:
         db = get_database()
         
@@ -1108,20 +1133,13 @@ def store_submission_in_db(dataset_name, model_name, metrics, description="",
             dataset_name=dataset_name,
             submitter_name=model_name,
             submitter_email=contact_email,
-            methodology=methodology,
-            
-            # File storage info
             original_filename=filename,
             stored_file_path=storage_info["stored_file_path"],
             file_hash=storage_info["file_hash"],
             file_size=storage_info["file_size"],
-            
-            # Metadata
             upload_timestamp=storage_info["upload_timestamp"],
             ip_address=ip_address,
             user_agent=user_agent,
-            
-            # Evaluation
             status="completed",
             description=description
         )
@@ -1224,11 +1242,12 @@ async def upload_single_submission(
     file: UploadFile = File(...),
     dataset_name: str = Form(...),
     model_name: Optional[str] = Form(None),
-    methodology: str = Form("fully-trained"),
     description: str = Form("Individual dataset test"),
     institution: str = Form(""),
     contact_email: str = Form("")
 ):
+    validator = CSVSecurityValidator()
+    
     if model_name is None:
         model_name = f"test_model_{dataset_name}"
     
@@ -1242,6 +1261,19 @@ async def upload_single_submission(
                 detail="Invalid file encoding. Please save your CSV as UTF-8."
             )
         
+        # SECURITY VALIDATION
+        security_validation = validator.validate_csv_content(csv_content)
+        if not security_validation["valid"]:
+            return clean_for_json({
+                "success": False,
+                "error": f"Security validation failed: {security_validation['error']}",
+                "dataset": dataset_name,
+                "filename": file.filename
+            })
+        
+        # Sanitize filename
+        safe_filename = validator.sanitize_filename(file.filename or "upload.csv")
+        
         df = pd.read_csv(io.StringIO(csv_content))
         df_clean = clean_dataframe_safe(df)
         
@@ -1253,7 +1285,7 @@ async def upload_single_submission(
                 "validation_errors": validation_result["errors"],
                 "validation_warnings": validation_result.get("warnings", []),
                 "dataset": dataset_name,
-                "filename": file.filename
+                "filename": safe_filename
             })
         
         evaluation_result = real_evaluation_engine.evaluate_submission(
@@ -1266,7 +1298,7 @@ async def upload_single_submission(
                 "success": False,
                 "evaluation_error": evaluation_result.get("error"),
                 "dataset": dataset_name,
-                "filename": file.filename
+                "filename": safe_filename
             })
         
         db_result = store_submission_in_db(
@@ -1276,9 +1308,8 @@ async def upload_single_submission(
             description=description,
             institution=institution,
             contact_email=contact_email,
-            filename=file.filename,
-            file_content=content,  # Add this line
-            methodology=methodology,
+            filename=safe_filename,
+            file_content=content,
             ip_address=request.client.host,
             user_agent=request.headers.get("user-agent", "")
         )
@@ -1289,8 +1320,9 @@ async def upload_single_submission(
             "database": db_result,
             "dataset": dataset_name,
             "model_name": model_name,
-            "filename": file.filename,
+            "filename": safe_filename,
             "encoding_used": encoding_used,
+            "security_info": f"File validated: {security_validation.get('info', 'Security check passed')}",
             "note": "REAL EVALUATION: Metrics calculated from actual ground truth comparisons"
         })
         
@@ -1301,9 +1333,9 @@ async def upload_single_submission(
             "success": False,
             "error": str(e),
             "dataset": dataset_name,
-            "filename": file.filename if file else "unknown"
+            "filename": validator.sanitize_filename(file.filename) if file else "unknown"
         })
-
+    
 @router.post("/upload-batch", response_model=BatchSubmissionResponse)
 @limiter.limit("2/minute")
 async def upload_batch_submissions(
@@ -1311,11 +1343,12 @@ async def upload_batch_submissions(
     files: List[UploadFile] = File(...),
     dataset_names: List[str] = Form(...),
     model_name: str = Form(...),
-    methodology: str = Form("fully-trained"),
     description: str = Form(""),
     institution: str = Form(""),
     contact_email: str = Form("")
 ):
+    validator = CSVSecurityValidator()
+    
     print(f"DEBUG: Received batch upload with {len(files)} files")
     print(f"DEBUG: Dataset names: {dataset_names}")
     print(f"DEBUG: Model name: {model_name}")
@@ -1354,6 +1387,21 @@ async def upload_batch_submissions(
                 failed_uploads += 1
                 continue
 
+            # SECURITY VALIDATION
+            security_validation = validator.validate_csv_content(csv_content)
+            if not security_validation["valid"]:
+                results.append({
+                    "filename": file.filename,
+                    "dataset": dataset_name,
+                    "success": False,
+                    "error": f"Security validation failed: {security_validation['error']}"
+                })
+                failed_uploads += 1
+                continue
+            
+            # Sanitize filename
+            safe_filename = validator.sanitize_filename(file.filename or "upload.csv")
+
             df = pd.read_csv(io.StringIO(csv_content))
             df_clean = clean_dataframe_safe(df)
             
@@ -1361,7 +1409,7 @@ async def upload_batch_submissions(
             
             if not validation_result["valid"]:
                 results.append({
-                    "filename": file.filename,
+                    "filename": safe_filename,
                     "dataset": dataset_name,
                     "success": False,
                     "validation_errors": validation_result["errors"],
@@ -1377,7 +1425,7 @@ async def upload_batch_submissions(
 
             if evaluation_result.get("status") != "success":
                 results.append({
-                    "filename": file.filename,
+                    "filename": safe_filename,
                     "dataset": dataset_name,
                     "success": False,
                     "evaluation_error": evaluation_result.get("error", "Evaluation failed")
@@ -1392,23 +1440,27 @@ async def upload_batch_submissions(
                 description=description,
                 institution=institution,
                 contact_email=contact_email,
-                filename=file.filename,
-                methodology=methodology
+                filename=safe_filename,
+                file_content=content,
+                ip_address=request.client.host,
+                user_agent=request.headers.get("user-agent", "")
             )
 
             results.append({
-                "filename": file.filename,
+                "filename": safe_filename,
                 "dataset": dataset_name,
                 "success": True,
                 "evaluation": evaluation_result,
                 "database": db_result,
-                "encoding_used": encoding_used
+                "encoding_used": encoding_used,
+                "security_info": f"File validated: {security_validation.get('info', 'Security check passed')}"
             })
             successful_uploads += 1
 
         except Exception as e:
+            safe_filename = validator.sanitize_filename(getattr(file, "filename", "unknown"))
             results.append({
-                "filename": getattr(file, "filename", "unknown"),
+                "filename": safe_filename,
                 "dataset": dataset_name if "dataset_name" in locals() else "unknown",
                 "success": False,
                 "error": str(e)
@@ -1427,16 +1479,20 @@ async def upload_batch_submissions(
 
 def normalize_dataset_name_for_evaluation(dataset_name: str) -> str:
     if dataset_name.startswith("D_"):
-        return dataset_name[2:]  # Remove "D_" prefix
+        return dataset_name[2:] 
     return dataset_name
 
-@router.post("/test-single-dataset", response_model=TestSubmissionResponse)
+@router.post("/test-single-dataset")
 async def test_single_dataset(
-    request: Request,  # Add this for IP tracking
+    request:Request,
     file: UploadFile = File(...),
     dataset_name: str = Form(...),
-    methodology: str = Form("fully-trained")
+    model_name: str = Form(...),
+    submitter_name: str = Form(...),
+    submitter_email: str = Form(...),
+    description: str = Form(...)
 ):
+    validator = CSVSecurityValidator()
     try:
         content = await file.read()
         csv_content, encoding_used = decode_file_content(content)
@@ -1490,7 +1546,6 @@ async def test_single_dataset(
                 contact_email="test@zeroshot.com",
                 filename=file.filename,
                 file_content=content,
-                methodology=methodology,
                 ip_address=request.client.host,
                 user_agent=request.headers.get("user-agent", "")
             )
@@ -1513,8 +1568,6 @@ async def test_single_dataset(
             "metrics": evaluation_result.get("metrics", {}),
             "encoding_used": encoding_used,
             "validation_warnings": validation_result.get("warnings", []),
-            "methodology": methodology,  # Add this
-            "note": f"Submission stored with methodology: {methodology}"
         }
         
         return clean_for_json(response_data)
@@ -1532,54 +1585,43 @@ async def test_single_dataset(
 async def get_leaderboard(
     dataset: str = "All Datasets",
     metric: str = "avg_quadratic_weighted_kappa",
-    methodology: Optional[str] = None,
     limit: int = 20,
-    min_datasets: int = 20  # Add this parameter - minimum datasets required
+    min_datasets: int = 21 
 ):
     try:
+        if min_datasets is None:
+            available_datasets = list(real_evaluation_engine.validators.keys())
+            d_datasets = [ds for ds in available_datasets if ds.startswith('D_')]
+            min_datasets = len(d_datasets)
+            
         current_time = datetime.now().isoformat()
         submissions = get_all_submissions_from_db()
     
         real_submissions = [s for s in submissions if s.get('has_real_evaluation', False)]
         
-        # Filter by methodology
-        if methodology:
-            if methodology == 'fully-trained':
-                real_submissions = [s for s in real_submissions 
-                                  if s.get('methodology') in ['fully-trained', None, 'unknown', '']]
-            else:
-                real_submissions = [s for s in real_submissions 
-                                  if s.get('methodology') == methodology]
-        
         if not real_submissions:
-            methodology_note = f" for {methodology} methodology" if methodology else ""
             return clean_for_json({
                 "dataset": dataset,
                 "metric": metric,
-                "methodology": methodology,
                 "total_entries": 0,
                 "last_updated": current_time,
                 "rankings": [],
                 "summary_stats": {},
-                "note": f"No complete benchmarks found{methodology_note}"
+                "note": "No complete benchmarks found"
             })
 
         model_aggregates = {}
         for submission in real_submissions:
             model_name = submission['model_name']
+            
             if model_name not in model_aggregates:
-                submission_methodology = submission.get('methodology')
-                if not submission_methodology or submission_methodology in [None, 'unknown', '']:
-                    submission_methodology = 'fully-trained'
-                
                 model_aggregates[model_name] = {
                     'datasets': [],
                     'metrics': {},
                     'total_submissions': 0,
                     'institution': submission.get('institution', ''),
                     'description': submission.get('description', ''),
-                    'contact_email': submission.get('contact_email', ''),
-                    'methodology': submission_methodology
+                    'contact_email': submission.get('contact_email', '')
                 }
             
             model_aggregates[model_name]['datasets'].append(submission['dataset_name'])
@@ -1589,67 +1631,96 @@ async def get_leaderboard(
                 if metric_name not in model_aggregates[model_name]['metrics']:
                     model_aggregates[model_name]['metrics'][metric_name] = []
                 model_aggregates[model_name]['metrics'][metric_name].append(value)
-        
-        # FILTER FOR COMPLETE BENCHMARKS ONLY
+
         complete_models = {}
         for model_name, data in model_aggregates.items():
             unique_datasets = list(set(data['datasets']))
             
-            # Only include models that tested on minimum required datasets
             if len(unique_datasets) >= min_datasets:
                 complete_models[model_name] = data
                 complete_models[model_name]['unique_datasets_count'] = len(unique_datasets)
         
         if not complete_models:
-            methodology_note = f" for {methodology} methodology" if methodology else ""
             return clean_for_json({
                 "dataset": dataset,
                 "metric": metric,
-                "methodology": methodology,
                 "total_entries": 0,
                 "last_updated": current_time,
                 "rankings": [],
                 "summary_stats": {},
-                "note": f"No complete benchmarks found{methodology_note}. Models must test on at least {min_datasets} datasets to appear on leaderboard."
+                "note": f"No complete benchmarks found. Models must test on at least {min_datasets} datasets to appear on leaderboard."
             })
         
         rankings = []
         for model_name, data in complete_models.items():
+            # Calculate averages for the 8 specific metrics only
             avg_metrics = {}
             for metric_name, values in data['metrics'].items():
                 if values:
                     avg_metrics[f"avg_{metric_name}"] = statistics.mean(values)
             
-            rankings.append({
+            # Include only the 8 specified metrics
+            ranking_entry = {
                 "model_name": model_name,
                 "institution": data['institution'],
                 "description": data['description'],
                 "contact_email": data['contact_email'],
-                "methodology": data['methodology'],
                 "datasets_evaluated": list(set(data['datasets'])),
-                "unique_datasets_count": data['unique_datasets_count'],  # Add this
+                "unique_datasets_count": data['unique_datasets_count'],
                 "total_submissions": data['total_submissions'],
-                "complete_benchmark": True,  # All entries are complete now
-                **avg_metrics
-            })
+                "complete_benchmark": True,
+                
+                # Only the 8 specified metrics
+                "avg_quadratic_weighted_kappa": avg_metrics.get("avg_quadratic_weighted_kappa", 0),
+                "avg_pearson_correlation": avg_metrics.get("avg_pearson_correlation", 0),
+                "avg_mean_absolute_error": avg_metrics.get("avg_mean_absolute_error", 0),
+                "avg_root_mean_squared_error": avg_metrics.get("avg_root_mean_squared_error", 0),
+                "avg_f1_score": avg_metrics.get("avg_f1_score", 0),
+                "avg_precision": avg_metrics.get("avg_precision", 0),
+                "avg_recall": avg_metrics.get("avg_recall", 0),
+                "avg_accuracy": avg_metrics.get("avg_accuracy_within_1.0", avg_metrics.get("avg_accuracy", 0))
+            }
+            
+            rankings.append(ranking_entry)
         
-        # Sort by metric
-        if metric == "avg_mae" or metric == "avg_mean_absolute_error":
-            rankings.sort(key=lambda x: x.get(metric, float('inf')))
+        # Sort by the selected metric
+        if metric in ["avg_mean_absolute_error", "avg_root_mean_squared_error"]:
+            rankings.sort(key=lambda x: x.get(metric, float('inf')))  # Lower is better
         else:
-            rankings.sort(key=lambda x: x.get(metric, 0), reverse=True)
+            rankings.sort(key=lambda x: x.get(metric, 0), reverse=True)  # Higher is better
         
         rankings = rankings[:limit]
+        
+        # Calculate summary stats for the 8 metrics only
+        summary_stats = {}
+        if rankings:
+            metric_keys = [
+                'avg_quadratic_weighted_kappa', 'avg_pearson_correlation', 'avg_mean_absolute_error',
+                'avg_root_mean_squared_error', 'avg_f1_score', 'avg_precision', 'avg_recall', 'avg_accuracy'
+            ]
+            
+            for metric_key in metric_keys:
+                values = [r.get(metric_key, 0) for r in rankings if r.get(metric_key) is not None]
+                if values:
+                    summary_stats[metric_key] = {
+                        'mean': statistics.mean(values),
+                        'std': statistics.stdev(values) if len(values) > 1 else 0,
+                        'min': min(values),
+                        'max': max(values)
+                    }
+            
+            summary_stats['total_researchers'] = len(rankings)
+            summary_stats['complete_benchmarks'] = len([r for r in rankings if r['complete_benchmark']])
         
         return clean_for_json({
             "dataset": dataset,
             "metric": metric,
-            "methodology": methodology,
             "total_entries": len(rankings),
             "last_updated": current_time,
             "rankings": rankings,
-            "summary_stats": {},
-            "note": f"COMPLETE BENCHMARKS ONLY: Models must evaluate on at least {min_datasets} datasets{' (' + methodology + ' methodology)' if methodology else ''}"
+            "summary_stats": summary_stats,
+            "available_metrics": metric_keys,
+            "note": f"Complete benchmarks with {min_datasets}+ datasets showing 8 core metrics"
         })
         
     except Exception as e:
@@ -1710,7 +1781,6 @@ async def get_submission_audit(submission_id: int, admin_key: str = ""):
             "dataset_name": submission.dataset_name,
             "submitter_name": submission.submitter_name,
             "submitter_email": submission.submitter_email,
-            "methodology": submission.methodology,
             "original_filename": submission.original_filename,
             "upload_timestamp": submission.upload_timestamp,
             "file_hash": submission.file_hash,
@@ -1765,7 +1835,6 @@ async def list_submissions(admin_key: str = "test123"):
                 "dataset_name": sub.dataset_name,
                 "submitter_name": sub.submitter_name,
                 "submitter_email": sub.submitter_email,
-                "methodology": getattr(sub, 'methodology', 'unknown'),
                 "upload_timestamp": getattr(sub, 'upload_timestamp', 'N/A'),
                 "status": sub.status,
                 "evaluation_result": sub.evaluation_result
@@ -1774,42 +1843,3 @@ async def list_submissions(admin_key: str = "test123"):
         return {"total_submissions": len(result), "submissions": result}
     except Exception as e:
         return {"error": str(e)}
-    
-@router.get("/progress/{methodology}")
-async def get_benchmark_progress(methodology: str = "zero-shot"):
-    """Show progress toward complete benchmark by methodology"""
-    try:
-        submissions = get_all_submissions_from_db()
-        real_submissions = [s for s in submissions 
-                          if s.get('has_real_evaluation', False) 
-                          and s.get('methodology') == methodology]
-        
-        model_progress = {}
-        for submission in real_submissions:
-            model_name = submission['model_name']
-            if model_name not in model_progress:
-                model_progress[model_name] = set()
-            model_progress[model_name].add(submission['dataset_name'])
-        
-        progress_list = []
-        for model_name, datasets in model_progress.items():
-            progress_list.append({
-                "model_name": model_name,
-                "datasets_completed": len(datasets),
-                "datasets_list": list(datasets),
-                "progress_percentage": (len(datasets) / 25) * 100,  # Assuming 25 total datasets
-                "eligible_for_leaderboard": len(datasets) >= 20
-            })
-        
-        # Sort by progress
-        progress_list.sort(key=lambda x: x['datasets_completed'], reverse=True)
-        
-        return clean_for_json({
-            "methodology": methodology,
-            "researchers_in_progress": progress_list,
-            "total_researchers": len(progress_list),
-            "leaderboard_eligible": len([p for p in progress_list if p['eligible_for_leaderboard']])
-        })
-        
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
