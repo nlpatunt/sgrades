@@ -59,7 +59,25 @@ class OutputSubmission(Base):
     benchmark_session = relationship("BenchmarkSession", back_populates="submissions")
     evaluations = relationship("EvaluationResult", back_populates="submission")
 
-
+class LeaderboardCache(Base):
+    __tablename__ = "leaderboard_cache"
+    
+    model_name = Column(String, primary_key=True)
+    researcher_name = Column(String)
+    description = Column(String)
+    dataset_count = Column(Integer)
+    total_submissions = Column(Integer)
+    avg_quadratic_weighted_kappa = Column(Float)
+    avg_pearson_correlation = Column(Float)
+    avg_mean_absolute_error = Column(Float)
+    avg_root_mean_squared_error = Column(Float)
+    avg_f1_score = Column(Float)
+    avg_precision = Column(Float)
+    avg_recall = Column(Float)
+    avg_accuracy = Column(Float)
+    last_updated = Column(DateTime)
+    is_complete_benchmark = Column(Boolean, default=False)
+    
 class BenchmarkSession(Base):
     """Database table for tracking complete 15-dataset benchmark submissions"""
     __tablename__ = "benchmark_sessions"

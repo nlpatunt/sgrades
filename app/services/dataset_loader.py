@@ -484,10 +484,6 @@ class HuggingFaceDatasetLoader:
                 },
             }
             
-            print(f"DEBUG: dataset_name = {dataset_name}")
-            print(f"DEBUG: base_dataset_name = {base_dataset_name}")
-            print(f"DEBUG: config_name = {config_name}")
-            
             # Special handling for ASAP-AES
             if dataset_name == "ASAP-AES" or dataset_name == "D_ASAP-AES":
                 print(f"   🔧 ASAP-AES detected - using Set1 as default")
