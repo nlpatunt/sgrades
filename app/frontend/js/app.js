@@ -59,7 +59,7 @@ const elements = {
 
     // Dataset display name mapping - maps D_ names to user-friendly names
 const DATASET_DISPLAY_NAMES = {
-    'D_ASAP-AES': 'ASAP-AES: Automated Essay Scoring',
+    'D_ASAP-AES': 'ASAP-AES: Automated Essay Scoring (8 sets with varying ranges)',
     'D_ASAP2': 'ASAP2: Essay Scoring Dataset',
     'D_ASAP_plus_plus': 'ASAP++: Enhanced Essay Dataset',
     'D_ASAP-SAS': 'ASAP-SAS: Short Answer Scoring',
@@ -328,7 +328,7 @@ function populateDropdown(selectElement, showDetails = false) {
         optionsHTML += '<optgroup label="📚 Main Datasets">';
         categories.main.sort().forEach(dataset => {
             const format = datasetFormats[dataset] || getDatasetFormatFallback(dataset);
-            const displayName = getDisplayName(dataset); // Use friendly name
+            const displayName = getDisplayName(dataset); 
             const displayText = showDetails 
                 ? displayName + ' (' + format.required_columns.join(', ') + ')'
                 : displayName;
@@ -456,8 +456,31 @@ function showFormatHelper(datasetName) {
     
     elements.formatDatasetName.textContent = datasetName;
     
-    const exampleData = generateExampleCSV(datasetName, format);
-    elements.formatDetails.textContent = exampleData;
+    // Special case for ASAP-AES
+    if (datasetName === 'D_ASAP-AES') {
+        const exampleData = `essay_id,domain1_score
+essay_1_set1,8.5
+essay_2_set7,25.0
+essay_3_set2,4.0
+essay_4_set3,2.0
+essay_5_set8,45.5
+
+# Note: ASAP-AES contains 8 sets with different score ranges:
+# Set 1: 2-12 (Persuasive essays)
+# Set 2: 1-6 (Persuasive with source material)  
+# Sets 3-4: 0-3 (Source-dependent responses)
+# Sets 5-6: 0-4 (Source-dependent responses)
+# Set 7: 0-30 (Narrative essays)
+# Set 8: 0-60 (Narrative essays)
+# 
+# Click "Score Range Info" button above for detailed breakdown
+# Ensure your predicted scores match the appropriate range for each set`;
+        
+        elements.formatDetails.textContent = exampleData;
+    } else {
+        const exampleData = generateExampleCSV(datasetName, format);
+        elements.formatDetails.textContent = exampleData;
+    }
     
     elements.formatHelper.style.display = 'block';
 }
@@ -746,11 +769,24 @@ async function loadDatasets() {
         availableDatasets.forEach((datasetName, index) => {
             const animationDelay = index * 0.1;
             const displayName = getDisplayName(datasetName);
-            const scoreRange = getScoreRange(datasetName); // New function needed
+            const scoreRange = getScoreRange(datasetName);
+            
+            // Generate appropriate description based on dataset type
+            const getDescription = (name) => {
+                if (name.includes('BEEtlE')) return 'Student answer classification dataset';
+                if (name.includes('Rice_Chem')) return 'Chemistry question scoring';
+                if (name.includes('grade_like_a_human')) return 'Operating systems grading';
+                if (name.includes('SciEntSBank')) return 'Science answer evaluation';
+                if (name.includes('IELTS') || name.includes('Ielts') || name.includes('Ielst')) return 'IELTS writing assessment';
+                if (name.includes('ASAP')) return 'Automated essay scoring';
+                if (name.includes('persuade')) return 'Persuasive essay evaluation';
+                if (name.includes('CSEE')) return 'Computer science essays';
+                return 'Essay scoring dataset';
+            };
             
             datasetsHTML += '<div class="dataset-card fade-in" style="animation-delay: ' + animationDelay + 's;">';
             datasetsHTML += '<h3>' + displayName + '</h3>';
-            datasetsHTML += '<p>Train/validation/test splits with essay data</p>';
+            datasetsHTML += '<p>' + getDescription(datasetName) + '</p>';
             datasetsHTML += '<div class="dataset-info">';
             datasetsHTML += '<span><i class="fas fa-database"></i> Original format preserved</span>';
             datasetsHTML += '<span><i class="fas fa-chart-line"></i> Score Range: ' + scoreRange + '</span>';
@@ -762,6 +798,7 @@ async function loadDatasets() {
             datasetsHTML += '<button onclick="downloadSingleDataset(\'' + datasetName + '\')" class="btn btn-sm btn-primary">';
             datasetsHTML += '<i class="fas fa-download"></i> Download';
             datasetsHTML += '</button>';
+            datasetsHTML += '</div>';
             datasetsHTML += '</div>';
         });
 
@@ -1131,10 +1168,12 @@ async function loadLeaderboard() {
         
         console.log('🔍 Debug: Loading leaderboard with metric:', metric);
         
-        const data = await fetchAPI('/api/submissions/leaderboard?metric=' + metric + '&limit=20');
+        const data = await fetchAPI('/api/submissions/leaderboard-cached?metric=' + metric + '&limit=20');
         
         console.log('🔍 Debug: Full API response:', data);
         
+        console.log('Debug: API response summary_stats:', data.summary_stats);
+
         if (!data || !data.rankings || data.rankings.length === 0) {
             const actionHtml = '<a href="#submit" class="btn btn-primary"><i class="fas fa-rocket"></i> Submit Complete Benchmark</a>';
             showEmptyState(
@@ -1158,16 +1197,13 @@ async function loadLeaderboard() {
             });
         }
         
-        // ✅ FIXED: Build table with proper structure and ALL 6 metrics
         var tableHTML = '<div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-light); border-radius: 8px;">';
         tableHTML += '<p><strong>🏆 Complete Benchmarks Only:</strong> Only researchers who submitted all ' + totalDatasetsCount + ' datasets appear here.</p>';
         tableHTML += '</div>';
         
-        // ✅ FIXED: Proper overflow container with table
         tableHTML += '<div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">';
         tableHTML += '<table style="width: 100%; min-width: 1400px; border-collapse: collapse; font-size: 0.9rem;">';
         
-        // ✅ FIXED: Complete table header with ALL 6 metrics
         tableHTML += '<thead>';
         tableHTML += '<tr style="background: var(--bg-light);">';
         tableHTML += '<th style="padding: 1rem 0.75rem; border: 1px solid var(--border-light); text-align: center; min-width: 60px;">Rank</th>';
@@ -1216,13 +1252,13 @@ async function loadLeaderboard() {
             const recallScore = formatScore(recall);
             const maeScore = formatScore(mae);
             
-            // Other data
-            const submitterName = entry.model_name || 'Unknown';
-            const modelName = entry.model_description || entry.dataset_name || 'Model Description';
-            const totalEssays = entry.total_essays_evaluated || 0;
-            const submissionDate = formatDate(entry.upload_date);
-            const datasetsCompleted = entry.total_datasets_submitted || 0;
-            
+           // Other data - using correct field mapping
+            const submitterName = entry.contact_email || 'Research Team';  //
+            const totalEssays = entry.total_submissions || 0; 
+            const modelName = entry.model_name || 'Unknown';
+            const submissionDate = formatDate(entry.last_updated || new Date().toISOString());
+            const datasetsCompleted = entry.unique_datasets_count || 0;
+
             // ✅ FIXED: Build complete table row with ALL 6 metrics
             tableHTML += '<tr style="border-bottom: 1px solid var(--border-light);">';
             tableHTML += '<td style="padding: 1rem 0.75rem; text-align: center;"><div class="rank-badge ' + rankClass + '">' + rank + '</div></td>';
@@ -1258,21 +1294,34 @@ async function loadLeaderboard() {
         tableHTML += '</table>';
         tableHTML += '</div>'; // Close overflow container
         
-        // ✅ Add summary statistics if available
         if (data.summary_stats) {
             tableHTML += '<div style="margin-top: 1.5rem; padding: 1rem; background: var(--bg-light); border-radius: 8px;">';
             tableHTML += '<h4 style="margin-bottom: 1rem;">📊 Platform Summary</h4>';
             tableHTML += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">';
             tableHTML += '<div><strong>Total Researchers:</strong><br><span style="font-size: 1.2em; color: var(--primary-blue);">' + (data.summary_stats.total_researchers || 0) + '</span></div>';
             tableHTML += '<div><strong>Complete Benchmarks:</strong><br><span style="font-size: 1.2em; color: var(--success);">' + (data.summary_stats.complete_benchmarks || 0) + '</span></div>';
-            tableHTML += '<div><strong>Avg QWK:</strong><br><span style="font-size: 1.2em; color: var(--primary-blue);">' + formatScore(data.summary_stats.avg_quadratic_weighted_kappa || 0) + '</span></div>';
-            tableHTML += '<div><strong>Avg F1:</strong><br><span style="font-size: 1.2em; color: var(--primary-blue);">' + formatScore(data.summary_stats.avg_f1_score || 0) + '</span></div>';
-            tableHTML += '<div><strong>Avg Precision:</strong><br><span style="font-size: 1.2em; color: var(--primary-blue);">' + formatScore(data.summary_stats.avg_precision || 0) + '</span></div>';
-            tableHTML += '<div><strong>Avg Recall:</strong><br><span style="font-size: 1.2em; color: var(--primary-blue);">' + formatScore(data.summary_stats.avg_recall || 0) + '</span></div>';
+            
+            // Use .mean to access the actual values
+            if (data.summary_stats.avg_quadratic_weighted_kappa && data.summary_stats.avg_quadratic_weighted_kappa.mean !== undefined) {
+                tableHTML += '<div><strong>Avg QWK:</strong><br><span style="font-size: 1.2em; color: var(--primary-blue);">' + formatScore(data.summary_stats.avg_quadratic_weighted_kappa.mean) + '</span></div>';
+            }
+            
+            if (data.summary_stats.avg_f1_score && data.summary_stats.avg_f1_score.mean !== undefined) {
+                tableHTML += '<div><strong>Avg F1:</strong><br><span style="font-size: 1.2em; color: var(--primary-blue);">' + formatScore(data.summary_stats.avg_f1_score.mean) + '</span></div>';
+            }
+            
+            if (data.summary_stats.avg_precision && data.summary_stats.avg_precision.mean !== undefined) {
+                tableHTML += '<div><strong>Avg Precision:</strong><br><span style="font-size: 1.2em; color: var(--primary-blue);">' + formatScore(data.summary_stats.avg_precision.mean) + '</span></div>';
+            }
+            
+            if (data.summary_stats.avg_recall && data.summary_stats.avg_recall.mean !== undefined) {
+                tableHTML += '<div><strong>Avg Recall:</strong><br><span style="font-size: 1.2em; color: var(--primary-blue);">' + formatScore(data.summary_stats.avg_recall.mean) + '</span></div>';
+            }
+            
             tableHTML += '</div>';
             tableHTML += '</div>';
         }
-        
+                
         // ✅ FIXED: Set the complete HTML
         elements.leaderboardTable.innerHTML = tableHTML;
         
@@ -1584,11 +1633,99 @@ function setupSmoothScrolling() {
     });
 }
 
-// Score Range Modal Functions
 function showScoreRangeModal(datasetName) {
-    const scoreInfo = getDetailedScoreInfo(datasetName);
+    // Special handling for ASAP-AES to show all 8 sets
+    let contentHTML = '';
     
-    // Create modal HTML
+    if (datasetName === 'ASAP-AES' || datasetName === 'D_ASAP-AES') {
+        const asapSets = [
+            { set: 1, range: '2-12', description: 'Persuasive essays about a specific topic' },
+            { set: 2, range: '1-6', description: 'Persuasive essays with source material' },
+            { set: 3, range: '0-3', description: 'Source-dependent responses' },
+            { set: 4, range: '0-3', description: 'Source-dependent responses' },
+            { set: 5, range: '0-4', description: 'Source-dependent responses' },
+            { set: 6, range: '0-4', description: 'Source-dependent responses' },
+            { set: 7, range: '0-30', description: 'Narrative essays' },
+            { set: 8, range: '0-60', description: 'Narrative essays' }
+        ];
+        
+        // Build the 8 sets breakdown for the description
+        let setsHTML = '';
+        asapSets.forEach(set => {
+            setsHTML += `
+                <div style="padding: 0.5rem; background: #f8f9fa; border-radius: 4px; margin-bottom: 0.25rem; border-left: 3px solid #1976d2;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong style="color: #1976d2;">Set ${set.set}</strong>
+                        <span style="background: #e3f2fd; color: #1565c0; padding: 0.15rem 0.4rem; border-radius: 3px; font-weight: 600; font-size: 0.85rem;">
+                            ${set.range}
+                        </span>
+                    </div>
+                    <div style="color: #666; font-size: 0.85rem; margin-top: 0.15rem;">
+                        ${set.description}
+                    </div>
+                </div>
+            `;
+        });
+        
+        contentHTML = `
+            <div style="background: #e3f2fd; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                    <i class="fas fa-chart-line" style="color: #1976d2; margin-right: 0.5rem;"></i>
+                    <span style="font-weight: 600; color: #1976d2;">Score Range</span>
+                </div>
+                <p style="font-size: 1.5rem; font-weight: bold; color: #1976d2; margin: 0;">
+                    Variable by Set (8 total sets)
+                </p>
+            </div>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Description</h4>
+                <p style="color: var(--text-secondary); line-height: 1.5; margin-bottom: 1rem;">
+                    ASAP-AES contains 8 essay sets with different scoring scales, ranging from binary classification to extended narrative scoring. Each set targets different writing skills and assessment objectives:
+                </p>
+                <div style="max-height: 300px; overflow-y: auto; padding-right: 0.5rem;">
+                    ${setsHTML}
+                </div>
+            </div>
+            
+            <div style="background: #f5f5f5; border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
+                <h4 style="margin-bottom: 0.5rem; color: var(--text-primary);">Task Type</h4>
+                <p style="color: var(--text-secondary); margin: 0; font-size: 0.9rem;">
+                    Regression Task - Holistic essay scoring with different scales per essay set
+                </p>
+            </div>
+        `;
+    } else {
+        // Regular single-range display for other datasets
+        const scoreInfo = getDetailedScoreInfo(datasetName);
+        contentHTML = `
+            <div style="background: #e3f2fd; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                    <i class="fas fa-chart-line" style="color: #1976d2; margin-right: 0.5rem;"></i>
+                    <span style="font-weight: 600; color: #1976d2;">Score Range</span>
+                </div>
+                <p style="font-size: 1.5rem; font-weight: bold; color: #1976d2; margin: 0;">
+                    ${scoreInfo.range}
+                </p>
+            </div>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="margin-bottom: 0.5rem; color: var(--text-primary);">Description</h4>
+                <p style="color: var(--text-secondary); line-height: 1.5; margin: 0;">
+                    ${scoreInfo.description}
+                </p>
+            </div>
+            
+            <div style="background: #f5f5f5; border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
+                <h4 style="margin-bottom: 0.5rem; color: var(--text-primary);">Task Type</h4>
+                <p style="color: var(--text-secondary); margin: 0; font-size: 0.9rem;">
+                    ${scoreInfo.taskType}
+                </p>
+            </div>
+        `;
+    }
+    
+    // Create modal HTML (rest of your modal code stays the same)
     const modalHTML = `
         <div class="score-range-modal-backdrop" onclick="closeScoreRangeModal()" style="
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
@@ -1596,9 +1733,9 @@ function showScoreRangeModal(datasetName) {
             justify-content: center; z-index: 10000;
         ">
             <div class="score-range-modal" onclick="event.stopPropagation()" style="
-                background: white; max-width: 500px; width: 90%; 
+                background: white; max-width: 600px; width: 90%; 
                 border-radius: 12px; padding: 2rem; box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-                animation: modalFadeIn 0.3s ease;
+                animation: modalFadeIn 0.3s ease; max-height: 80vh; overflow-y: auto;
             ">
                 <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1.5rem;">
                     <h3 style="margin: 0; color: var(--text-primary);">
@@ -1611,29 +1748,7 @@ function showScoreRangeModal(datasetName) {
                     ">&times;</button>
                 </div>
                 
-                <div style="background: #e3f2fd; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
-                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-                        <i class="fas fa-chart-line" style="color: #1976d2; margin-right: 0.5rem;"></i>
-                        <span style="font-weight: 600; color: #1976d2;">Score Range</span>
-                    </div>
-                    <p style="font-size: 1.5rem; font-weight: bold; color: #1976d2; margin: 0;">
-                        ${scoreInfo.range}
-                    </p>
-                </div>
-                
-                <div style="margin-bottom: 1.5rem;">
-                    <h4 style="margin-bottom: 0.5rem; color: var(--text-primary);">Description</h4>
-                    <p style="color: var(--text-secondary); line-height: 1.5; margin: 0;">
-                        ${scoreInfo.description}
-                    </p>
-                </div>
-                
-                <div style="background: #f5f5f5; border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
-                    <h4 style="margin-bottom: 0.5rem; color: var(--text-primary);">Task Type</h4>
-                    <p style="color: var(--text-secondary); margin: 0; font-size: 0.9rem;">
-                        ${scoreInfo.taskType}
-                    </p>
-                </div>
+                ${contentHTML}
                 
                 <button onclick="closeScoreRangeModal()" style="
                     width: 100%; background: var(--primary-blue); color: white; 
@@ -1651,10 +1766,32 @@ function showScoreRangeModal(datasetName) {
 }
 
 function closeScoreRangeModal() {
-    const modal = document.getElementById('score-range-modal-container');
-    if (modal) {
-        modal.remove();
+    const modalContainer = document.getElementById('score-range-modal-container');
+    if (modalContainer) {
+        modalContainer.remove();
     }
+}
+
+// Add CSS animation for modal fade-in effect (add this to your CSS file or in a <style> tag)
+const modalCSS = `
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+`;
+
+// Inject the CSS if it doesn't exist
+if (!document.querySelector('#modal-animations')) {
+    const style = document.createElement('style');
+    style.id = 'modal-animations';
+    style.textContent = modalCSS;
+    document.head.appendChild(style);
 }
 
 function getDetailedScoreInfo(datasetName) {
@@ -1802,42 +1939,70 @@ document.head.appendChild(style);
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('🚀 Enhanced BESESR Platform Initialized');
     
-    // Setup basic functionality
-    setupSmoothScrolling();
-    setupEventListeners();
-    
-    console.log('📊 Loading datasets and initializing platform...');
-    
     try {
-        await loadAvailableDatasets();
-        setupDragDropUpload();
-        setupEnhancedUpload();
-        setupBenchmarkSubmission();
-        setupIndividualTesting();
+        setupSmoothScrolling();
+        setupEventListeners();
         
-        loadPlatformStats();
-        loadDatasets(); 
-        loadLeaderboard();
-        loadAllLeaderboards();
-
+        console.log('📊 Loading datasets and initializing platform...');
+        
+        await loadAvailableDatasets();
+        
+        // Only call functions that exist and wrap in try-catch
+        try {
+            if (typeof setupEnhancedUpload === 'function') {
+                setupEnhancedUpload();
+            }
+        } catch (error) {
+            console.warn('setupEnhancedUpload failed:', error);
+        }
+        
+        try {
+            if (typeof setupBenchmarkSubmission === 'function') {
+                setupBenchmarkSubmission();
+            }
+        } catch (error) {
+            console.warn('setupBenchmarkSubmission failed:', error);
+        }
+        
+        try {
+            if (typeof setupIndividualTesting === 'function') {
+                setupIndividualTesting();
+            }
+        } catch (error) {
+            console.warn('setupIndividualTesting failed:', error);
+        }
+        
         console.log('✅ Enhanced BESESR Platform ready!');
         
     } catch (error) {
         console.error('❌ Failed to initialize platform:', error);
-        
-        setupEnhancedUpload();
-        setupBenchmarkSubmission();
-        setupIndividualTesting();
         
         if (elements.datasetsGrid) {
             showError(elements.datasetsGrid, 'Failed to load platform data. Some features may not work correctly.');
         }
     }
     
+    // Always try to load essential data, regardless of initialization errors
+    try {
+        loadPlatformStats();
+        loadDatasets(); 
+        loadLeaderboard();
+        if (typeof loadAllLeaderboards === 'function') {
+            loadAllLeaderboards();
+        }
+    } catch (error) {
+        console.error('Failed to load essential data:', error);
+    }
+    
+    // Auto-refresh interval
     setInterval(() => {
         console.log('🔄 Auto-refreshing data...');
-        loadPlatformStats();
-        loadLeaderboard();
+        try {
+            loadPlatformStats();
+            loadLeaderboard();
+        } catch (error) {
+            console.error('Auto-refresh failed:', error);
+        }
     }, 60000);
 });
 

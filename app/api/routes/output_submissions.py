@@ -15,7 +15,7 @@ from pathlib import Path
 import statistics
 import numpy as np
 import json
-from app.models.database import OutputSubmission, Dataset, EvaluationResult
+from app.models.database import OutputSubmission, Dataset, EvaluationResult, LeaderboardCache
 from app.models.pydantic_models import DatasetFormatResponse, AvailableDatasetsResponse, SubmissionResponse, TestSubmissionResponse, SubmissionsStatsResponse, BatchSubmissionResponse
 from app.services.database_service import get_database
 from app.services.csv_security_validator import CSVSecurityValidator
@@ -1087,6 +1087,7 @@ real_evaluation_engine = RealEvaluationEngine()
 def get_all_submissions_from_db():
     try:
         db = get_database()
+        db.rollback()
         submissions = db.query(OutputSubmission).all()
         
         result = []
@@ -1095,8 +1096,13 @@ def get_all_submissions_from_db():
             if sub.evaluation_result:
                 try:
                     evaluation_data = json.loads(sub.evaluation_result)
-                except:
-                    pass
+                except json.JSONDecodeError as e:
+                    print(f"WARNING: Invalid JSON for submission {sub.id} ({sub.submitter_name}): {e}")
+                    print(f"Raw evaluation_result: {sub.evaluation_result[:200]}...")
+                    continue  # Skip this corrupted submission entirely
+                except Exception as e:
+                    print(f"ERROR: Unexpected error parsing submission {sub.id}: {e}")
+                    continue
             
             submission_dict = {
                 "id": sub.id,
@@ -1114,6 +1120,99 @@ def get_all_submissions_from_db():
     except Exception as e:
         print(f"Database error: {e}")
         return []
+
+def update_leaderboard_cache_for_model(model_name: str):
+    """Update cached leaderboard data for a specific model"""
+    try:
+        db = get_database()
+        
+        # Get all submissions for this model
+        submissions = db.query(OutputSubmission).filter(
+            OutputSubmission.submitter_name == model_name
+        ).all()
+        
+        if not submissions:
+            return
+        
+        # Calculate aggregated metrics
+        metrics_data = {}
+        dataset_names = set()
+        researcher_name = submissions[0].submitter_email
+        description = submissions[0].description
+        
+        for sub in submissions:
+            if sub.evaluation_result:
+                try:
+                    eval_data = json.loads(sub.evaluation_result)
+                    if 'real_evaluation' in eval_data and 'metrics' in eval_data['real_evaluation']:
+                        dataset_names.add(sub.dataset_name)
+                        metrics = eval_data['real_evaluation']['metrics']
+                        
+                        for metric_name, value in metrics.items():
+                            if metric_name not in metrics_data:
+                                metrics_data[metric_name] = []
+                            try:
+                                metrics_data[metric_name].append(float(value))
+                            except (ValueError, TypeError):
+                                continue
+                except json.JSONDecodeError:
+                    continue
+        
+        # Calculate averages
+        avg_metrics = {}
+        for metric_name, values in metrics_data.items():
+            if values:
+                avg_metrics[f"avg_{metric_name}"] = statistics.mean(values)
+        
+        # Check if model has complete benchmark (21+ datasets)
+        is_complete = len(dataset_names) >= 21
+        
+        # Update or insert cache entry
+        cache_entry = db.query(LeaderboardCache).filter(
+            LeaderboardCache.model_name == model_name
+        ).first()
+        
+        if cache_entry:
+            cache_entry.researcher_name = researcher_name
+            cache_entry.description = description
+            cache_entry.dataset_count = len(dataset_names)
+            cache_entry.total_submissions = len(submissions)
+            cache_entry.avg_quadratic_weighted_kappa = avg_metrics.get('avg_quadratic_weighted_kappa', 0.0)
+            cache_entry.avg_pearson_correlation = avg_metrics.get('avg_pearson_correlation', 0.0)
+            cache_entry.avg_mean_absolute_error = avg_metrics.get('avg_mean_absolute_error', 0.0)
+            cache_entry.avg_root_mean_squared_error = avg_metrics.get('avg_root_mean_squared_error', 0.0)
+            cache_entry.avg_f1_score = avg_metrics.get('avg_f1_score', 0.0)
+            cache_entry.avg_precision = avg_metrics.get('avg_precision', 0.0)
+            cache_entry.avg_recall = avg_metrics.get('avg_recall', 0.0)
+            cache_entry.avg_accuracy = avg_metrics.get('avg_accuracy', 0.0)
+            cache_entry.last_updated = datetime.now()
+            cache_entry.is_complete_benchmark = is_complete
+        else:
+            cache_entry = LeaderboardCache(
+                model_name=model_name,
+                researcher_name=researcher_name,
+                description=description,
+                dataset_count=len(dataset_names),
+                total_submissions=len(submissions),
+                avg_quadratic_weighted_kappa=avg_metrics.get('avg_quadratic_weighted_kappa', 0.0),
+                avg_pearson_correlation=avg_metrics.get('avg_pearson_correlation', 0.0),
+                avg_mean_absolute_error=avg_metrics.get('avg_mean_absolute_error', 0.0),
+                avg_root_mean_squared_error=avg_metrics.get('avg_root_mean_squared_error', 0.0),
+                avg_f1_score=avg_metrics.get('avg_f1_score', 0.0),
+                avg_precision=avg_metrics.get('avg_precision', 0.0),
+                avg_recall=avg_metrics.get('avg_recall', 0.0),
+                avg_accuracy=avg_metrics.get('avg_accuracy', 0.0),
+                last_updated=datetime.now(),
+                is_complete_benchmark=is_complete
+            )
+            db.add(cache_entry)
+        
+        db.commit()
+        print(f"Updated leaderboard cache for {model_name}")
+        
+    except Exception as e:
+        print(f"Failed to update cache for {model_name}: {e}")
+        db.rollback()
 
 def store_submission_in_db(dataset_name, model_name, metrics, description="", 
                           institution="", contact_email="", filename="",
@@ -1166,19 +1265,25 @@ def store_submission_in_db(dataset_name, model_name, metrics, description="",
         return {"status": "error", "error": str(e)}
 
 def clean_for_json(obj):
-    """Convert object to JSON-safe format"""
     if isinstance(obj, dict):
         return {k: clean_for_json(v) for k, v in obj.items()}
     elif isinstance(obj, list):
         return [clean_for_json(item) for item in obj]
     elif isinstance(obj, np.ndarray):
         return obj.tolist()
-    elif isinstance(obj, (np.integer, np.int64)):
+    elif isinstance(obj, (np.integer, np.int64, np.int32)):
         return int(obj)
-    elif isinstance(obj, (np.floating, np.float64)):
+    elif isinstance(obj, (np.floating, np.float64, np.float32)):
         return float(obj)
-    elif pd.isna(obj):
-        return None
+    elif pd.isna(obj) or obj is None:
+        return 0.0  # Convert null to 0 instead of None
+    elif isinstance(obj, str) and obj.strip() == '':
+        return 0.0  # Convert empty strings to 0
+    elif isinstance(obj, str):
+        try:
+            return float(obj)  # Try converting string numbers
+        except ValueError:
+            return 0.0
     else:
         return obj
 
@@ -1484,13 +1589,13 @@ def normalize_dataset_name_for_evaluation(dataset_name: str) -> str:
 
 @router.post("/test-single-dataset")
 async def test_single_dataset(
-    request:Request,
+    request: Request,
     file: UploadFile = File(...),
     dataset_name: str = Form(...),
-    model_name: str = Form(...),
-    submitter_name: str = Form(...),
-    submitter_email: str = Form(...),
-    description: str = Form(...)
+    model_name: str = Form("Test_Model"),  # Default value
+    submitter_name: str = Form("Test_User"),  # Default value
+    submitter_email: str = Form("test@example.com"),  # Default value
+    description: str = Form("Single dataset test")  # Default value
 ):
     validator = CSVSecurityValidator()
     try:
@@ -1535,15 +1640,15 @@ async def test_single_dataset(
                 "testing_mode": True
             })
         
-        # ADD THIS SECTION TO STORE THE SUBMISSION
+        # Store submission in database
         try:
             db_result = store_submission_in_db(
                 dataset_name=dataset_name,
-                model_name=f"Zero_Shot_Model_{dataset_name}",
+                model_name=f"Test_{dataset_name}",
                 metrics=evaluation_result.get("metrics", {}),
-                description=f"Zero-shot evaluation on {dataset_name}",
+                description=description,
                 institution="",
-                contact_email="test@zeroshot.com",
+                contact_email=submitter_email,
                 filename=file.filename,
                 file_content=content,
                 ip_address=request.client.host,
@@ -1551,17 +1656,16 @@ async def test_single_dataset(
             )
             
             if db_result.get("status") == "success":
-                print(f"✓ Submission stored in database with ID: {db_result.get('submission_id')}")
+                print(f"✓ Test submission stored with ID: {db_result.get('submission_id')}")
             else:
-                print(f"✗ Failed to store submission: {db_result.get('error')}")
+                print(f"✗ Failed to store: {db_result.get('error')}")
                 
         except Exception as storage_error:
             print(f"✗ Database storage failed: {storage_error}")
-            # Continue anyway - evaluation was successful
         
         response_data = {
             "success": True,
-            "testing_mode": False,  # Change to False since we're storing it
+            "testing_mode": False,
             "dataset": dataset_name,
             "filename": file.filename,
             "evaluation": evaluation_result,
@@ -1589,6 +1693,8 @@ async def get_leaderboard(
     min_datasets: int = 21 
 ):
     try:
+        print("DEBUG: Starting leaderboard generation")
+        
         if min_datasets is None:
             available_datasets = list(real_evaluation_engine.validators.keys())
             d_datasets = [ds for ds in available_datasets if ds.startswith('D_')]
@@ -1596,8 +1702,10 @@ async def get_leaderboard(
             
         current_time = datetime.now().isoformat()
         submissions = get_all_submissions_from_db()
+        print(f"DEBUG: Got {len(submissions)} total submissions")
     
         real_submissions = [s for s in submissions if s.get('has_real_evaluation', False)]
+        print(f"DEBUG: {len(real_submissions)} have real_evaluation")
         
         if not real_submissions:
             return clean_for_json({
@@ -1610,9 +1718,11 @@ async def get_leaderboard(
                 "note": "No complete benchmarks found"
             })
 
+        print("DEBUG: Starting model aggregation")
         model_aggregates = {}
-        for submission in real_submissions:
+        for i, submission in enumerate(real_submissions):
             model_name = submission['model_name']
+            print(f"DEBUG: Processing submission {i+1}/{len(real_submissions)} for model {model_name}")
             
             if model_name not in model_aggregates:
                 model_aggregates[model_name] = {
@@ -1627,18 +1737,50 @@ async def get_leaderboard(
             model_aggregates[model_name]['datasets'].append(submission['dataset_name'])
             model_aggregates[model_name]['total_submissions'] += 1
             
-            for metric_name, value in submission.get('metrics', {}).items():
+            # DEBUG: Check metric types before aggregation
+            metrics = submission.get('metrics', {})
+            print(f"DEBUG: {model_name} has {len(metrics)} metrics")
+            
+            for metric_name, value in metrics.items():
+                # Show first few metrics in detail
+                if len(model_aggregates[model_name]['metrics']) < 3:
+                    print(f"DEBUG: Processing {model_name}.{metric_name} = {repr(value)} (type: {type(value).__name__})")
+                
                 if metric_name not in model_aggregates[model_name]['metrics']:
                     model_aggregates[model_name]['metrics'][metric_name] = []
-                model_aggregates[model_name]['metrics'][metric_name].append(value)
+                
+                # Ensure value is numeric with detailed error checking
+                try:
+                    if value is None:
+                        numeric_value = 0.0
+                        print(f"DEBUG: {model_name}.{metric_name} was None, using 0.0")
+                    elif isinstance(value, str):
+                        if value.strip() == '' or value.lower() in ['nan', 'null', 'none']:
+                            numeric_value = 0.0
+                            print(f"DEBUG: {model_name}.{metric_name} was empty/invalid string '{value}', using 0.0")
+                        else:
+                            numeric_value = float(value)
+                            print(f"DEBUG: {model_name}.{metric_name} converted string '{value}' to {numeric_value}")
+                    else:
+                        numeric_value = float(value)
+                    
+                    model_aggregates[model_name]['metrics'][metric_name].append(numeric_value)
+                    
+                except (ValueError, TypeError) as conversion_error:
+                    print(f"ERROR: Failed to convert {model_name}.{metric_name} = {repr(value)} to float: {conversion_error}")
+                    model_aggregates[model_name]['metrics'][metric_name].append(0.0)
 
+        print("DEBUG: Filtering complete models")
         complete_models = {}
         for model_name, data in model_aggregates.items():
             unique_datasets = list(set(data['datasets']))
+            print(f"DEBUG: {model_name} has {len(unique_datasets)} unique datasets (need {min_datasets})")
             
             if len(unique_datasets) >= min_datasets:
                 complete_models[model_name] = data
                 complete_models[model_name]['unique_datasets_count'] = len(unique_datasets)
+        
+        print(f"DEBUG: Found {len(complete_models)} complete models")
         
         if not complete_models:
             return clean_for_json({
@@ -1651,47 +1793,113 @@ async def get_leaderboard(
                 "note": f"No complete benchmarks found. Models must test on at least {min_datasets} datasets to appear on leaderboard."
             })
         
+        print("DEBUG: Starting rankings calculation")
         rankings = []
         for model_name, data in complete_models.items():
-            # Calculate averages for the 8 specific metrics only
-            avg_metrics = {}
-            for metric_name, values in data['metrics'].items():
-                if values:
-                    avg_metrics[f"avg_{metric_name}"] = statistics.mean(values)
-            
-            # Include only the 8 specified metrics
-            ranking_entry = {
-                "model_name": model_name,
-                "institution": data['institution'],
-                "description": data['description'],
-                "contact_email": data['contact_email'],
-                "datasets_evaluated": list(set(data['datasets'])),
-                "unique_datasets_count": data['unique_datasets_count'],
-                "total_submissions": data['total_submissions'],
-                "complete_benchmark": True,
+            try:
+                print(f"DEBUG: Calculating averages for {model_name}")
                 
-                # Only the 8 specified metrics
-                "avg_quadratic_weighted_kappa": avg_metrics.get("avg_quadratic_weighted_kappa", 0),
-                "avg_pearson_correlation": avg_metrics.get("avg_pearson_correlation", 0),
-                "avg_mean_absolute_error": avg_metrics.get("avg_mean_absolute_error", 0),
-                "avg_root_mean_squared_error": avg_metrics.get("avg_root_mean_squared_error", 0),
-                "avg_f1_score": avg_metrics.get("avg_f1_score", 0),
-                "avg_precision": avg_metrics.get("avg_precision", 0),
-                "avg_recall": avg_metrics.get("avg_recall", 0),
-                "avg_accuracy": avg_metrics.get("avg_accuracy_within_1.0", avg_metrics.get("avg_accuracy", 0))
-            }
-            
-            rankings.append(ranking_entry)
+                # Calculate averages with extensive type checking
+                avg_metrics = {}
+                for metric_name, values in data['metrics'].items():
+                    if values:
+                        print(f"DEBUG: Processing {model_name}.{metric_name} with {len(values)} values")
+                        print(f"DEBUG: Values sample: {values[:3]} (types: {[type(v).__name__ for v in values[:3]]})")
+                        
+                        # Ensure all values are numeric
+                        numeric_values = []
+                        problem_values = []
+                        
+                        for idx, val in enumerate(values):
+                            try:
+                                if val is None or val == '':
+                                    numeric_val = 0.0
+                                elif isinstance(val, str):
+                                    if val.strip().lower() in ['nan', 'null', 'none', '']:
+                                        numeric_val = 0.0
+                                    else:
+                                        numeric_val = float(val.strip())
+                                else:
+                                    numeric_val = float(val)
+                                    
+                                numeric_values.append(numeric_val)
+                                
+                            except (ValueError, TypeError) as val_error:
+                                print(f"ERROR: Value {idx} for {metric_name}: {repr(val)} -> {val_error}")
+                                problem_values.append((idx, val, str(val_error)))
+                                numeric_values.append(0.0)  # Use 0.0 as fallback
+                        
+                        if problem_values:
+                            print(f"WARNING: {model_name}.{metric_name} had {len(problem_values)} problem values: {problem_values[:5]}")
+                        
+                        if numeric_values:
+                            try:
+                                avg_value = statistics.mean(numeric_values)
+                                avg_metrics[f"avg_{metric_name}"] = avg_value
+                                print(f"DEBUG: Successfully calculated avg_{metric_name} = {avg_value}")
+                            except Exception as mean_error:
+                                print(f"ERROR: statistics.mean() failed for {model_name}.{metric_name}: {mean_error}")
+                                print(f"DEBUG: Values were: {numeric_values[:10]}")
+                                avg_metrics[f"avg_{metric_name}"] = 0.0
+                        else:
+                            print(f"WARNING: No numeric values for {model_name}.{metric_name}")
+                            avg_metrics[f"avg_{metric_name}"] = 0.0
+                    else:
+                        print(f"DEBUG: No values for {model_name}.{metric_name}")
+                        avg_metrics[f"avg_{metric_name}"] = 0.0
+                
+                print(f"DEBUG: {model_name} final averages: {list(avg_metrics.keys())}")
+                
+                # Include only the 8 specified metrics
+                ranking_entry = {
+                    "model_name": model_name,
+                    "institution": data['institution'],
+                    "description": data['description'],
+                    "contact_email": data['contact_email'],
+                    "datasets_evaluated": list(set(data['datasets'])),
+                    "unique_datasets_count": data['unique_datasets_count'],
+                    "total_submissions": data['total_submissions'],
+                    "complete_benchmark": True,
+                    
+                    # Only the 8 specified metrics
+                    "avg_quadratic_weighted_kappa": avg_metrics.get("avg_quadratic_weighted_kappa", 0),
+                    "avg_pearson_correlation": avg_metrics.get("avg_pearson_correlation", 0),
+                    "avg_mean_absolute_error": avg_metrics.get("avg_mean_absolute_error", 0),
+                    "avg_root_mean_squared_error": avg_metrics.get("avg_root_mean_squared_error", 0),
+                    "avg_f1_score": avg_metrics.get("avg_f1_score", 0),
+                    "avg_precision": avg_metrics.get("avg_precision", 0),
+                    "avg_recall": avg_metrics.get("avg_recall", 0),
+                    "avg_accuracy": avg_metrics.get("avg_accuracy_within_1.0", avg_metrics.get("avg_accuracy", 0))
+                }
+                
+                rankings.append(ranking_entry)
+                print(f"DEBUG: Added ranking entry for {model_name}")
+                
+            except Exception as model_error:
+                print(f"ERROR: Failed processing model {model_name}: {model_error}")
+                import traceback
+                traceback.print_exc()
+                continue
+        
+        print(f"DEBUG: Created {len(rankings)} ranking entries")
         
         # Sort by the selected metric
-        if metric in ["avg_mean_absolute_error", "avg_root_mean_squared_error"]:
-            rankings.sort(key=lambda x: x.get(metric, float('inf')))  # Lower is better
-        else:
-            rankings.sort(key=lambda x: x.get(metric, 0), reverse=True)  # Higher is better
-        
-        rankings = rankings[:limit]
+        try:
+            print(f"DEBUG: Sorting by metric: {metric}")
+            if metric in ["avg_mean_absolute_error", "avg_root_mean_squared_error"]:
+                rankings.sort(key=lambda x: x.get(metric, float('inf')))  # Lower is better
+            else:
+                rankings.sort(key=lambda x: x.get(metric, 0), reverse=True)  # Higher is better
+            
+            rankings = rankings[:limit]
+            print(f"DEBUG: Final rankings count after limit: {len(rankings)}")
+            
+        except Exception as sort_error:
+            print(f"ERROR: Sorting failed: {sort_error}")
+            # Continue with unsorted rankings
         
         # Calculate summary stats for the 8 metrics only
+        print("DEBUG: Calculating summary stats")
         summary_stats = {}
         if rankings:
             metric_keys = [
@@ -1700,17 +1908,32 @@ async def get_leaderboard(
             ]
             
             for metric_key in metric_keys:
-                values = [r.get(metric_key, 0) for r in rankings if r.get(metric_key) is not None]
-                if values:
-                    summary_stats[metric_key] = {
-                        'mean': statistics.mean(values),
-                        'std': statistics.stdev(values) if len(values) > 1 else 0,
-                        'min': min(values),
-                        'max': max(values)
-                    }
+                try:
+                    values = [r.get(metric_key, 0) for r in rankings if r.get(metric_key) is not None]
+                    if values:
+                        # Ensure all values are numeric for summary stats
+                        numeric_values = []
+                        for v in values:
+                            try:
+                                numeric_values.append(float(v))
+                            except (ValueError, TypeError):
+                                numeric_values.append(0.0)
+                        
+                        if numeric_values:
+                            summary_stats[metric_key] = {
+                                'mean': statistics.mean(numeric_values),
+                                'std': statistics.stdev(numeric_values) if len(numeric_values) > 1 else 0,
+                                'min': min(numeric_values),
+                                'max': max(numeric_values)
+                            }
+                        
+                except Exception as summary_error:
+                    print(f"ERROR: Summary stats failed for {metric_key}: {summary_error}")
             
             summary_stats['total_researchers'] = len(rankings)
             summary_stats['complete_benchmarks'] = len([r for r in rankings if r['complete_benchmark']])
+        
+        print("DEBUG: Leaderboard generation completed successfully")
         
         return clean_for_json({
             "dataset": dataset,
@@ -1719,13 +1942,122 @@ async def get_leaderboard(
             "last_updated": current_time,
             "rankings": rankings,
             "summary_stats": summary_stats,
-            "available_metrics": metric_keys,
+            "available_metrics": metric_keys if 'metric_keys' in locals() else [],
             "note": f"Complete benchmarks with {min_datasets}+ datasets showing 8 core metrics"
         })
         
     except Exception as e:
+        print(f"ERROR: Leaderboard generation failed: {e}")
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Failed to generate leaderboard: {str(e)}")
-    
+
+@router.get("/leaderboard-cached", response_model=Dict[str, Any]) 
+async def get_cached_leaderboard(
+    dataset: str = "All Datasets",
+    metric: str = "avg_quadratic_weighted_kappa",
+    limit: int = 20,
+    min_datasets: int = 21 
+):
+    """Fast leaderboard using pre-calculated cache"""
+    try:
+        db = get_database()
+        
+        # Get cached results for complete benchmarks only
+        cached_results = db.query(LeaderboardCache).filter(
+            LeaderboardCache.is_complete_benchmark == True,
+            LeaderboardCache.dataset_count >= min_datasets
+        ).all()
+        
+        if not cached_results:
+            return {
+                "total_entries": 0,
+                "rankings": [],
+                "summary_stats": {},
+                "note": "No complete benchmarks found in cache"
+            }
+        
+        # Convert to rankings format
+        rankings = []
+        for cache_entry in cached_results:
+            rankings.append({
+                "model_name": cache_entry.model_name,
+                "contact_email": cache_entry.researcher_name,
+                "description": cache_entry.description,
+                "unique_datasets_count": cache_entry.dataset_count,
+                "total_submissions": cache_entry.total_submissions,
+                "avg_quadratic_weighted_kappa": cache_entry.avg_quadratic_weighted_kappa,
+                "avg_pearson_correlation": cache_entry.avg_pearson_correlation,
+                "avg_mean_absolute_error": cache_entry.avg_mean_absolute_error,
+                "avg_root_mean_squared_error": cache_entry.avg_root_mean_squared_error,
+                "avg_f1_score": cache_entry.avg_f1_score,
+                "avg_precision": cache_entry.avg_precision,
+                "avg_recall": cache_entry.avg_recall,
+                "avg_accuracy": cache_entry.avg_accuracy,
+                "last_updated": cache_entry.last_updated.isoformat() if cache_entry.last_updated else None
+            })
+        
+        # Sort by selected metric
+        if metric in ["avg_mean_absolute_error", "avg_root_mean_squared_error"]:
+            rankings.sort(key=lambda x: x.get(metric, float('inf')))  # Lower is better
+        else:
+            rankings.sort(key=lambda x: x.get(metric, 0), reverse=True)  # Higher is better
+        
+        rankings = rankings[:limit]
+        if rankings:
+            summary_stats = {
+                "total_researchers": len(rankings),
+                "complete_benchmarks": len(rankings),
+                "avg_quadratic_weighted_kappa": {
+                    "mean": sum(r["avg_quadratic_weighted_kappa"] for r in rankings) / len(rankings)
+                },
+                "avg_f1_score": {
+                    "mean": sum(r["avg_f1_score"] for r in rankings) / len(rankings)
+                },
+                "avg_precision": {
+                    "mean": sum(r["avg_precision"] for r in rankings) / len(rankings)
+                },
+                "avg_recall": {
+                    "mean": sum(r["avg_recall"] for r in rankings) / len(rankings)
+                }
+            }
+        else:
+            summary_stats = {"total_researchers": 0}
+        return {
+            "total_entries": len(rankings),
+            "rankings": rankings,
+            "summary_stats": summary_stats,  #
+            "last_updated": datetime.now().isoformat(),
+            "note": f"Cached results - {len(rankings)} complete benchmarks"
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Cached leaderboard failed: {str(e)}")
+
+@router.post("/admin/refresh-leaderboard-cache")
+async def refresh_leaderboard_cache():
+    """Populate cache with all current complete benchmarks"""
+    try:
+        db = get_database()
+        
+        # Get all unique model names
+        model_names = db.query(OutputSubmission.submitter_name).filter(
+            OutputSubmission.submitter_name.like('zero-shot-%')
+        ).distinct().all()
+        
+        updated_models = []
+        for (model_name,) in model_names:
+            update_leaderboard_cache_for_model(model_name)
+            updated_models.append(model_name)
+        
+        return {
+            "message": f"Cache updated for {len(updated_models)} models",
+            "models": updated_models
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Cache refresh failed: {str(e)}")
+
 @router.get("/stats", response_model=SubmissionsStatsResponse)
 async def get_platform_stats():
     """Get platform statistics"""
@@ -1820,6 +2152,7 @@ async def download_original_file(submission_id: int, admin_key: str = ""):
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
 @router.get("/admin/list-submissions")
 async def list_submissions(admin_key: str = "test123"):
