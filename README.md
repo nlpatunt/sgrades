@@ -123,16 +123,81 @@ HUGGINGFACE_TOKEN=hf_xxx_your_token_here
 > Without this, the app falls back to a small static dataset configuration.
 
 ### 5) Run the server
+
+**Option A: Using Docker (Recommended)**
+
+1. **Copy the example environment file:**
+```bash
+cp .env.example .env
+```
+
+2. **Edit `.env` to configure your settings:**
+```bash
+# For Docker, use:
+DB_TYPE=local-postgres
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_NAME=sgrades
+ENVIRONMENT=development
+```
+
+3. **Build and run with Docker Compose:**
+```bash
+docker-compose up -d
+```
+
+4. **View logs:**
+```bash
+docker-compose logs -f
+```
+
+5. **Stop the containers:**
+```bash
+docker-compose down
+```
+
+**Option B: Using Docker directly (without compose)**
+
+1. **Build the Docker image:**
+```bash
+docker build -t sgrades .
+```
+
+2. **Run the container:**
+```bash
+docker run -d \
+  --name sgrades-app \
+  -p 8000:8000 \
+  --env-file .env \
+  sgrades
+```
+
+3. **View logs:**
+```bash
+docker logs -f sgrades-app
+```
+
+4. **Stop the container:**
+```bash
+docker stop sgrades-app
+docker rm sgrades-app
+```
+
+**Option C: Running locally (without Docker)**
+
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
+**Access the application:**
 - App UI: http://localhost:8000
-- API docs: http://localhost:8000/docs
+- API docs: http://localhost:8000/docs (when `ENVIRONMENT=development`)
+- Health check: http://localhost:8000/health
 
 > **Database Notes:**
-> - SQLite DB is created automatically on boot
-> - For PostgreSQL/MySQL, ensure the database exists before starting
+> - With Docker Compose, PostgreSQL is automatically set up with persistent volumes
+> - SQLite DB is created automatically on boot when using `DB_TYPE=create-on-boot`
+> - For local PostgreSQL/MySQL, ensure the database exists before starting
 > - Database tables are created automatically on first run
 
 ---
