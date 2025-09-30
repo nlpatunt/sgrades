@@ -1,4 +1,5 @@
-# S-GRADES — Studying Generalization of Student Response Assessments in Diverse Evaluative Settings
+<!-- # S-GRADES — Studying Generalization of Student Response Assessments in Diverse Evaluative Settings -->
+![S-GRADES logo](assets/sgrades.svg)
 
 S-GRADES is a FastAPI-based platform to **evaluate automatic essay scoring models** across a curated set of datasets.  
 Researchers download dataset CSVs, upload their model outputs, and get standardized metrics (QWK, Pearson, MAE, RMSE, F1, Accuracy) and a **live leaderboard**.
