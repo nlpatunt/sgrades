@@ -21,7 +21,7 @@ Researchers download dataset CSVs, upload their model outputs, and get standardi
 - **FastAPI**, **Uvicorn**
 - **Pandas**, **NumPy**, **scikit-learn**
 - **datasets**, **huggingface_hub**
-- **SQLite** (auto-created) + **SQLAlchemy**
+- **SQLAlchemy** with support for **SQLite**, **PostgreSQL**, and **MySQL**
 - **Pydantic v2** models for response schemas
 
 ---
@@ -58,9 +58,66 @@ Otherwise:
 pip install fastapi "uvicorn[standard]" pandas numpy scikit-learn             datasets huggingface_hub python-dotenv SQLAlchemy
 ```
 
-### 4) (Optional) Hugging Face token
+### 4) Configure environment variables
 Create a `.env` file in the repo root:
+
+#### Database Configuration
+The application supports multiple database types via the `DB_TYPE` environment variable:
+
+**Option 1: SQLite (default, create-on-boot)**
+```env
+DB_TYPE=create-on-boot
+DB_PATH=./sgrades.db  # optional, defaults to ./sgrades.db
 ```
+
+**Option 2: Local PostgreSQL**
+```env
+DB_TYPE=local-postgres
+DB_USER=postgres          # optional, defaults to postgres
+DB_PASSWORD=postgres      # optional, defaults to postgres
+DB_HOST=localhost         # optional, defaults to localhost
+DB_PORT=5432              # optional, defaults to 5432
+DB_NAME=sgrades           # optional, defaults to sgrades
+```
+
+**Option 3: Local MySQL**
+```env
+DB_TYPE=local-mysql
+DB_USER=root              # optional, defaults to root
+DB_PASSWORD=root          # optional, defaults to root
+DB_HOST=localhost         # optional, defaults to localhost
+DB_PORT=3306              # optional, defaults to 3306
+DB_NAME=sgrades           # optional, defaults to sgrades
+```
+
+**Option 4: Global PostgreSQL (e.g., Supabase)**
+```env
+DB_TYPE=global-postgres
+# Either provide full connection string:
+DATABASE_URL=postgresql://user:password@host:port/database
+# Or provide individual components:
+DB_USER=your_user
+DB_PASSWORD=your_password
+DB_HOST=your_host
+DB_PORT=5432
+DB_NAME=your_database
+```
+
+**Option 5: Global MySQL**
+```env
+DB_TYPE=global-mysql
+# Either provide full connection string:
+DATABASE_URL=mysql+pymysql://user:password@host:port/database
+# Or provide individual components:
+DB_USER=your_user
+DB_PASSWORD=your_password
+DB_HOST=your_host
+DB_PORT=3306
+DB_NAME=your_database
+```
+
+#### Hugging Face Token (Optional)
+```env
 HUGGINGFACE_TOKEN=hf_xxx_your_token_here
 ```
 > Without this, the app falls back to a small static dataset configuration.
@@ -70,11 +127,13 @@ HUGGINGFACE_TOKEN=hf_xxx_your_token_here
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-- App UI: http://localhost:8000  
+- App UI: http://localhost:8000
 - API docs: http://localhost:8000/docs
 
-> The SQLite DB is created automatically (via app code).  
-> If you hit DB state issues locally, stop the server, delete `app/app.db`, start again.
+> **Database Notes:**
+> - SQLite DB is created automatically on boot
+> - For PostgreSQL/MySQL, ensure the database exists before starting
+> - Database tables are created automatically on first run
 
 ---
 
@@ -193,8 +252,10 @@ Typed responses keep the API consistent and consumable by the frontend and exter
 - Visit `GET /api/datasets/` directly  
 - Set `HUGGINGFACE_TOKEN` in `.env` and restart the server if empty
 
-**SQLite locked / weird DB state**  
-- Stop server → delete `app/app.db` → start again
+**Database connection issues**
+- **SQLite locked**: Stop server → delete the `.db` file → restart
+- **PostgreSQL/MySQL connection failed**: Verify credentials in `.env` and ensure database server is running
+- **Database doesn't exist**: Create the database manually before starting the application
 
 **Port in use**  
 - Change port: `uvicorn app.main:app --port 8080`
