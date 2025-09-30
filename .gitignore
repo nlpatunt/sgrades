@@ -24,3 +24,6 @@ __pycache__/
 # OS
 .DS_Store
 Thumbs.db
+
+# Stored submission files (keep directory structure only)
+stored_submissions/*
