@@ -1,6 +1,6 @@
-# BESESR — Benchmark for Essay Scoring Evaluation & Research
+# S-GRADES — Studying Generalization of Student Response Assessments in Diverse Evaluative Settings
 
-BESESR is a FastAPI-based platform to **evaluate automatic essay scoring models** across a curated set of datasets.  
+S-GRADES is a FastAPI-based platform to **evaluate automatic essay scoring models** across a curated set of datasets.  
 Researchers download dataset CSVs, upload their model outputs, and get standardized metrics (QWK, Pearson, MAE, RMSE, F1, Accuracy) and a **live leaderboard**.
 
 ---
@@ -239,5 +239,5 @@ MIT (update if needed).
 
 ## 🙏 Acknowledgments
 
-Thanks to dataset authors and the open-source community (FastAPI, Hugging Face, etc.) that make BESESR possible.
+Thanks to dataset authors and the open-source community (FastAPI, Hugging Face, etc.) that make S-GRADES possible.
 

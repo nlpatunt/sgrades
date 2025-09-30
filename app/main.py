@@ -22,7 +22,7 @@ from app.models.pydantic_models import HealthCheck, DatasetsListResponse, Datase
 limiter = Limiter(key_func=get_remote_address)
 
 async def startup_event():
-    print("🚀 Starting BESESR Platform...")
+    print("🚀 Starting S-GRADES Platform...")
     print("🗄️ Initializing database...")
     try:
         init_database()
@@ -32,7 +32,7 @@ async def startup_event():
         DatabaseService.initialize_datasets()
         print("✅ Default datasets initialized!")
 
-        print("🎉 BESESR Platform startup completed successfully!")
+        print("🎉 S-GRADES Platform Started Successfully! ({env_status})")
     except Exception as e:
         print(f"❌ Error during startup: {e}")
         print("⚠️ Continuing without database initialization...")
@@ -46,7 +46,7 @@ IS_PRODUCTION = os.getenv('ENVIRONMENT', 'development') == 'production'
 # FastAPI app
 # -------------------
 app = FastAPI(
-    title="BESESR - Essay Grading Benchmarking Platform",
+    title="S-GRADES - Studying Generalization of Student Response Assessments in Diverse Evaluative Settings",
     description="""
     Benchmarking platform for automatic essay grading models. 
     
@@ -162,7 +162,7 @@ async def health_check():
         
         return HealthCheck(
             status="healthy",
-            service="BESESR Benchmarking Platform",
+            service="S-GRADES Benchmarking Platform",
             database_connection=db_status,
             timestamp=datetime.now().isoformat(),
             complete_benchmarks_available=complete_benchmarks,
@@ -173,7 +173,7 @@ async def health_check():
     except Exception as e:
         return HealthCheck(
             status="unhealthy",
-            service="BESESR Benchmarking Platform",
+            service="S-GRADES Benchmarking Platform",
             database_connection="error",
             timestamp=datetime.now().isoformat(),
             error=str(e)
@@ -232,7 +232,7 @@ async def startup_message():
     docs_status = "DISABLED" if IS_PRODUCTION else "ENABLED at http://localhost:8000/docs"
     
     print("\n" + "="*60)
-    print(f"🎉 BESESR Platform Started Successfully! ({env_status})")
+    print(f"🎉 S-GRADES Platform Started Successfully! ({env_status})")
     print("="*60)
     print("📍 Frontend: http://localhost:8000/")
     print(f"📖 API Docs: {docs_status}")
