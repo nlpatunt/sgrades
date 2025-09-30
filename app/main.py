@@ -38,6 +38,11 @@ async def startup_event():
         print("⚠️ Continuing without database initialization...")
 
 # -------------------
+# Environment Configuration
+# -------------------
+IS_PRODUCTION = os.getenv('ENVIRONMENT', 'development') == 'production'
+
+# -------------------
 # FastAPI app
 # -------------------
 app = FastAPI(
@@ -54,7 +59,11 @@ app = FastAPI(
     Submit your model results for evaluation across 25 curated academic datasets.
     """,
     version="1.0.0",
-    on_startup=[startup_event]
+    on_startup=[startup_event],
+    # Disable API docs in production
+    docs_url=None if IS_PRODUCTION else "/docs",
+    redoc_url=None if IS_PRODUCTION else "/redoc",
+    openapi_url=None if IS_PRODUCTION else "/openapi.json"
 )
 
 app.state.limiter = limiter
@@ -219,11 +228,14 @@ async def api_info():
 @app.on_event("startup")
 async def startup_message():
     """Print startup message"""
+    env_status = "PRODUCTION MODE" if IS_PRODUCTION else "DEVELOPMENT MODE"
+    docs_status = "DISABLED" if IS_PRODUCTION else "ENABLED at http://localhost:8000/docs"
+    
     print("\n" + "="*60)
-    print("🎉 BESESR Platform Started Successfully!")
+    print(f"🎉 BESESR Platform Started Successfully! ({env_status})")
     print("="*60)
     print("📍 Frontend: http://localhost:8000/")
-    print("📖 API Docs: http://localhost:8000/docs")
+    print(f"📖 API Docs: {docs_status}")
     print("🔍 Health Check: http://localhost:8000/health")
     print("📊 Datasets: http://localhost:8000/api/available-datasets/")
     print("📤 Submissions: http://localhost:8000/api/submissions/template")
