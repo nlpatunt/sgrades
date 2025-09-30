@@ -29,7 +29,7 @@ def build_db_url(db_type):
         return f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}"
 
     elif db_type == "create-on-boot":
-        db_path = os.getenv("DB_PATH", "./sgrades.db")
+        db_path = os.getenv("DB_PATH", "./besesr.db")
         return f"sqlite:///{db_path}"
 
     elif db_type in ["global-postgres", "global-mysql"]:
