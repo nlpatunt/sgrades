@@ -27,3 +27,4 @@ Thumbs.db
 
 # Stored submission files (keep directory structure only)
 stored_submissions/*
+dataset_discovery_cache.json
