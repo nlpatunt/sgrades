@@ -5,7 +5,7 @@
 
 # Database files
 *.db
-besesr.db
+sgrades.db
 
 # Python
 __pycache__/
