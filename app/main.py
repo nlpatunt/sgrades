@@ -37,14 +37,8 @@ async def startup_event():
         print(f"❌ Error during startup: {e}")
         print("⚠️ Continuing without database initialization...")
 
-# -------------------
-# Environment Configuration
-# -------------------
 IS_PRODUCTION = os.getenv('ENVIRONMENT', 'development') == 'production'
 
-# -------------------
-# FastAPI app
-# -------------------
 app = FastAPI(
     title="S-GRADES - Studying Generalization of Student Response Assessments in Diverse Evaluative Settings",
     description="""
@@ -60,7 +54,6 @@ app = FastAPI(
     """,
     version="1.0.0",
     on_startup=[startup_event],
-    # Disable API docs in production
     docs_url=None if IS_PRODUCTION else "/docs",
     redoc_url=None if IS_PRODUCTION else "/redoc",
     openapi_url=None if IS_PRODUCTION else "/openapi.json"
@@ -68,9 +61,6 @@ app = FastAPI(
 
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
-# -------------------
-# CORS
-# -------------------
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -79,13 +69,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# -------------------
-# Static frontend
-# -------------------
-FRONTEND_DIR = Path(__file__).parent / "frontend"  # app/frontend
+FRONTEND_DIR = Path(__file__).parent / "frontend"
 app.mount("/frontend", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")
 
-# Redirect root "/" to the frontend
 @app.get("/", include_in_schema=False)
 async def root_redirect():
     return RedirectResponse(url="/frontend/")
@@ -94,7 +80,7 @@ app.include_router(datasets.router, prefix="/api", tags=["datasets"])
 app.include_router(leaderboard.router, prefix="/api", tags=["leaderboard"])
 app.include_router(output_submissions.router, prefix="/api/submissions", tags=["submissions"])
 
-from fastapi.responses import RedirectResponse  # (you already import this above)
+from fastapi.responses import RedirectResponse
 
 
 @app.get("/api/available-datasets", response_model=DatasetsListResponse)
@@ -103,8 +89,7 @@ async def get_available_datasets_direct():
     try:
         from app.services.dataset_loader import dataset_manager
         datasets_config = dataset_manager.datasets_config
-        
-        # Only show D_ datasets
+
         public_datasets = {}
         for name, config in datasets_config.items():
             if name.startswith("D_") and config.get("dataset_type") == "unlabeled":
@@ -149,8 +134,7 @@ async def health_check():
         
         stats = DatabaseService.get_platform_stats()
         db_status = "connected"
-        
-        # Check dataset loading capability
+
         try:
             datasets_config = dataset_manager.datasets_config
             hf_auth = dataset_manager.hf_loader.authenticated
@@ -179,9 +163,6 @@ async def health_check():
             error=str(e)
         )
 
-# -------------------
-# API Info Endpoint
-# -------------------
 @app.get("/api-info", tags=["info"])
 async def api_info():
     """Information about the new API workflow"""
@@ -222,9 +203,6 @@ async def api_info():
         ]
     }
 
-# -------------------
-# Startup Message
-# -------------------
 @app.on_event("startup")
 async def startup_message():
     """Print startup message"""

@@ -46,10 +46,6 @@ file_storage = LocalFileStorage()
 def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
     normalized_name = dataset_name[2:] if dataset_name.startswith("D_") else dataset_name
     
-    print(f"🔍 DEBUG: Original dataset request: {dataset_name}")
-    print(f"🔍 DEBUG: Normalized for ground truth: {normalized_name}")
-    print(f"🔍 DEBUG: Attempting to load dataset: {normalized_name}")
-    
     if not HF_DATASETS_AVAILABLE:
         return {"status": "error", "error": "HuggingFace datasets library not available"}
     
@@ -80,8 +76,6 @@ def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
     }
         
     try:
-        print(f"📥 Loading private ground truth dataset: nlpatunt/{normalized_name}")
-       
         if normalized_name in ["BEEtlE_2way", "BEEtlE_3way", "SciEntSBank_2way", "SciEntSBank_3way"]:
             import pandas as pd
             import requests
@@ -93,7 +87,7 @@ def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
                     f"https://huggingface.co/datasets/nlpatunt/BEEtlE/resolve/main/test_{suffix}.csv",
                     f"https://huggingface.co/datasets/nlpatunt/BEEtlE/raw/main/test_{suffix}.csv"
                 ]
-            else:  # SciEntSBank
+            else: 
                 suffix = "2way" if "2way" in normalized_name else "3way"
                 urls = [
                     f"https://huggingface.co/datasets/nlpatunt/SciEntSBank/resolve/main/test_{suffix}.csv",
@@ -115,14 +109,10 @@ def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
 
             for url in urls:
                 try:
-                    print(f"Attempting direct CSV download from: {url}")
                     response = requests.get(url, headers=headers, timeout=30)
                     response.raise_for_status()
                     
                     df = pd.read_csv(StringIO(response.text))
-                    print(f"✅ Loaded {normalized_name} via direct download: {len(df)} rows, columns: {list(df.columns)}")
-                    
-                    # Ensure proper ID column handling
                     id_column = id_columns_map.get(normalized_name, "ID")
                     if id_column in df.columns:
                         print(f"✅ ID column '{id_column}' found with {len(df)} rows")
@@ -138,10 +128,8 @@ def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
                     print(f"Failed to download from {url}: {url_error}")
                     continue
             
-            # If all URLs failed, return error
             return {"status": "error", "error": f"All download URLs failed for {normalized_name}"}
-        
-        # Standard HuggingFace dataset loading for other datasets
+
         elif normalized_name in ["Rice_Chem_Q1", "Rice_Chem_Q2", "Rice_Chem_Q3", "Rice_Chem_Q4"]:
             q_num = normalized_name.split("_")[-1]
             dataset = load_dataset("nlpatunt/Rice_Chem", data_files=f"{q_num}/test.csv")
@@ -167,36 +155,24 @@ def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
                     first_split = list(dataset.keys())[0]
                     dataset = dataset[first_split]
         
-        # Convert to pandas for non-direct download cases
         if 'dataset' in locals():
             df = dataset.to_pandas()
         else:
             return {"status": "error", "error": f"No dataset loaded for {normalized_name}"}
         
-        # Handle missing ID columns
         if normalized_name.startswith("grade_like_a_human_dataset_os") and "ID" not in df.columns:
             df["ID"] = range(1, len(df) + 1)
             print(f"Added ID column to {normalized_name}")
 
-        # Clean up dataframe
         columns_to_drop = [col for col in df.columns if col.startswith('Unnamed:')]
         if columns_to_drop:
             df = df.drop(columns=columns_to_drop)
-            print(f"DEBUG: Dropped empty columns: {columns_to_drop}")
 
         id_column = id_columns_map.get(normalized_name, "ID")
-        
-        print(f"DEBUG: After pandas conversion - {id_column} column: {df[id_column].head(10).tolist()}")
-        print(f"DEBUG: {id_column} column dtype: {df[id_column].dtype}")
 
-        # Fix ID column if it was replaced with index
         if id_column in df.columns and (df[id_column] == df.index).all():
             print("ERROR: ID column was replaced with DataFrame index!")
             df[id_column] = df.index + 1
-            print(f"FIXED: {id_column} column now: {df[id_column].head(10).tolist()}")
-            
-        print(f"✅ Loaded private dataset: {len(df)} rows, columns: {list(df.columns)}")
-        print(f"🎯 Ground truth for {dataset_name} loaded from {normalized_name} repository")
         
         return {
             "status": "success",
