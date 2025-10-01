@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="180" viewBox="0 0 600 180">
+  <!-- Background -->
+  <rect width="600" height="180" fill="white"/>
+  
+  <!-- Main acronym -->
+  <text x="50%" y="80" text-anchor="middle"
+        font-family="Helvetica, Arial, sans-serif"
+        font-size="60" font-weight="700"
+        fill="#1a1a1a">
+    S-GRADES
+  </text>
+  
+  <!-- Subtitle (formal expansion) -->
+  <text x="50%" y="130" text-anchor="middle"
+        font-family="Helvetica, Arial, sans-serif"
+        font-size="20" fill="#444">
+    Studying Generalization of Student Response Assessments
+  </text>
+  <text x="50%" y="155" text-anchor="middle"
+        font-family="Helvetica, Arial, sans-serif"
+        font-size="20" fill="#444">
+    in Diverse Evaluative Settings
+  </text>
+  
+  <!-- Small graduation cap icon above the S -->
+  <polygon points="240,35 260,25 280,35 260,45"
+           fill="#1a1a1a"/>
+  <line x1="260" y1="45" x2="260" y2="60"
+        stroke="#1a1a1a" stroke-width="3"/>
+</svg>

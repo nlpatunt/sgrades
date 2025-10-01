@@ -1,4 +1,5 @@
-# S-GRADES — Studying Generalization of Student Response Assessments in Diverse Evaluative Settings
+<!-- # S-GRADES — Studying Generalization of Student Response Assessments in Diverse Evaluative Settings -->
+![S-GRADES logo](assets/sgrades.svg)
 
 S-GRADES is a FastAPI-based platform to **evaluate automatic essay scoring models** across a curated set of datasets.  
 Researchers download dataset CSVs, upload their model outputs, and get standardized metrics (QWK, Pearson, MAE, RMSE, F1, Accuracy) and a **live leaderboard**.
@@ -29,18 +30,23 @@ Researchers download dataset CSVs, upload their model outputs, and get standardi
 ## 🚀 Quickstart
 
 ### 1) Clone
+
 ```bash
-git clone https://github.com/nlpatunt/besesr.git
-cd besesr
+git clone https://github.com/nlpatunt/sgrades.git
+cd sgrades
 ```
 
 ### 2) Create & activate a virtual env
+
 **Conda**
+
 ```bash
-conda create -n besesr python=3.10 -y
-conda activate besesr
+conda create -n sgrades python=3.10 -y
+conda activate sgrades
 ```
+
 **OR venv**
+
 ```bash
 python -m venv .venv
 # Windows: .venv\Scripts\activate
@@ -49,28 +55,36 @@ source .venv/bin/activate
 ```
 
 ### 3) Install dependencies
+
 If `requirements.txt` exists:
+
 ```bash
 pip install -r requirements.txt
 ```
+
 Otherwise:
+
 ```bash
 pip install fastapi "uvicorn[standard]" pandas numpy scikit-learn             datasets huggingface_hub python-dotenv SQLAlchemy
 ```
 
 ### 4) Configure environment variables
+
 Create a `.env` file in the repo root:
 
 #### Database Configuration
+
 The application supports multiple database types via the `DB_TYPE` environment variable:
 
 **Option 1: SQLite (default, create-on-boot)**
+
 ```env
 DB_TYPE=create-on-boot
 DB_PATH=./sgrades.db  # optional, defaults to ./sgrades.db
 ```
 
 **Option 2: Local PostgreSQL**
+
 ```env
 DB_TYPE=local-postgres
 DB_USER=postgres          # optional, defaults to postgres
@@ -81,6 +95,7 @@ DB_NAME=sgrades           # optional, defaults to sgrades
 ```
 
 **Option 3: Local MySQL**
+
 ```env
 DB_TYPE=local-mysql
 DB_USER=root              # optional, defaults to root
@@ -91,6 +106,7 @@ DB_NAME=sgrades           # optional, defaults to sgrades
 ```
 
 **Option 4: Global PostgreSQL (e.g., Supabase)**
+
 ```env
 DB_TYPE=global-postgres
 # Either provide full connection string:
@@ -104,6 +120,7 @@ DB_NAME=your_database
 ```
 
 **Option 5: Global MySQL**
+
 ```env
 DB_TYPE=global-mysql
 # Either provide full connection string:
@@ -117,20 +134,24 @@ DB_NAME=your_database
 ```
 
 #### Hugging Face Token (Optional)
+
 ```env
 HUGGINGFACE_TOKEN=hf_xxx_your_token_here
 ```
+
 > Without this, the app falls back to a small static dataset configuration.
 
 ### 5) Run the server
+
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-- App UI: http://localhost:8000
-- API docs: http://localhost:8000/docs
+- App UI: <http://localhost:8000>
+- API docs: <http://localhost:8000/docs>
 
 > **Database Notes:**
+>
 > - SQLite DB is created automatically on boot
 > - For PostgreSQL/MySQL, ensure the database exists before starting
 > - Database tables are created automatically on first run
@@ -168,17 +189,20 @@ app/
 - If discovery fails or no token is provided, a **static fallback** is used.
 
 List available datasets:
+
 ```
 GET /api/datasets/
 ```
 
 Download (if enabled in your build):
+
 ```
 GET /api/datasets/download/all
 GET /api/datasets/download/{dataset_name}
 ```
 
 Dataset sample preview:
+
 ```
 GET /api/datasets/{dataset_name}/sample?size=3
 ```
@@ -188,6 +212,7 @@ GET /api/datasets/{dataset_name}/sample?size=3
 ## 📤 Submitting Results
 
 ### CSV format (required)
+
 ```
 essay_id,predicted_score
 ASAP-AES_001,3.5
@@ -195,12 +220,14 @@ ASAP-AES_002,4.2
 ```
 
 ### Validate CSV
+
 ```
 POST /submissions/validate-csv
 form-data: file=<your.csv>
 ```
 
 ### Upload single dataset results
+
 ```
 POST /submissions/upload-single-result
 form-data:
@@ -213,6 +240,7 @@ form-data:
 ```
 
 ### Check submission status
+
 ```
 GET /submissions/submission-status/{submission_id}
 ```
@@ -222,11 +250,13 @@ GET /submissions/submission-status/{submission_id}
 ## 🏆 Leaderboard & Stats
 
 Leaderboard (metric is optional; defaults to QWK):
+
 ```
 GET /api/leaderboard/?metric=avg_quadratic_weighted_kappa&limit=20
 ```
 
 Platform stats (for homepage counters):
+
 ```
 GET /api/leaderboard/stats
 ```
@@ -236,6 +266,7 @@ GET /api/leaderboard/stats
 ## 🧾 Typed Responses (Pydantic)
 
 Core response schemas live in `app/models/pydantic_models.py`:
+
 - Datasets: `DatasetInfo`, `DatasetsListResponse`, `DatasetSample`, etc.
 - Submissions: `BenchmarkSubmissionResponse`, `SingleTestResponse`, `CSVValidationResponse`, `SubmissionStatus`
 - Leaderboard: `LeaderboardEntry`, `CompleteLeaderboardEntry`, `LeaderboardResponse`
@@ -248,19 +279,23 @@ Typed responses keep the API consistent and consumable by the frontend and exter
 ## 🔧 Troubleshooting
 
 **Dataset dropdown empty in UI**  
+
 - Open browser console → check errors  
 - Visit `GET /api/datasets/` directly  
 - Set `HUGGINGFACE_TOKEN` in `.env` and restart the server if empty
 
 **Database connection issues**
+
 - **SQLite locked**: Stop server → delete the `.db` file → restart
 - **PostgreSQL/MySQL connection failed**: Verify credentials in `.env` and ensure database server is running
 - **Database doesn't exist**: Create the database manually before starting the application
 
 **Port in use**  
+
 - Change port: `uvicorn app.main:app --port 8080`
 
 **CORS**  
+
 - Keep frontend & API on same origin (default)
 
 ---
@@ -301,4 +336,3 @@ MIT (update if needed).
 ## 🙏 Acknowledgments
 
 Thanks to dataset authors and the open-source community (FastAPI, Hugging Face, etc.) that make S-GRADES possible.
-

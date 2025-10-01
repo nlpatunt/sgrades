@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,15 +9,12 @@
     <!-- Styles -->
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <link rel="stylesheet" href="/frontend/css/style.css?v=2025-07-24-4" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
 
     <!-- Font Awesome (icons) -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
         /* Enhanced Upload Styles */
@@ -25,9 +23,9 @@
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
-        
+
         .progress-header {
             display: flex;
             justify-content: space-between;
@@ -72,7 +70,7 @@
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
         .dataset-dropdown {
@@ -112,7 +110,7 @@
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
         .datasets-progress-grid {
@@ -185,8 +183,15 @@
         }
 
         @keyframes uploadPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
         }
 
         .fade-in {
@@ -194,24 +199,37 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
+
 <body>
     <header style="background: white; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 1000;">
         <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem;">
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; min-height: 60px;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; min-height: 60px;">
                 <h1 style="font-size: 2.5rem; font-weight: 700; color: #2563eb; margin: 0;">
                     <a href="index.html" style="text-decoration: none; color: inherit;">S-GRADES</a>
                 </h1>
                 <!-- Replace the entire nav section in your header with this: -->
                 <nav style="display: flex; gap: 0.3rem; align-items: center;">
-                    <a href="index.html#overview" style="padding: 0.5rem 0.6rem; font-size: 0.8rem; text-decoration: none; color: #111827; border-radius: 6px;">Overview</a>
-                    <a href="index.html#datasets" style="padding: 0.5rem 0.6rem; font-size: 0.8rem; text-decoration: none; color: #111827; border-radius: 6px;">Datasets</a>
-                    <a href="leaderboard.html" style="padding: 0.5rem 0.6rem; font-size: 0.8rem; text-decoration: none; color: #111827; border-radius: 6px;">Leaderboard</a>
-                    <a href="index.html#submit" style="padding: 0.5rem 0.6rem; font-size: 0.8rem; text-decoration: none; color: #111827; border-radius: 6px;">Submit</a>
+                    <a href="index.html#overview"
+                        style="padding: 0.5rem 0.6rem; font-size: 0.8rem; text-decoration: none; color: #111827; border-radius: 6px;">Overview</a>
+                    <a href="index.html#datasets"
+                        style="padding: 0.5rem 0.6rem; font-size: 0.8rem; text-decoration: none; color: #111827; border-radius: 6px;">Datasets</a>
+                    <a href="leaderboard.html"
+                        style="padding: 0.5rem 0.6rem; font-size: 0.8rem; text-decoration: none; color: #111827; border-radius: 6px;">Leaderboard</a>
+                    <a href="index.html#submit"
+                        style="padding: 0.5rem 0.6rem; font-size: 0.8rem; text-decoration: none; color: #111827; border-radius: 6px;">Submit</a>
                 </nav>
             </div>
         </div>
@@ -221,8 +239,31 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <h1>S-GRADES</h1>
-                <h2>Studying Generalization of Student Response Assessments in Diverse Evaluative Settings</h2>
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="600" height="180" viewBox="0 0 600 180">
+                    <!-- Background -->
+                    <rect width="600" height="180" fill="white" />
+
+                    <!-- Main acronym -->
+                    <text x="50%" y="80" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="60"
+                        font-weight="700" fill="#1a1a1a">
+                        S-GRADES
+                    </text>
+
+                    <!-- Subtitle (formal expansion) -->
+                    <text x="50%" y="130" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20"
+                        fill="#444">
+                        Studying Generalization of Student Response Assessments
+                    </text>
+                    <text x="50%" y="155" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20"
+                        fill="#444">
+                        in Diverse Evaluative Settings
+                    </text>
+
+                    <!-- Small graduation cap icon above the S -->
+                    <polygon points="240,35 260,25 280,35 260,45" fill="#1a1a1a" />
+                    <line x1="260" y1="45" x2="260" y2="60" stroke="#1a1a1a" stroke-width="3" />
+                </svg>
                 <p class="hero-description">
                     S-GRADES is a comprehensive benchmarking platform for automatic essay grading models.
                     It provides evaluation across multiple curated datasets with standardized metrics to advance
@@ -263,15 +304,18 @@
             <div class="overview-grid">
                 <div class="overview-card">
                     <h3>Complete Benchmark Evaluation</h3>
-                    <p>Test your models across all datasets. Only complete submissions appear on the leaderboard for fair comparison.</p>
+                    <p>Test your models across all datasets. Only complete submissions appear on the leaderboard for
+                        fair comparison.</p>
                 </div>
                 <div class="overview-card">
                     <h3>Standardized Metrics</h3>
-                    <p>Aggregate performance using industry-standard metrics including QWK, Pearson correlation, and MAE across all datasets.</p>
+                    <p>Aggregate performance using industry-standard metrics including QWK, Pearson correlation, and MAE
+                        across all datasets.</p>
                 </div>
                 <div class="overview-card">
                     <h3>Research Focused</h3>
-                    <p>Designed for rigorous academic evaluation with hidden test labels and comprehensive assessment protocols.</p>
+                    <p>Designed for rigorous academic evaluation with hidden test labels and comprehensive assessment
+                        protocols.</p>
                 </div>
             </div>
         </div>
@@ -279,35 +323,36 @@
 
     <!-- Datasets Section -->
     <section id="datasets" class="section bg-light">
-    <div class="container">
-        <div class="section-header">
-        <h2>Datasets</h2>
-        <p>Download all datasets for comprehensive benchmark evaluation</p>
-        <div class="section-actions" style="margin-top: 1rem;">
-            <button id="download-all-btn" class="btn btn-outline">
-            <i class="fas fa-download"></i> Download All Datasets (ZIP)
-            </button>
-        </div>
-        </div>
+        <div class="container">
+            <div class="section-header">
+                <h2>Datasets</h2>
+                <p>Download all datasets for comprehensive benchmark evaluation</p>
+                <div class="section-actions" style="margin-top: 1rem;">
+                    <button id="download-all-btn" class="btn btn-outline">
+                        <i class="fas fa-download"></i> Download All Datasets (ZIP)
+                    </button>
+                </div>
+            </div>
 
-        <!-- Grid of dataset cards -->
-        <div id="datasets-grid" class="datasets-grid">
-        <div class="loading">Loading datasets...</div>
-        </div>
+            <!-- Grid of dataset cards -->
+            <div id="datasets-grid" class="datasets-grid">
+                <div class="loading">Loading datasets...</div>
+            </div>
 
-        <!-- Dataset Info -->
-        <div style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-white); border-radius: 12px; border-left: 4px solid var(--primary-blue);">
-            <h3>📋 Benchmark Requirements</h3>
-            <ul style="margin-top: 1rem;">
-                <li>Download all datasets as train/validation/test splits</li>
-                <li>Train your model using train/validation data (includes human scores)</li>
-                <li>Generate predictions on test data (no human scores provided)</li>
-                <li>Submit prediction CSV files for complete evaluation</li>
-                <li>Only complete benchmarks appear on the official leaderboard</li>
-            </ul>
-        </div>
+            <!-- Dataset Info -->
+            <div
+                style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-white); border-radius: 12px; border-left: 4px solid var(--primary-blue);">
+                <h3>📋 Benchmark Requirements</h3>
+                <ul style="margin-top: 1rem;">
+                    <li>Download all datasets as train/validation/test splits</li>
+                    <li>Train your model using train/validation data (includes human scores)</li>
+                    <li>Generate predictions on test data (no human scores provided)</li>
+                    <li>Submit prediction CSV files for complete evaluation</li>
+                    <li>Only complete benchmarks appear on the official leaderboard</li>
+                </ul>
+            </div>
 
-    </div>
+        </div>
     </section>
 
     <!-- Submit Section with Enhanced Upload -->
@@ -333,7 +378,7 @@
                     <div class="api-format">
                         <h4>📄 Required CSV Format (varies by dataset)</h4>
                         <div class="code-block">
-<pre># ASAP-AES format:
+                            <pre># ASAP-AES format:
 essay_id,domain1_score
 ASAP-AES_test_0,3.5
 ASAP-AES_test_1,4.2
@@ -358,31 +403,36 @@ grade_like_a_human_dataset_os_q1_test_0,85.5</pre>
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="researcher-name">Researcher Name *</label>
-                                    <input type="text" id="researcher-name" name="submitter_name" placeholder="Dr. Jane Smith" required />
+                                    <input type="text" id="researcher-name" name="submitter_name"
+                                        placeholder="Dr. Jane Smith" required />
                                 </div>
                                 <div class="form-group">
                                     <label for="researcher-email">Email Address *</label>
-                                    <input type="email" id="researcher-email" name="submitter_email" placeholder="jane.smith@university.edu" required />
+                                    <input type="email" id="researcher-email" name="submitter_email"
+                                        placeholder="jane.smith@university.edu" required />
                                 </div>
                             </div>
-                            
+
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="model-name">Model Name *</label>
-                                    <input type="text" id="model-name" name="model_name" placeholder="e.g., BERT-Essay-Scorer-v2" required />
+                                    <input type="text" id="model-name" name="model_name"
+                                        placeholder="e.g., BERT-Essay-Scorer-v2" required />
                                 </div>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="model-description">Model Description</label>
-                                <textarea id="model-description" name="model_description" placeholder="Brief description of your approach, architecture, training procedure..." rows="3"></textarea>
+                                <textarea id="model-description" name="model_description"
+                                    placeholder="Brief description of your approach, architecture, training procedure..."
+                                    rows="3"></textarea>
                             </div>
                         </div>
 
                         <!-- Dataset Upload Progress Section -->
                         <div class="form-section">
                             <h3>📊 Dataset Upload Progress</h3>
-                            
+
                             <!-- Overall Progress Bar -->
                             <div class="overall-progress-section">
                                 <div class="progress-header">
@@ -412,12 +462,13 @@ grade_like_a_human_dataset_os_q1_test_0,85.5</pre>
                                         </div>
                                         <div class="form-group" style="flex: 3;">
                                             <label>CSV File *</label>
-                                            
+
                                             <!-- Enhanced File Input with Drag & Drop -->
                                             <div class="file-upload-container">
                                                 <!-- Traditional File Input (Hidden) -->
-                                                <input type="file" id="dataset-file" class="form-control file-input-hidden" accept=".csv" />
-                                                
+                                                <input type="file" id="dataset-file"
+                                                    class="form-control file-input-hidden" accept=".csv" />
+
                                                 <!-- Drag & Drop Zone -->
                                                 <div id="drop-zone" class="drop-zone">
                                                     <div class="drop-zone-content">
@@ -439,13 +490,14 @@ grade_like_a_human_dataset_os_q1_test_0,85.5</pre>
                                         </div>
                                         <div class="form-group" style="flex: 1;">
                                             <label>&nbsp;</label>
-                                            <button type="button" id="upload-single-btn" class="btn btn-primary" disabled>
+                                            <button type="button" id="upload-single-btn" class="btn btn-primary"
+                                                disabled>
                                                 <i class="fas fa-upload"></i> Upload
                                             </button>
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <!-- Format Helper -->
                                 <div id="format-helper" class="format-helper" style="display: none;">
                                     <h5>📋 Expected Format for <span id="format-dataset-name"></span>:</h5>
@@ -454,293 +506,301 @@ grade_like_a_human_dataset_os_q1_test_0,85.5</pre>
                             </div>
 
                             <style>
-                            /* Enhanced File Upload Styles */
-                            .file-upload-container {
-                                position: relative;
-                            }
+                                /* Enhanced File Upload Styles */
+                                .file-upload-container {
+                                    position: relative;
+                                }
 
-                            .file-input-hidden {
-                                position: absolute;
-                                opacity: 0;
-                                pointer-events: none;
-                            }
+                                .file-input-hidden {
+                                    position: absolute;
+                                    opacity: 0;
+                                    pointer-events: none;
+                                }
 
-                            .drop-zone {
-                                border: 2px dashed #cbd5e0;
-                                border-radius: 8px;
-                                padding: 2rem;
-                                text-align: center;
-                                background: #f8f9fa;
-                                transition: all 0.3s ease;
-                                cursor: pointer;
-                                min-height: 120px;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                            }
+                                .drop-zone {
+                                    border: 2px dashed #cbd5e0;
+                                    border-radius: 8px;
+                                    padding: 2rem;
+                                    text-align: center;
+                                    background: #f8f9fa;
+                                    transition: all 0.3s ease;
+                                    cursor: pointer;
+                                    min-height: 120px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                }
 
-                            .drop-zone:hover {
-                                border-color: var(--primary-blue);
-                                background: #e3f2fd;
-                            }
+                                .drop-zone:hover {
+                                    border-color: var(--primary-blue);
+                                    background: #e3f2fd;
+                                }
 
-                            .drop-zone.drag-over {
-                                border-color: var(--primary-blue);
-                                background: #e3f2fd;
-                                transform: scale(1.02);
-                            }
+                                .drop-zone.drag-over {
+                                    border-color: var(--primary-blue);
+                                    background: #e3f2fd;
+                                    transform: scale(1.02);
+                                }
 
-                            .drop-zone.has-file {
-                                border-color: var(--success);
-                                background: #d4edda;
-                            }
+                                .drop-zone.has-file {
+                                    border-color: var(--success);
+                                    background: #d4edda;
+                                }
 
-                            .drop-zone.error {
-                                border-color: var(--error);
-                                background: #f8d7da;
-                            }
+                                .drop-zone.error {
+                                    border-color: var(--error);
+                                    background: #f8d7da;
+                                }
 
-                            .drop-zone-content {
-                                width: 100%;
-                            }
+                                .drop-zone-content {
+                                    width: 100%;
+                                }
 
-                            .drop-icon {
-                                font-size: 2.5rem;
-                                color: #6c757d;
-                                margin-bottom: 1rem;
-                                display: block;
-                            }
+                                .drop-icon {
+                                    font-size: 2.5rem;
+                                    color: #6c757d;
+                                    margin-bottom: 1rem;
+                                    display: block;
+                                }
 
-                            .drop-zone:hover .drop-icon,
-                            .drop-zone.drag-over .drop-icon {
-                                color: var(--primary-blue);
-                            }
+                                .drop-zone:hover .drop-icon,
+                                .drop-zone.drag-over .drop-icon {
+                                    color: var(--primary-blue);
+                                }
 
-                            .drop-text {
-                                color: #6c757d;
-                                margin: 0;
-                                font-size: 0.95rem;
-                            }
+                                .drop-text {
+                                    color: #6c757d;
+                                    margin: 0;
+                                    font-size: 0.95rem;
+                                }
 
-                            .browse-link {
-                                color: var(--primary-blue);
-                                text-decoration: underline;
-                                cursor: pointer;
-                            }
+                                .browse-link {
+                                    color: var(--primary-blue);
+                                    text-decoration: underline;
+                                    cursor: pointer;
+                                }
 
-                            .browse-link:hover {
-                                color: var(--primary-dark);
-                            }
+                                .browse-link:hover {
+                                    color: var(--primary-dark);
+                                }
 
-                            .file-info {
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                gap: 10px;
-                                padding: 10px;
-                                background: white;
-                                border-radius: 6px;
-                                margin-top: 10px;
-                            }
+                                .file-info {
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    gap: 10px;
+                                    padding: 10px;
+                                    background: white;
+                                    border-radius: 6px;
+                                    margin-top: 10px;
+                                }
 
-                            .file-name {
-                                font-weight: 500;
-                                color: var(--text-primary);
-                            }
+                                .file-name {
+                                    font-weight: 500;
+                                    color: var(--text-primary);
+                                }
 
-                            .remove-file {
-                                background: none;
-                                border: none;
-                                color: #dc3545;
-                                cursor: pointer;
-                                padding: 5px;
-                                border-radius: 3px;
-                                transition: background-color 0.2s;
-                            }
+                                .remove-file {
+                                    background: none;
+                                    border: none;
+                                    color: #dc3545;
+                                    cursor: pointer;
+                                    padding: 5px;
+                                    border-radius: 3px;
+                                    transition: background-color 0.2s;
+                                }
 
-                            .remove-file:hover {
-                                background: #f8d7da;
-                            }
+                                .remove-file:hover {
+                                    background: #f8d7da;
+                                }
 
-                            /* Animation for file upload success */
-                            @keyframes fileSuccess {
-                                0% { transform: scale(1); }
-                                50% { transform: scale(1.05); }
-                                100% { transform: scale(1); }
-                            }
+                                /* Animation for file upload success */
+                                @keyframes fileSuccess {
+                                    0% {
+                                        transform: scale(1);
+                                    }
 
-                            .drop-zone.file-success {
-                                animation: fileSuccess 0.3s ease;
-                            }
+                                    50% {
+                                        transform: scale(1.05);
+                                    }
+
+                                    100% {
+                                        transform: scale(1);
+                                    }
+                                }
+
+                                .drop-zone.file-success {
+                                    animation: fileSuccess 0.3s ease;
+                                }
                             </style>
 
                             <script>
-                            // Enhanced file upload functionality - add this to your app.js
+                                // Enhanced file upload functionality - add this to your app.js
 
-                            function setupDragDropUpload() {
-                                const dropZone = document.getElementById('drop-zone');
-                                const fileInput = document.getElementById('dataset-file');
-                                const fileInfo = document.getElementById('file-info');
-                                const fileName = document.getElementById('file-name');
-                                const removeFileBtn = document.getElementById('remove-file');
-                                const browseLink = dropZone.querySelector('.browse-link');
-                                const dropText = dropZone.querySelector('.drop-text');
+                                function setupDragDropUpload() {
+                                    const dropZone = document.getElementById('drop-zone');
+                                    const fileInput = document.getElementById('dataset-file');
+                                    const fileInfo = document.getElementById('file-info');
+                                    const fileName = document.getElementById('file-name');
+                                    const removeFileBtn = document.getElementById('remove-file');
+                                    const browseLink = dropZone.querySelector('.browse-link');
+                                    const dropText = dropZone.querySelector('.drop-text');
 
-                                if (!dropZone || !fileInput) return;
+                                    if (!dropZone || !fileInput) return;
 
-                                // Click to browse files
-                                dropZone.addEventListener('click', () => {
-                                    fileInput.click();
-                                });
-
-                                // Browse link click
-                                if (browseLink) {
-                                    browseLink.addEventListener('click', (e) => {
-                                        e.stopPropagation();
+                                    // Click to browse files
+                                    dropZone.addEventListener('click', () => {
                                         fileInput.click();
                                     });
-                                }
 
-                                // File input change
-                                fileInput.addEventListener('change', (e) => {
-                                    handleFileSelection(e.target.files[0]);
-                                });
+                                    // Browse link click
+                                    if (browseLink) {
+                                        browseLink.addEventListener('click', (e) => {
+                                            e.stopPropagation();
+                                            fileInput.click();
+                                        });
+                                    }
 
-                                // Remove file button
-                                if (removeFileBtn) {
-                                    removeFileBtn.addEventListener('click', (e) => {
-                                        e.stopPropagation();
-                                        clearFileSelection();
+                                    // File input change
+                                    fileInput.addEventListener('change', (e) => {
+                                        handleFileSelection(e.target.files[0]);
                                     });
-                                }
 
-                                // Drag and drop events
-                                dropZone.addEventListener('dragover', (e) => {
-                                    e.preventDefault();
-                                    dropZone.classList.add('drag-over');
-                                });
+                                    // Remove file button
+                                    if (removeFileBtn) {
+                                        removeFileBtn.addEventListener('click', (e) => {
+                                            e.stopPropagation();
+                                            clearFileSelection();
+                                        });
+                                    }
 
-                                dropZone.addEventListener('dragleave', (e) => {
-                                    e.preventDefault();
-                                    dropZone.classList.remove('drag-over');
-                                });
+                                    // Drag and drop events
+                                    dropZone.addEventListener('dragover', (e) => {
+                                        e.preventDefault();
+                                        dropZone.classList.add('drag-over');
+                                    });
 
-                                dropZone.addEventListener('drop', (e) => {
-                                    e.preventDefault();
-                                    dropZone.classList.remove('drag-over');
-                                    
-                                    const files = e.dataTransfer.files;
-                                    if (files.length > 0) {
-                                        const file = files[0];
-                                        
-                                        // Check if it's a CSV file
+                                    dropZone.addEventListener('dragleave', (e) => {
+                                        e.preventDefault();
+                                        dropZone.classList.remove('drag-over');
+                                    });
+
+                                    dropZone.addEventListener('drop', (e) => {
+                                        e.preventDefault();
+                                        dropZone.classList.remove('drag-over');
+
+                                        const files = e.dataTransfer.files;
+                                        if (files.length > 0) {
+                                            const file = files[0];
+
+                                            // Check if it's a CSV file
+                                            if (!file.name.toLowerCase().endsWith('.csv')) {
+                                                showFileError('Please select a CSV file');
+                                                return;
+                                            }
+
+                                            // Set the file to the input element
+                                            const dt = new DataTransfer();
+                                            dt.items.add(file);
+                                            fileInput.files = dt.files;
+
+                                            handleFileSelection(file);
+                                        }
+                                    });
+
+                                    function handleFileSelection(file) {
+                                        if (!file) return;
+
+                                        // Validate file type
                                         if (!file.name.toLowerCase().endsWith('.csv')) {
                                             showFileError('Please select a CSV file');
                                             return;
                                         }
-                                        
-                                        // Set the file to the input element
-                                        const dt = new DataTransfer();
-                                        dt.items.add(file);
-                                        fileInput.files = dt.files;
-                                        
-                                        handleFileSelection(file);
-                                    }
-                                });
 
-                                function handleFileSelection(file) {
-                                    if (!file) return;
-
-                                    // Validate file type
-                                    if (!file.name.toLowerCase().endsWith('.csv')) {
-                                        showFileError('Please select a CSV file');
-                                        return;
-                                    }
-
-                                    // Validate file size (max 10MB)
-                                    //if (file.size > 10 * 1024 * 1024) {
-                                      //  showFileError('File size must be less than 10MB');
+                                        // Validate file size (max 10MB)
+                                        //if (file.size > 10 * 1024 * 1024) {
+                                        //  showFileError('File size must be less than 10MB');
                                         //return;
-                                    //}
+                                        //}
 
-                                    // Show file info
-                                    fileName.textContent = file.name;
-                                    fileInfo.style.display = 'flex';
-                                    dropText.style.display = 'none';
-                                    
-                                    dropZone.classList.add('has-file', 'file-success');
-                                    dropZone.classList.remove('error');
-                                    
-                                    // Remove success animation after it completes
-                                    setTimeout(() => {
-                                        dropZone.classList.remove('file-success');
-                                    }, 300);
+                                        // Show file info
+                                        fileName.textContent = file.name;
+                                        fileInfo.style.display = 'flex';
+                                        dropText.style.display = 'none';
 
-                                    // Update upload button state
-                                    updateUploadButtonState();
-                                    
-                                    console.log('✅ File selected:', file.name);
-                                }
-
-                                function clearFileSelection() {
-                                    fileInput.value = '';
-                                    fileInfo.style.display = 'none';
-                                    dropText.style.display = 'block';
-                                    
-                                    dropZone.classList.remove('has-file', 'error');
-                                    
-                                    // Update upload button state
-                                    updateUploadButtonState();
-                                    
-                                    console.log('🗑️ File selection cleared');
-                                }
-
-                                function showFileError(message) {
-                                    dropZone.classList.add('error');
-                                    dropZone.classList.remove('has-file');
-                                    
-                                    // Show error briefly
-                                    const originalText = dropText.innerHTML;
-                                    dropText.innerHTML = `<strong style="color: var(--error);">${message}</strong>`;
-                                    
-                                    setTimeout(() => {
-                                        dropText.innerHTML = originalText;
+                                        dropZone.classList.add('has-file', 'file-success');
                                         dropZone.classList.remove('error');
-                                    }, 3000);
-                                }
 
-                                function updateUploadButtonState() {
-                                    const selectedDataset = document.getElementById('dataset-selector')?.value;
-                                    const hasFile = fileInput.files.length > 0;
-                                    
-                                    const uploadBtn = document.getElementById('upload-single-btn');
-                                    if (uploadBtn) {
-                                        uploadBtn.disabled = !selectedDataset || !hasFile;
+                                        // Remove success animation after it completes
+                                        setTimeout(() => {
+                                            dropZone.classList.remove('file-success');
+                                        }, 300);
+
+                                        // Update upload button state
+                                        updateUploadButtonState();
+
+                                        console.log('✅ File selected:', file.name);
                                     }
+
+                                    function clearFileSelection() {
+                                        fileInput.value = '';
+                                        fileInfo.style.display = 'none';
+                                        dropText.style.display = 'block';
+
+                                        dropZone.classList.remove('has-file', 'error');
+
+                                        // Update upload button state
+                                        updateUploadButtonState();
+
+                                        console.log('🗑️ File selection cleared');
+                                    }
+
+                                    function showFileError(message) {
+                                        dropZone.classList.add('error');
+                                        dropZone.classList.remove('has-file');
+
+                                        // Show error briefly
+                                        const originalText = dropText.innerHTML;
+                                        dropText.innerHTML = `<strong style="color: var(--error);">${message}</strong>`;
+
+                                        setTimeout(() => {
+                                            dropText.innerHTML = originalText;
+                                            dropZone.classList.remove('error');
+                                        }, 3000);
+                                    }
+
+                                    function updateUploadButtonState() {
+                                        const selectedDataset = document.getElementById('dataset-selector')?.value;
+                                        const hasFile = fileInput.files.length > 0;
+
+                                        const uploadBtn = document.getElementById('upload-single-btn');
+                                        if (uploadBtn) {
+                                            uploadBtn.disabled = !selectedDataset || !hasFile;
+                                        }
+                                    }
+
+                                    // Expose clear function for external use
+                                    window.clearFileSelection = clearFileSelection;
                                 }
 
-                                // Expose clear function for external use
-                                window.clearFileSelection = clearFileSelection;
-                            }
+                                // Update your existing handleFileSelection function to work with the new interface
+                                function handleFileSelection() {
+                                    const selectedDataset = elements.datasetSelector.value;
+                                    const hasFile = elements.datasetFile.files.length > 0;
 
-                            // Update your existing handleFileSelection function to work with the new interface
-                            function handleFileSelection() {
-                                const selectedDataset = elements.datasetSelector.value;
-                                const hasFile = elements.datasetFile.files.length > 0;
-                                
-                                // Update upload button state
-                                elements.uploadSingleBtn.disabled = !selectedDataset || !hasFile;
-                            }
+                                    // Update upload button state
+                                    elements.uploadSingleBtn.disabled = !selectedDataset || !hasFile;
+                                }
 
-                            // Make sure to call setupDragDropUpload() in your DOMContentLoaded event listener
-                            document.addEventListener('DOMContentLoaded', async function() {
-                                // ... your existing initialization code ...
-                                
-                                // Add this line to set up drag & drop
-                                setupDragDropUpload();
-                                
-                                // ... rest of your initialization code ...
-                            });
+                                // Make sure to call setupDragDropUpload() in your DOMContentLoaded event listener
+                                document.addEventListener('DOMContentLoaded', async function () {
+                                    // ... your existing initialization code ...
+
+                                    // Add this line to set up drag & drop
+                                    setupDragDropUpload();
+
+                                    // ... rest of your initialization code ...
+                                });
                             </script>
 
                             <!-- Uploaded Datasets List -->
@@ -753,8 +813,10 @@ grade_like_a_human_dataset_os_q1_test_0,85.5</pre>
 
                             <!-- Submit Complete Benchmark -->
                             <div class="form-actions" style="margin-top: 2rem;">
-                                <button type="submit" class="btn btn-large btn-primary" id="submit-benchmark-btn" disabled>
-                                    <i class="fas fa-rocket"></i> Submit Complete Benchmark (<span id="submit-count">0</span>/<span id="submit-total">0</span>)
+                                <button type="submit" class="btn btn-large btn-primary" id="submit-benchmark-btn"
+                                    disabled>
+                                    <i class="fas fa-rocket"></i> Submit Complete Benchmark (<span
+                                        id="submit-count">0</span>/<span id="submit-total">0</span>)
                                 </button>
                                 <button type="button" id="validate-all-btn" class="btn btn-secondary" disabled>
                                     <i class="fas fa-check-circle"></i> Validate All Files
@@ -768,10 +830,11 @@ grade_like_a_human_dataset_os_q1_test_0,85.5</pre>
                 </div>
             </div>
 
-            <div style="margin-top: 3rem; padding: 1.5rem; background: var(--bg-white); border-radius: 12px; border: 1px solid var(--border-light);">
+            <div
+                style="margin-top: 3rem; padding: 1.5rem; background: var(--bg-white); border-radius: 12px; border: 1px solid var(--border-light);">
                 <h3>🧪 Individual Dataset Testing</h3>
                 <p>For development and debugging only. These submissions do NOT appear on the leaderboard.</p>
-                
+
                 <!-- Testing Form -->
                 <form id="single-test-form" class="submit-form" style="margin-top: 1rem;">
                     <div class="form-row">
@@ -802,7 +865,8 @@ grade_like_a_human_dataset_os_q1_test_0,85.5</pre>
                     </div>
 
                     <!-- Performance Summary -->
-                    <div id="test-performance-summary" class="performance-summary" style="display: none; margin-top: 1rem;">
+                    <div id="test-performance-summary" class="performance-summary"
+                        style="display: none; margin-top: 1rem;">
                         <h5>Performance Summary</h5>
                         <div id="test-performance-items" class="performance-grid"></div>
                     </div>
@@ -811,7 +875,8 @@ grade_like_a_human_dataset_os_q1_test_0,85.5</pre>
                     <div id="test-metrics-grid" class="metrics-grid" style="margin-top: 1rem;"></div>
 
                     <!-- Evaluation Details -->
-                    <div id="test-evaluation-details" class="evaluation-details" style="display: none; margin-top: 1rem;">
+                    <div id="test-evaluation-details" class="evaluation-details"
+                        style="display: none; margin-top: 1rem;">
                         <h5>Evaluation Details</h5>
                         <div id="test-details-grid" class="details-grid"></div>
                     </div>
@@ -863,13 +928,13 @@ grade_like_a_human_dataset_os_q1_test_0,85.5</pre>
                 <div class="footer-section">
                     <h4>Resources</h4>
                     <ul>
-                        <li><a href="https://github.com/nlpatunt/besesr" target="_blank">GitHub Repository</a></li>
+                        <li><a href="https://github.com/nlpatunt/sgrades" target="_blank">GitHub Repository</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h4>Contact</h4>
                     <ul>
-                        <li><a href="mailto:contact@besesr.org">contact@besesr.org</a></li>
+                        <li><a href="mailto:contact@sgrades.org">contact@sgrades.org</a></li>
                         <li><a href="#">Research Team</a></li>
                     </ul>
                 </div>
@@ -883,4 +948,5 @@ grade_like_a_human_dataset_os_q1_test_0,85.5</pre>
     <!-- Scripts -->
     <script src="js/app.js?v=2025-09-24-cached"></script>
 </body>
+
 </html>
