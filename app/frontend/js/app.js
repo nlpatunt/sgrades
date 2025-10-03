@@ -1,5 +1,5 @@
 // ===== Enhanced S-GRADES Platform with Dynamic Dataset Loading =====
-const API_BASE_URL = '';  // Empty string = same domain
+const API_BASE_URL = 'http://localhost:8000';  // Empty string = same domain
 console.log("Enhanced S-GRADES Platform loaded");
 
 // ===== Global State =====
@@ -154,13 +154,13 @@ function showEmptyState(element, title, message, actionHtml = '') {
 // ===== API Functions =====
 async function fetchAPI(endpoint) {
     try {
-        const response = await fetch(API_BASE_URL + endpoint);
+        const response = await fetch(endpoint);
         if (!response.ok) {
             throw new Error('HTTP ' + response.status + ': ' + response.statusText);
         }
         return await response.json();
     } catch (error) {
-        console.error('API Error:', error);
+        console.error('API Error: <a>', error);
         throw error;
     }
 }
@@ -172,7 +172,7 @@ async function loadAvailableDatasets() {
         let datasets = [];
 
         try {
-            const response = await fetchAPI('/api/available-datasets');
+            const response = await fetchAPI(API_BASE_URL + '/api/available-datasets');
             if (response.datasets && Array.isArray(response.datasets)) {
                 // Extract just the names from the dataset objects
                 datasets = response.datasets.map(dataset => dataset.name);
@@ -507,7 +507,7 @@ async function testFileValidation(datasetName, file) {
         formData.append('file', file);
         formData.append('dataset_name', datasetName);
 
-        const response = await fetch('/api/submissions/test-single-dataset', {
+        const response = await fetch(API_BASE_URL + '/api/submissions/test-single-dataset', {
             method: 'POST',
             body: formData
         });
@@ -682,7 +682,7 @@ async function validateAllFiles() {
 async function downloadFile(url, suggestedName) {
     try {
         console.log('📥 Downloading: ' + url);
-        const res = await fetch(API_BASE_URL + url);
+        const res = await fetch(url);
         if (!res.ok) throw new Error('HTTP ' + res.status);
 
         const blob = await res.blob();
@@ -703,13 +703,13 @@ async function downloadFile(url, suggestedName) {
 }
 
 function downloadAllDatasets() {
-    downloadFile('/api/datasets/download/all', 'sgrades_all_datasets.zip');
+    downloadFile(API_BASE_URL + '/api/datasets/download/all', 'sgrades_all_datasets.zip');
 }
 
 // ===== Load Platform Stats =====
 async function loadPlatformStats() {
     try {
-        const stats = await fetchAPI('/api/leaderboard/stats');
+        const stats = await fetchAPI(API_BASE_URL + '/api/leaderboard/stats');
 
         // Update stats with animation
         if (elements.totalModels) {
@@ -814,7 +814,7 @@ async function loadDatasets() {
 
 async function loadTestDatasets() {
     try {
-        const response = await fetchAPI('/api/available-datasets');
+        const response = await fetchAPI(API_BASE_URL + '/api/available-datasets');
         const data = response;
 
         const select = elements.testDataset;
@@ -846,7 +846,7 @@ async function loadTestDatasetInfo(datasetName) {
     }
 
     try {
-        const response = await fetchAPI(`/api/output-submissions/dataset-info/${datasetName}`);
+        const response = await fetchAPI(`${API_BASE_URL}/api/output-submissions/dataset-info/${datasetName}`);
         const data = await response.json();
 
         if (data.error) {
@@ -923,7 +923,7 @@ async function handleTestSubmission(event) {
     testSubmitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Testing...';
 
     try {
-        const response = await fetch('/api/submissions/test-single-dataset', {
+        const response = await fetch(API_BASE_URL + '/api/submissions/test-single-dataset', {
             method: 'POST',
             body: formData
         });
@@ -1168,7 +1168,7 @@ async function loadLeaderboard() {
 
         console.log('🔍 Debug: Loading leaderboard with metric:', metric);
 
-        const data = await fetchAPI('/api/submissions/leaderboard-cached?metric=' + metric + '&limit=20');
+        const data = await fetchAPI(`${API_BASE_URL}/api/submissions/leaderboard-cached?metric=${metric}&limit=20`);
 
         console.log('🔍 Debug: Full API response:', data);
 
@@ -1375,7 +1375,7 @@ function setupBenchmarkSubmission() {
             console.log('🚀 Submitting complete benchmark with ' + uploadedDatasets.size + ' datasets');
 
             // Submit to batch processing endpoint
-            const response = await fetch('/api/submissions/upload-batch', {
+            const response = await fetch(API_BASE_URL + '/api/submissions/upload-batch', {
                 method: 'POST',
                 body: formData
             });
@@ -1586,7 +1586,7 @@ async function loadMethodologyLeaderboard(methodology, tableElementId) {
     showLoading(tableElement, `Loading ${methodology} leaderboard...`);
 
     try {
-        const data = await fetchAPI(`/api/submissions/leaderboard?methodology=${methodology}&limit=20`);
+        const data = await fetchAPI(`${API_BASE_URL}/api/submissions/leaderboard?methodology=${methodology}&limit=20`);
 
         if (!data || !data.rankings || data.rankings.length === 0) {
             const actionHtml = `<a href="#submit" class="btn btn-primary"><i class="fas fa-rocket"></i> Submit ${methodology} Benchmark</a>`;
@@ -2007,7 +2007,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 window.downloadSingleDataset = (datasetName) => {
-    downloadFile('/api/datasets/download/' + encodeURIComponent(datasetName), datasetName + '_splits.zip');
+    downloadFile(`${API_BASE_URL}/api/datasets/download/${encodeURIComponent(datasetName)}`, `${datasetName}_splits.zip`);
 };
 
 window.debugBesesr = {
