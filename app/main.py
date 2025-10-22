@@ -82,10 +82,8 @@ app.include_router(output_submissions.router, prefix="/api/submissions", tags=["
 
 from fastapi.responses import RedirectResponse
 
-
 @app.get("/api/available-datasets", response_model=DatasetsListResponse)
 async def get_available_datasets_direct():
-    """Direct route for frontend compatibility"""
     try:
         from app.services.dataset_loader import dataset_manager
         datasets_config = dataset_manager.datasets_config

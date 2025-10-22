@@ -388,9 +388,8 @@ question_id,label
 BEEtlE_2way_test_0,1
 BEEtlE_2way_test_1,0
 
-# Grade_like_human_q1 format:
 id,score_1
-grade_like_a_human_dataset_os_q1_test_0,85.5</pre>
+OS_Dataset_q1_test_0,85.5</pre>
                         </div>
                     </div>
                 </div>
@@ -884,7 +883,7 @@ grade_like_a_human_dataset_os_q1_test_0,85.5</pre>
                     <!-- Warnings/Errors -->
                     <div id="test-warnings" class="warnings" style="display: none; margin-top: 1rem;"></div>
                 </div>
-                <!-- Individual Testing Results Table -->
+               
                 <div id="individual-test-results" style="display: none; margin-top: 2rem;">
                     <h4>Latest Test Result</h4>
                     <div style="overflow-x: auto;">
@@ -898,7 +897,10 @@ grade_like_a_human_dataset_os_q1_test_0,85.5</pre>
                                     <th style="padding: 0.75rem; border: 1px solid var(--border-light);">F1</th>
                                     <th style="padding: 0.75rem; border: 1px solid var(--border-light);">Precision</th>
                                     <th style="padding: 0.75rem; border: 1px solid var(--border-light);">Recall</th>
+                                    <th style="padding: 0.75rem; border: 1px solid var(--border-light);">Accuracy</th>
                                     <th style="padding: 0.75rem; border: 1px solid var(--border-light);">MAE</th>
+                                    <th style="padding: 0.75rem; border: 1px solid var(--border-light);">RMSE</th>
+                                    <th style="padding: 1rem 0.75rem; border: 1px solid var(--border-light); text-align: center; min-width: 100px;">MAE %</th>
                                     <th style="padding: 0.75rem; border: 1px solid var(--border-light);">Status</th>
                                 </tr>
                             </thead>
@@ -908,7 +910,7 @@ grade_like_a_human_dataset_os_q1_test_0,85.5</pre>
                         </table>
                     </div>
                 </div>
-                <!-- Loading State -->
+                                <!-- Loading State -->
                 <div id="test-loading" class="loading-state" style="display: none; margin-top: 1rem;">
                     <div class="spinner"></div>
                     <p>Processing your submission and calculating metrics...</p>

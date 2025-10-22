@@ -1,0 +1,1368 @@
+{
+  "model_code": "meta-llama/llama-4-scout",
+  "model_name": "llama-4-scout",
+  "reasoning_approach": "inductive_deductive",
+  "timestamp": "2025-10-04T03:00:08.474493",
+  "datasets": [
+    {
+      "dataset_name": "D_ASAP-AES",
+      "predictions": [
+        {
+          "essay_id": 3598,
+          "essay_set": 2,
+          "prediction": 4.0,
+          "tokens": {
+            "prompt": 1043,
+            "completion": 2,
+            "total": 1045
+          }
+        },
+        {
+          "essay_id": 12958,
+          "essay_set": 5,
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 963,
+            "completion": 2,
+            "total": 965
+          }
+        },
+        {
+          "essay_id": 6920,
+          "essay_set": 3,
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 893,
+            "completion": 2,
+            "total": 895
+          }
+        },
+        {
+          "essay_id": 12586,
+          "essay_set": 5,
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 845,
+            "completion": 2,
+            "total": 847
+          }
+        },
+        {
+          "essay_id": 15919,
+          "essay_set": 6,
+          "prediction": 1.0,
+          "tokens": {
+            "prompt": 810,
+            "completion": 2,
+            "total": 812
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_ASAP2",
+      "predictions": [
+        {
+          "essay_id": "AAAOPP13416000074708",
+          "essay_set": 1,
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 930,
+            "completion": 2,
+            "total": 932
+          }
+        },
+        {
+          "essay_id": "5313075",
+          "essay_set": 1,
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 1004,
+            "completion": 2,
+            "total": 1006
+          }
+        },
+        {
+          "essay_id": "AAAVUP14319000039767",
+          "essay_set": 1,
+          "prediction": 1.0,
+          "tokens": {
+            "prompt": 1328,
+            "completion": 2,
+            "total": 1330
+          }
+        },
+        {
+          "essay_id": "AAAOPP13416000108589",
+          "essay_set": 1,
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 1206,
+            "completion": 2,
+            "total": 1208
+          }
+        },
+        {
+          "essay_id": "AAAOPP13416000063570",
+          "essay_set": 1,
+          "prediction": 1.0,
+          "tokens": {
+            "prompt": 896,
+            "completion": 2,
+            "total": 898
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_ASAP_plus_plus",
+      "predictions": [
+        {
+          "essay_id": 14871,
+          "essay_set": 6,
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 856,
+            "completion": 2,
+            "total": 858
+          }
+        },
+        {
+          "essay_id": 7469,
+          "essay_set": 3,
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 864,
+            "completion": 2,
+            "total": 866
+          }
+        },
+        {
+          "essay_id": 12502,
+          "essay_set": 5,
+          "prediction": 1.0,
+          "tokens": {
+            "prompt": 767,
+            "completion": 2,
+            "total": 769
+          }
+        },
+        {
+          "essay_id": 6428,
+          "essay_set": 3,
+          "prediction": 1.0,
+          "tokens": {
+            "prompt": 770,
+            "completion": 2,
+            "total": 772
+          }
+        },
+        {
+          "essay_id": 12601,
+          "essay_set": 5,
+          "prediction": 1.0,
+          "tokens": {
+            "prompt": 791,
+            "completion": 2,
+            "total": 793
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_BEEtlE_2way",
+      "predictions": [
+        {
+          "essay_id": 562,
+          "essay_set": 1,
+          "prediction": "correct",
+          "tokens": {
+            "prompt": 622,
+            "completion": 2,
+            "total": 624
+          }
+        },
+        {
+          "essay_id": 102,
+          "essay_set": 1,
+          "prediction": "incorrect",
+          "tokens": {
+            "prompt": 607,
+            "completion": 2,
+            "total": 609
+          }
+        },
+        {
+          "essay_id": 52,
+          "essay_set": 1,
+          "prediction": "incorrect",
+          "tokens": {
+            "prompt": 613,
+            "completion": 2,
+            "total": 615
+          }
+        },
+        {
+          "essay_id": 64,
+          "essay_set": 1,
+          "prediction": "incorrect",
+          "tokens": {
+            "prompt": 617,
+            "completion": 2,
+            "total": 619
+          }
+        },
+        {
+          "essay_id": 1074,
+          "essay_set": 1,
+          "prediction": "incorrect",
+          "tokens": {
+            "prompt": 606,
+            "completion": 2,
+            "total": 608
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_BEEtlE_3way",
+      "predictions": [
+        {
+          "essay_id": 562,
+          "essay_set": 1,
+          "prediction": "correct",
+          "tokens": {
+            "prompt": 710,
+            "completion": 2,
+            "total": 712
+          }
+        },
+        {
+          "essay_id": 102,
+          "essay_set": 1,
+          "prediction": "correct",
+          "tokens": {
+            "prompt": 685,
+            "completion": 2,
+            "total": 687
+          }
+        },
+        {
+          "essay_id": 52,
+          "essay_set": 1,
+          "prediction": "contradictory",
+          "tokens": {
+            "prompt": 702,
+            "completion": 5,
+            "total": 707
+          }
+        },
+        {
+          "essay_id": 64,
+          "essay_set": 1,
+          "prediction": "contradictory",
+          "tokens": {
+            "prompt": 705,
+            "completion": 5,
+            "total": 710
+          }
+        },
+        {
+          "essay_id": 1074,
+          "essay_set": 1,
+          "prediction": "correct",
+          "tokens": {
+            "prompt": 694,
+            "completion": 2,
+            "total": 696
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_CSEE",
+      "predictions": [
+        {
+          "essay_id": 9906,
+          "essay_set": 1,
+          "prediction": 10.0,
+          "tokens": {
+            "prompt": 874,
+            "completion": 2,
+            "total": 876
+          }
+        },
+        {
+          "essay_id": 11529,
+          "essay_set": 1,
+          "prediction": 13.0,
+          "tokens": {
+            "prompt": 843,
+            "completion": 2,
+            "total": 845
+          }
+        },
+        {
+          "essay_id": 9278,
+          "essay_set": 1,
+          "prediction": 10.0,
+          "tokens": {
+            "prompt": 860,
+            "completion": 2,
+            "total": 862
+          }
+        },
+        {
+          "essay_id": 5386,
+          "essay_set": 1,
+          "prediction": 5.0,
+          "tokens": {
+            "prompt": 821,
+            "completion": 2,
+            "total": 823
+          }
+        },
+        {
+          "essay_id": 8846,
+          "essay_set": 1,
+          "prediction": 10.0,
+          "tokens": {
+            "prompt": 850,
+            "completion": 2,
+            "total": 852
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_ASAP-SAS",
+      "predictions": [
+        {
+          "essay_id": 9431.0,
+          "essay_set": 1,
+          "prediction": 1.0,
+          "tokens": {
+            "prompt": 745,
+            "completion": 2,
+            "total": 747
+          }
+        },
+        {
+          "essay_id": 23542.0,
+          "essay_set": 1,
+          "prediction": 1.0,
+          "tokens": {
+            "prompt": 745,
+            "completion": 2,
+            "total": 747
+          }
+        },
+        {
+          "essay_id": 26202.0,
+          "essay_set": 1,
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 723,
+            "completion": 2,
+            "total": 725
+          }
+        },
+        {
+          "essay_id": 11201.0,
+          "essay_set": 1,
+          "prediction": 0.0,
+          "tokens": {
+            "prompt": 739,
+            "completion": 2,
+            "total": 741
+          }
+        },
+        {
+          "essay_id": 11442.0,
+          "essay_set": 1,
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 707,
+            "completion": 2,
+            "total": 709
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_Mohlar",
+      "predictions": [
+        {
+          "essay_id": 303,
+          "essay_set": 1,
+          "prediction": 0.0,
+          "tokens": {
+            "prompt": 742,
+            "completion": 2,
+            "total": 744
+          }
+        },
+        {
+          "essay_id": 40,
+          "essay_set": 1,
+          "prediction": 1.0,
+          "tokens": {
+            "prompt": 711,
+            "completion": 2,
+            "total": 713
+          }
+        },
+        {
+          "essay_id": 394,
+          "essay_set": 1,
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 734,
+            "completion": 2,
+            "total": 736
+          }
+        },
+        {
+          "essay_id": 412,
+          "essay_set": 1,
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 750,
+            "completion": 2,
+            "total": 752
+          }
+        },
+        {
+          "essay_id": 156,
+          "essay_set": 1,
+          "prediction": 1.0,
+          "tokens": {
+            "prompt": 707,
+            "completion": 2,
+            "total": 709
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_Ielts_Writing_Dataset",
+      "predictions": [
+        {
+          "essay_id": 118,
+          "essay_set": 1,
+          "prediction": 5.0,
+          "tokens": {
+            "prompt": 1031,
+            "completion": 2,
+            "total": 1033
+          }
+        },
+        {
+          "essay_id": 20,
+          "essay_set": 1,
+          "prediction": 7.0,
+          "tokens": {
+            "prompt": 1019,
+            "completion": 2,
+            "total": 1021
+          }
+        },
+        {
+          "essay_id": 83,
+          "essay_set": 1,
+          "prediction": 6.0,
+          "tokens": {
+            "prompt": 1177,
+            "completion": 2,
+            "total": 1179
+          }
+        },
+        {
+          "essay_id": 98,
+          "essay_set": 1,
+          "prediction": 7.0,
+          "tokens": {
+            "prompt": 1014,
+            "completion": 1,
+            "total": 1015
+          }
+        },
+        {
+          "essay_id": 57,
+          "essay_set": 1,
+          "prediction": 5.0,
+          "tokens": {
+            "prompt": 962,
+            "completion": 2,
+            "total": 964
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_grade_like_a_human_dataset_os_q1",
+      "predictions": [
+        {
+          "essay_id": 1,
+          "essay_set": 1,
+          "prediction": 12.0,
+          "tokens": {
+            "prompt": 781,
+            "completion": 2,
+            "total": 783
+          }
+        },
+        {
+          "essay_id": 2,
+          "essay_set": 1,
+          "prediction": 12.0,
+          "tokens": {
+            "prompt": 806,
+            "completion": 2,
+            "total": 808
+          }
+        },
+        {
+          "essay_id": 3,
+          "essay_set": 1,
+          "prediction": 18.0,
+          "tokens": {
+            "prompt": 1466,
+            "completion": 1,
+            "total": 1467
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 3,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_grade_like_a_human_dataset_os_q2",
+      "predictions": [
+        {
+          "essay_id": 2,
+          "essay_set": 1,
+          "prediction": 12.0,
+          "tokens": {
+            "prompt": 753,
+            "completion": 1,
+            "total": 754
+          }
+        },
+        {
+          "essay_id": 6,
+          "essay_set": 1,
+          "prediction": 12.0,
+          "tokens": {
+            "prompt": 713,
+            "completion": 2,
+            "total": 715
+          }
+        },
+        {
+          "essay_id": 1,
+          "essay_set": 1,
+          "prediction": 12.0,
+          "tokens": {
+            "prompt": 792,
+            "completion": 2,
+            "total": 794
+          }
+        },
+        {
+          "essay_id": 8,
+          "essay_set": 1,
+          "prediction": 0.0,
+          "tokens": {
+            "prompt": 706,
+            "completion": 2,
+            "total": 708
+          }
+        },
+        {
+          "essay_id": 3,
+          "essay_set": 1,
+          "prediction": 12.0,
+          "tokens": {
+            "prompt": 716,
+            "completion": 2,
+            "total": 718
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_grade_like_a_human_dataset_os_q3",
+      "predictions": [
+        {
+          "essay_id": 2,
+          "essay_set": 1,
+          "prediction": 8.0,
+          "tokens": {
+            "prompt": 778,
+            "completion": 2,
+            "total": 780
+          }
+        },
+        {
+          "essay_id": 6,
+          "essay_set": 1,
+          "prediction": 12.0,
+          "tokens": {
+            "prompt": 759,
+            "completion": 2,
+            "total": 761
+          }
+        },
+        {
+          "essay_id": 1,
+          "essay_set": 1,
+          "prediction": 5.0,
+          "tokens": {
+            "prompt": 714,
+            "completion": 2,
+            "total": 716
+          }
+        },
+        {
+          "essay_id": 8,
+          "essay_set": 1,
+          "prediction": 12.0,
+          "tokens": {
+            "prompt": 774,
+            "completion": 2,
+            "total": 776
+          }
+        },
+        {
+          "essay_id": 3,
+          "essay_set": 1,
+          "prediction": 12.0,
+          "tokens": {
+            "prompt": 747,
+            "completion": 2,
+            "total": 749
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_grade_like_a_human_dataset_os_q4",
+      "predictions": [
+        {
+          "essay_id": 2,
+          "essay_set": 1,
+          "prediction": 12.0,
+          "tokens": {
+            "prompt": 809,
+            "completion": 2,
+            "total": 811
+          }
+        },
+        {
+          "essay_id": 6,
+          "essay_set": 1,
+          "prediction": 12.0,
+          "tokens": {
+            "prompt": 735,
+            "completion": 2,
+            "total": 737
+          }
+        },
+        {
+          "essay_id": 1,
+          "essay_set": 1,
+          "prediction": 12.0,
+          "tokens": {
+            "prompt": 856,
+            "completion": 2,
+            "total": 858
+          }
+        },
+        {
+          "essay_id": 8,
+          "essay_set": 1,
+          "prediction": 12.0,
+          "tokens": {
+            "prompt": 747,
+            "completion": 2,
+            "total": 749
+          }
+        },
+        {
+          "essay_id": 3,
+          "essay_set": 1,
+          "prediction": 12.0,
+          "tokens": {
+            "prompt": 871,
+            "completion": 2,
+            "total": 873
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_grade_like_a_human_dataset_os_q5",
+      "predictions": [
+        {
+          "essay_id": 2,
+          "essay_set": 1,
+          "prediction": 12.0,
+          "tokens": {
+            "prompt": 799,
+            "completion": 2,
+            "total": 801
+          }
+        },
+        {
+          "essay_id": 6,
+          "essay_set": 1,
+          "prediction": 18.0,
+          "tokens": {
+            "prompt": 823,
+            "completion": 2,
+            "total": 825
+          }
+        },
+        {
+          "essay_id": 1,
+          "essay_set": 1,
+          "prediction": 20.0,
+          "tokens": {
+            "prompt": 862,
+            "completion": 2,
+            "total": 864
+          }
+        },
+        {
+          "essay_id": 8,
+          "essay_set": 1,
+          "prediction": 9.0,
+          "tokens": {
+            "prompt": 751,
+            "completion": 2,
+            "total": 753
+          }
+        },
+        {
+          "essay_id": 3,
+          "essay_set": 1,
+          "prediction": 24.0,
+          "tokens": {
+            "prompt": 917,
+            "completion": 2,
+            "total": 919
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_Ielts_Writing_Task_2_Dataset",
+      "predictions": [
+        {
+          "essay_id": "453",
+          "essay_set": 1,
+          "prediction": 42.0,
+          "tokens": {
+            "prompt": 1037,
+            "completion": 2,
+            "total": 1039
+          }
+        },
+        {
+          "essay_id": "74",
+          "essay_set": 1,
+          "prediction": 65.0,
+          "tokens": {
+            "prompt": 1023,
+            "completion": 2,
+            "total": 1025
+          }
+        },
+        {
+          "essay_id": "311",
+          "essay_set": 1,
+          "prediction": 65.0,
+          "tokens": {
+            "prompt": 1045,
+            "completion": 2,
+            "total": 1047
+          }
+        },
+        {
+          "essay_id": "176",
+          "essay_set": 1,
+          "prediction": 65.0,
+          "tokens": {
+            "prompt": 1064,
+            "completion": 2,
+            "total": 1066
+          }
+        },
+        {
+          "essay_id": "333",
+          "essay_set": 1,
+          "prediction": 78.0,
+          "tokens": {
+            "prompt": 986,
+            "completion": 1,
+            "total": 987
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_persuade_2",
+      "predictions": [
+        {
+          "essay_id": "B2DBC0B3AD67",
+          "essay_set": 1,
+          "prediction": 4.0,
+          "tokens": {
+            "prompt": 1034,
+            "completion": 1,
+            "total": 1035
+          }
+        },
+        {
+          "essay_id": "94FE94B27DCD",
+          "essay_set": 1,
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 1080,
+            "completion": 1,
+            "total": 1081
+          }
+        },
+        {
+          "essay_id": "30A3F81C11AD",
+          "essay_set": 1,
+          "prediction": 4.0,
+          "tokens": {
+            "prompt": 1087,
+            "completion": 2,
+            "total": 1089
+          }
+        },
+        {
+          "essay_id": "1EFA2916E5A8",
+          "essay_set": 1,
+          "prediction": 4.0,
+          "tokens": {
+            "prompt": 932,
+            "completion": 2,
+            "total": 934
+          }
+        },
+        {
+          "essay_id": "3821238FE334",
+          "essay_set": 1,
+          "prediction": 4.0,
+          "tokens": {
+            "prompt": 1210,
+            "completion": 2,
+            "total": 1212
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_SciEntSBank_2way",
+      "predictions": [
+        {
+          "essay_id": 857,
+          "essay_set": 1,
+          "prediction": "incorrect",
+          "tokens": {
+            "prompt": 611,
+            "completion": 2,
+            "total": 613
+          }
+        },
+        {
+          "essay_id": 3658,
+          "essay_set": 1,
+          "prediction": "incorrect",
+          "tokens": {
+            "prompt": 627,
+            "completion": 2,
+            "total": 629
+          }
+        },
+        {
+          "essay_id": 4603,
+          "essay_set": 1,
+          "prediction": "incorrect",
+          "tokens": {
+            "prompt": 630,
+            "completion": 2,
+            "total": 632
+          }
+        },
+        {
+          "essay_id": 4369,
+          "essay_set": 1,
+          "prediction": "incorrect",
+          "tokens": {
+            "prompt": 613,
+            "completion": 2,
+            "total": 615
+          }
+        },
+        {
+          "essay_id": 3869,
+          "essay_set": 1,
+          "prediction": "incorrect",
+          "tokens": {
+            "prompt": 611,
+            "completion": 2,
+            "total": 613
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_SciEntSBank_3way",
+      "predictions": [
+        {
+          "essay_id": 857,
+          "essay_set": 1,
+          "prediction": "correct",
+          "tokens": {
+            "prompt": 699,
+            "completion": 2,
+            "total": 701
+          }
+        },
+        {
+          "essay_id": 3658,
+          "essay_set": 1,
+          "prediction": "correct",
+          "tokens": {
+            "prompt": 703,
+            "completion": 2,
+            "total": 705
+          }
+        },
+        {
+          "essay_id": 4603,
+          "essay_set": 1,
+          "prediction": "correct",
+          "tokens": {
+            "prompt": 719,
+            "completion": 1,
+            "total": 720
+          }
+        },
+        {
+          "essay_id": 4369,
+          "essay_set": 1,
+          "prediction": "contradictory",
+          "tokens": {
+            "prompt": 691,
+            "completion": 5,
+            "total": 696
+          }
+        },
+        {
+          "essay_id": 3869,
+          "essay_set": 1,
+          "prediction": "contradictory",
+          "tokens": {
+            "prompt": 688,
+            "completion": 5,
+            "total": 693
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_Regrading_Dataset_J2C",
+      "predictions": [
+        {
+          "essay_id": 66,
+          "essay_set": 1,
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 839,
+            "completion": 2,
+            "total": 841
+          }
+        },
+        {
+          "essay_id": 115,
+          "essay_set": 1,
+          "prediction": 5.0,
+          "tokens": {
+            "prompt": 778,
+            "completion": 2,
+            "total": 780
+          }
+        },
+        {
+          "essay_id": 17,
+          "essay_set": 1,
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 773,
+            "completion": 2,
+            "total": 775
+          }
+        },
+        {
+          "essay_id": 142,
+          "essay_set": 1,
+          "prediction": 5.0,
+          "tokens": {
+            "prompt": 769,
+            "completion": 2,
+            "total": 771
+          }
+        },
+        {
+          "essay_id": 157,
+          "essay_set": 1,
+          "prediction": 5.0,
+          "tokens": {
+            "prompt": 920,
+            "completion": 2,
+            "total": 922
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_Rice_Chem_Q1",
+      "predictions": [
+        {
+          "essay_id": "58e5d308-d422-44e3-9081-bb77a32e1d26",
+          "essay_set": 1,
+          "prediction": 7.0,
+          "tokens": {
+            "prompt": 866,
+            "completion": 2,
+            "total": 868
+          }
+        },
+        {
+          "essay_id": "83705fbf-d8aa-4e13-a7a2-c4139ee888ff",
+          "essay_set": 1,
+          "prediction": 7.0,
+          "tokens": {
+            "prompt": 966,
+            "completion": 2,
+            "total": 968
+          }
+        },
+        {
+          "essay_id": "2cd24b67-9160-4e01-b22d-888ada9f2aa1",
+          "essay_set": 1,
+          "prediction": 6.0,
+          "tokens": {
+            "prompt": 871,
+            "completion": 2,
+            "total": 873
+          }
+        },
+        {
+          "essay_id": "c67f1be6-2489-4485-8095-d2492cba8de9",
+          "essay_set": 1,
+          "prediction": 7.0,
+          "tokens": {
+            "prompt": 1053,
+            "completion": 2,
+            "total": 1055
+          }
+        },
+        {
+          "essay_id": "748fd48d-b70a-42bc-8013-ccf2843170b0",
+          "essay_set": 1,
+          "prediction": 7.0,
+          "tokens": {
+            "prompt": 885,
+            "completion": 2,
+            "total": 887
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_Rice_Chem_Q2",
+      "predictions": [
+        {
+          "essay_id": "1989a9b7-e3e2-4ee4-81e4-7180452b0f13",
+          "essay_set": 1,
+          "prediction": 7.0,
+          "tokens": {
+            "prompt": 841,
+            "completion": 2,
+            "total": 843
+          }
+        },
+        {
+          "essay_id": "42552590-50e1-4d59-ae4c-ce052bf054a1",
+          "essay_set": 1,
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 783,
+            "completion": 2,
+            "total": 785
+          }
+        },
+        {
+          "essay_id": "9b1b388c-a5b6-4d39-8926-1fdeeac9d4a2",
+          "essay_set": 1,
+          "prediction": 5.0,
+          "tokens": {
+            "prompt": 823,
+            "completion": 2,
+            "total": 825
+          }
+        },
+        {
+          "essay_id": "0d99e3c1-84f8-4127-90df-112b60e04fcd",
+          "essay_set": 1,
+          "prediction": 6.0,
+          "tokens": {
+            "prompt": 837,
+            "completion": 1,
+            "total": 838
+          }
+        },
+        {
+          "essay_id": "9180aecf-2ba7-448f-ba71-e13492f237b4",
+          "essay_set": 1,
+          "prediction": 7.0,
+          "tokens": {
+            "prompt": 794,
+            "completion": 2,
+            "total": 796
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_Rice_Chem_Q3",
+      "predictions": [
+        {
+          "essay_id": "40114645-626c-4eb8-a0c2-1f2c919cf910",
+          "essay_set": 1,
+          "prediction": 5.0,
+          "tokens": {
+            "prompt": 750,
+            "completion": 2,
+            "total": 752
+          }
+        },
+        {
+          "essay_id": "945e933e-60c6-4e77-acf7-a5fd718a686e",
+          "essay_set": 1,
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 829,
+            "completion": 2,
+            "total": 831
+          }
+        },
+        {
+          "essay_id": "9180aecf-2ba7-448f-ba71-e13492f237b4",
+          "essay_set": 1,
+          "prediction": 8.0,
+          "tokens": {
+            "prompt": 843,
+            "completion": 2,
+            "total": 845
+          }
+        },
+        {
+          "essay_id": "5215e546-6c5f-478e-a74d-ad255a2af56b",
+          "essay_set": 1,
+          "prediction": 7.0,
+          "tokens": {
+            "prompt": 835,
+            "completion": 2,
+            "total": 837
+          }
+        },
+        {
+          "essay_id": "03bfd974-3d84-47c8-8f76-9da5be0b0a58",
+          "essay_set": 1,
+          "prediction": 8.0,
+          "tokens": {
+            "prompt": 1009,
+            "completion": 2,
+            "total": 1011
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    },
+    {
+      "dataset_name": "D_Rice_Chem_Q4",
+      "predictions": [
+        {
+          "essay_id": "39b22844-7fc9-4bb4-829a-3276cef39f46",
+          "essay_set": 1,
+          "prediction": 5.0,
+          "tokens": {
+            "prompt": 753,
+            "completion": 2,
+            "total": 755
+          }
+        },
+        {
+          "essay_id": "91ade2eb-b9e0-4d5f-b468-a770303f597e",
+          "essay_set": 1,
+          "prediction": 5.0,
+          "tokens": {
+            "prompt": 765,
+            "completion": 2,
+            "total": 767
+          }
+        },
+        {
+          "essay_id": "a8a1af1e-8833-4d6f-9b8e-c4b49723373f",
+          "essay_set": 1,
+          "prediction": 7.0,
+          "tokens": {
+            "prompt": 805,
+            "completion": 2,
+            "total": 807
+          }
+        },
+        {
+          "essay_id": "8a50e4a2-9088-4e2c-9211-db6e8c280f2c",
+          "essay_set": 1,
+          "prediction": 8.0,
+          "tokens": {
+            "prompt": 830,
+            "completion": 2,
+            "total": 832
+          }
+        },
+        {
+          "essay_id": "16d1bf4b-97b5-441d-9220-90ceba4bec46",
+          "essay_set": 1,
+          "prediction": 5.0,
+          "tokens": {
+            "prompt": 790,
+            "completion": 2,
+            "total": 792
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 5,
+        "invalid": 0
+      }
+    }
+  ]
+}

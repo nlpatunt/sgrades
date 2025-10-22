@@ -1,0 +1,1822 @@
+{
+  "model_code": "google/gemini-2.5-pro",
+  "model_name": "Gemini 2.5 Pro",
+  "approaches": [
+    "deductive",
+    "abductive"
+  ],
+  "timestamp": "2025-10-03T01:32:07.509649",
+  "datasets": [
+    {
+      "dataset_name": "D_ASAP-AES",
+      "essays": [
+        {
+          "essay_id": 3598,
+          "essay_set": 2,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 12958,
+          "essay_set": 5,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 6920,
+          "essay_set": 3,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 12586,
+          "essay_set": 5,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 15919,
+          "essay_set": 6,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 9999,
+          "essay_set": 4,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 690,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 1184,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 843,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 4481,
+          "essay_set": 2,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_ASAP2",
+      "essays": [
+        {
+          "essay_id": "AAAOPP13416000074708",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "5313075",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "AAAVUP14319000039767",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "AAAOPP13416000108589",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "AAAOPP13416000063570",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "5178741",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "5153838",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "AAAVUP14319000028880",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "AAATRP14318000711632",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "AAAOPP13416000099315",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_ASAP_plus_plus",
+      "essays": [
+        {
+          "essay_id": 14871,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 7469,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 12502,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 6428,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 12601,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 16425,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 10096,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 15018,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 7123,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 13328,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_BEEtlE_2way",
+      "essays": [
+        {
+          "essay_id": 562,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 102,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 52,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 64,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 1074,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 425,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 794,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 1046,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 1144,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 1038,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_BEEtlE_3way",
+      "essays": [
+        {
+          "essay_id": 562,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 102,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 52,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 64,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 1074,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 425,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 794,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 1046,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 1144,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 1038,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_CSEE",
+      "essays": [
+        {
+          "essay_id": 9906,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 11529,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 9278,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 5386,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 8846,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 656,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 6889,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 9123,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 12311,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 8042,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_ASAP-SAS",
+      "essays": [
+        {
+          "essay_id": 9431.0,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 23542.0,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 26202.0,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 11201.0,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 11442.0,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 6576.0,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 5746.0,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 21429.0,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 26261.0,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 15625.0,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_Mohlar",
+      "essays": [
+        {
+          "essay_id": 303,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 40,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 394,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 412,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 156,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 256,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 245,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 102,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 402,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 31,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_Ielts_Writing_Dataset",
+      "essays": [
+        {
+          "essay_id": 118,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 20,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 83,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 98,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 57,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 13,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 133,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 66,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 67,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 19,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_grade_like_a_human_dataset_os_q1",
+      "essays": [
+        {
+          "essay_id": 1,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 2,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 3,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_grade_like_a_human_dataset_os_q2",
+      "essays": [
+        {
+          "essay_id": 1,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 2,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 3,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 4,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 5,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 6,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 7,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_grade_like_a_human_dataset_os_q3",
+      "essays": [
+        {
+          "essay_id": 1,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 2,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 3,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 4,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 5,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 6,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 7,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 8,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_grade_like_a_human_dataset_os_q4",
+      "essays": [
+        {
+          "essay_id": 1,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 2,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 3,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 4,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 5,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 6,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 7,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 8,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_grade_like_a_human_dataset_os_q5",
+      "essays": [
+        {
+          "essay_id": 1,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 2,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 3,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 4,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 5,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 6,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 7,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 8,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_Ielst_Writing_Task_2_Dataset",
+      "essays": [
+        {
+          "essay_id": "453",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "74",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "311",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "176",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "333",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "205",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "156",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "56",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "321",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "10",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_persuade_2",
+      "essays": [
+        {
+          "essay_id": "B2DBC0B3AD67",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "94FE94B27DCD",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "30A3F81C11AD",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "1EFA2916E5A8",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "3821238FE334",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "D2C7D096655F",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "D8B1428C9C49",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "FED2903D0697",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "159FA6D54C9B",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "3661D3C5DB6B",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_SciEntSBank_2way",
+      "essays": [
+        {
+          "essay_id": 857,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 3658,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 4603,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 4369,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 3869,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 2296,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 4240,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 2635,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 351,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 3018,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_SciEntSBank_3way",
+      "essays": [
+        {
+          "essay_id": 857,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 3658,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 4603,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 4369,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 3869,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 2296,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 4240,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 2635,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 351,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 3018,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_Regrading_Dataset_J2C",
+      "essays": [
+        {
+          "essay_id": 66,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 115,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 17,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 142,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 157,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 127,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 141,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 31,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 19,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": 168,
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_Rice_Chem_Q1",
+      "essays": [
+        {
+          "essay_id": "58e5d308-d422-44e3-9081-bb77a32e1d26",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "83705fbf-d8aa-4e13-a7a2-c4139ee888ff",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "2cd24b67-9160-4e01-b22d-888ada9f2aa1",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "c67f1be6-2489-4485-8095-d2492cba8de9",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "748fd48d-b70a-42bc-8013-ccf2843170b0",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "3f7f81cd-d808-46cb-8960-6a435290acfb",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "233af034-a72a-457d-89be-4f6275ab3835",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "de3a6c1a-03ed-4a5e-8858-3cd6f06262bb",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "442085b7-caa1-4ca4-a2d0-4cbbb059ccbf",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "d3c17e28-9a5a-49e5-b9eb-5ca21a8ed567",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_Rice_Chem_Q2",
+      "essays": [
+        {
+          "essay_id": "1989a9b7-e3e2-4ee4-81e4-7180452b0f13",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "42552590-50e1-4d59-ae4c-ce052bf054a1",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "9b1b388c-a5b6-4d39-8926-1fdeeac9d4a2",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "0d99e3c1-84f8-4127-90df-112b60e04fcd",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "9180aecf-2ba7-448f-ba71-e13492f237b4",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "9913a049-d9e2-483b-8fa1-11528ff94793",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "347c5e72-2d32-42f7-8059-bc45cc71f78c",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "302c6682-98b6-4726-95cd-9813a4bcc19d",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "efed073e-e575-467d-b4d4-bef6a057b9f9",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_Rice_Chem_Q3",
+      "essays": [
+        {
+          "essay_id": "40114645-626c-4eb8-a0c2-1f2c919cf910",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "945e933e-60c6-4e77-acf7-a5fd718a686e",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "9180aecf-2ba7-448f-ba71-e13492f237b4",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "5215e546-6c5f-478e-a74d-ad255a2af56b",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "03bfd974-3d84-47c8-8f76-9da5be0b0a58",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "f10f9648-ab50-42c8-934d-2dd04858b10b",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "193a299e-c99e-4e56-9410-2614c6db42ee",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "abf8091a-529e-4c19-9c9f-0a684ad70583",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "de3a6c1a-03ed-4a5e-8858-3cd6f06262bb",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    },
+    {
+      "dataset_name": "D_Rice_Chem_Q4",
+      "essays": [
+        {
+          "essay_id": "39b22844-7fc9-4bb4-829a-3276cef39f46",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "91ade2eb-b9e0-4d5f-b468-a770303f597e",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "a8a1af1e-8833-4d6f-9b8e-c4b49723373f",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "8a50e4a2-9088-4e2c-9211-db6e8c280f2c",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "16d1bf4b-97b5-441d-9220-90ceba4bec46",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "9f948a88-d62c-4ab2-834c-9f6fda0893be",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "04063add-b4ce-4af4-8af2-5a8f44745b79",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "73d90254-608a-40f2-a39c-91d7b9324eac",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "69f6c85e-d612-4666-b448-538388094815",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        },
+        {
+          "essay_id": "5ee49306-811a-49e5-a33e-44149684534a",
+          "essay_set": 1,
+          "results": {
+            "deductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}",
+            "abductive": "ERROR: Error code: 401 - {'error': {'message': 'No auth credentials found', 'code': 401}}"
+          }
+        }
+      ]
+    }
+  ]
+}

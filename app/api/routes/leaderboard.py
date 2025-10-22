@@ -84,7 +84,7 @@ async def get_leaderboard_stats():
             datasets_available = list(dataset_manager.datasets_config.keys())
         except:
             datasets_available = ["ASAP-AES", "ASAP-SAS", "ASAP2", "rice_chem", "CSEE",
-                                "grade_like_a_human_dataset_os", "persuade_2", "SciEntSBank", 
+                                "OS_Dataset", "persuade_2", "SciEntSBank", 
                                 "BEEtlE", "automatic_short_answer_grading_mohlar"]
         
         enhanced_stats = PlatformStats(

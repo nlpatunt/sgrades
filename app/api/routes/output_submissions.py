@@ -2,6 +2,7 @@
 from fastapi import APIRouter, HTTPException, UploadFile, File, Form, Request
 from fastapi.responses import Response
 from typing import List, Dict, Any, Optional
+from app.api.routes.dataset_ranges import get_score_range_for_dataset
 import pandas as pd
 import io
 import os
@@ -64,11 +65,11 @@ def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
         "Ielst_Writing_Task_2_Dataset": "ID",
         "persuade_2": "essay_id_comp",
         "Regrading_Dataset_J2C": "ID",
-        "grade_like_a_human_dataset_os_q1": "ID",
-        "grade_like_a_human_dataset_os_q2": "ID",
-        "grade_like_a_human_dataset_os_q3": "ID",
-        "grade_like_a_human_dataset_os_q4": "ID",
-        "grade_like_a_human_dataset_os_q5": "ID",
+        "OS_Dataset_q1": "ID",
+        "OS_Dataset_q2": "ID",
+        "OS_Dataset_q3": "ID",
+        "OS_Dataset_q4": "ID",
+        "OS_Dataset_q5": "ID",
         "Rice_Chem_Q1": "sis_id",
         "Rice_Chem_Q2": "sis_id",
         "Rice_Chem_Q3": "sis_id", 
@@ -76,22 +77,29 @@ def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
     }
         
     try:
-        if normalized_name in ["BEEtlE_2way", "BEEtlE_3way", "SciEntSBank_2way", "SciEntSBank_3way"]:
+        # Special handling for datasets with column mismatch issues
+        if normalized_name in ["BEEtlE_2way", "BEEtlE_3way", "SciEntSBank_2way", "SciEntSBank_3way", "ASAP-SAS"]:
             import pandas as pd
             import requests
             from io import StringIO
             
+            # Determine the correct URL based on dataset
             if "BEEtlE" in normalized_name:
                 suffix = "2way" if "2way" in normalized_name else "3way"
                 urls = [
                     f"https://huggingface.co/datasets/nlpatunt/BEEtlE/resolve/main/test_{suffix}.csv",
                     f"https://huggingface.co/datasets/nlpatunt/BEEtlE/raw/main/test_{suffix}.csv"
                 ]
-            else: 
+            elif "SciEntSBank" in normalized_name:
                 suffix = "2way" if "2way" in normalized_name else "3way"
                 urls = [
                     f"https://huggingface.co/datasets/nlpatunt/SciEntSBank/resolve/main/test_{suffix}.csv",
                     f"https://huggingface.co/datasets/nlpatunt/SciEntSBank/raw/main/test_{suffix}.csv"
+                ]
+            elif normalized_name == "ASAP-SAS":
+                urls = [
+                    "https://huggingface.co/datasets/nlpatunt/ASAP-SAS/resolve/main/test.csv",
+                    "https://huggingface.co/datasets/nlpatunt/ASAP-SAS/raw/main/test.csv"
                 ]
 
             import os
@@ -113,6 +121,13 @@ def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
                     response.raise_for_status()
                     
                     df = pd.read_csv(StringIO(response.text))
+                    
+                    # Drop any unnamed columns immediately after loading
+                    columns_to_drop = [col for col in df.columns if col.startswith('Unnamed:')]
+                    if columns_to_drop:
+                        print(f"Dropping unnamed columns from {normalized_name}: {columns_to_drop}")
+                        df = df.drop(columns=columns_to_drop)
+                    
                     id_column = id_columns_map.get(normalized_name, "ID")
                     if id_column in df.columns:
                         print(f"✅ ID column '{id_column}' found with {len(df)} rows")
@@ -134,12 +149,12 @@ def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
             q_num = normalized_name.split("_")[-1]
             dataset = load_dataset("nlpatunt/Rice_Chem", data_files=f"{q_num}/test.csv")
             dataset = dataset["train"]
-        elif normalized_name.startswith("grade_like_a_human_dataset_os_q"):
+        elif normalized_name.startswith("OS_Dataset_q"):
             q_num = normalized_name.split("_q")[-1]
-            dataset = load_dataset("nlpatunt/grade_like_a_human_dataset_os", 
-                                name=f"q{q_num}", 
-                                split="test",
+            dataset = load_dataset("nlpatunt/OS_Dataset", 
+                                data_files=f"q{q_num}/test.csv",  # ← FIXED
                                 trust_remote_code=True)
+            dataset = dataset["train"]  # ← Add this (it loads as "train" split when using data_files)
         elif normalized_name == "persuade_2":
             dataset = load_dataset("nlpatunt/persuade_2", data_files="test.csv")
             dataset = dataset["train"] 
@@ -160,7 +175,7 @@ def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
         else:
             return {"status": "error", "error": f"No dataset loaded for {normalized_name}"}
         
-        if normalized_name.startswith("grade_like_a_human_dataset_os") and "ID" not in df.columns:
+        if normalized_name.startswith("OS_Dataset") and "ID" not in df.columns:
             df["ID"] = range(1, len(df) + 1)
             print(f"Added ID column to {normalized_name}")
 
@@ -184,7 +199,7 @@ def download_ground_truth_private(dataset_name: str) -> Dict[str, Any]:
     except Exception as e:
         print(f"All loading methods failed: {str(e)}")
         return {"status": "error", "error": str(e)}
-
+    
 def create_rice_chem_validators():
     return {
         "Rice_Chem_Q1": RiceChemValidator("Q1"),
@@ -193,13 +208,13 @@ def create_rice_chem_validators():
         "Rice_Chem_Q4": RiceChemValidator("Q4")
     }
 
-def create_grade_like_human_validators():
+def create_OS_Dataset_validators():
     return {
-        "grade_like_a_human_dataset_os_q1": GradeLikeHumanValidator("1"),
-        "grade_like_a_human_dataset_os_q2": GradeLikeHumanValidator("2"),
-        "grade_like_a_human_dataset_os_q3": GradeLikeHumanValidator("3"),
-        "grade_like_a_human_dataset_os_q4": GradeLikeHumanValidator("4"),
-        "grade_like_a_human_dataset_os_q5": GradeLikeHumanValidator("5")
+        "OS_Dataset_q1": GradeLikeHumanValidator("1"),
+        "OS_Dataset_q2": GradeLikeHumanValidator("2"),
+        "OS_Dataset_q3": GradeLikeHumanValidator("3"),
+        "OS_Dataset_q4": GradeLikeHumanValidator("4"),
+        "OS_Dataset_q5": GradeLikeHumanValidator("5")
     }
 
 class BaseValidator:
@@ -284,17 +299,33 @@ class BaseValidator:
     def validate(self, df, testing_mode=False):
         errors = []
         warnings = []
-   
+        
+        print(f"DEBUG: validate() called with testing_mode={testing_mode}")
+
         missing_cols = set(self.required_columns) - set(df.columns)
         if missing_cols:
             errors.append(f"Missing columns: {sorted(list(missing_cols))}")
         
-        if self.id_column in df.columns:
-            duplicate_ids = df[df[self.id_column].duplicated()]
-            if len(duplicate_ids) > 0:
-                errors.append(f"Found {len(duplicate_ids)} duplicate {self.id_column} values - IDs must be unique")
+        # Make a copy immediately
+        df_clean = df.copy()
         
-        if self.primary_score_column not in df.columns:
+        # STEP 1: Remove duplicate IDs
+        if self.id_column in df_clean.columns:
+            duplicate_mask = df_clean[self.id_column].duplicated(keep='first')
+            duplicate_count = duplicate_mask.sum()
+            
+            if duplicate_count > 0:
+                print(f"DEBUG: Found {duplicate_count} duplicate IDs, testing_mode={testing_mode}")
+                if testing_mode:
+                    # Auto-remove duplicates
+                    df_clean = df_clean[~duplicate_mask].copy()
+                    warnings.append(f"Removed {duplicate_count} duplicate {self.id_column} rows (kept first occurrence)")
+                    print(f"DEBUG: After removing duplicates: {len(df_clean)} rows remaining")
+                else:
+                    # In production mode, raise error
+                    errors.append(f"Found {duplicate_count} duplicate {self.id_column} values - IDs must be unique")
+        
+        if self.primary_score_column not in df_clean.columns:
             errors.append(f"{self.primary_score_column} column is required for evaluation")
             return {
                 "valid": False,
@@ -303,11 +334,32 @@ class BaseValidator:
                 "primary_score_column": self.primary_score_column
             }
         
-        df_clean = df.copy()
+        # STEP 2: Remove rows with missing scores
+        missing_scores_mask = df_clean[self.primary_score_column].isna()
+        missing_scores_count = missing_scores_mask.sum()
         
+        if missing_scores_count > 0:
+            print(f"DEBUG: Found {missing_scores_count} missing scores, testing_mode={testing_mode}")
+            if testing_mode:
+                # Auto-remove rows with missing scores
+                df_clean = df_clean[~missing_scores_mask].copy()
+                warnings.append(f"Removed {missing_scores_count} rows with missing {self.primary_score_column} values")
+                print(f"DEBUG: After removing missing scores: {len(df_clean)} rows remaining")
+            else:
+                warnings.append(f"{self.primary_score_column} has {missing_scores_count} missing values")
+        
+        if len(df_clean) == 0:
+            errors.append("No valid rows remaining after cleanup")
+            return {
+                "valid": False,
+                "errors": errors,
+                "warnings": warnings,
+                "primary_score_column": self.primary_score_column
+            }
+        
+        # STEP 3: Handle classification labels
         if self.valid_labels:
             handle_mode = 'assign_fallback' if testing_mode else 'discard'
-            
             df_clean, label_warnings = self.clean_labels_with_fallback(df_clean, handle_mode, testing_mode)
             warnings.extend(label_warnings)
             
@@ -321,11 +373,17 @@ class BaseValidator:
                 if not valid_labels_found:
                     errors.append(f"No valid labels found. Expected: {self.valid_labels}")
         
+        # STEP 4: Handle numeric scores
         else:
             validator_class = self.__class__.__name__
+            
+            # IELTS special handling
             if validator_class in ["IELTSWritingValidator", "IELTSTask2Validator"]:
+                print(f"DEBUG IELTS: Processing {validator_class}")
+                print(f"DEBUG IELTS: Original values sample: {df_clean[self.primary_score_column].head(10).tolist()}")
+                
                 df_clean[self.primary_score_column] = df_clean[self.primary_score_column].astype(str)
-               
+            
                 less_than_pattern = df_clean[self.primary_score_column].str.match(r'^<(\d+\.?\d*)$')
                 if less_than_pattern.any():
                     converted_values = df_clean.loc[less_than_pattern, self.primary_score_column].str.extract(r'^<(\d+\.?\d*)$')[0].astype(float) - 0.5
@@ -337,33 +395,53 @@ class BaseValidator:
                     converted_values = df_clean.loc[greater_than_pattern, self.primary_score_column].str.extract(r'^>(\d+\.?\d*)$')[0].astype(float) + 0.5
                     df_clean.loc[greater_than_pattern, self.primary_score_column] = converted_values
                     warnings.append(f"Converted {greater_than_pattern.sum()} '>x' values to x+0.5 format (e.g., >8 -> 8.5)")
-       
+                
+                df_clean[self.primary_score_column] = pd.to_numeric(df_clean[self.primary_score_column], errors='coerce')
+                print(f"DEBUG IELTS: Final values sample: {df_clean[self.primary_score_column].head(10).tolist()}")
+                print(f"DEBUG IELTS: Final dtype: {df_clean[self.primary_score_column].dtype}")
+        
+            # Mohlar special handling
             if validator_class == "MohlarValidator":
                 df_clean[self.primary_score_column] = df_clean[self.primary_score_column].astype(str).str.strip()
-                
                 numeric_mask = df_clean[self.primary_score_column].str.match(r'^-?\d+\.?\d*$')
                 non_numeric_count = (~numeric_mask).sum()
                 
                 if non_numeric_count > 0:
-                    df_clean = df_clean[numeric_mask]
+                    df_clean = df_clean[numeric_mask].copy()
                     warnings.append(f"Discarded {non_numeric_count} rows with non-numeric grades")
                 
                 df_clean[self.primary_score_column] = pd.to_numeric(df_clean[self.primary_score_column], errors='coerce')
             
-            missing_scores = df_clean[self.primary_score_column].isna().sum()
-            if missing_scores > 0:
-                warnings.append(f"{self.primary_score_column} has {missing_scores} missing values")
-            
-            # Check numeric conversion
+            # Final numeric validation
             valid_scores = df_clean[self.primary_score_column].dropna()
             if len(valid_scores) > 0:
                 numeric_scores = pd.to_numeric(valid_scores, errors='coerce')
                 non_numeric_count = numeric_scores.isna().sum()
+                
                 if non_numeric_count > 0:
-                    errors.append(f"{self.primary_score_column} has {non_numeric_count} non-numeric values")
+                    if testing_mode:
+                        # Remove non-numeric rows
+                        numeric_mask = pd.to_numeric(df_clean[self.primary_score_column], errors='coerce').notna()
+                        df_clean = df_clean[numeric_mask].copy()
+                        warnings.append(f"Removed {non_numeric_count} non-numeric rows")
+                        print(f"DEBUG: After removing non-numeric: {len(df_clean)} rows remaining")
+                    else:
+                        errors.append(f"{self.primary_score_column} has {non_numeric_count} non-numeric values")
                 else:
-                    # Update the column with numeric values
                     df_clean[self.primary_score_column] = pd.to_numeric(df_clean[self.primary_score_column], errors='coerce')
+        
+        # Print final status
+        if len(errors) > 0:
+            print(f"DEBUG VALIDATION: Errors found:")
+            for i, error in enumerate(errors):
+                print(f"  Error {i+1}: {error}")
+        
+        if len(warnings) > 0:
+            print(f"DEBUG VALIDATION: Warnings:")
+            for i, warning in enumerate(warnings):
+                print(f"  Warning {i+1}: {warning}")
+        
+        print(f"DEBUG: Returning valid={len(errors) == 0}, {len(df_clean)} cleaned rows")
         
         return {
             "valid": len(errors) == 0,
@@ -372,7 +450,6 @@ class BaseValidator:
             "primary_score_column": self.primary_score_column,
             "cleaned_df": df_clean
         }
-
 class ASAPAESValidator(BaseValidator):
     def __init__(self):
         super().__init__(["essay_id", "domain1_score"], "domain1_score", "essay_id")
@@ -444,7 +521,7 @@ class RealEvaluationEngine:
         self.ground_truth_cache = {}
 
         rice_chem_validators = create_rice_chem_validators()
-        grade_like_human_validators = create_grade_like_human_validators()
+        OS_Dataset_validators = create_OS_Dataset_validators()
 
         # First create the base validators
         self.validators = {
@@ -492,16 +569,14 @@ class RealEvaluationEngine:
             "D_Regrading_Dataset_J2C": RegradingDatasetJ2CValidator(),
             "Ielts_Writing_Dataset": IELTSWritingValidator(),
             "D_Ielts_Writing_Dataset": IELTSWritingValidator(),
-            "Ielst_Writing_Task_2_Dataset": IELTSTask2Validator(),
-            "D_Ielst_Writing_Task_2_Dataset": IELTSTask2Validator(),
+            "Ielts_Writing_Task_2_Dataset": IELTSTask2Validator(),
+            "D_Ielts_Writing_Task_2_Dataset": IELTSTask2Validator(),
             **rice_chem_validators,
-            **grade_like_human_validators,
+            **OS_Dataset_validators,
         }
-
-        # Then add D_ versions for grade_like_a_human datasets
         for q in ["q1", "q2", "q3", "q4", "q5"]:
-            base_name = f"grade_like_a_human_dataset_os_{q}"
-            d_name = f"D_grade_like_a_human_dataset_os_{q}"
+            base_name = f"OS_Dataset_{q}"
+            d_name = f"D_OS_Dataset_{q}"
             if base_name in self.validators:
                 self.validators[d_name] = self.validators[base_name]
     
@@ -529,13 +604,13 @@ class RealEvaluationEngine:
             "SciEntSBank_3way": ["ID", "label"],
             "Mohlar": ["ID", "grade"],
             "Ielts_Writing_Dataset": ["ID", "Overall_Score"],
-            "Ielst_Writing_Task_2_Dataset": ["ID", "band_score"],
+            "Ielts_Writing_Task_2_Dataset": ["ID", "band_score"],
             "Regrading_Dataset_J2C": ["ID", "grade"],
-            "grade_like_a_human_dataset_os_q1": ["ID", "score_1"],
-            "grade_like_a_human_dataset_os_q2": ["ID", "score_1"],
-            "grade_like_a_human_dataset_os_q3": ["ID", "score_1"],
-            "grade_like_a_human_dataset_os_q4": ["ID", "score_1"],
-            "grade_like_a_human_dataset_os_q5": ["ID", "score_1"],
+            "OS_Dataset_q1": ["ID", "score_1"],
+            "OS_Dataset_q2": ["ID", "score_1"],
+            "OS_Dataset_q3": ["ID", "score_1"],
+            "OS_Dataset_q4": ["ID", "score_1"],
+            "OS_Dataset_q5": ["ID", "score_1"],
         }
 
         # Score column mapping
@@ -551,14 +626,14 @@ class RealEvaluationEngine:
             "CSEE": "overall_score",
             "Mohlar": "grade",
             "Ielts_Writing_Dataset": "Overall_Score",
-            "Ielst_Writing_Task_2_Dataset": "band_score",
+            "Ielts_Writing_Task_2_Dataset": "band_score",
             "persuade_2": "holistic_essay_score",
             "Regrading_Dataset_J2C": "grade",
-            "grade_like_a_human_dataset_os_q1": "score_1",
-            "grade_like_a_human_dataset_os_q2": "score_1",
-            "grade_like_a_human_dataset_os_q3": "score_1", 
-            "grade_like_a_human_dataset_os_q4": "score_1",
-            "grade_like_a_human_dataset_os_q5": "score_1",
+            "OS_Dataset_q1": "score_1",
+            "OS_Dataset_q2": "score_1",
+            "OS_Dataset_q3": "score_1", 
+            "OS_Dataset_q4": "score_1",
+            "OS_Dataset_q5": "score_1",
             "Rice_Chem_Q1": "Score",
             "Rice_Chem_Q2": "Score",
             "Rice_Chem_Q3": "Score",
@@ -578,20 +653,20 @@ class RealEvaluationEngine:
             "CSEE": "index",
             "Mohlar": "ID",
             "Ielts_Writing_Dataset": "ID",
-            "Ielst_Writing_Task_2_Dataset": "ID",
+            "Ielts_Writing_Task_2_Dataset": "ID",
             "persuade_2": "essay_id_comp",
             "Regrading_Dataset_J2C": "ID",
-            "grade_like_a_human_dataset_os_q1": "ID",
-            "grade_like_a_human_dataset_os_q2": "ID",
-            "grade_like_a_human_dataset_os_q3": "ID",
-            "grade_like_a_human_dataset_os_q4": "ID",
-            "grade_like_a_human_dataset_os_q5": "ID",
+            "OS_Dataset_q1": "ID",
+            "OS_Dataset_q2": "ID",
+            "OS_Dataset_q3": "ID",
+            "OS_Dataset_q4": "ID",
+            "OS_Dataset_q5": "ID",
             "Rice_Chem_Q1": "sis_id",
             "Rice_Chem_Q2": "sis_id",
             "Rice_Chem_Q3": "sis_id", 
             "Rice_Chem_Q4": "sis_id"
         }
-
+    
     def get_ground_truth(self, dataset_name: str) -> Dict[str, Any]:
         """Get ground truth data for a dataset (with caching)"""
         if dataset_name not in self.ground_truth_cache:
@@ -610,14 +685,14 @@ class RealEvaluationEngine:
     def get_id_column(self, dataset_name: str) -> str:
         return self.ID_COLUMNS.get(dataset_name, "ID")
 
-    def validate_full_structure(self, dataset_name: str, prediction_df: pd.DataFrame, ground_truth_df: pd.DataFrame) -> Dict[str, Any]:
+    def validate_full_structure(self, dataset_name: str, prediction_df: pd.DataFrame, ground_truth_df: pd.DataFrame, testing_mode: bool = True) -> Dict[str, Any]:
         """Validate submission structure using dataset-specific validator"""
         try:
             print(f"Starting validation for {dataset_name}")
             
             if dataset_name in self.validators:
                 validator = self.validators[dataset_name]
-                validation_result = validator.validate(prediction_df)
+                validation_result = validator.validate(prediction_df, testing_mode=testing_mode)  # ← Pass testing_mode
                 
                 if not validation_result["valid"]:
                     return {
@@ -682,6 +757,16 @@ class RealEvaluationEngine:
                 print(f"DEBUG: ground_truth_df shape: {ground_truth_df.shape}")
                 print(f"DEBUG: ground_truth_df columns: {list(ground_truth_df.columns)}")
             
+            if "Ielts" in dataset_name or "IELTS" in dataset_name:
+                print(f"DEBUG IELTS: predictions_df columns: {list(predictions_df.columns)}")
+                print(f"DEBUG IELTS: predictions_df shape: {predictions_df.shape}")
+                print(f"DEBUG IELTS: ground_truth_df columns: {list(ground_truth_df.columns)}")
+                print(f"DEBUG IELTS: Expected validator: {normalized_name}")
+                if normalized_name in self.validators:
+                    validator = self.validators[normalized_name]
+                    print(f"DEBUG IELTS: Required columns: {validator.required_columns}")
+                    print(f"DEBUG IELTS: Score column: {validator.primary_score_column}")
+                    
             # Use normalized name to find validator
             if dataset_name in self.validators:
                 validator = self.validators[normalized_name]
@@ -807,15 +892,57 @@ class RealEvaluationEngine:
             print(f"DEBUG: Regression - Pred scores sample: {pred_scores[:5]}")
             print(f"DEBUG: Regression - GT scores sample: {gt_scores[:5]}")
 
+        essay_sets = None
+        if normalized_name in ["ASAP-AES", "ASAP_plus_plus"]:
+            if "essay_set" in merged_df.columns:
+                essay_sets = merged_df["essay_set"].values
+
         return {
             "status": "success",
             "y_pred": pred_scores[valid_mask] if normalized_name in classification_datasets else pred_scores,
             "y_true": gt_scores[valid_mask] if normalized_name in classification_datasets else gt_scores,
+            "essay_sets": essay_sets,  # ADD THIS
             "matched_count": int(valid_mask.sum()),
             "total_predictions": len(prediction_df),
             "total_ground_truth": len(ground_truth_df),
             "matching_method": "id_based"
         }
+    
+    def calculate_mae_percentage(self, mae: float, dataset_name: str, essay_set: int = 1) -> float:
+        """Calculate MAE as percentage of score range"""
+        score_range = get_score_range_for_dataset(dataset_name, essay_set)
+        range_size = score_range[1] - score_range[0]
+        
+        if range_size == 0:
+            return 0.0
+        
+        mae_percent = (mae / range_size) * 100
+        return round(mae_percent, 2)
+
+    def calculate_mae_percentage_by_set(self, y_true: np.ndarray, y_pred: np.ndarray, 
+                                        essay_sets: np.ndarray, dataset_name: str) -> Dict[str, Any]:
+        """Calculate MAE% per essay set, then average (for ASAP-AES and ASAP_plus_plus)"""
+        from sklearn.metrics import mean_absolute_error
+        
+        results = {}
+        per_set_mae_percents = []
+        
+        for essay_set in sorted(np.unique(essay_sets)):
+            mask = essay_sets == essay_set
+            y_true_set = y_true[mask]
+            y_pred_set = y_pred[mask]
+            
+            if len(y_true_set) > 0:
+                mae_set = mean_absolute_error(y_true_set, y_pred_set)
+                mae_percent_set = self.calculate_mae_percentage(mae_set, dataset_name, int(essay_set))
+                
+                results[f"set_{int(essay_set)}"] = {
+                    "mae": round(mae_set, 3),
+                    "mae_percent": mae_percent_set,
+                    "samples": len(y_true_set)
+                }
+                per_set_mae_percents.append(mae_percent_set)
+
     def calculate_metrics(self, y_true: np.ndarray, y_pred: np.ndarray) -> Dict[str, float]:
         try:
             from sklearn.metrics import (
@@ -823,16 +950,10 @@ class RealEvaluationEngine:
                 precision_score, recall_score, cohen_kappa_score, accuracy_score
             )
             from scipy.stats import pearsonr
-
-            print(f"DEBUG: Starting metrics calculation with {len(y_true)} samples")
             
-            # Check if we have categorical data (strings)
             is_categorical = isinstance(y_true[0], str) if len(y_true) > 0 else False
             
             if is_categorical:
-                print(f"DEBUG: Categorical data detected - using classification metrics")
-                
-                # Convert categorical labels to numeric for calculation
                 unique_labels = sorted(list(set(list(y_true) + list(y_pred))))
                 label_to_num = {label: idx for idx, label in enumerate(unique_labels)}
                 
@@ -842,69 +963,80 @@ class RealEvaluationEngine:
                 print(f"DEBUG: Label mapping: {label_to_num}")
                 print(f"DEBUG: Converted y_true: {y_true_numeric}")
                 print(f"DEBUG: Converted y_pred: {y_pred_numeric}")
-                
-                # Calculate classification metrics
+            
                 accuracy = accuracy_score(y_true_numeric, y_pred_numeric)
                 
                 try:
                     qwk = cohen_kappa_score(y_true_numeric, y_pred_numeric, weights="quadratic")
                 except:
-                    qwk = cohen_kappa_score(y_true_numeric, y_pred_numeric)  # Regular kappa if quadratic fails
-                    
+                    qwk = cohen_kappa_score(y_true_numeric, y_pred_numeric)
+                        
                 try:
                     f1 = f1_score(y_true_numeric, y_pred_numeric, average="weighted", zero_division=0)
                     precision = precision_score(y_true_numeric, y_pred_numeric, average="weighted", zero_division=0)
                     recall = recall_score(y_true_numeric, y_pred_numeric, average="weighted", zero_division=0)
                 except:
-                    f1 = precision = recall = accuracy  # Fallback for binary case
+                    f1 = precision = recall = accuracy
                 
-                # For categorical data, correlation and MAE don't make sense, so set them based on accuracy
-                correlation = accuracy  # Use accuracy as proxy for correlation
-                mae = 1.0 - accuracy  # Error rate as proxy for MAE
+                correlation = accuracy
+                mae = 1.0 - accuracy
                 mse = (1.0 - accuracy) ** 2
                 rmse = np.sqrt(mse)
                 
             else:
                 print(f"DEBUG: Numeric data detected - using regression metrics")
-                # Handle single sample case
+                
+                y_true = np.array(y_true, dtype=np.float64)
+                y_pred = np.array(y_pred, dtype=np.float64)
+                
                 if len(y_true) == 1:
                     perfect_match = abs(y_true[0] - y_pred[0]) < 1e-10
                     correlation = 1.0 if perfect_match else 0.0
                     qwk = 1.0 if perfect_match else 0.0
-                    f1 = precision = recall = 1.0 if perfect_match else 0.0
+                    f1 = precision = recall = accuracy = 1.0 if perfect_match else 0.0
+                    mae = 0.0 if perfect_match else abs(y_true[0] - y_pred[0])
+                    mse = 0.0 if perfect_match else (y_true[0] - y_pred[0]) ** 2
+                    rmse = np.sqrt(mse)
                 else:
+                    # Pearson correlation
                     correlation, p_value = pearsonr(y_true, y_pred)
+                    
+                    # Calculate numeric metrics first
+                    mae = mean_absolute_error(y_true, y_pred) if len(y_true) > 0 else 0.0
+                    mse = mean_squared_error(y_true, y_pred) if len(y_true) > 0 else 0.0
+                    rmse = np.sqrt(mse)
+                    
+                    # For classification-style metrics, round to nearest integer
+                    # IMPORTANT: This ensures 3 and 3.0 are both treated as 3
+                    y_true_class = np.round(y_true).astype(np.int64)
+                    y_pred_class = np.round(y_pred).astype(np.int64)
+                    
+                    accuracy = accuracy_score(y_true_class, y_pred_class)
+                    print(f"DEBUG: Accuracy calculation - {np.sum(y_true_class == y_pred_class)} matches out of {len(y_true_class)} samples = {accuracy:.4f}")
+                    
                     try:
-                        qwk = cohen_kappa_score(y_true.round(), y_pred.round(), weights="quadratic")
+                        qwk = cohen_kappa_score(y_true_class, y_pred_class, weights="quadratic")
                     except:
                         qwk = 0.0
                     
                     try:
-                        y_true_class = y_true.round().astype(int)
-                        y_pred_class = y_pred.round().astype(int)
                         f1 = f1_score(y_true_class, y_pred_class, average="weighted", zero_division=0)
                         precision = precision_score(y_true_class, y_pred_class, average="weighted", zero_division=0)
                         recall = recall_score(y_true_class, y_pred_class, average="weighted", zero_division=0)
-                        accuracy = accuracy_score(y_true_class, y_pred_class)  # Add this line
                     except:
-                        f1 = precision = recall = accuracy = 0.0  # Add accuracy here
+                        f1 = precision = recall = accuracy
 
-                    # Calculate numeric metrics
-                    mae = mean_absolute_error(y_true, y_pred) if len(y_true) > 0 else 0.0
-                    mse = mean_squared_error(y_true, y_pred) if len(y_true) > 0 else 0.0
-                    rmse = np.sqrt(mse)
-
-                    metrics = {
-                        "quadratic_weighted_kappa": float(qwk) if not pd.isna(qwk) else 0.0,
-                        "pearson_correlation": float(correlation) if not pd.isna(correlation) else 0.0,
-                        "mean_absolute_error": float(mae) if not pd.isna(mae) else 0.0,
-                        "mean_squared_error": float(mse) if not pd.isna(mse) else 0.0,
-                        "root_mean_squared_error": float(rmse) if not pd.isna(rmse) else 0.0,
-                        "f1_score": float(f1) if not pd.isna(f1) else 0.0,
-                        "precision": float(precision) if not pd.isna(precision) else 0.0,
-                        "recall": float(recall) if not pd.isna(recall) else 0.0,
-                        "accuracy": float(accuracy) if not pd.isna(accuracy) else 0.0  # Add this line
-                    }
+                metrics = {
+                    "quadratic_weighted_kappa": float(qwk) if not pd.isna(qwk) else 0.0,
+                    "pearson_correlation": float(correlation) if not pd.isna(correlation) else 0.0,
+                    "mean_absolute_error": float(mae) if not pd.isna(mae) else 0.0,
+                    "mean_squared_error": float(mse) if not pd.isna(mse) else 0.0,
+                    "root_mean_squared_error": float(rmse) if not pd.isna(rmse) else 0.0,
+                    "f1_score": float(f1) if not pd.isna(f1) else 0.0,
+                    "precision": float(precision) if not pd.isna(precision) else 0.0,
+                    "recall": float(recall) if not pd.isna(recall) else 0.0,
+                    "accuracy": float(accuracy) if not pd.isna(accuracy) else 0.0
+                }
             
             print(f"DEBUG: Final metrics: {metrics}")
             return metrics
@@ -944,7 +1076,7 @@ class RealEvaluationEngine:
             normalized_name = dataset_name[2:] if dataset_name.startswith("D_") else dataset_name
         
             # Validate structure
-            validation_result = self.validate_full_structure(dataset_name, predictions_df, ground_truth_df)
+            validation_result = self.validate_full_structure(dataset_name, predictions_df, ground_truth_df, testing_mode=True)  # ← Add testing_mode=True
             if not validation_result["valid"]:
                 return {
                     "status": "error",
@@ -1012,8 +1144,18 @@ class RealEvaluationEngine:
                 if calculated_metrics and isinstance(calculated_metrics, dict):
                     metrics.update(calculated_metrics)
                     print(f"DEBUG: Metrics calculation successful: {metrics}")
+                if normalized_name in ["ASAP-AES", "ASAP_plus_plus"]:
+                    if matching_result.get("essay_sets") is not None:
+                        mae_by_set = self.calculate_mae_percentage_by_set(
+                            y_true, y_pred, 
+                            matching_result["essay_sets"], 
+                            dataset_name
+                        )
+                        metrics["mae_percentage_details"] = mae_by_set
                 else:
-                    print("DEBUG: Metrics calculation returned empty or invalid result")
+                    mae = metrics.get("mean_absolute_error", 0)
+                    mae_percent = self.calculate_mae_percentage(mae, dataset_name)
+                    metrics["mae_percentage"] = mae_percent
             except Exception as metrics_error:
                 print(f"WARNING: Metrics calculation failed: {metrics_error}")
                 print("DEBUG: Using default metrics values")
@@ -1591,6 +1733,20 @@ async def test_single_dataset(
         validation_result = real_evaluation_engine.validate_submission_format(dataset_name, df_clean, testing_mode=True)
         
         if not validation_result["valid"]:
+            raw_errors = validation_result.get("errors", [])
+            errors = []
+            if raw_errors:
+                for err in raw_errors:
+                    if isinstance(err, str):
+                        errors.append(err)
+                    else:
+                        errors.append(str(err))
+            
+            if not errors:
+                errors = ["Validation failed - unknown error"]
+            
+            print(f"DEBUG /test-single-dataset: Validation failed with errors: {errors}")
+            
             return clean_for_json({
                 "success": False,
                 "validation_errors": validation_result["errors"],
@@ -1665,17 +1821,21 @@ async def test_single_dataset(
 async def get_leaderboard(
     dataset: str = "All Datasets",
     metric: str = "avg_quadratic_weighted_kappa",
-    limit: int = 20,
-    min_datasets: int = 21 
+    limit: int = 50,
+    min_datasets: int = 0,  # Changed default to 0 to show all
+    complete_only: bool = False  # New parameter for toggle
 ):
     try:
         print("DEBUG: Starting leaderboard generation")
         
-        if min_datasets is None:
-            available_datasets = list(real_evaluation_engine.validators.keys())
-            d_datasets = [ds for ds in available_datasets if ds.startswith('D_')]
-            min_datasets = len(d_datasets)
-            
+        # If complete_only is True, enforce minimum of 23 datasets
+        if complete_only:
+            min_datasets = 23
+            print(f"DEBUG: Complete benchmark mode - min_datasets set to {min_datasets}")
+        else:
+            min_datasets = 0  # Show all evaluations
+            print(f"DEBUG: Show all evaluations mode")
+        
         current_time = datetime.now().isoformat()
         submissions = get_all_submissions_from_db()
         print(f"DEBUG: Got {len(submissions)} total submissions")
@@ -1691,14 +1851,14 @@ async def get_leaderboard(
                 "last_updated": current_time,
                 "rankings": [],
                 "summary_stats": {},
-                "note": "No complete benchmarks found"
+                "complete_only": complete_only,
+                "note": "No evaluations found"
             })
 
         print("DEBUG: Starting model aggregation")
         model_aggregates = {}
         for i, submission in enumerate(real_submissions):
             model_name = submission['model_name']
-            print(f"DEBUG: Processing submission {i+1}/{len(real_submissions)} for model {model_name}")
             
             if model_name not in model_aggregates:
                 model_aggregates[model_name] = {
@@ -1713,52 +1873,50 @@ async def get_leaderboard(
             model_aggregates[model_name]['datasets'].append(submission['dataset_name'])
             model_aggregates[model_name]['total_submissions'] += 1
             
-            # DEBUG: Check metric types before aggregation
             metrics = submission.get('metrics', {})
-            print(f"DEBUG: {model_name} has {len(metrics)} metrics")
             
             for metric_name, value in metrics.items():
-                # Show first few metrics in detail
-                if len(model_aggregates[model_name]['metrics']) < 3:
-                    print(f"DEBUG: Processing {model_name}.{metric_name} = {repr(value)} (type: {type(value).__name__})")
-                
                 if metric_name not in model_aggregates[model_name]['metrics']:
                     model_aggregates[model_name]['metrics'][metric_name] = []
                 
-                # Ensure value is numeric with detailed error checking
                 try:
                     if value is None:
                         numeric_value = 0.0
-                        print(f"DEBUG: {model_name}.{metric_name} was None, using 0.0")
                     elif isinstance(value, str):
                         if value.strip() == '' or value.lower() in ['nan', 'null', 'none']:
                             numeric_value = 0.0
-                            print(f"DEBUG: {model_name}.{metric_name} was empty/invalid string '{value}', using 0.0")
                         else:
                             numeric_value = float(value)
-                            print(f"DEBUG: {model_name}.{metric_name} converted string '{value}' to {numeric_value}")
                     else:
                         numeric_value = float(value)
                     
                     model_aggregates[model_name]['metrics'][metric_name].append(numeric_value)
                     
-                except (ValueError, TypeError) as conversion_error:
-                    print(f"ERROR: Failed to convert {model_name}.{metric_name} = {repr(value)} to float: {conversion_error}")
+                except (ValueError, TypeError):
                     model_aggregates[model_name]['metrics'][metric_name].append(0.0)
 
-        print("DEBUG: Filtering complete models")
-        complete_models = {}
+        print("DEBUG: Filtering models based on dataset count")
+        filtered_models = {}
         for model_name, data in model_aggregates.items():
             unique_datasets = list(set(data['datasets']))
-            print(f"DEBUG: {model_name} has {len(unique_datasets)} unique datasets (need {min_datasets})")
+            dataset_count = len(unique_datasets)
             
-            if len(unique_datasets) >= min_datasets:
-                complete_models[model_name] = data
-                complete_models[model_name]['unique_datasets_count'] = len(unique_datasets)
+            # Apply min_datasets filter
+            if dataset_count >= min_datasets:
+                filtered_models[model_name] = data
+                filtered_models[model_name]['unique_datasets_count'] = dataset_count
+                filtered_models[model_name]['is_complete_benchmark'] = dataset_count >= 23
+                
+                if complete_only:
+                    print(f"DEBUG: {model_name} has {dataset_count} datasets - COMPLETE BENCHMARK")
+                else:
+                    print(f"DEBUG: {model_name} has {dataset_count} datasets - INCLUDED")
+            else:
+                print(f"DEBUG: {model_name} has {dataset_count} datasets - EXCLUDED (min: {min_datasets})")
         
-        print(f"DEBUG: Found {len(complete_models)} complete models")
+        print(f"DEBUG: {len(filtered_models)} models after filtering")
         
-        if not complete_models:
+        if not filtered_models:
             return clean_for_json({
                 "dataset": dataset,
                 "metric": metric,
@@ -1766,27 +1924,21 @@ async def get_leaderboard(
                 "last_updated": current_time,
                 "rankings": [],
                 "summary_stats": {},
-                "note": f"No complete benchmarks found. Models must test on at least {min_datasets} datasets to appear on leaderboard."
+                "complete_only": complete_only,
+                "min_datasets": min_datasets,
+                "note": f"No models found with at least {min_datasets} datasets"
             })
         
         print("DEBUG: Starting rankings calculation")
         rankings = []
-        for model_name, data in complete_models.items():
+        for model_name, data in filtered_models.items():
             try:
-                print(f"DEBUG: Calculating averages for {model_name}")
-                
-                # Calculate averages with extensive type checking
                 avg_metrics = {}
                 for metric_name, values in data['metrics'].items():
                     if values:
-                        print(f"DEBUG: Processing {model_name}.{metric_name} with {len(values)} values")
-                        print(f"DEBUG: Values sample: {values[:3]} (types: {[type(v).__name__ for v in values[:3]]})")
-                        
-                        # Ensure all values are numeric
                         numeric_values = []
-                        problem_values = []
                         
-                        for idx, val in enumerate(values):
+                        for val in values:
                             try:
                                 if val is None or val == '':
                                     numeric_val = 0.0
@@ -1800,33 +1952,20 @@ async def get_leaderboard(
                                     
                                 numeric_values.append(numeric_val)
                                 
-                            except (ValueError, TypeError) as val_error:
-                                print(f"ERROR: Value {idx} for {metric_name}: {repr(val)} -> {val_error}")
-                                problem_values.append((idx, val, str(val_error)))
-                                numeric_values.append(0.0)  # Use 0.0 as fallback
-                        
-                        if problem_values:
-                            print(f"WARNING: {model_name}.{metric_name} had {len(problem_values)} problem values: {problem_values[:5]}")
+                            except (ValueError, TypeError):
+                                numeric_values.append(0.0)
                         
                         if numeric_values:
                             try:
                                 avg_value = statistics.mean(numeric_values)
                                 avg_metrics[f"avg_{metric_name}"] = avg_value
-                                print(f"DEBUG: Successfully calculated avg_{metric_name} = {avg_value}")
-                            except Exception as mean_error:
-                                print(f"ERROR: statistics.mean() failed for {model_name}.{metric_name}: {mean_error}")
-                                print(f"DEBUG: Values were: {numeric_values[:10]}")
+                            except Exception:
                                 avg_metrics[f"avg_{metric_name}"] = 0.0
                         else:
-                            print(f"WARNING: No numeric values for {model_name}.{metric_name}")
                             avg_metrics[f"avg_{metric_name}"] = 0.0
                     else:
-                        print(f"DEBUG: No values for {model_name}.{metric_name}")
                         avg_metrics[f"avg_{metric_name}"] = 0.0
                 
-                print(f"DEBUG: {model_name} final averages: {list(avg_metrics.keys())}")
-                
-                # Include only the 8 specified metrics
                 ranking_entry = {
                     "model_name": model_name,
                     "institution": data['institution'],
@@ -1835,9 +1974,9 @@ async def get_leaderboard(
                     "datasets_evaluated": list(set(data['datasets'])),
                     "unique_datasets_count": data['unique_datasets_count'],
                     "total_submissions": data['total_submissions'],
-                    "complete_benchmark": True,
+                    "complete_benchmark": data['is_complete_benchmark'],
                     
-                    # Only the 8 specified metrics
+                    # 8 core metrics
                     "avg_quadratic_weighted_kappa": avg_metrics.get("avg_quadratic_weighted_kappa", 0),
                     "avg_pearson_correlation": avg_metrics.get("avg_pearson_correlation", 0),
                     "avg_mean_absolute_error": avg_metrics.get("avg_mean_absolute_error", 0),
@@ -1845,37 +1984,30 @@ async def get_leaderboard(
                     "avg_f1_score": avg_metrics.get("avg_f1_score", 0),
                     "avg_precision": avg_metrics.get("avg_precision", 0),
                     "avg_recall": avg_metrics.get("avg_recall", 0),
-                    "avg_accuracy": avg_metrics.get("avg_accuracy_within_1.0", avg_metrics.get("avg_accuracy", 0))
+                    "avg_accuracy": avg_metrics.get("avg_accuracy", 0)
                 }
                 
                 rankings.append(ranking_entry)
-                print(f"DEBUG: Added ranking entry for {model_name}")
                 
             except Exception as model_error:
                 print(f"ERROR: Failed processing model {model_name}: {model_error}")
-                import traceback
-                traceback.print_exc()
                 continue
         
         print(f"DEBUG: Created {len(rankings)} ranking entries")
         
         # Sort by the selected metric
         try:
-            print(f"DEBUG: Sorting by metric: {metric}")
             if metric in ["avg_mean_absolute_error", "avg_root_mean_squared_error"]:
                 rankings.sort(key=lambda x: x.get(metric, float('inf')))  # Lower is better
             else:
                 rankings.sort(key=lambda x: x.get(metric, 0), reverse=True)  # Higher is better
             
             rankings = rankings[:limit]
-            print(f"DEBUG: Final rankings count after limit: {len(rankings)}")
             
         except Exception as sort_error:
             print(f"ERROR: Sorting failed: {sort_error}")
-            # Continue with unsorted rankings
         
-        # Calculate summary stats for the 8 metrics only
-        print("DEBUG: Calculating summary stats")
+        # Calculate summary stats
         summary_stats = {}
         if rankings:
             metric_keys = [
@@ -1887,7 +2019,6 @@ async def get_leaderboard(
                 try:
                     values = [r.get(metric_key, 0) for r in rankings if r.get(metric_key) is not None]
                     if values:
-                        # Ensure all values are numeric for summary stats
                         numeric_values = []
                         for v in values:
                             try:
@@ -1902,14 +2033,12 @@ async def get_leaderboard(
                                 'min': min(numeric_values),
                                 'max': max(numeric_values)
                             }
-                        
-                except Exception as summary_error:
-                    print(f"ERROR: Summary stats failed for {metric_key}: {summary_error}")
+                except Exception:
+                    pass
             
             summary_stats['total_researchers'] = len(rankings)
             summary_stats['complete_benchmarks'] = len([r for r in rankings if r['complete_benchmark']])
-        
-        print("DEBUG: Leaderboard generation completed successfully")
+            summary_stats['partial_benchmarks'] = len([r for r in rankings if not r['complete_benchmark']])
         
         return clean_for_json({
             "dataset": dataset,
@@ -1919,7 +2048,9 @@ async def get_leaderboard(
             "rankings": rankings,
             "summary_stats": summary_stats,
             "available_metrics": metric_keys if 'metric_keys' in locals() else [],
-            "note": f"Complete benchmarks with {min_datasets}+ datasets showing 8 core metrics"
+            "complete_only": complete_only,
+            "min_datasets": min_datasets,
+            "note": f"{'Complete benchmarks (23+ datasets)' if complete_only else 'All evaluations'} - showing top {len(rankings)} models"
         })
         
     except Exception as e:
@@ -1927,7 +2058,7 @@ async def get_leaderboard(
         import traceback
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Failed to generate leaderboard: {str(e)}")
-
+    
 @router.get("/leaderboard-cached", response_model=Dict[str, Any]) 
 async def get_cached_leaderboard(
     dataset: str = "All Datasets",

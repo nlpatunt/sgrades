@@ -1544,6 +1544,25 @@ a:hover {
     font-weight: 500;
 }
 
+/* Status Badge Styles */
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-badge.complete {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.status-badge.partial {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
 .badge-excellent { background: #d4edda; color: #155724; }
 .badge-good { background: #cce5ff; color: #004085; }
 .badge-fair { background: #fff3cd; color: #856404; }

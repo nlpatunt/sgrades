@@ -144,7 +144,7 @@ class HuggingFaceDatasetLoader:
 
         # Known multi-config datasets - handle these specially (after D_ removal)
         known_multi_config = {
-            "grade_like_a_human_dataset_os": ["q1", "q2", "q3", "q4", "q5"],
+            "OS_Dataset": ["q1", "q2", "q3", "q4", "q5"],
             "Rice_Chem": ["Q1", "Q2", "Q3", "Q4"],
             "BEEtlE": ["2way", "3way"],
             "SciEntSBank": ["2way", "3way"],
@@ -401,42 +401,42 @@ class HuggingFaceDatasetLoader:
                     "prompt_column": "Question",
                     "score_range": (1, 9),
                 },
-                "Ielst_Writing_Task_2_Dataset": {
+                "Ielts_Writing_Task_2_Dataset": {
                     "description": "IELTS Writing Task 2 Dataset",
                     "essay_column": "essay",
                     "score_column": "band_score",
                     "prompt_column": "prompt",
                     "score_range": (1, 9),
                 },
-                "grade_like_a_human_dataset_os_q1": {
+                "OS_Dataset_q1": {
                     "description": "Grade Like a Human OS Question 1 (Score Range: 0-19)",
                     "essay_column": "answer",
                     "score_column": "score_1",
                     "prompt_column": "question",
                     "score_range": (0, 19),
                 },
-                "grade_like_a_human_dataset_os_q2": {
+                "OS_Dataset_q2": {
                     "description": "Grade Like a Human OS Question 2 (Score Range: 0-16)",
                     "essay_column": "answer",
                     "score_column": "score_1",
                     "prompt_column": "question",
                     "score_range": (0, 16),
                 },
-                "grade_like_a_human_dataset_os_q3": {
+                "OS_Dataset_q3": {
                     "description": "Grade Like a Human OS Question 3 (Score Range: 0-15)",
                     "essay_column": "answer",
                     "score_column": "score_1",
                     "prompt_column": "question",
                     "score_range": (0, 15),
                 },
-                "grade_like_a_human_dataset_os_q4": {
+                "OS_Dataset_q4": {
                     "description": "Grade Like a Human OS Question 4 (Score Range: 0-16)",
                     "essay_column": "answer",
                     "score_column": "score_1",
                     "prompt_column": "question",
                     "score_range": (0, 16),
                 },
-                "grade_like_a_human_dataset_os_q5": {
+                "OS_Dataset_q5": {
                     "description": "Grade Like a Human OS Question 5 (Score Range: 0-27)",
                     "essay_column": "answer",
                     "score_column": "score_1",
@@ -1406,10 +1406,10 @@ EXPECTED_UPLOAD_FORMATS = {
         "essay_id_pattern": r"^Ielts_Writing_Dataset_\d+$",
         "score_type": "float",
     },
-    "Ielst_Writing_Task_2_Dataset": {
+    "Ielts_Writing_Task_2_Dataset": {
         "required_columns": ["essay_id", "predicted_score"],
         "score_range": (1, 9),
-        "essay_id_pattern": r"^Ielst_Writing_Task_2_Dataset_\d+$",
+        "essay_id_pattern": r"^Ielts_Writing_Task_2_Dataset_\d+$",
         "score_type": "float",
     },
     "persuade_2": {
@@ -1428,10 +1428,10 @@ EXPECTED_UPLOAD_FORMATS = {
 
 # Add grade_like_a_human configs for q1-q6
 for q in ["q1", "q2", "q3", "q4", "q5"]:
-    EXPECTED_UPLOAD_FORMATS[f"grade_like_a_human_dataset_os_{q}"] = {
+    EXPECTED_UPLOAD_FORMATS[f"OS_Dataset_{q}"] = {
         "required_columns": ["essay_id", "predicted_score"],
         "score_range": (0, 100),
-        "essay_id_pattern": f"^grade_like_a_human_dataset_os_{q}_\\d+$",
+        "essay_id_pattern": f"^OS_Dataset_{q}_\\d+$",
         "score_type": "float",
     }
 

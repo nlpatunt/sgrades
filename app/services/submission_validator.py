@@ -128,10 +128,10 @@ class SubmissionValidator:
                 'primary_score': 'Overall_Score'
             },
             
-            'Ielst_Writing_Task_2_Dataset': {
+            'Ielts_Writing_Task_2_Dataset': {
                 'required_columns': ['essay_id', 'band_score'],
                 'optional_score_columns': [],
-                'essay_id_pattern': r'^Ielst_Writing_Task_2_Dataset_test_\d+$',
+                'essay_id_pattern': r'^Ielts_Writing_Task_2_Dataset_test_\d+$',
                 'score_range': (0, 9),
                 'score_type': 'float',
                 'primary_score': 'band_score'
@@ -157,10 +157,10 @@ class SubmissionValidator:
         }
         
         for q in ['q1', 'q2', 'q3', 'q4', 'q5']:
-            self.DATASET_SCHEMAS[f'grade_like_a_human_dataset_os_{q}'] = {
+            self.DATASET_SCHEMAS[f'OS_Dataset_{q}'] = {
                 'required_columns': ['id', 'score_1'],
                 'optional_score_columns': ['score_2', 'score_3', 'score_outlier'],
-                'essay_id_pattern': f'^grade_like_a_human_dataset_os_{q}_test_\\d+$',
+                'essay_id_pattern': f'^OS_Dataset_{q}_test_\\d+$',
                 'score_range': (0, 100),
                 'score_type': 'float',
                 'primary_score': 'score_1'

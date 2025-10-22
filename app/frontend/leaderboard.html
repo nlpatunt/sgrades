@@ -8,6 +8,136 @@
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        /* Toggle Switch Styles */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .toggle-label {
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .toggle-label.active {
+            color: #2563eb;
+        }
+
+        .toggle-label.inactive {
+            color: #6b7280;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #d1d5db;
+            transition: 0.3s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: #2563eb;
+        }
+
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+
+        .toggle-switch input:focus + .toggle-slider {
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        /* Summary Stats */
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .stat-value.complete {
+            color: #059669;
+        }
+
+        .stat-value.partial {
+            color: #2563eb;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-badge.complete {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-badge.partial {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+    </style>
 </head>
 <body>
     <!-- Same header as your main page but with Leaderboard active -->
@@ -31,21 +161,37 @@
     <section class="section">
         <div class="container">
             <div class="section-header">
-                <h2>Complete Benchmark Leaderboard</h2>
-                <p>Rankings for researchers who submitted all 23 datasets</p>
+                <h2>Leaderboard</h2>
+                <p id="leaderboard-description">Rankings for all model evaluations</p>
+            </div>
+
+            <!-- Toggle Switch -->
+            <div class="toggle-container">
+                <span id="toggle-label-all" class="toggle-label active">All Evaluations</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="complete-only-toggle">
+                    <span class="toggle-slider"></span>
+                </label>
+                <span id="toggle-label-complete" class="toggle-label inactive">Complete Benchmarks Only (23+)</span>
+            </div>
+
+            <!-- Summary Stats -->
+            <div id="summary-stats" class="summary-stats" style="display: none;">
+                <!-- Populated by JavaScript -->
             </div>
 
             <div class="leaderboard-controls">
                 <div class="form-group">
                     <label for="metric-selector">Sort by Metric:</label>
                     <select id="metric-selector">
-                        <option value="avg_quadratic_weighted_kappa">Average QWK</option>
-                        <option value="avg_pearson_correlation">Average Pearson</option>
-                        <option value="avg_f1_score">Average F1</option>
-                        <option value="avg_precision">Average Precision</option>
-                        <option value="avg_recall">Average Recall</option>
-                        <option value="avg_accuracy">Average Accuracy</option>
-                        <option value="avg_mean_absolute_error">Average MAE</option>
+                        <option value="avg_quadratic_weighted_kappa">Average QWK ↑</option>
+                        <option value="avg_pearson_correlation">Average Pearson ↑</option>
+                        <option value="avg_f1_score">Average F1 ↑</option>
+                        <option value="avg_precision">Average Precision ↑</option>
+                        <option value="avg_recall">Average Recall ↑</option>
+                        <option value="avg_accuracy">Average Accuracy ↑</option>
+                        <option value="avg_mean_absolute_error">Average MAE ↓</option>
+                        <option value="avg_root_mean_squared_error">Average RMSE ↓</option>
                     </select>
                 </div>
                 <button id="refresh-leaderboard" class="btn btn-outline">
@@ -58,6 +204,198 @@
             </div>
         </div>
     </section>
+
+    <script>
+        let currentCompleteOnly = false;
+        let currentMetric = 'avg_quadratic_weighted_kappa';
+
+        // Load leaderboard on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadLeaderboard();
+
+            // Toggle switch event
+            document.getElementById('complete-only-toggle').addEventListener('change', function(e) {
+                currentCompleteOnly = e.target.checked;
+                updateToggleLabels();
+                updateDescription();
+                loadLeaderboard();
+            });
+
+            // Metric selector event
+            document.getElementById('metric-selector').addEventListener('change', function(e) {
+                currentMetric = e.target.value;
+                loadLeaderboard();
+            });
+
+            // Refresh button
+            document.getElementById('refresh-leaderboard').addEventListener('click', function() {
+                loadLeaderboard();
+            });
+        });
+
+        function updateToggleLabels() {
+            const labelAll = document.getElementById('toggle-label-all');
+            const labelComplete = document.getElementById('toggle-label-complete');
+
+            if (currentCompleteOnly) {
+                labelAll.classList.remove('active');
+                labelAll.classList.add('inactive');
+                labelComplete.classList.remove('inactive');
+                labelComplete.classList.add('active');
+            } else {
+                labelAll.classList.remove('inactive');
+                labelAll.classList.add('active');
+                labelComplete.classList.remove('active');
+                labelComplete.classList.add('inactive');
+            }
+        }
+
+        function updateDescription() {
+            const description = document.getElementById('leaderboard-description');
+            if (currentCompleteOnly) {
+                description.textContent = 'Rankings for researchers who submitted all 23 datasets';
+            } else {
+                description.textContent = 'Rankings for all model evaluations';
+            }
+        }
+
+        async function loadLeaderboard() {
+            const tableContainer = document.getElementById('leaderboard-table');
+            tableContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading leaderboard...</div>';
+
+            try {
+                const response = await fetch(`/api/submissions/leaderboard?complete_only=${currentCompleteOnly}&metric=${currentMetric}&limit=50`);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.detail || 'Failed to load leaderboard');
+                }
+
+                displaySummaryStats(data.summary_stats);
+                displayLeaderboard(data.rankings);
+
+            } catch (error) {
+                console.error('Error loading leaderboard:', error);
+                tableContainer.innerHTML = `
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <p>Failed to load leaderboard: ${error.message}</p>
+                        <button onclick="loadLeaderboard()" class="btn btn-primary">Try Again</button>
+                    </div>
+                `;
+            }
+        }
+
+        function displaySummaryStats(stats) {
+            const statsContainer = document.getElementById('summary-stats');
+            
+            if (!stats || stats.total_researchers === 0) {
+                statsContainer.style.display = 'none';
+                return;
+            }
+
+            statsContainer.style.display = 'grid';
+            statsContainer.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-label">Total Models</div>
+                    <div class="stat-value">${stats.total_researchers || 0}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Complete Benchmarks</div>
+                    <div class="stat-value complete">${stats.complete_benchmarks || 0}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Partial Evaluations</div>
+                    <div class="stat-value partial">${stats.partial_benchmarks || 0}</div>
+                </div>
+            `;
+        }
+
+        function displayLeaderboard(rankings) {
+            const tableContainer = document.getElementById('leaderboard-table');
+
+            if (!rankings || rankings.length === 0) {
+                tableContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-inbox" style="font-size: 48px; color: #9ca3af; margin-bottom: 16px;"></i>
+                        <p>No models found matching the criteria.</p>
+                        ${currentCompleteOnly ? '<p style="color: #6b7280; font-size: 14px;">Try switching to "All Evaluations" to see partial submissions.</p>' : ''}
+                    </div>
+                `;
+                return;
+            }
+
+            let tableHTML = `
+                <div class="table-responsive">
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Model Name</th>
+                                <th style="text-align: center;">Datasets</th>
+                                <th style="text-align: center;">Status</th>
+                                <th style="text-align: center;">QWK</th>
+                                <th style="text-align: center;">Pearson</th>
+                                <th style="text-align: center;">F1</th>
+                                <th style="text-align: center;">Precision</th>
+                                <th style="text-align: center;">Recall</th>
+                                <th style="text-align: center;">Accuracy</th>
+                                <th style="text-align: center;">MAE</th>
+                                <th style="text-align: center;">RMSE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            rankings.forEach((entry, index) => {
+                const statusBadge = entry.complete_benchmark
+                    ? '<span class="status-badge complete">Complete</span>'
+                    : '<span class="status-badge partial">Partial</span>';
+
+                tableHTML += `
+                    <tr>
+                        <td><strong>#${index + 1}</strong></td>
+                        <td>
+                            <div style="font-weight: 600;">${escapeHtml(entry.model_name)}</div>
+                            ${entry.description ? `<div style="font-size: 12px; color: #6b7280;">${escapeHtml(entry.description)}</div>` : ''}
+                        </td>
+                        <td style="text-align: center;"><strong>${entry.unique_datasets_count}</strong></td>
+                        <td style="text-align: center;">${statusBadge}</td>
+                        <td style="text-align: center;">${formatMetric(entry.avg_quadratic_weighted_kappa)}</td>
+                        <td style="text-align: center;">${formatMetric(entry.avg_pearson_correlation)}</td>
+                        <td style="text-align: center;">${formatMetric(entry.avg_f1_score)}</td>
+                        <td style="text-align: center;">${formatMetric(entry.avg_precision)}</td>
+                        <td style="text-align: center;">${formatMetric(entry.avg_recall)}</td>
+                        <td style="text-align: center;">${formatMetric(entry.avg_accuracy)}</td>
+                        <td style="text-align: center;">${formatMetric(entry.avg_mean_absolute_error)}</td>
+                        <td style="text-align: center;">${formatMetric(entry.avg_root_mean_squared_error)}</td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top: 16px; text-align: center; color: #6b7280; font-size: 14px;">
+                    Showing ${rankings.length} ${currentCompleteOnly ? 'complete benchmark' : 'model'}${rankings.length !== 1 ? 's' : ''}
+                </div>
+            `;
+
+            tableContainer.innerHTML = tableHTML;
+        }
+
+        function formatMetric(value) {
+            if (value === null || value === undefined) return 'N/A';
+            return typeof value === 'number' ? value.toFixed(3) : value;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
 
     <script src="/frontend/js/app.js?v=2025-09-24-fixed"></script>
 </body>

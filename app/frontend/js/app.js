@@ -71,14 +71,14 @@ const DATASET_DISPLAY_NAMES = {
     'D_SciEntSBank_2way': 'SciEntSBank: 2-Way Science QA',
     'D_SciEntSBank_3way': 'SciEntSBank: 3-Way Science QA',
     'D_Ielts_Writing_Dataset': 'IELTS Writing Assessment',
-    'D_Ielst_Writing_Task_2_Dataset': 'IELTS Writing Task 2',
+    'D_Ielts_Writing_Task_2_Dataset': 'IELTS Writing Task 2',
     'D_persuade_2': 'Persuade Essays v2',
     'D_Regrading_Dataset_J2C': 'Regrading Dataset J2C',
-    'D_grade_like_a_human_dataset_os_q1': 'OS Concepts: Question 1',
-    'D_grade_like_a_human_dataset_os_q2': 'OS Concepts: Question 2',
-    'D_grade_like_a_human_dataset_os_q3': 'OS Concepts: Question 3',
-    'D_grade_like_a_human_dataset_os_q4': 'OS Concepts: Question 4',
-    'D_grade_like_a_human_dataset_os_q5': 'OS Concepts: Question 5',
+    'D_OS_Dataset_q1': 'OS Concepts: Question 1',
+    'D_OS_Dataset_q2': 'OS Concepts: Question 2',
+    'D_OS_Dataset_q3': 'OS Concepts: Question 3',
+    'D_OS_Dataset_q4': 'OS Concepts: Question 4',
+    'D_OS_Dataset_q5': 'OS Concepts: Question 5',
     'D_Rice_Chem_Q1': 'Chemistry: Question 1',
     'D_Rice_Chem_Q2': 'Chemistry: Question 2',
     'D_Rice_Chem_Q3': 'Chemistry: Question 3',
@@ -108,11 +108,11 @@ function getScoreRange(datasetName) {
         'D_BEEtlE_3way': 'Correct/Incorrect/Contradictory',
         'D_SciEntSBank_2way': 'Correct/Incorrect',
         'D_SciEntSBank_3way': 'Correct/Incorrect/Contradictory',
-        'D_grade_like_a_human_dataset_os_q1': '0-19',
-        'D_grade_like_a_human_dataset_os_q2': '0-16',
-        'D_grade_like_a_human_dataset_os_q3': '0-15',
-        'D_grade_like_a_human_dataset_os_q4': '0-16',
-        'D_grade_like_a_human_dataset_os_q5': '0-27',
+        'D_OS_Dataset_q1': '0-19',
+        'D_OS_Dataset_q2': '0-16',
+        'D_OS_Dataset_q3': '0-15',
+        'D_OS_Dataset_q4': '0-16',
+        'D_OS_Dataset_q5': '0-27',
         'D_Rice_Chem_Q1': '0-8',
         'D_Rice_Chem_Q2': '0-8',
         'D_Rice_Chem_Q3': '0-9',
@@ -183,10 +183,10 @@ async function loadAvailableDatasets() {
             datasets = [
                 'D_ASAP-AES', 'D_ASAP2', 'D_ASAP_plus_plus', 'D_ASAP-SAS', 'D_BEEtlE_2way', 'D_BEEtlE_3way',
                 'D_SciEntSBank_2way', 'D_SciEntSBank_3way', 'D_CSEE', 'D_EFL', 'D_Mohlar',
-                'D_Regrading_Dataset_J2C', 'D_Ielts_Writing_Dataset', 'D_Ielst_Writing_Task_2_Dataset',
-                'D_persuade_2', 'D_grade_like_a_human_dataset_os_q1', 'D_grade_like_a_human_dataset_os_q2',
-                'D_grade_like_a_human_dataset_os_q3', 'D_grade_like_a_human_dataset_os_q4',
-                'D_grade_like_a_human_dataset_os_q5', 'D_Rice_Chem_Q1', 'D_Rice_Chem_Q2', 'D_Rice_Chem_Q3', 'D_Rice_Chem_Q4'
+                'D_Regrading_Dataset_J2C', 'D_Ielts_Writing_Dataset', 'D_Ielts_Writing_Task_2_Dataset',
+                'D_persuade_2', 'D_OS_Dataset_q1', 'D_OS_Dataset_q2',
+                'D_OS_Dataset_q3', 'D_OS_Dataset_q4',
+                'D_OS_Dataset_q5', 'D_Rice_Chem_Q1', 'D_Rice_Chem_Q2', 'D_Rice_Chem_Q3', 'D_Rice_Chem_Q4'
             ];
         }
 
@@ -243,7 +243,7 @@ function getDatasetFormatFallback(datasetName) {
         }
     };
 
-    if (datasetName.includes('grade_like_a_human_dataset_os')) {
+    if (datasetName.includes('OS_Dataset')) {
         return {
             required_columns: ['id', 'score_1'],
             score_range: [0, 100],
@@ -309,7 +309,7 @@ function populateDropdown(selectElement, showDetails = false) {
     };
 
     availableDatasets.forEach(dataset => {
-        if (dataset.includes('grade_like_a_human')) {
+        if (dataset.includes('OS_Dataset')) {
             categories.grading.push(dataset);
         } else if (dataset.includes('Rice_Chem')) {
             categories.chemistry.push(dataset);
@@ -775,7 +775,7 @@ async function loadDatasets() {
             const getDescription = (name) => {
                 if (name.includes('BEEtlE')) return 'Student answer classification dataset';
                 if (name.includes('Rice_Chem')) return 'Chemistry question scoring';
-                if (name.includes('grade_like_a_human')) return 'Operating systems grading';
+                if (name.includes('OS_Dataset')) return 'Operating systems grading';
                 if (name.includes('SciEntSBank')) return 'Science answer evaluation';
                 if (name.includes('IELTS') || name.includes('Ielts') || name.includes('Ielst')) return 'IELTS writing assessment';
                 if (name.includes('ASAP')) return 'Automated essay scoring';
@@ -929,7 +929,10 @@ async function handleTestSubmission(event) {
         });
 
         const result = await response.json();
-        console.log('Test result:', result);
+        console.log('🔍 DEBUG: Full API response:', result);
+        console.log('🔍 DEBUG: result.evaluation:', result.evaluation);
+        console.log('🔍 DEBUG: result.metrics:', result.metrics);
+        console.log('🔍 DEBUG: result.evaluation?.metrics:', result.evaluation?.metrics);
 
         if (response.ok && result.success) {
             // Store the latest result
@@ -937,12 +940,15 @@ async function handleTestSubmission(event) {
                 dataset: datasetSelect.value,
                 filename: fileInput.files[0].name,
                 evaluation: result.evaluation,
-                // keep metrics from the root of the response
+                // CHECK ALL POSSIBLE LOCATIONS FOR METRICS
                 evaluation_metrics: result.evaluation_metrics || result.metrics?.all_metrics || result.metrics,
                 validation: result.validation,
                 success: result.success,
                 timestamp: new Date()
             };
+
+            console.log('🔍 DEBUG: lastTestResult object:', lastTestResult);
+            console.log('🔍 DEBUG: Metrics being passed to table:', lastTestResult.evaluation_metrics);
 
             // Update the results table
             updateIndividualTestResults(lastTestResult);
@@ -968,21 +974,29 @@ function updateIndividualTestResults(testResult) {
 
     if (!resultsDiv || !resultsBody) return;
 
-    // Show the results section
     resultsDiv.style.display = 'block';
 
-    // Extract metrics from the evaluation
+    // Try multiple possible locations for metrics
     const metrics =
+        testResult.evaluation?.metrics ||
         testResult.evaluation_metrics ||
         testResult.metrics ||
-        (testResult.evaluation && testResult.evaluation.metrics) ||
         {};
+    
+    console.log('🔍 Full testResult:', testResult);
+    console.log('🔍 Extracted metrics:', metrics);
+    
     const qwk = metrics.quadratic_weighted_kappa ?? 'N/A';
     const pearson = metrics.pearson_correlation ?? 'N/A';
     const f1 = metrics.f1_score ?? 'N/A';
     const precision = metrics.precision ?? 'N/A';
     const recall = metrics.recall ?? 'N/A';
+    const accuracy = metrics.accuracy ?? 'N/A';
     const mae = metrics.mean_absolute_error ?? 'N/A';
+    const mae_percent = metrics.mae_percentage ?? 'N/A';
+    const rmse = metrics.root_mean_squared_error ?? 'N/A';
+
+    console.log('🔍 Individual metrics:', { qwk, pearson, f1, precision, recall, mae, rmse });
 
     const formatScore = (score) => {
         if (score === null || score === undefined) return 'N/A';
@@ -1003,15 +1017,16 @@ function updateIndividualTestResults(testResult) {
             <td style="padding: 0.75rem; text-align: center;">${formatScore(f1)}</td>
             <td style="padding: 0.75rem; text-align: center;">${formatScore(precision)}</td>
             <td style="padding: 0.75rem; text-align: center;">${formatScore(recall)}</td>
+            <td style="padding: 0.75rem; text-align: center;">${formatScore(accuracy)}</td>
             <td style="padding: 0.75rem; text-align: center;">${formatScore(mae)}</td>
+            <td style="padding: 0.75rem; text-align: center;">${formatScore(rmse)}</td>
+            <td style="padding: 0.75rem; text-align: center;">${formatScore(mae_percent)}</td>
             <td style="padding: 0.75rem; text-align: center;">${status}</td>
         </tr>
     `;
 
-    // Replace the table body content (always shows only the latest result)
     resultsBody.innerHTML = rowHTML;
-
-    console.log('✅ Updated individual test results table');
+    console.log('✅ Table updated');
 }
 
 function showTestResults(result) {
@@ -1157,29 +1172,33 @@ function getBadgeClass(value) {
     return 'badge-poor';
 }
 
-// ===== FINAL FIXED: loadLeaderboard() function =====
+// ===== UPDATED: loadLeaderboard() function with toggle support =====
 async function loadLeaderboard() {
     if (!elements.leaderboardTable) return;
 
-    showLoading(elements.leaderboardTable, 'Loading complete benchmark leaderboard...');
+    showLoading(elements.leaderboardTable, 'Loading leaderboard...');
 
     try {
+        // Get current settings
         const metric = elements.metricSelector?.value || 'avg_quadratic_weighted_kappa';
+        const completeOnly = document.getElementById('complete-only-toggle')?.checked || false;
 
-        console.log('🔍 Debug: Loading leaderboard with metric:', metric);
+        console.log('🔍 Debug: Loading leaderboard with metric:', metric, 'completeOnly:', completeOnly);
 
-        const data = await fetchAPI('/api/submissions/leaderboard-cached?metric=' + metric + '&limit=20');
+        // Use the main leaderboard endpoint (not cached) to support toggle
+        const data = await fetchAPI(`/api/submissions/leaderboard?metric=${metric}&limit=50&complete_only=${completeOnly}`);
 
         console.log('🔍 Debug: Full API response:', data);
 
-        console.log('Debug: API response summary_stats:', data.summary_stats);
-
         if (!data || !data.rankings || data.rankings.length === 0) {
-            const actionHtml = '<a href="#submit" class="btn btn-primary"><i class="fas fa-rocket"></i> Submit Complete Benchmark</a>';
+            const actionHtml = '<a href="#submit" class="btn btn-primary"><i class="fas fa-rocket"></i> Submit Your Model</a>';
+            const message = completeOnly 
+                ? 'No complete benchmarks found. Try switching to "All Evaluations" to see partial submissions.'
+                : 'No evaluations found yet. Be the first to submit!';
             showEmptyState(
                 elements.leaderboardTable,
-                'No Complete Benchmarks Yet',
-                'Be the first to submit all datasets to appear on the leaderboard!',
+                'No Results Found',
+                message,
                 actionHtml
             );
             return;
@@ -1193,56 +1212,68 @@ async function loadLeaderboard() {
                 f1: data.rankings[0].avg_f1_score,
                 precision: data.rankings[0].avg_precision,
                 recall: data.rankings[0].avg_recall,
-                mae: data.rankings[0].avg_mae
+                accuracy: data.rankings[0].avg_accuracy,
+                mae: data.rankings[0].avg_mean_absolute_error,
+                rmse: data.rankings[0].avg_root_mean_squared_error
             });
         }
 
+        // Build table HTML
         var tableHTML = '<div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-light); border-radius: 8px;">';
-        tableHTML += '<p><strong>🏆 Complete Benchmarks Only:</strong> Only researchers who submitted all ' + totalDatasetsCount + ' datasets appear here.</p>';
+        if (completeOnly) {
+            tableHTML += '<p><strong>🏆 Complete Benchmarks Only:</strong> Only researchers who submitted all 23 datasets appear here.</p>';
+        } else {
+            tableHTML += '<p><strong>📊 All Evaluations:</strong> Showing all model submissions regardless of completion status.</p>';
+        }
         tableHTML += '</div>';
 
         tableHTML += '<div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">';
-        tableHTML += '<table style="width: 100%; min-width: 1400px; border-collapse: collapse; font-size: 0.9rem;">';
+        tableHTML += '<table style="width: 100%; min-width: 1600px; border-collapse: collapse; font-size: 0.9rem;">';
 
+        // Table header
         tableHTML += '<thead>';
         tableHTML += '<tr style="background: var(--bg-light);">';
         tableHTML += '<th style="padding: 1rem 0.75rem; border: 1px solid var(--border-light); text-align: center; min-width: 60px;">Rank</th>';
-        tableHTML += '<th style="padding: 1rem 0.75rem; border: 1px solid var(--border-light); text-align: left; min-width: 150px;">Researcher</th>';
-        tableHTML += '<th style="padding: 1rem 0.75rem; border: 1px solid var(--border-light); text-align: left; min-width: 120px;">Model</th>';
+        tableHTML += '<th style="padding: 1rem 0.75rem; border: 1px solid var(--border-light); text-align: left; min-width: 180px;">Model Name</th>';
+        tableHTML += '<th style="padding: 1rem 0.75rem; border: 1px solid var(--border-light); text-align: center; min-width: 80px;">Datasets</th>';
+        tableHTML += '<th style="padding: 1rem 0.75rem; border: 1px solid var(--border-light); text-align: center; min-width: 90px;">Status</th>';
         tableHTML += '<th style="padding: 1rem 0.75rem; border: 1px solid var(--border-light); text-align: center; min-width: 100px;">Avg QWK</th>';
         tableHTML += '<th style="padding: 1rem 0.75rem; border: 1px solid var(--border-light); text-align: center; min-width: 100px;">Avg Pearson</th>';
         tableHTML += '<th style="padding: 1rem 0.75rem; border: 1px solid var(--border-light); text-align: center; min-width: 100px;">Avg F1</th>';
         tableHTML += '<th style="padding: 1rem 0.75rem; border: 1px solid var(--border-light); text-align: center; min-width: 100px;">Avg Precision</th>';
         tableHTML += '<th style="padding: 1rem 0.75rem; border: 1px solid var(--border-light); text-align: center; min-width: 100px;">Avg Recall</th>';
+        tableHTML += '<th style="padding: 1rem 0.75rem; border: 1px solid var(--border-light); text-align: center; min-width: 100px;">Avg Accuracy</th>';
         tableHTML += '<th style="padding: 1rem 0.75rem; border: 1px solid var(--border-light); text-align: center; min-width: 100px;">Avg MAE</th>';
-        tableHTML += '<th style="padding: 1rem 0.75rem; border: 1px solid var(--border-light); text-align: center; min-width: 80px;">Datasets</th>';
-        tableHTML += '<th style="padding: 1rem 0.75rem; border: 1px solid var(--border-light); text-align: center; min-width: 80px;">Essays</th>';
-        tableHTML += '<th style="padding: 1rem 0.75rem; border: 1px solid var(--border-light); text-align: center; min-width: 100px;">Submitted</th>';
+        tableHTML += '<th style="padding: 1rem 0.75rem; border: 1px solid var(--border-light); text-align: center; min-width: 100px;">Avg RMSE</th>';
         tableHTML += '</tr>';
         tableHTML += '</thead>';
 
-        // ✅ FIXED: Table body with ALL metric data
+        // Table body with ALL 8 metrics
         tableHTML += '<tbody>';
 
         data.rankings.forEach((entry, index) => {
-            const rank = entry.rank || (index + 1);
+            const rank = index + 1;
             const rankClass = getRankClass(rank);
 
-            // ✅ FIXED: Extract ALL 6 metrics from API response
+            // Extract ALL 8 metrics from API response
             const qwk = entry.avg_quadratic_weighted_kappa || 0;
             const pearson = entry.avg_pearson_correlation || 0;
             const f1 = entry.avg_f1_score || 0;
             const precision = entry.avg_precision || 0;
             const recall = entry.avg_recall || 0;
+            const accuracy = entry.avg_accuracy || 0;
             const mae = entry.avg_mean_absolute_error || 0;
+            const rmse = entry.avg_root_mean_squared_error || 0;
 
-            // ✅ FIXED: Style classes for each metric
+            // Style classes for each metric
             const qwkClass = getScoreClass(qwk);
             const pearsonClass = getScoreClass(pearson);
             const f1Class = getScoreClass(f1);
             const precisionClass = getScoreClass(precision);
             const recallClass = getScoreClass(recall);
+            const accuracyClass = getScoreClass(accuracy);
             const maeClass = getScoreClass(mae < 0.5 ? 0.8 : mae < 1.0 ? 0.6 : 0.3); // MAE: lower is better
+            const rmseClass = getScoreClass(rmse < 0.7 ? 0.8 : rmse < 1.5 ? 0.6 : 0.3); // RMSE: lower is better
 
             // Format scores
             const qwkScore = formatScore(qwk);
@@ -1250,43 +1281,47 @@ async function loadLeaderboard() {
             const f1Score = formatScore(f1);
             const precisionScore = formatScore(precision);
             const recallScore = formatScore(recall);
+            const accuracyScore = formatScore(accuracy);
             const maeScore = formatScore(mae);
+            const rmseScore = formatScore(rmse);
 
-            // Other data - using correct field mapping
-            const submitterName = entry.contact_email || 'Research Team';  //
-            const totalEssays = entry.total_submissions || 0;
+            // Other data
             const modelName = entry.model_name || 'Unknown';
-            const submissionDate = formatDate(entry.last_updated || new Date().toISOString());
             const datasetsCompleted = entry.unique_datasets_count || 0;
+            const isComplete = entry.complete_benchmark || false;
 
-            // ✅ FIXED: Build complete table row with ALL 6 metrics
+            // Status badge
+            const statusBadge = isComplete
+                ? '<span class="status-badge complete">Complete</span>'
+                : '<span class="status-badge partial">Partial</span>';
+
+            // Build complete table row with ALL 8 metrics
             tableHTML += '<tr style="border-bottom: 1px solid var(--border-light);">';
             tableHTML += '<td style="padding: 1rem 0.75rem; text-align: center;"><div class="rank-badge ' + rankClass + '">' + rank + '</div></td>';
-            tableHTML += '<td style="padding: 1rem 0.75rem; color: var(--text-primary);"><strong>' + submitterName + '</strong></td>';
-            tableHTML += '<td style="padding: 1rem 0.75rem; color: var(--text-secondary); font-size: 0.9em;">' + modelName + '</td>';
+            tableHTML += '<td style="padding: 1rem 0.75rem;"><div style="font-weight: 600; color: var(--text-primary);">' + escapeHtml(modelName) + '</div>';
+            if (entry.description) {
+                tableHTML += '<div style="font-size: 0.85em; color: var(--text-secondary);">' + escapeHtml(entry.description) + '</div>';
+            }
+            tableHTML += '</td>';
+            tableHTML += '<td style="padding: 1rem 0.75rem; text-align: center;"><span style="font-weight: 600;">' + datasetsCompleted + '</span></td>';
+            tableHTML += '<td style="padding: 1rem 0.75rem; text-align: center;">' + statusBadge + '</td>';
 
-            // ✅ FIXED: ALL 6 metric columns with proper styling and tooltips
+            // ALL 8 metric columns with proper styling and tooltips
             tableHTML += '<td style="padding: 1rem 0.75rem; text-align: center;"><span class="score-badge ' + qwkClass + '" title="Quadratic Weighted Kappa: ' + getScoreDescription(qwk) + '">' + qwkScore + '</span></td>';
             tableHTML += '<td style="padding: 1rem 0.75rem; text-align: center;"><span class="score-badge ' + pearsonClass + '" title="Pearson Correlation: ' + getScoreDescription(pearson) + '">' + pearsonScore + '</span></td>';
             tableHTML += '<td style="padding: 1rem 0.75rem; text-align: center;"><span class="score-badge ' + f1Class + '" title="F1 Score: ' + getScoreDescription(f1) + '">' + f1Score + '</span></td>';
             tableHTML += '<td style="padding: 1rem 0.75rem; text-align: center;"><span class="score-badge ' + precisionClass + '" title="Precision: ' + getScoreDescription(precision) + '">' + precisionScore + '</span></td>';
             tableHTML += '<td style="padding: 1rem 0.75rem; text-align: center;"><span class="score-badge ' + recallClass + '" title="Recall: ' + getScoreDescription(recall) + '">' + recallScore + '</span></td>';
+            tableHTML += '<td style="padding: 1rem 0.75rem; text-align: center;"><span class="score-badge ' + accuracyClass + '" title="Accuracy: ' + getScoreDescription(accuracy) + '">' + accuracyScore + '</span></td>';
             tableHTML += '<td style="padding: 1rem 0.75rem; text-align: center;"><span class="score-badge ' + maeClass + '" title="Mean Absolute Error: ' + (mae < 0.5 ? 'Excellent' : mae < 1.0 ? 'Good' : 'Fair') + ' (Lower is Better)">' + maeScore + '</span></td>';
-
-            // Other columns
-            tableHTML += '<td style="padding: 1rem 0.75rem; text-align: center;"><span style="color: var(--success); font-weight: 600;">' + datasetsCompleted + '/' + totalDatasetsCount + '</span></td>';
-            tableHTML += '<td style="padding: 1rem 0.75rem; text-align: center;">' + totalEssays + '</td>';
-            tableHTML += '<td style="padding: 1rem 0.75rem; text-align: center;"><small style="color: var(--text-muted);">' + submissionDate + '</small></td>';
+            tableHTML += '<td style="padding: 1rem 0.75rem; text-align: center;"><span class="score-badge ' + rmseClass + '" title="Root Mean Squared Error: ' + (rmse < 0.7 ? 'Excellent' : rmse < 1.5 ? 'Good' : 'Fair') + ' (Lower is Better)">' + rmseScore + '</span></td>';
             tableHTML += '</tr>';
 
             // Debug log for each entry
-            console.log('🔍 Debug entry ' + index + ' (' + submitterName + '):', {
-                qwk: qwk,
-                pearson: pearson,
-                f1: f1,
-                precision: precision,
-                recall: recall,
-                mae: mae
+            console.log('🔍 Debug entry ' + index + ' (' + modelName + '):', {
+                qwk, pearson, f1, precision, recall, accuracy, mae, rmse,
+                complete: isComplete,
+                datasets: datasetsCompleted
             });
         });
 
@@ -1294,14 +1329,16 @@ async function loadLeaderboard() {
         tableHTML += '</table>';
         tableHTML += '</div>'; // Close overflow container
 
+        // Summary stats
         if (data.summary_stats) {
             tableHTML += '<div style="margin-top: 1.5rem; padding: 1rem; background: var(--bg-light); border-radius: 8px;">';
-            tableHTML += '<h4 style="margin-bottom: 1rem;">📊 Platform Summary</h4>';
+            tableHTML += '<h4 style="margin-bottom: 1rem;">📊 Summary Statistics</h4>';
             tableHTML += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">';
-            tableHTML += '<div><strong>Total Researchers:</strong><br><span style="font-size: 1.2em; color: var(--primary-blue);">' + (data.summary_stats.total_researchers || 0) + '</span></div>';
+            tableHTML += '<div><strong>Total Models:</strong><br><span style="font-size: 1.2em; color: var(--primary-blue);">' + (data.summary_stats.total_researchers || 0) + '</span></div>';
             tableHTML += '<div><strong>Complete Benchmarks:</strong><br><span style="font-size: 1.2em; color: var(--success);">' + (data.summary_stats.complete_benchmarks || 0) + '</span></div>';
+            tableHTML += '<div><strong>Partial Evaluations:</strong><br><span style="font-size: 1.2em; color: var(--primary-blue);">' + (data.summary_stats.partial_benchmarks || 0) + '</span></div>';
 
-            // Use .mean to access the actual values
+            // Add average metrics if available
             if (data.summary_stats.avg_quadratic_weighted_kappa && data.summary_stats.avg_quadratic_weighted_kappa.mean !== undefined) {
                 tableHTML += '<div><strong>Avg QWK:</strong><br><span style="font-size: 1.2em; color: var(--primary-blue);">' + formatScore(data.summary_stats.avg_quadratic_weighted_kappa.mean) + '</span></div>';
             }
@@ -1310,28 +1347,28 @@ async function loadLeaderboard() {
                 tableHTML += '<div><strong>Avg F1:</strong><br><span style="font-size: 1.2em; color: var(--primary-blue);">' + formatScore(data.summary_stats.avg_f1_score.mean) + '</span></div>';
             }
 
-            if (data.summary_stats.avg_precision && data.summary_stats.avg_precision.mean !== undefined) {
-                tableHTML += '<div><strong>Avg Precision:</strong><br><span style="font-size: 1.2em; color: var(--primary-blue);">' + formatScore(data.summary_stats.avg_precision.mean) + '</span></div>';
-            }
-
-            if (data.summary_stats.avg_recall && data.summary_stats.avg_recall.mean !== undefined) {
-                tableHTML += '<div><strong>Avg Recall:</strong><br><span style="font-size: 1.2em; color: var(--primary-blue);">' + formatScore(data.summary_stats.avg_recall.mean) + '</span></div>';
-            }
-
             tableHTML += '</div>';
             tableHTML += '</div>';
         }
 
-        // ✅ FIXED: Set the complete HTML
+        // Set the complete HTML
         elements.leaderboardTable.innerHTML = tableHTML;
 
-        console.log('✅ FINAL SUCCESS: Loaded leaderboard with ' + data.rankings.length + ' complete benchmarks and ALL 6 METRICS');
-        console.log('✅ Table should now show: Rank | Researcher | Model | QWK | Pearson | F1 | Precision | Recall | MAE | Datasets | Essays | Submitted');
+        console.log('✅ SUCCESS: Loaded leaderboard with ' + data.rankings.length + ' entries and ALL 8 METRICS');
+        console.log('✅ Mode:', completeOnly ? 'Complete Benchmarks Only' : 'All Evaluations');
 
     } catch (error) {
         showError(elements.leaderboardTable, 'Failed to load leaderboard. Please check the API connection.');
         console.error('❌ Failed to load leaderboard:', error);
     }
+}
+
+// Helper function to escape HTML
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 
 // ===== Form Submission =====
@@ -1851,32 +1888,32 @@ function getDetailedScoreInfo(datasetName) {
             description: 'IELTS Writing Assessment Dataset with band scores from 1 to 9 following official IELTS scoring criteria.',
             taskType: 'Regression Task - IELTS band scoring'
         },
-        'D_Ielst_Writing_Task_2_Dataset': {
+        'D_Ielts_Writing_Task_2_Dataset': {
             range: '1-9',
             description: 'IELTS Writing Task 2 Dataset with band scores from 1 to 9 for argumentative and discursive essays.',
             taskType: 'Regression Task - IELTS Task 2 band scoring'
         },
-        'D_grade_like_a_human_dataset_os_q1': {
+        'D_OS_Dataset_q1': {
             range: '0-19',
             description: 'Operating Systems Question 1 with comprehensive point allocation from 0 to 19. Scores reflect understanding of OS concepts with detailed grading criteria.',
             taskType: 'Regression Task - Academic grading with multiple evaluation criteria'
         },
-        'D_grade_like_a_human_dataset_os_q2': {
+        'D_OS_Dataset_q2': {
             range: '0-16',
             description: 'Operating Systems Question 2 with point allocation from 0 to 16. Evaluates understanding of OS principles and implementation.',
             taskType: 'Regression Task - Academic grading for OS concepts'
         },
-        'D_grade_like_a_human_dataset_os_q3': {
+        'D_OS_Dataset_q3': {
             range: '0-15',
             description: 'Operating Systems Question 3 with scoring from 0 to 15. Assesses comprehension of advanced OS topics.',
             taskType: 'Regression Task - Academic grading for advanced OS topics'
         },
-        'D_grade_like_a_human_dataset_os_q4': {
+        'D_OS_Dataset_q4': {
             range: '0-16',
             description: 'Operating Systems Question 4 with point allocation from 0 to 16. Evaluates practical OS knowledge and application.',
             taskType: 'Regression Task - Academic grading for practical OS knowledge'
         },
-        'D_grade_like_a_human_dataset_os_q5': {
+        'D_OS_Dataset_q5': {
             range: '0-27',
             description: 'Operating Systems Question 5 with comprehensive scoring from 0 to 27. Covers complex OS scenarios and problem-solving.',
             taskType: 'Regression Task - Academic grading for complex OS scenarios'
