@@ -1,28 +1,49 @@
-# Environment variables
+# Folders
+stored_submissions/
+__pycache__/
+venv/
+env/
+uploads/
+stored_files/
+
+# Environment files
 .env
 .env.local
-.env.*.local
 
 # Database files
 *.db
+*.sqlite3
+besesr.db
 sgrades.db
 
+# Cache and temp files
+dataset_discovery_cache.json
+*_cache.json
+
+# Results and checkpoints
+batch_evaluation_*.json
+batch_evaluation_*.xlsx
+*_checkpoint.json
+*_partial.json
+
+# Config
+pyproject.toml
+
 # Python
-__pycache__/
 *.py[cod]
-*$py.class
+__pycache__/
 *.so
-.Python
-*.egg-info/
 
 # IDE
 .vscode/
 .idea/
-*.swp
-*.swo
 
 # OS
 .DS_Store
 Thumbs.db
-*.pyc
-__pycache__/
+
+# Keep these files (NOT ignored)
+!requirements.txt
+!README.md
+!.env.example
+!.gitignore
