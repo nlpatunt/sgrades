@@ -1,49 +1,50 @@
-# Folders
-stored_submissions/
-__pycache__/
-venv/
-env/
-uploads/
-stored_files/
-
-# Environment files
-.env
-.env.local
-
-# Database files
-*.db
-*.sqlite3
-besesr.db
-sgrades.db
-
-# Cache and temp files
-dataset_discovery_cache.json
-*_cache.json
-
-# Results and checkpoints
-batch_evaluation_*.json
-batch_evaluation_*.xlsx
-*_checkpoint.json
-*_partial.json
-
-# Config
-pyproject.toml
-
 # Python
-*.py[cod]
 __pycache__/
-*.so
+*.pyc
 
-# IDE
-.vscode/
-.idea/
+# Virtual environments
+venv/
+.env/
 
-# OS
+# Logs
+*.log
+
+# HuggingFace Cache
+~/.cache/huggingface/
+cache/
+data_cache/
+hf_cache/
+
+# Model checkpoints / weights
+*.pt
+*.pth
+*.bin
+*.safetensors
+
+# Datasets
+*.csv
+*.xlsx
+*.tsv
+*.jsonl
+
+# Output folders
+results/
+outputs/
+predictions/
+*_predictions/
+lama_exp/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# OS-specific
 .DS_Store
 Thumbs.db
 
-# Keep these files (NOT ignored)
-!requirements.txt
-!README.md
-!.env.example
-!.gitignore
+# FastAPI / build artifacts
+__pycache__/
+dist/
+build/
+
+# Node modules if frontend exists
+node_modules/
