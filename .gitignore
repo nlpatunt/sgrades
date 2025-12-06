@@ -1,50 +1,30 @@
+# Environment
+.env
+.env.*
+!/.env.example
+
 # Python
 __pycache__/
 *.pyc
+*.pyo
 
-# Virtual environments
-venv/
-.env/
+# Database files
+*.db
 
 # Logs
 *.log
 
-# HuggingFace Cache
-~/.cache/huggingface/
-cache/
-data_cache/
-hf_cache/
+# Cache
+*.cache
+.cache/
+dataset_discovery_cache.json
 
-# Model checkpoints / weights
-*.pt
-*.pth
-*.bin
-*.safetensors
+# Evaluation artifacts
+batch_evaluation_*.json
 
-# Datasets
-*.csv
-*.xlsx
-*.tsv
-*.jsonl
+# User uploads
+stored_submissions/
 
-# Output folders
-results/
-outputs/
-predictions/
-*_predictions/
-lama_exp/
-
-# Jupyter Notebook checkpoints
-.ipynb_checkpoints/
-
-# OS-specific
-.DS_Store
-Thumbs.db
-
-# FastAPI / build artifacts
-__pycache__/
-dist/
-build/
-
-# Node modules if frontend exists
-node_modules/
+# ML evaluation outputs
+mllm_evaluation/results/
+mllm_evaluation/*/outputs/
