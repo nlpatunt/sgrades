@@ -1,0 +1,19 @@
+{
+  "model": "gemini-2.5-flash",
+  "method": "deductive_3call",
+  "calls_per_point": 3,
+  "datasets": [
+    {
+      "name": "D_SciEntSBank_2way",
+      "valid": 1225,
+      "failed": 0,
+      "csv": "deductive_3call_predictions/gemini-2.5-flash_D_SciEntSBank_2way_3call.csv"
+    },
+    {
+      "name": "D_SciEntSBank_3way",
+      "valid": 1225,
+      "failed": 0,
+      "csv": "deductive_3call_predictions/gemini-2.5-flash_D_SciEntSBank_3way_3call.csv"
+    }
+  ]
+}

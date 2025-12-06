@@ -1,0 +1,6028 @@
+{
+  "experiment_type": "cross_dataset_generalization_ind_ded",
+  "model_code": "meta-llama/llama-4-scout",
+  "model_name": "llama-4-scout",
+  "train_dataset": "ASAP-SAS",
+  "test_dataset": "CSEE",
+  "reasoning_approach": "inductive_deductive",
+  "num_training_examples": 5,
+  "random_seed": 42,
+  "training_ids": [
+    "1165",
+    "11340",
+    "11272",
+    "21454",
+    "23680"
+  ],
+  "start_timestamp": "2025-10-24T20:40:04.743118",
+  "test_examples": 1000,
+  "predictions": [
+    {
+      "id": "9906",
+      "prediction": 14.0,
+      "tokens": 3365,
+      "attempts": 1
+    },
+    {
+      "id": "11529",
+      "prediction": 14.0,
+      "tokens": 3334,
+      "attempts": 1
+    },
+    {
+      "id": "9278",
+      "prediction": 8.0,
+      "tokens": 3350,
+      "attempts": 1
+    },
+    {
+      "id": "5386",
+      "prediction": 6.0,
+      "tokens": 3312,
+      "attempts": 1
+    },
+    {
+      "id": "8846",
+      "prediction": 12.0,
+      "tokens": 3359,
+      "attempts": 1
+    },
+    {
+      "id": "656",
+      "prediction": 6.0,
+      "tokens": 3309,
+      "attempts": 1
+    },
+    {
+      "id": "6889",
+      "prediction": 12.0,
+      "tokens": 3369,
+      "attempts": 1
+    },
+    {
+      "id": "9123",
+      "prediction": 6.0,
+      "tokens": 3368,
+      "attempts": 1
+    },
+    {
+      "id": "12311",
+      "prediction": 14.0,
+      "tokens": 3344,
+      "attempts": 1
+    },
+    {
+      "id": "8042",
+      "prediction": 12.0,
+      "tokens": 3361,
+      "attempts": 1
+    },
+    {
+      "id": "7017",
+      "prediction": 6.0,
+      "tokens": 3261,
+      "attempts": 1
+    },
+    {
+      "id": "6227",
+      "prediction": 12.0,
+      "tokens": 3350,
+      "attempts": 1
+    },
+    {
+      "id": "879",
+      "prediction": 12.0,
+      "tokens": 3352,
+      "attempts": 1
+    },
+    {
+      "id": "7200",
+      "prediction": 8.0,
+      "tokens": 3380,
+      "attempts": 1
+    },
+    {
+      "id": "5503",
+      "prediction": 6.0,
+      "tokens": 3325,
+      "attempts": 1
+    },
+    {
+      "id": "5770",
+      "prediction": 6.0,
+      "tokens": 3352,
+      "attempts": 1
+    },
+    {
+      "id": "5263",
+      "prediction": 6.0,
+      "tokens": 3320,
+      "attempts": 1
+    },
+    {
+      "id": "10615",
+      "prediction": 8.0,
+      "tokens": 3377,
+      "attempts": 1
+    },
+    {
+      "id": "7882",
+      "prediction": 2.0,
+      "tokens": 3309,
+      "attempts": 1
+    },
+    {
+      "id": "11810",
+      "prediction": 14.0,
+      "tokens": 3354,
+      "attempts": 1
+    },
+    {
+      "id": "2133",
+      "prediction": 6.0,
+      "tokens": 3336,
+      "attempts": 1
+    },
+    {
+      "id": "11026",
+      "prediction": 14.0,
+      "tokens": 3377,
+      "attempts": 1
+    },
+    {
+      "id": "4393",
+      "prediction": 6.0,
+      "tokens": 3298,
+      "attempts": 1
+    },
+    {
+      "id": "7267",
+      "prediction": 12.0,
+      "tokens": 3375,
+      "attempts": 1
+    },
+    {
+      "id": "7932",
+      "prediction": 12.0,
+      "tokens": 3359,
+      "attempts": 1
+    },
+    {
+      "id": "7795",
+      "prediction": 14.0,
+      "tokens": 3311,
+      "attempts": 1
+    },
+    {
+      "id": "8579",
+      "prediction": 8.0,
+      "tokens": 3331,
+      "attempts": 1
+    },
+    {
+      "id": "1901",
+      "prediction": 6.0,
+      "tokens": 3362,
+      "attempts": 1
+    },
+    {
+      "id": "1035",
+      "prediction": 8.0,
+      "tokens": 3359,
+      "attempts": 1
+    },
+    {
+      "id": "8488",
+      "prediction": 6.0,
+      "tokens": 3313,
+      "attempts": 1
+    },
+    {
+      "id": "2995",
+      "prediction": 6.0,
+      "tokens": 3303,
+      "attempts": 1
+    },
+    {
+      "id": "12192",
+      "prediction": 12.0,
+      "tokens": 3324,
+      "attempts": 1
+    },
+    {
+      "id": "7930",
+      "prediction": 6.0,
+      "tokens": 3295,
+      "attempts": 1
+    },
+    {
+      "id": "6407",
+      "prediction": 14.0,
+      "tokens": 3427,
+      "attempts": 1
+    },
+    {
+      "id": "5202",
+      "prediction": 6.0,
+      "tokens": 3362,
+      "attempts": 1
+    },
+    {
+      "id": "6839",
+      "prediction": 12.0,
+      "tokens": 3322,
+      "attempts": 1
+    },
+    {
+      "id": "1728",
+      "prediction": 6.0,
+      "tokens": 3334,
+      "attempts": 1
+    },
+    {
+      "id": "9343",
+      "prediction": 2.0,
+      "tokens": 3333,
+      "attempts": 1
+    },
+    {
+      "id": "5608",
+      "prediction": 2.0,
+      "tokens": 3230,
+      "attempts": 1
+    },
+    {
+      "id": "4450",
+      "prediction": 14.0,
+      "tokens": 3391,
+      "attempts": 1
+    },
+    {
+      "id": "4122",
+      "prediction": 12.0,
+      "tokens": 3373,
+      "attempts": 1
+    },
+    {
+      "id": "12423",
+      "prediction": 14.0,
+      "tokens": 3356,
+      "attempts": 1
+    },
+    {
+      "id": "565",
+      "prediction": 8.0,
+      "tokens": 3355,
+      "attempts": 1
+    },
+    {
+      "id": "2611",
+      "prediction": 12.0,
+      "tokens": 3334,
+      "attempts": 1
+    },
+    {
+      "id": "2239",
+      "prediction": 8.0,
+      "tokens": 3347,
+      "attempts": 1
+    },
+    {
+      "id": "9660",
+      "prediction": 14.0,
+      "tokens": 3379,
+      "attempts": 1
+    },
+    {
+      "id": "2067",
+      "prediction": 12.0,
+      "tokens": 3348,
+      "attempts": 1
+    },
+    {
+      "id": "6866",
+      "prediction": 6.0,
+      "tokens": 3286,
+      "attempts": 1
+    },
+    {
+      "id": "1193",
+      "prediction": 6.0,
+      "tokens": 3381,
+      "attempts": 1
+    },
+    {
+      "id": "4398",
+      "prediction": 2.0,
+      "tokens": 3305,
+      "attempts": 1
+    },
+    {
+      "id": "11798",
+      "prediction": 12.0,
+      "tokens": 3350,
+      "attempts": 1
+    },
+    {
+      "id": "63",
+      "prediction": 6.0,
+      "tokens": 3311,
+      "attempts": 1
+    },
+    {
+      "id": "9436",
+      "prediction": 2.0,
+      "tokens": 3277,
+      "attempts": 1
+    },
+    {
+      "id": "9359",
+      "prediction": 12.0,
+      "tokens": 3337,
+      "attempts": 1
+    },
+    {
+      "id": "5062",
+      "prediction": 6.0,
+      "tokens": 3308,
+      "attempts": 1
+    },
+    {
+      "id": "1610",
+      "prediction": 6.0,
+      "tokens": 3309,
+      "attempts": 1
+    },
+    {
+      "id": "11037",
+      "prediction": 8.0,
+      "tokens": 3334,
+      "attempts": 1
+    },
+    {
+      "id": "11809",
+      "prediction": 12.0,
+      "tokens": 3341,
+      "attempts": 1
+    },
+    {
+      "id": "12168",
+      "prediction": 12.0,
+      "tokens": 3355,
+      "attempts": 1
+    },
+    {
+      "id": "5643",
+      "prediction": 12.0,
+      "tokens": 3383,
+      "attempts": 1
+    },
+    {
+      "id": "80",
+      "prediction": 6.0,
+      "tokens": 3320,
+      "attempts": 1
+    },
+    {
+      "id": "12243",
+      "prediction": 6.0,
+      "tokens": 3294,
+      "attempts": 1
+    },
+    {
+      "id": "2264",
+      "prediction": 6.0,
+      "tokens": 3314,
+      "attempts": 1
+    },
+    {
+      "id": "3139",
+      "prediction": 2.0,
+      "tokens": 3300,
+      "attempts": 1
+    },
+    {
+      "id": "3409",
+      "prediction": 8.0,
+      "tokens": 3311,
+      "attempts": 1
+    },
+    {
+      "id": "9779",
+      "prediction": 12.0,
+      "tokens": 3331,
+      "attempts": 1
+    },
+    {
+      "id": "7662",
+      "prediction": 8.0,
+      "tokens": 3307,
+      "attempts": 1
+    },
+    {
+      "id": "5999",
+      "prediction": 8.0,
+      "tokens": 3344,
+      "attempts": 1
+    },
+    {
+      "id": "921",
+      "prediction": 6.0,
+      "tokens": 3340,
+      "attempts": 1
+    },
+    {
+      "id": "5899",
+      "prediction": 12.0,
+      "tokens": 3316,
+      "attempts": 1
+    },
+    {
+      "id": "2608",
+      "prediction": 4.0,
+      "tokens": 3307,
+      "attempts": 1
+    },
+    {
+      "id": "10712",
+      "prediction": 8.0,
+      "tokens": 3342,
+      "attempts": 1
+    },
+    {
+      "id": "12412",
+      "prediction": 12.0,
+      "tokens": 3340,
+      "attempts": 1
+    },
+    {
+      "id": "1084",
+      "prediction": 6.0,
+      "tokens": 3317,
+      "attempts": 1
+    },
+    {
+      "id": "9804",
+      "prediction": 12.0,
+      "tokens": 3361,
+      "attempts": 1
+    },
+    {
+      "id": "10127",
+      "prediction": 14.0,
+      "tokens": 3336,
+      "attempts": 1
+    },
+    {
+      "id": "449",
+      "prediction": 8.0,
+      "tokens": 3337,
+      "attempts": 1
+    },
+    {
+      "id": "13042",
+      "prediction": 8.0,
+      "tokens": 3363,
+      "attempts": 1
+    },
+    {
+      "id": "4412",
+      "prediction": 12.0,
+      "tokens": 3325,
+      "attempts": 1
+    },
+    {
+      "id": "2848",
+      "prediction": 6.0,
+      "tokens": 3340,
+      "attempts": 1
+    },
+    {
+      "id": "9303",
+      "prediction": 6.0,
+      "tokens": 3328,
+      "attempts": 1
+    },
+    {
+      "id": "6192",
+      "prediction": 12.0,
+      "tokens": 3354,
+      "attempts": 1
+    },
+    {
+      "id": "1705",
+      "prediction": 12.0,
+      "tokens": 3346,
+      "attempts": 1
+    },
+    {
+      "id": "2400",
+      "prediction": 12.0,
+      "tokens": 3344,
+      "attempts": 1
+    },
+    {
+      "id": "10618",
+      "prediction": 14.0,
+      "tokens": 3369,
+      "attempts": 1
+    },
+    {
+      "id": "11884",
+      "prediction": 8.0,
+      "tokens": 3371,
+      "attempts": 1
+    },
+    {
+      "id": "4403",
+      "prediction": 12.0,
+      "tokens": 3356,
+      "attempts": 1
+    },
+    {
+      "id": "6083",
+      "prediction": 8.0,
+      "tokens": 3361,
+      "attempts": 1
+    },
+    {
+      "id": "3295",
+      "prediction": 6.0,
+      "tokens": 3320,
+      "attempts": 1
+    },
+    {
+      "id": "4189",
+      "prediction": 6.0,
+      "tokens": 3304,
+      "attempts": 1
+    },
+    {
+      "id": "9896",
+      "prediction": 12.0,
+      "tokens": 3376,
+      "attempts": 1
+    },
+    {
+      "id": "6307",
+      "prediction": 2.0,
+      "tokens": 3320,
+      "attempts": 1
+    },
+    {
+      "id": "7366",
+      "prediction": 12.0,
+      "tokens": 3346,
+      "attempts": 1
+    },
+    {
+      "id": "10190",
+      "prediction": 8.0,
+      "tokens": 3342,
+      "attempts": 1
+    },
+    {
+      "id": "12001",
+      "prediction": 12.0,
+      "tokens": 3355,
+      "attempts": 1
+    },
+    {
+      "id": "4604",
+      "prediction": 6.0,
+      "tokens": 3382,
+      "attempts": 1
+    },
+    {
+      "id": "3643",
+      "prediction": 12.0,
+      "tokens": 3330,
+      "attempts": 1
+    },
+    {
+      "id": "11918",
+      "prediction": 12.0,
+      "tokens": 3356,
+      "attempts": 1
+    },
+    {
+      "id": "12135",
+      "prediction": 6.0,
+      "tokens": 3313,
+      "attempts": 1
+    },
+    {
+      "id": "7492",
+      "prediction": 6.0,
+      "tokens": 3353,
+      "attempts": 1
+    },
+    {
+      "id": "11841",
+      "prediction": 12.0,
+      "tokens": 3355,
+      "attempts": 1
+    },
+    {
+      "id": "9946",
+      "prediction": 14.0,
+      "tokens": 3356,
+      "attempts": 1
+    },
+    {
+      "id": "6753",
+      "prediction": 8.0,
+      "tokens": 3381,
+      "attempts": 1
+    },
+    {
+      "id": "428",
+      "prediction": 12.0,
+      "tokens": 3396,
+      "attempts": 1
+    },
+    {
+      "id": "10440",
+      "prediction": 12.0,
+      "tokens": 3352,
+      "attempts": 1
+    },
+    {
+      "id": "4156",
+      "prediction": 8.0,
+      "tokens": 3344,
+      "attempts": 1
+    },
+    {
+      "id": "750",
+      "prediction": 8.0,
+      "tokens": 3319,
+      "attempts": 1
+    },
+    {
+      "id": "11549",
+      "prediction": 6.0,
+      "tokens": 3386,
+      "attempts": 1
+    },
+    {
+      "id": "5385",
+      "prediction": 8.0,
+      "tokens": 3372,
+      "attempts": 1
+    },
+    {
+      "id": "9051",
+      "prediction": 6.0,
+      "tokens": 3322,
+      "attempts": 1
+    },
+    {
+      "id": "9420",
+      "prediction": 8.0,
+      "tokens": 3338,
+      "attempts": 1
+    },
+    {
+      "id": "10890",
+      "prediction": 6.0,
+      "tokens": 3358,
+      "attempts": 1
+    },
+    {
+      "id": "10659",
+      "prediction": 6.0,
+      "tokens": 3371,
+      "attempts": 1
+    },
+    {
+      "id": "1513",
+      "prediction": 8.0,
+      "tokens": 3336,
+      "attempts": 1
+    },
+    {
+      "id": "5981",
+      "prediction": 8.0,
+      "tokens": 3294,
+      "attempts": 1
+    },
+    {
+      "id": "7532",
+      "prediction": 12.0,
+      "tokens": 3362,
+      "attempts": 1
+    },
+    {
+      "id": "1071",
+      "prediction": 6.0,
+      "tokens": 3357,
+      "attempts": 1
+    },
+    {
+      "id": "4244",
+      "prediction": 6.0,
+      "tokens": 3401,
+      "attempts": 1
+    },
+    {
+      "id": "6005",
+      "prediction": 12.0,
+      "tokens": 3369,
+      "attempts": 1
+    },
+    {
+      "id": "958",
+      "prediction": 8.0,
+      "tokens": 3337,
+      "attempts": 1
+    },
+    {
+      "id": "7379",
+      "prediction": 6.0,
+      "tokens": 3403,
+      "attempts": 1
+    },
+    {
+      "id": "1670",
+      "prediction": 8.0,
+      "tokens": 3285,
+      "attempts": 1
+    },
+    {
+      "id": "11845",
+      "prediction": 12.0,
+      "tokens": 3347,
+      "attempts": 1
+    },
+    {
+      "id": "12707",
+      "prediction": 6.0,
+      "tokens": 3283,
+      "attempts": 1
+    },
+    {
+      "id": "11959",
+      "prediction": 14.0,
+      "tokens": 3370,
+      "attempts": 1
+    },
+    {
+      "id": "4125",
+      "prediction": 6.0,
+      "tokens": 3342,
+      "attempts": 1
+    },
+    {
+      "id": "2992",
+      "prediction": 12.0,
+      "tokens": 3331,
+      "attempts": 1
+    },
+    {
+      "id": "1769",
+      "prediction": 8.0,
+      "tokens": 3307,
+      "attempts": 1
+    },
+    {
+      "id": "7663",
+      "prediction": 14.0,
+      "tokens": 3387,
+      "attempts": 1
+    },
+    {
+      "id": "5875",
+      "prediction": 6.0,
+      "tokens": 3347,
+      "attempts": 1
+    },
+    {
+      "id": "8268",
+      "prediction": 12.0,
+      "tokens": 3343,
+      "attempts": 1
+    },
+    {
+      "id": "8242",
+      "prediction": 14.0,
+      "tokens": 3387,
+      "attempts": 1
+    },
+    {
+      "id": "9770",
+      "prediction": 12.0,
+      "tokens": 3370,
+      "attempts": 1
+    },
+    {
+      "id": "11215",
+      "prediction": 6.0,
+      "tokens": 3357,
+      "attempts": 1
+    },
+    {
+      "id": "2348",
+      "prediction": 6.0,
+      "tokens": 3302,
+      "attempts": 1
+    },
+    {
+      "id": "4397",
+      "prediction": 8.0,
+      "tokens": 3342,
+      "attempts": 1
+    },
+    {
+      "id": "898",
+      "prediction": 6.0,
+      "tokens": 3308,
+      "attempts": 1
+    },
+    {
+      "id": "13182",
+      "prediction": 8.0,
+      "tokens": 3352,
+      "attempts": 1
+    },
+    {
+      "id": "4519",
+      "prediction": 6.0,
+      "tokens": 3294,
+      "attempts": 1
+    },
+    {
+      "id": "10780",
+      "prediction": 12.0,
+      "tokens": 3354,
+      "attempts": 1
+    },
+    {
+      "id": "5228",
+      "prediction": 12.0,
+      "tokens": 3322,
+      "attempts": 1
+    },
+    {
+      "id": "4339",
+      "prediction": 6.0,
+      "tokens": 3337,
+      "attempts": 1
+    },
+    {
+      "id": "10461",
+      "prediction": 6.0,
+      "tokens": 3355,
+      "attempts": 1
+    },
+    {
+      "id": "6850",
+      "prediction": 8.0,
+      "tokens": 3338,
+      "attempts": 1
+    },
+    {
+      "id": "1372",
+      "prediction": 6.0,
+      "tokens": 3323,
+      "attempts": 1
+    },
+    {
+      "id": "6742",
+      "prediction": 12.0,
+      "tokens": 3305,
+      "attempts": 1
+    },
+    {
+      "id": "103",
+      "prediction": 12.0,
+      "tokens": 3346,
+      "attempts": 1
+    },
+    {
+      "id": "11932",
+      "prediction": 8.0,
+      "tokens": 3291,
+      "attempts": 1
+    },
+    {
+      "id": "4822",
+      "prediction": 12.0,
+      "tokens": 3376,
+      "attempts": 1
+    },
+    {
+      "id": "10490",
+      "prediction": 14.0,
+      "tokens": 3372,
+      "attempts": 1
+    },
+    {
+      "id": "2448",
+      "prediction": 12.0,
+      "tokens": 3328,
+      "attempts": 1
+    },
+    {
+      "id": "8214",
+      "prediction": 12.0,
+      "tokens": 3340,
+      "attempts": 1
+    },
+    {
+      "id": "3372",
+      "prediction": 6.0,
+      "tokens": 3316,
+      "attempts": 1
+    },
+    {
+      "id": "9527",
+      "prediction": 6.0,
+      "tokens": 3325,
+      "attempts": 1
+    },
+    {
+      "id": "4561",
+      "prediction": 8.0,
+      "tokens": 3368,
+      "attempts": 1
+    },
+    {
+      "id": "9245",
+      "prediction": 14.0,
+      "tokens": 3317,
+      "attempts": 1
+    },
+    {
+      "id": "3694",
+      "prediction": 12.0,
+      "tokens": 3354,
+      "attempts": 1
+    },
+    {
+      "id": "5221",
+      "prediction": 12.0,
+      "tokens": 3343,
+      "attempts": 1
+    },
+    {
+      "id": "4467",
+      "prediction": 6.0,
+      "tokens": 3326,
+      "attempts": 1
+    },
+    {
+      "id": "11378",
+      "prediction": 14.0,
+      "tokens": 3381,
+      "attempts": 1
+    },
+    {
+      "id": "4077",
+      "prediction": 8.0,
+      "tokens": 3393,
+      "attempts": 1
+    },
+    {
+      "id": "6627",
+      "prediction": 2.0,
+      "tokens": 3327,
+      "attempts": 1
+    },
+    {
+      "id": "6107",
+      "prediction": 6.0,
+      "tokens": 3291,
+      "attempts": 1
+    },
+    {
+      "id": "6088",
+      "prediction": 6.0,
+      "tokens": 3312,
+      "attempts": 1
+    },
+    {
+      "id": "6290",
+      "prediction": 6.0,
+      "tokens": 3301,
+      "attempts": 1
+    },
+    {
+      "id": "10501",
+      "prediction": 6.0,
+      "tokens": 3345,
+      "attempts": 1
+    },
+    {
+      "id": "2626",
+      "prediction": 8.0,
+      "tokens": 3333,
+      "attempts": 1
+    },
+    {
+      "id": "13209",
+      "prediction": 8.0,
+      "tokens": 3319,
+      "attempts": 1
+    },
+    {
+      "id": "1123",
+      "prediction": 8.0,
+      "tokens": 3322,
+      "attempts": 1
+    },
+    {
+      "id": "7582",
+      "prediction": 8.0,
+      "tokens": 3377,
+      "attempts": 1
+    },
+    {
+      "id": "7039",
+      "prediction": 12.0,
+      "tokens": 3319,
+      "attempts": 1
+    },
+    {
+      "id": "6044",
+      "prediction": 6.0,
+      "tokens": 3347,
+      "attempts": 1
+    },
+    {
+      "id": "7169",
+      "prediction": 6.0,
+      "tokens": 3363,
+      "attempts": 1
+    },
+    {
+      "id": "8700",
+      "prediction": 14.0,
+      "tokens": 3339,
+      "attempts": 1
+    },
+    {
+      "id": "3413",
+      "prediction": 6.0,
+      "tokens": 3324,
+      "attempts": 1
+    },
+    {
+      "id": "10199",
+      "prediction": 6.0,
+      "tokens": 3304,
+      "attempts": 1
+    },
+    {
+      "id": "1282",
+      "prediction": 6.0,
+      "tokens": 3311,
+      "attempts": 1
+    },
+    {
+      "id": "1952",
+      "prediction": 2.0,
+      "tokens": 3304,
+      "attempts": 1
+    },
+    {
+      "id": "4250",
+      "prediction": 6.0,
+      "tokens": 3307,
+      "attempts": 1
+    },
+    {
+      "id": "2185",
+      "prediction": 12.0,
+      "tokens": 3339,
+      "attempts": 1
+    },
+    {
+      "id": "12227",
+      "prediction": 12.0,
+      "tokens": 3359,
+      "attempts": 1
+    },
+    {
+      "id": "6769",
+      "prediction": 12.0,
+      "tokens": 3351,
+      "attempts": 1
+    },
+    {
+      "id": "9838",
+      "prediction": 6.0,
+      "tokens": 3344,
+      "attempts": 1
+    },
+    {
+      "id": "8695",
+      "prediction": 12.0,
+      "tokens": 3350,
+      "attempts": 1
+    },
+    {
+      "id": "12481",
+      "prediction": 8.0,
+      "tokens": 3390,
+      "attempts": 1
+    },
+    {
+      "id": "499",
+      "prediction": 2.0,
+      "tokens": 3334,
+      "attempts": 1
+    },
+    {
+      "id": "10469",
+      "prediction": 12.0,
+      "tokens": 3365,
+      "attempts": 1
+    },
+    {
+      "id": "8607",
+      "prediction": 12.0,
+      "tokens": 3321,
+      "attempts": 1
+    },
+    {
+      "id": "6690",
+      "prediction": 8.0,
+      "tokens": 3346,
+      "attempts": 1
+    },
+    {
+      "id": "12829",
+      "prediction": 14.0,
+      "tokens": 3353,
+      "attempts": 1
+    },
+    {
+      "id": "1935",
+      "prediction": 14.0,
+      "tokens": 3377,
+      "attempts": 1
+    },
+    {
+      "id": "10254",
+      "prediction": 14.0,
+      "tokens": 3349,
+      "attempts": 1
+    },
+    {
+      "id": "6814",
+      "prediction": 14.0,
+      "tokens": 3339,
+      "attempts": 1
+    },
+    {
+      "id": "11492",
+      "prediction": 12.0,
+      "tokens": 3382,
+      "attempts": 1
+    },
+    {
+      "id": "5294",
+      "prediction": 12.0,
+      "tokens": 3316,
+      "attempts": 1
+    },
+    {
+      "id": "10685",
+      "prediction": 14.0,
+      "tokens": 3412,
+      "attempts": 1
+    },
+    {
+      "id": "13038",
+      "prediction": 14.0,
+      "tokens": 3375,
+      "attempts": 1
+    },
+    {
+      "id": "9373",
+      "prediction": 12.0,
+      "tokens": 3375,
+      "attempts": 1
+    },
+    {
+      "id": "11198",
+      "prediction": 12.0,
+      "tokens": 3348,
+      "attempts": 1
+    },
+    {
+      "id": "5813",
+      "prediction": 8.0,
+      "tokens": 3342,
+      "attempts": 1
+    },
+    {
+      "id": "8675",
+      "prediction": 12.0,
+      "tokens": 3370,
+      "attempts": 1
+    },
+    {
+      "id": "11844",
+      "prediction": 8.0,
+      "tokens": 3330,
+      "attempts": 1
+    },
+    {
+      "id": "7273",
+      "prediction": 14.0,
+      "tokens": 3366,
+      "attempts": 1
+    },
+    {
+      "id": "10557",
+      "prediction": 14.0,
+      "tokens": 3374,
+      "attempts": 1
+    },
+    {
+      "id": "5795",
+      "prediction": 6.0,
+      "tokens": 3312,
+      "attempts": 1
+    },
+    {
+      "id": "1897",
+      "prediction": 6.0,
+      "tokens": 3339,
+      "attempts": 1
+    },
+    {
+      "id": "3014",
+      "prediction": 14.0,
+      "tokens": 3345,
+      "attempts": 1
+    },
+    {
+      "id": "5756",
+      "prediction": 8.0,
+      "tokens": 3391,
+      "attempts": 1
+    },
+    {
+      "id": "10491",
+      "prediction": 8.0,
+      "tokens": 3323,
+      "attempts": 1
+    },
+    {
+      "id": "12651",
+      "prediction": 6.0,
+      "tokens": 3339,
+      "attempts": 1
+    },
+    {
+      "id": "4329",
+      "prediction": 12.0,
+      "tokens": 3362,
+      "attempts": 1
+    },
+    {
+      "id": "6706",
+      "prediction": 6.0,
+      "tokens": 3327,
+      "attempts": 1
+    },
+    {
+      "id": "5613",
+      "prediction": 8.0,
+      "tokens": 3377,
+      "attempts": 1
+    },
+    {
+      "id": "8949",
+      "prediction": 14.0,
+      "tokens": 3356,
+      "attempts": 1
+    },
+    {
+      "id": "10115",
+      "prediction": 8.0,
+      "tokens": 3315,
+      "attempts": 1
+    },
+    {
+      "id": "6779",
+      "prediction": 14.0,
+      "tokens": 3336,
+      "attempts": 1
+    },
+    {
+      "id": "6475",
+      "prediction": 8.0,
+      "tokens": 3355,
+      "attempts": 1
+    },
+    {
+      "id": "6682",
+      "prediction": 12.0,
+      "tokens": 3342,
+      "attempts": 1
+    },
+    {
+      "id": "1698",
+      "prediction": 12.0,
+      "tokens": 3389,
+      "attempts": 1
+    },
+    {
+      "id": "6494",
+      "prediction": 8.0,
+      "tokens": 3378,
+      "attempts": 1
+    },
+    {
+      "id": "2998",
+      "prediction": 2.0,
+      "tokens": 3284,
+      "attempts": 1
+    },
+    {
+      "id": "2478",
+      "prediction": 12.0,
+      "tokens": 3350,
+      "attempts": 1
+    },
+    {
+      "id": "10411",
+      "prediction": 6.0,
+      "tokens": 3294,
+      "attempts": 1
+    },
+    {
+      "id": "4256",
+      "prediction": 6.0,
+      "tokens": 3298,
+      "attempts": 1
+    },
+    {
+      "id": "2319",
+      "prediction": 6.0,
+      "tokens": 3297,
+      "attempts": 1
+    },
+    {
+      "id": "7145",
+      "prediction": 6.0,
+      "tokens": 3333,
+      "attempts": 1
+    },
+    {
+      "id": "8624",
+      "prediction": 2.0,
+      "tokens": 3344,
+      "attempts": 1
+    },
+    {
+      "id": "2238",
+      "prediction": 8.0,
+      "tokens": 3296,
+      "attempts": 1
+    },
+    {
+      "id": "7360",
+      "prediction": 12.0,
+      "tokens": 3379,
+      "attempts": 1
+    },
+    {
+      "id": "7919",
+      "prediction": 6.0,
+      "tokens": 3349,
+      "attempts": 1
+    },
+    {
+      "id": "8492",
+      "prediction": 8.0,
+      "tokens": 3300,
+      "attempts": 1
+    },
+    {
+      "id": "852",
+      "prediction": 2.0,
+      "tokens": 3313,
+      "attempts": 1
+    },
+    {
+      "id": "8833",
+      "prediction": 14.0,
+      "tokens": 3359,
+      "attempts": 1
+    },
+    {
+      "id": "6330",
+      "prediction": 12.0,
+      "tokens": 3415,
+      "attempts": 1
+    },
+    {
+      "id": "9515",
+      "prediction": 6.0,
+      "tokens": 3340,
+      "attempts": 1
+    },
+    {
+      "id": "11831",
+      "prediction": 12.0,
+      "tokens": 3354,
+      "attempts": 1
+    },
+    {
+      "id": "3532",
+      "prediction": 8.0,
+      "tokens": 3312,
+      "attempts": 1
+    },
+    {
+      "id": "11405",
+      "prediction": 6.0,
+      "tokens": 3378,
+      "attempts": 1
+    },
+    {
+      "id": "9236",
+      "prediction": 8.0,
+      "tokens": 3329,
+      "attempts": 1
+    },
+    {
+      "id": "12563",
+      "prediction": 8.0,
+      "tokens": 3335,
+      "attempts": 1
+    },
+    {
+      "id": "1056",
+      "prediction": 8.0,
+      "tokens": 3318,
+      "attempts": 1
+    },
+    {
+      "id": "415",
+      "prediction": 12.0,
+      "tokens": 3347,
+      "attempts": 1
+    },
+    {
+      "id": "6840",
+      "prediction": 6.0,
+      "tokens": 3249,
+      "attempts": 1
+    },
+    {
+      "id": "4705",
+      "prediction": 2.0,
+      "tokens": 3289,
+      "attempts": 1
+    },
+    {
+      "id": "11628",
+      "prediction": 6.0,
+      "tokens": 3327,
+      "attempts": 1
+    },
+    {
+      "id": "4083",
+      "prediction": 6.0,
+      "tokens": 3308,
+      "attempts": 1
+    },
+    {
+      "id": "7078",
+      "prediction": 12.0,
+      "tokens": 3373,
+      "attempts": 1
+    },
+    {
+      "id": "4462",
+      "prediction": 12.0,
+      "tokens": 3384,
+      "attempts": 1
+    },
+    {
+      "id": "10105",
+      "prediction": 6.0,
+      "tokens": 3291,
+      "attempts": 1
+    },
+    {
+      "id": "7228",
+      "prediction": 14.0,
+      "tokens": 3380,
+      "attempts": 1
+    },
+    {
+      "id": "8449",
+      "prediction": 12.0,
+      "tokens": 3363,
+      "attempts": 1
+    },
+    {
+      "id": "8845",
+      "prediction": 8.0,
+      "tokens": 3350,
+      "attempts": 1
+    },
+    {
+      "id": "10903",
+      "prediction": 8.0,
+      "tokens": 3361,
+      "attempts": 1
+    },
+    {
+      "id": "875",
+      "prediction": 6.0,
+      "tokens": 3341,
+      "attempts": 1
+    },
+    {
+      "id": "6343",
+      "prediction": 6.0,
+      "tokens": 3328,
+      "attempts": 1
+    },
+    {
+      "id": "11564",
+      "prediction": 8.0,
+      "tokens": 3324,
+      "attempts": 1
+    },
+    {
+      "id": "8725",
+      "prediction": 14.0,
+      "tokens": 3355,
+      "attempts": 1
+    },
+    {
+      "id": "2864",
+      "prediction": 12.0,
+      "tokens": 3332,
+      "attempts": 1
+    },
+    {
+      "id": "6151",
+      "prediction": 8.0,
+      "tokens": 3325,
+      "attempts": 1
+    },
+    {
+      "id": "10143",
+      "prediction": 12.0,
+      "tokens": 3351,
+      "attempts": 1
+    },
+    {
+      "id": "8849",
+      "prediction": 6.0,
+      "tokens": 3330,
+      "attempts": 1
+    },
+    {
+      "id": "1087",
+      "prediction": 6.0,
+      "tokens": 3311,
+      "attempts": 1
+    },
+    {
+      "id": "12722",
+      "prediction": 6.0,
+      "tokens": 3349,
+      "attempts": 1
+    },
+    {
+      "id": "8917",
+      "prediction": 8.0,
+      "tokens": 3344,
+      "attempts": 1
+    },
+    {
+      "id": "5688",
+      "prediction": 12.0,
+      "tokens": 3337,
+      "attempts": 1
+    },
+    {
+      "id": "265",
+      "prediction": 6.0,
+      "tokens": 3295,
+      "attempts": 1
+    },
+    {
+      "id": "13174",
+      "prediction": 8.0,
+      "tokens": 3304,
+      "attempts": 1
+    },
+    {
+      "id": "73",
+      "prediction": 6.0,
+      "tokens": 3303,
+      "attempts": 1
+    },
+    {
+      "id": "10481",
+      "prediction": 12.0,
+      "tokens": 3381,
+      "attempts": 1
+    },
+    {
+      "id": "6669",
+      "prediction": 6.0,
+      "tokens": 3367,
+      "attempts": 1
+    },
+    {
+      "id": "12561",
+      "prediction": 14.0,
+      "tokens": 3334,
+      "attempts": 1
+    },
+    {
+      "id": "3919",
+      "prediction": 6.0,
+      "tokens": 3297,
+      "attempts": 1
+    },
+    {
+      "id": "8710",
+      "prediction": 8.0,
+      "tokens": 3315,
+      "attempts": 1
+    },
+    {
+      "id": "7791",
+      "prediction": 6.0,
+      "tokens": 3343,
+      "attempts": 1
+    },
+    {
+      "id": "3822",
+      "prediction": 6.0,
+      "tokens": 3329,
+      "attempts": 1
+    },
+    {
+      "id": "5942",
+      "prediction": 8.0,
+      "tokens": 3276,
+      "attempts": 1
+    },
+    {
+      "id": "542",
+      "prediction": 6.0,
+      "tokens": 3319,
+      "attempts": 1
+    },
+    {
+      "id": "7001",
+      "prediction": 8.0,
+      "tokens": 3342,
+      "attempts": 1
+    },
+    {
+      "id": "6113",
+      "prediction": 6.0,
+      "tokens": 3361,
+      "attempts": 1
+    },
+    {
+      "id": "7033",
+      "prediction": 8.0,
+      "tokens": 3345,
+      "attempts": 1
+    },
+    {
+      "id": "1496",
+      "prediction": 8.0,
+      "tokens": 3328,
+      "attempts": 1
+    },
+    {
+      "id": "3988",
+      "prediction": 12.0,
+      "tokens": 3345,
+      "attempts": 1
+    },
+    {
+      "id": "9319",
+      "prediction": 2.0,
+      "tokens": 3341,
+      "attempts": 1
+    },
+    {
+      "id": "4096",
+      "prediction": 6.0,
+      "tokens": 3332,
+      "attempts": 1
+    },
+    {
+      "id": "9390",
+      "prediction": 12.0,
+      "tokens": 3374,
+      "attempts": 1
+    },
+    {
+      "id": "9983",
+      "prediction": 8.0,
+      "tokens": 3337,
+      "attempts": 1
+    },
+    {
+      "id": "2057",
+      "prediction": 8.0,
+      "tokens": 3342,
+      "attempts": 1
+    },
+    {
+      "id": "906",
+      "prediction": 12.0,
+      "tokens": 3382,
+      "attempts": 1
+    },
+    {
+      "id": "777",
+      "prediction": 6.0,
+      "tokens": 3319,
+      "attempts": 1
+    },
+    {
+      "id": "9818",
+      "prediction": 12.0,
+      "tokens": 3364,
+      "attempts": 1
+    },
+    {
+      "id": "4288",
+      "prediction": 6.0,
+      "tokens": 3315,
+      "attempts": 1
+    },
+    {
+      "id": "2656",
+      "prediction": 12.0,
+      "tokens": 3430,
+      "attempts": 1
+    },
+    {
+      "id": "9820",
+      "prediction": 8.0,
+      "tokens": 3327,
+      "attempts": 1
+    },
+    {
+      "id": "4048",
+      "prediction": 12.0,
+      "tokens": 3351,
+      "attempts": 1
+    },
+    {
+      "id": "3576",
+      "prediction": 6.0,
+      "tokens": 3332,
+      "attempts": 1
+    },
+    {
+      "id": "7775",
+      "prediction": 12.0,
+      "tokens": 3317,
+      "attempts": 1
+    },
+    {
+      "id": "1272",
+      "prediction": 6.0,
+      "tokens": 3288,
+      "attempts": 1
+    },
+    {
+      "id": "7691",
+      "prediction": 8.0,
+      "tokens": 3299,
+      "attempts": 1
+    },
+    {
+      "id": "6177",
+      "prediction": 2.0,
+      "tokens": 3285,
+      "attempts": 1
+    },
+    {
+      "id": "6101",
+      "prediction": 12.0,
+      "tokens": 3328,
+      "attempts": 1
+    },
+    {
+      "id": "3487",
+      "prediction": 12.0,
+      "tokens": 3369,
+      "attempts": 1
+    },
+    {
+      "id": "6092",
+      "prediction": 6.0,
+      "tokens": 3328,
+      "attempts": 1
+    },
+    {
+      "id": "9054",
+      "prediction": 12.0,
+      "tokens": 3265,
+      "attempts": 1
+    },
+    {
+      "id": "5382",
+      "prediction": 12.0,
+      "tokens": 3350,
+      "attempts": 1
+    },
+    {
+      "id": "4418",
+      "prediction": 4.0,
+      "tokens": 3291,
+      "attempts": 1
+    },
+    {
+      "id": "1418",
+      "prediction": 8.0,
+      "tokens": 3304,
+      "attempts": 1
+    },
+    {
+      "id": "1975",
+      "prediction": 12.0,
+      "tokens": 3396,
+      "attempts": 1
+    },
+    {
+      "id": "9096",
+      "prediction": 12.0,
+      "tokens": 3305,
+      "attempts": 1
+    },
+    {
+      "id": "426",
+      "prediction": 12.0,
+      "tokens": 3374,
+      "attempts": 1
+    },
+    {
+      "id": "9892",
+      "prediction": 2.0,
+      "tokens": 3320,
+      "attempts": 1
+    },
+    {
+      "id": "9571",
+      "prediction": 12.0,
+      "tokens": 3320,
+      "attempts": 1
+    },
+    {
+      "id": "12370",
+      "prediction": 14.0,
+      "tokens": 3373,
+      "attempts": 1
+    },
+    {
+      "id": "8408",
+      "prediction": 12.0,
+      "tokens": 3346,
+      "attempts": 1
+    },
+    {
+      "id": "4301",
+      "prediction": 2.0,
+      "tokens": 3316,
+      "attempts": 1
+    },
+    {
+      "id": "2664",
+      "prediction": 6.0,
+      "tokens": 3314,
+      "attempts": 1
+    },
+    {
+      "id": "6286",
+      "prediction": 12.0,
+      "tokens": 3323,
+      "attempts": 1
+    },
+    {
+      "id": "12006",
+      "prediction": 14.0,
+      "tokens": 3385,
+      "attempts": 1
+    },
+    {
+      "id": "5841",
+      "prediction": 6.0,
+      "tokens": 3299,
+      "attempts": 1
+    },
+    {
+      "id": "1383",
+      "prediction": 8.0,
+      "tokens": 3307,
+      "attempts": 1
+    },
+    {
+      "id": "11779",
+      "prediction": 14.0,
+      "tokens": 3393,
+      "attempts": 1
+    },
+    {
+      "id": "8441",
+      "prediction": 8.0,
+      "tokens": 3303,
+      "attempts": 1
+    },
+    {
+      "id": "970",
+      "prediction": 8.0,
+      "tokens": 3366,
+      "attempts": 1
+    },
+    {
+      "id": "4215",
+      "prediction": 8.0,
+      "tokens": 3332,
+      "attempts": 1
+    },
+    {
+      "id": "3706",
+      "prediction": 2.0,
+      "tokens": 3314,
+      "attempts": 1
+    },
+    {
+      "id": "13194",
+      "prediction": 12.0,
+      "tokens": 3353,
+      "attempts": 1
+    },
+    {
+      "id": "7515",
+      "prediction": 12.0,
+      "tokens": 3350,
+      "attempts": 1
+    },
+    {
+      "id": "11662",
+      "prediction": 2.0,
+      "tokens": 3323,
+      "attempts": 1
+    },
+    {
+      "id": "10402",
+      "prediction": 12.0,
+      "tokens": 3330,
+      "attempts": 1
+    },
+    {
+      "id": "1617",
+      "prediction": 6.0,
+      "tokens": 3286,
+      "attempts": 1
+    },
+    {
+      "id": "8995",
+      "prediction": 12.0,
+      "tokens": 3332,
+      "attempts": 1
+    },
+    {
+      "id": "3837",
+      "prediction": 14.0,
+      "tokens": 3377,
+      "attempts": 1
+    },
+    {
+      "id": "4965",
+      "prediction": 12.0,
+      "tokens": 3425,
+      "attempts": 1
+    },
+    {
+      "id": "10468",
+      "prediction": 12.0,
+      "tokens": 3341,
+      "attempts": 1
+    },
+    {
+      "id": "9480",
+      "prediction": 6.0,
+      "tokens": 3307,
+      "attempts": 1
+    },
+    {
+      "id": "2554",
+      "prediction": 12.0,
+      "tokens": 3364,
+      "attempts": 1
+    },
+    {
+      "id": "3773",
+      "prediction": 6.0,
+      "tokens": 3307,
+      "attempts": 1
+    },
+    {
+      "id": "11103",
+      "prediction": 12.0,
+      "tokens": 3360,
+      "attempts": 1
+    },
+    {
+      "id": "13003",
+      "prediction": 12.0,
+      "tokens": 3332,
+      "attempts": 1
+    },
+    {
+      "id": "9570",
+      "prediction": 6.0,
+      "tokens": 3409,
+      "attempts": 1
+    },
+    {
+      "id": "12710",
+      "prediction": 8.0,
+      "tokens": 3357,
+      "attempts": 1
+    },
+    {
+      "id": "8197",
+      "prediction": 2.0,
+      "tokens": 3305,
+      "attempts": 1
+    },
+    {
+      "id": "10775",
+      "prediction": 8.0,
+      "tokens": 3304,
+      "attempts": 1
+    },
+    {
+      "id": "3316",
+      "prediction": 6.0,
+      "tokens": 3335,
+      "attempts": 1
+    },
+    {
+      "id": "3526",
+      "prediction": 12.0,
+      "tokens": 3344,
+      "attempts": 1
+    },
+    {
+      "id": "8834",
+      "prediction": 12.0,
+      "tokens": 3368,
+      "attempts": 1
+    },
+    {
+      "id": "4832",
+      "prediction": 12.0,
+      "tokens": 3338,
+      "attempts": 1
+    },
+    {
+      "id": "7376",
+      "prediction": 8.0,
+      "tokens": 3330,
+      "attempts": 1
+    },
+    {
+      "id": "12701",
+      "prediction": 12.0,
+      "tokens": 3349,
+      "attempts": 1
+    },
+    {
+      "id": "7065",
+      "prediction": 2.0,
+      "tokens": 3323,
+      "attempts": 1
+    },
+    {
+      "id": "1426",
+      "prediction": 8.0,
+      "tokens": 3302,
+      "attempts": 1
+    },
+    {
+      "id": "10460",
+      "prediction": 2.0,
+      "tokens": 3333,
+      "attempts": 1
+    },
+    {
+      "id": "93",
+      "prediction": 12.0,
+      "tokens": 3336,
+      "attempts": 1
+    },
+    {
+      "id": "4176",
+      "prediction": 6.0,
+      "tokens": 3324,
+      "attempts": 1
+    },
+    {
+      "id": "8882",
+      "prediction": 8.0,
+      "tokens": 3351,
+      "attempts": 1
+    },
+    {
+      "id": "6203",
+      "prediction": 2.0,
+      "tokens": 3289,
+      "attempts": 1
+    },
+    {
+      "id": "4925",
+      "prediction": 12.0,
+      "tokens": 3335,
+      "attempts": 1
+    },
+    {
+      "id": "2865",
+      "prediction": 8.0,
+      "tokens": 3304,
+      "attempts": 1
+    },
+    {
+      "id": "2091",
+      "prediction": 14.0,
+      "tokens": 3370,
+      "attempts": 1
+    },
+    {
+      "id": "7855",
+      "prediction": 14.0,
+      "tokens": 3361,
+      "attempts": 1
+    },
+    {
+      "id": "10097",
+      "prediction": 14.0,
+      "tokens": 3376,
+      "attempts": 1
+    },
+    {
+      "id": "9033",
+      "prediction": 6.0,
+      "tokens": 3357,
+      "attempts": 1
+    },
+    {
+      "id": "8900",
+      "prediction": 2.0,
+      "tokens": 3197,
+      "attempts": 1
+    },
+    {
+      "id": "12073",
+      "prediction": 8.0,
+      "tokens": 3337,
+      "attempts": 1
+    },
+    {
+      "id": "2455",
+      "prediction": 6.0,
+      "tokens": 3326,
+      "attempts": 1
+    },
+    {
+      "id": "12654",
+      "prediction": 8.0,
+      "tokens": 3386,
+      "attempts": 1
+    },
+    {
+      "id": "5500",
+      "prediction": 12.0,
+      "tokens": 3346,
+      "attempts": 1
+    },
+    {
+      "id": "210",
+      "prediction": 8.0,
+      "tokens": 3335,
+      "attempts": 1
+    },
+    {
+      "id": "9264",
+      "prediction": 6.0,
+      "tokens": 3361,
+      "attempts": 1
+    },
+    {
+      "id": "9038",
+      "prediction": 6.0,
+      "tokens": 3311,
+      "attempts": 1
+    },
+    {
+      "id": "4269",
+      "prediction": 8.0,
+      "tokens": 3349,
+      "attempts": 1
+    },
+    {
+      "id": "9052",
+      "prediction": 12.0,
+      "tokens": 3366,
+      "attempts": 1
+    },
+    {
+      "id": "6641",
+      "prediction": 14.0,
+      "tokens": 3372,
+      "attempts": 1
+    },
+    {
+      "id": "9784",
+      "prediction": 12.0,
+      "tokens": 3353,
+      "attempts": 1
+    },
+    {
+      "id": "13231",
+      "prediction": 6.0,
+      "tokens": 3370,
+      "attempts": 1
+    },
+    {
+      "id": "8956",
+      "prediction": 6.0,
+      "tokens": 3339,
+      "attempts": 1
+    },
+    {
+      "id": "4819",
+      "prediction": 6.0,
+      "tokens": 3369,
+      "attempts": 1
+    },
+    {
+      "id": "3838",
+      "prediction": 6.0,
+      "tokens": 3394,
+      "attempts": 1
+    },
+    {
+      "id": "6890",
+      "prediction": 6.0,
+      "tokens": 3343,
+      "attempts": 1
+    },
+    {
+      "id": "605",
+      "prediction": 6.0,
+      "tokens": 3354,
+      "attempts": 1
+    },
+    {
+      "id": "8283",
+      "prediction": 6.0,
+      "tokens": 3349,
+      "attempts": 1
+    },
+    {
+      "id": "12151",
+      "prediction": 12.0,
+      "tokens": 3371,
+      "attempts": 1
+    },
+    {
+      "id": "3184",
+      "prediction": 12.0,
+      "tokens": 3378,
+      "attempts": 1
+    },
+    {
+      "id": "6756",
+      "prediction": 8.0,
+      "tokens": 3325,
+      "attempts": 1
+    },
+    {
+      "id": "3704",
+      "prediction": 6.0,
+      "tokens": 3334,
+      "attempts": 1
+    },
+    {
+      "id": "7699",
+      "prediction": 14.0,
+      "tokens": 3353,
+      "attempts": 1
+    },
+    {
+      "id": "6607",
+      "prediction": 14.0,
+      "tokens": 3344,
+      "attempts": 1
+    },
+    {
+      "id": "4782",
+      "prediction": 6.0,
+      "tokens": 3310,
+      "attempts": 1
+    },
+    {
+      "id": "10962",
+      "prediction": 14.0,
+      "tokens": 3360,
+      "attempts": 1
+    },
+    {
+      "id": "13044",
+      "prediction": 8.0,
+      "tokens": 3379,
+      "attempts": 1
+    },
+    {
+      "id": "2021",
+      "prediction": 8.0,
+      "tokens": 3350,
+      "attempts": 1
+    },
+    {
+      "id": "6558",
+      "prediction": 2.0,
+      "tokens": 3199,
+      "attempts": 1
+    },
+    {
+      "id": "13115",
+      "prediction": 14.0,
+      "tokens": 3344,
+      "attempts": 1
+    },
+    {
+      "id": "2025",
+      "prediction": 6.0,
+      "tokens": 3308,
+      "attempts": 1
+    },
+    {
+      "id": "3013",
+      "prediction": 6.0,
+      "tokens": 3341,
+      "attempts": 1
+    },
+    {
+      "id": "9870",
+      "prediction": 14.0,
+      "tokens": 3387,
+      "attempts": 1
+    },
+    {
+      "id": "4549",
+      "prediction": 6.0,
+      "tokens": 3319,
+      "attempts": 1
+    },
+    {
+      "id": "0",
+      "prediction": 2.0,
+      "tokens": 3303,
+      "attempts": 1
+    },
+    {
+      "id": "8764",
+      "prediction": 8.0,
+      "tokens": 3358,
+      "attempts": 1
+    },
+    {
+      "id": "7964",
+      "prediction": 6.0,
+      "tokens": 3363,
+      "attempts": 1
+    },
+    {
+      "id": "29",
+      "prediction": 6.0,
+      "tokens": 3300,
+      "attempts": 1
+    },
+    {
+      "id": "11408",
+      "prediction": 2.0,
+      "tokens": 3328,
+      "attempts": 1
+    },
+    {
+      "id": "11563",
+      "prediction": 6.0,
+      "tokens": 3324,
+      "attempts": 1
+    },
+    {
+      "id": "881",
+      "prediction": 14.0,
+      "tokens": 3371,
+      "attempts": 1
+    },
+    {
+      "id": "6338",
+      "prediction": 12.0,
+      "tokens": 3319,
+      "attempts": 1
+    },
+    {
+      "id": "10886",
+      "prediction": 6.0,
+      "tokens": 3347,
+      "attempts": 1
+    },
+    {
+      "id": "9707",
+      "prediction": 14.0,
+      "tokens": 3343,
+      "attempts": 1
+    },
+    {
+      "id": "5620",
+      "prediction": 12.0,
+      "tokens": 3338,
+      "attempts": 1
+    },
+    {
+      "id": "8395",
+      "prediction": 8.0,
+      "tokens": 3323,
+      "attempts": 1
+    },
+    {
+      "id": "408",
+      "prediction": 6.0,
+      "tokens": 3318,
+      "attempts": 1
+    },
+    {
+      "id": "3884",
+      "prediction": 12.0,
+      "tokens": 3358,
+      "attempts": 1
+    },
+    {
+      "id": "7139",
+      "prediction": 6.0,
+      "tokens": 3365,
+      "attempts": 1
+    },
+    {
+      "id": "4132",
+      "prediction": 14.0,
+      "tokens": 3340,
+      "attempts": 1
+    },
+    {
+      "id": "12374",
+      "prediction": 14.0,
+      "tokens": 3345,
+      "attempts": 1
+    },
+    {
+      "id": "315",
+      "prediction": 12.0,
+      "tokens": 3350,
+      "attempts": 1
+    },
+    {
+      "id": "10392",
+      "prediction": 14.0,
+      "tokens": 3348,
+      "attempts": 1
+    },
+    {
+      "id": "7356",
+      "prediction": 14.0,
+      "tokens": 3386,
+      "attempts": 1
+    },
+    {
+      "id": "6182",
+      "prediction": 6.0,
+      "tokens": 3294,
+      "attempts": 1
+    },
+    {
+      "id": "883",
+      "prediction": 6.0,
+      "tokens": 3334,
+      "attempts": 1
+    },
+    {
+      "id": "5556",
+      "prediction": 12.0,
+      "tokens": 3358,
+      "attempts": 1
+    },
+    {
+      "id": "2372",
+      "prediction": 8.0,
+      "tokens": 3344,
+      "attempts": 1
+    },
+    {
+      "id": "5821",
+      "prediction": 12.0,
+      "tokens": 3341,
+      "attempts": 1
+    },
+    {
+      "id": "11784",
+      "prediction": 6.0,
+      "tokens": 3322,
+      "attempts": 1
+    },
+    {
+      "id": "10437",
+      "prediction": 12.0,
+      "tokens": 3349,
+      "attempts": 1
+    },
+    {
+      "id": "11308",
+      "prediction": 6.0,
+      "tokens": 3348,
+      "attempts": 1
+    },
+    {
+      "id": "5050",
+      "prediction": 6.0,
+      "tokens": 3268,
+      "attempts": 1
+    },
+    {
+      "id": "708",
+      "prediction": 12.0,
+      "tokens": 3353,
+      "attempts": 1
+    },
+    {
+      "id": "2874",
+      "prediction": 6.0,
+      "tokens": 3316,
+      "attempts": 1
+    },
+    {
+      "id": "3470",
+      "prediction": 6.0,
+      "tokens": 3313,
+      "attempts": 1
+    },
+    {
+      "id": "1406",
+      "prediction": 12.0,
+      "tokens": 3370,
+      "attempts": 1
+    },
+    {
+      "id": "4640",
+      "prediction": 12.0,
+      "tokens": 3345,
+      "attempts": 1
+    },
+    {
+      "id": "2102",
+      "prediction": 12.0,
+      "tokens": 3347,
+      "attempts": 1
+    },
+    {
+      "id": "10681",
+      "prediction": 4.0,
+      "tokens": 3349,
+      "attempts": 1
+    },
+    {
+      "id": "12229",
+      "prediction": 8.0,
+      "tokens": 3316,
+      "attempts": 1
+    },
+    {
+      "id": "9385",
+      "prediction": 8.0,
+      "tokens": 3325,
+      "attempts": 1
+    },
+    {
+      "id": "8215",
+      "prediction": 14.0,
+      "tokens": 3377,
+      "attempts": 1
+    },
+    {
+      "id": "12978",
+      "prediction": 12.0,
+      "tokens": 3371,
+      "attempts": 1
+    },
+    {
+      "id": "3208",
+      "prediction": 2.0,
+      "tokens": 3291,
+      "attempts": 1
+    },
+    {
+      "id": "9447",
+      "prediction": 12.0,
+      "tokens": 3341,
+      "attempts": 1
+    },
+    {
+      "id": "10068",
+      "prediction": 8.0,
+      "tokens": 3392,
+      "attempts": 1
+    },
+    {
+      "id": "3522",
+      "prediction": 12.0,
+      "tokens": 3354,
+      "attempts": 1
+    },
+    {
+      "id": "9022",
+      "prediction": 14.0,
+      "tokens": 3342,
+      "attempts": 1
+    },
+    {
+      "id": "3702",
+      "prediction": 12.0,
+      "tokens": 3311,
+      "attempts": 1
+    },
+    {
+      "id": "10973",
+      "prediction": 8.0,
+      "tokens": 3385,
+      "attempts": 1
+    },
+    {
+      "id": "9000",
+      "prediction": 8.0,
+      "tokens": 3395,
+      "attempts": 1
+    },
+    {
+      "id": "5412",
+      "prediction": 8.0,
+      "tokens": 3383,
+      "attempts": 1
+    },
+    {
+      "id": "2122",
+      "prediction": 14.0,
+      "tokens": 3511,
+      "attempts": 1
+    },
+    {
+      "id": "3886",
+      "prediction": 12.0,
+      "tokens": 3345,
+      "attempts": 1
+    },
+    {
+      "id": "12807",
+      "prediction": 4.0,
+      "tokens": 3299,
+      "attempts": 1
+    },
+    {
+      "id": "4191",
+      "prediction": 6.0,
+      "tokens": 3333,
+      "attempts": 1
+    },
+    {
+      "id": "7168",
+      "prediction": 8.0,
+      "tokens": 3376,
+      "attempts": 1
+    },
+    {
+      "id": "794",
+      "prediction": 6.0,
+      "tokens": 3315,
+      "attempts": 1
+    },
+    {
+      "id": "474",
+      "prediction": 8.0,
+      "tokens": 3310,
+      "attempts": 1
+    },
+    {
+      "id": "1957",
+      "prediction": 12.0,
+      "tokens": 3370,
+      "attempts": 1
+    },
+    {
+      "id": "4696",
+      "prediction": 14.0,
+      "tokens": 3337,
+      "attempts": 1
+    },
+    {
+      "id": "12312",
+      "prediction": 12.0,
+      "tokens": 3343,
+      "attempts": 1
+    },
+    {
+      "id": "6347",
+      "prediction": 8.0,
+      "tokens": 3314,
+      "attempts": 1
+    },
+    {
+      "id": "6950",
+      "prediction": 6.0,
+      "tokens": 3326,
+      "attempts": 1
+    },
+    {
+      "id": "10303",
+      "prediction": 2.0,
+      "tokens": 3325,
+      "attempts": 1
+    },
+    {
+      "id": "12735",
+      "prediction": 4.0,
+      "tokens": 3302,
+      "attempts": 1
+    },
+    {
+      "id": "11576",
+      "prediction": 14.0,
+      "tokens": 3378,
+      "attempts": 1
+    },
+    {
+      "id": "12852",
+      "prediction": 8.0,
+      "tokens": 3375,
+      "attempts": 1
+    },
+    {
+      "id": "6654",
+      "prediction": 8.0,
+      "tokens": 3378,
+      "attempts": 1
+    },
+    {
+      "id": "8534",
+      "prediction": 8.0,
+      "tokens": 3370,
+      "attempts": 1
+    },
+    {
+      "id": "2796",
+      "prediction": 6.0,
+      "tokens": 3292,
+      "attempts": 1
+    },
+    {
+      "id": "11853",
+      "prediction": 8.0,
+      "tokens": 3360,
+      "attempts": 1
+    },
+    {
+      "id": "9318",
+      "prediction": 12.0,
+      "tokens": 3359,
+      "attempts": 1
+    },
+    {
+      "id": "3025",
+      "prediction": 12.0,
+      "tokens": 3368,
+      "attempts": 1
+    },
+    {
+      "id": "12160",
+      "prediction": 2.0,
+      "tokens": 3326,
+      "attempts": 1
+    },
+    {
+      "id": "12768",
+      "prediction": 8.0,
+      "tokens": 3324,
+      "attempts": 1
+    },
+    {
+      "id": "3529",
+      "prediction": 2.0,
+      "tokens": 3296,
+      "attempts": 1
+    },
+    {
+      "id": "10092",
+      "prediction": 6.0,
+      "tokens": 3321,
+      "attempts": 1
+    },
+    {
+      "id": "1602",
+      "prediction": 12.0,
+      "tokens": 3368,
+      "attempts": 1
+    },
+    {
+      "id": "3334",
+      "prediction": 6.0,
+      "tokens": 3301,
+      "attempts": 1
+    },
+    {
+      "id": "8861",
+      "prediction": 14.0,
+      "tokens": 3430,
+      "attempts": 1
+    },
+    {
+      "id": "7965",
+      "prediction": 12.0,
+      "tokens": 3351,
+      "attempts": 1
+    },
+    {
+      "id": "11244",
+      "prediction": 14.0,
+      "tokens": 3362,
+      "attempts": 1
+    },
+    {
+      "id": "9647",
+      "prediction": 2.0,
+      "tokens": 3281,
+      "attempts": 1
+    },
+    {
+      "id": "3219",
+      "prediction": 12.0,
+      "tokens": 3395,
+      "attempts": 1
+    },
+    {
+      "id": "150",
+      "prediction": 6.0,
+      "tokens": 3338,
+      "attempts": 1
+    },
+    {
+      "id": "1112",
+      "prediction": 12.0,
+      "tokens": 3378,
+      "attempts": 1
+    },
+    {
+      "id": "1864",
+      "prediction": 6.0,
+      "tokens": 3347,
+      "attempts": 1
+    },
+    {
+      "id": "1612",
+      "prediction": 6.0,
+      "tokens": 3309,
+      "attempts": 1
+    },
+    {
+      "id": "473",
+      "prediction": 8.0,
+      "tokens": 3347,
+      "attempts": 1
+    },
+    {
+      "id": "8163",
+      "prediction": 2.0,
+      "tokens": 3313,
+      "attempts": 1
+    },
+    {
+      "id": "6887",
+      "prediction": 12.0,
+      "tokens": 3316,
+      "attempts": 1
+    },
+    {
+      "id": "1399",
+      "prediction": 12.0,
+      "tokens": 3329,
+      "attempts": 1
+    },
+    {
+      "id": "9682",
+      "prediction": 14.0,
+      "tokens": 3343,
+      "attempts": 1
+    },
+    {
+      "id": "4046",
+      "prediction": 12.0,
+      "tokens": 3320,
+      "attempts": 1
+    },
+    {
+      "id": "4622",
+      "prediction": 6.0,
+      "tokens": 3341,
+      "attempts": 1
+    },
+    {
+      "id": "5148",
+      "prediction": 12.0,
+      "tokens": 3388,
+      "attempts": 1
+    },
+    {
+      "id": "2318",
+      "prediction": 12.0,
+      "tokens": 3332,
+      "attempts": 1
+    },
+    {
+      "id": "1911",
+      "prediction": 12.0,
+      "tokens": 3397,
+      "attempts": 1
+    },
+    {
+      "id": "2522",
+      "prediction": 6.0,
+      "tokens": 3319,
+      "attempts": 1
+    },
+    {
+      "id": "8012",
+      "prediction": 8.0,
+      "tokens": 3332,
+      "attempts": 1
+    },
+    {
+      "id": "4954",
+      "prediction": 12.0,
+      "tokens": 3359,
+      "attempts": 1
+    },
+    {
+      "id": "10925",
+      "prediction": 6.0,
+      "tokens": 3363,
+      "attempts": 1
+    },
+    {
+      "id": "5250",
+      "prediction": 12.0,
+      "tokens": 3337,
+      "attempts": 1
+    },
+    {
+      "id": "12331",
+      "prediction": 14.0,
+      "tokens": 3337,
+      "attempts": 1
+    },
+    {
+      "id": "1710",
+      "prediction": 6.0,
+      "tokens": 3314,
+      "attempts": 1
+    },
+    {
+      "id": "4716",
+      "prediction": 6.0,
+      "tokens": 3285,
+      "attempts": 1
+    },
+    {
+      "id": "12914",
+      "prediction": 8.0,
+      "tokens": 3356,
+      "attempts": 1
+    },
+    {
+      "id": "5768",
+      "prediction": 6.0,
+      "tokens": 3372,
+      "attempts": 1
+    },
+    {
+      "id": "12003",
+      "prediction": 4.0,
+      "tokens": 3341,
+      "attempts": 1
+    },
+    {
+      "id": "114",
+      "prediction": 8.0,
+      "tokens": 3315,
+      "attempts": 1
+    },
+    {
+      "id": "12284",
+      "prediction": 6.0,
+      "tokens": 3354,
+      "attempts": 1
+    },
+    {
+      "id": "6000",
+      "prediction": 12.0,
+      "tokens": 3336,
+      "attempts": 1
+    },
+    {
+      "id": "5998",
+      "prediction": 8.0,
+      "tokens": 3336,
+      "attempts": 1
+    },
+    {
+      "id": "4387",
+      "prediction": 8.0,
+      "tokens": 3365,
+      "attempts": 1
+    },
+    {
+      "id": "9876",
+      "prediction": 8.0,
+      "tokens": 3334,
+      "attempts": 1
+    },
+    {
+      "id": "12864",
+      "prediction": 12.0,
+      "tokens": 3370,
+      "attempts": 1
+    },
+    {
+      "id": "5766",
+      "prediction": 12.0,
+      "tokens": 3350,
+      "attempts": 1
+    },
+    {
+      "id": "9772",
+      "prediction": 8.0,
+      "tokens": 3348,
+      "attempts": 1
+    },
+    {
+      "id": "2791",
+      "prediction": 12.0,
+      "tokens": 3326,
+      "attempts": 1
+    },
+    {
+      "id": "1566",
+      "prediction": 6.0,
+      "tokens": 3344,
+      "attempts": 1
+    },
+    {
+      "id": "11155",
+      "prediction": 8.0,
+      "tokens": 3374,
+      "attempts": 1
+    },
+    {
+      "id": "9756",
+      "prediction": 6.0,
+      "tokens": 3321,
+      "attempts": 1
+    },
+    {
+      "id": "8919",
+      "prediction": 12.0,
+      "tokens": 3333,
+      "attempts": 1
+    },
+    {
+      "id": "7748",
+      "prediction": 6.0,
+      "tokens": 3376,
+      "attempts": 1
+    },
+    {
+      "id": "12605",
+      "prediction": 2.0,
+      "tokens": 3359,
+      "attempts": 1
+    },
+    {
+      "id": "5833",
+      "prediction": 6.0,
+      "tokens": 3334,
+      "attempts": 1
+    },
+    {
+      "id": "1845",
+      "prediction": 6.0,
+      "tokens": 3327,
+      "attempts": 1
+    },
+    {
+      "id": "8628",
+      "prediction": 12.0,
+      "tokens": 3355,
+      "attempts": 1
+    },
+    {
+      "id": "2906",
+      "prediction": 6.0,
+      "tokens": 3286,
+      "attempts": 1
+    },
+    {
+      "id": "10642",
+      "prediction": 6.0,
+      "tokens": 3328,
+      "attempts": 1
+    },
+    {
+      "id": "8514",
+      "prediction": 12.0,
+      "tokens": 3345,
+      "attempts": 1
+    },
+    {
+      "id": "416",
+      "prediction": 6.0,
+      "tokens": 3307,
+      "attempts": 1
+    },
+    {
+      "id": "10760",
+      "prediction": 12.0,
+      "tokens": 3377,
+      "attempts": 1
+    },
+    {
+      "id": "10735",
+      "prediction": 14.0,
+      "tokens": 3350,
+      "attempts": 1
+    },
+    {
+      "id": "12616",
+      "prediction": 12.0,
+      "tokens": 3318,
+      "attempts": 1
+    },
+    {
+      "id": "4336",
+      "prediction": 8.0,
+      "tokens": 3331,
+      "attempts": 1
+    },
+    {
+      "id": "5117",
+      "prediction": 12.0,
+      "tokens": 3348,
+      "attempts": 1
+    },
+    {
+      "id": "6387",
+      "prediction": 6.0,
+      "tokens": 3273,
+      "attempts": 1
+    },
+    {
+      "id": "960",
+      "prediction": 12.0,
+      "tokens": 3356,
+      "attempts": 1
+    },
+    {
+      "id": "10540",
+      "prediction": 8.0,
+      "tokens": 3353,
+      "attempts": 1
+    },
+    {
+      "id": "6335",
+      "prediction": 6.0,
+      "tokens": 3289,
+      "attempts": 1
+    },
+    {
+      "id": "3166",
+      "prediction": 12.0,
+      "tokens": 3367,
+      "attempts": 1
+    },
+    {
+      "id": "11267",
+      "prediction": 8.0,
+      "tokens": 3331,
+      "attempts": 1
+    },
+    {
+      "id": "1275",
+      "prediction": 6.0,
+      "tokens": 3326,
+      "attempts": 1
+    },
+    {
+      "id": "5440",
+      "prediction": 8.0,
+      "tokens": 3365,
+      "attempts": 1
+    },
+    {
+      "id": "9598",
+      "prediction": 6.0,
+      "tokens": 3342,
+      "attempts": 1
+    },
+    {
+      "id": "4308",
+      "prediction": 8.0,
+      "tokens": 3365,
+      "attempts": 1
+    },
+    {
+      "id": "1634",
+      "prediction": 8.0,
+      "tokens": 3317,
+      "attempts": 1
+    },
+    {
+      "id": "8107",
+      "prediction": 8.0,
+      "tokens": 3347,
+      "attempts": 1
+    },
+    {
+      "id": "8532",
+      "prediction": 8.0,
+      "tokens": 3346,
+      "attempts": 1
+    },
+    {
+      "id": "9928",
+      "prediction": 8.0,
+      "tokens": 3358,
+      "attempts": 1
+    },
+    {
+      "id": "2054",
+      "prediction": 8.0,
+      "tokens": 3318,
+      "attempts": 1
+    },
+    {
+      "id": "11669",
+      "prediction": 12.0,
+      "tokens": 3359,
+      "attempts": 1
+    },
+    {
+      "id": "11329",
+      "prediction": 6.0,
+      "tokens": 3412,
+      "attempts": 1
+    },
+    {
+      "id": "7171",
+      "prediction": 12.0,
+      "tokens": 3347,
+      "attempts": 1
+    },
+    {
+      "id": "12573",
+      "prediction": 8.0,
+      "tokens": 3345,
+      "attempts": 1
+    },
+    {
+      "id": "12285",
+      "prediction": 14.0,
+      "tokens": 3371,
+      "attempts": 1
+    },
+    {
+      "id": "4099",
+      "prediction": 12.0,
+      "tokens": 3357,
+      "attempts": 1
+    },
+    {
+      "id": "11585",
+      "prediction": 8.0,
+      "tokens": 3377,
+      "attempts": 1
+    },
+    {
+      "id": "5106",
+      "prediction": 6.0,
+      "tokens": 3316,
+      "attempts": 1
+    },
+    {
+      "id": "10414",
+      "prediction": 12.0,
+      "tokens": 3339,
+      "attempts": 1
+    },
+    {
+      "id": "1470",
+      "prediction": 6.0,
+      "tokens": 3281,
+      "attempts": 1
+    },
+    {
+      "id": "4119",
+      "prediction": 8.0,
+      "tokens": 3336,
+      "attempts": 1
+    },
+    {
+      "id": "6532",
+      "prediction": 8.0,
+      "tokens": 3333,
+      "attempts": 1
+    },
+    {
+      "id": "9289",
+      "prediction": 14.0,
+      "tokens": 3344,
+      "attempts": 1
+    },
+    {
+      "id": "2124",
+      "prediction": 2.0,
+      "tokens": 3226,
+      "attempts": 1
+    },
+    {
+      "id": "6458",
+      "prediction": 12.0,
+      "tokens": 3325,
+      "attempts": 1
+    },
+    {
+      "id": "4459",
+      "prediction": 14.0,
+      "tokens": 3373,
+      "attempts": 1
+    },
+    {
+      "id": "592",
+      "prediction": 6.0,
+      "tokens": 3324,
+      "attempts": 1
+    },
+    {
+      "id": "3724",
+      "prediction": 6.0,
+      "tokens": 3372,
+      "attempts": 1
+    },
+    {
+      "id": "4684",
+      "prediction": 8.0,
+      "tokens": 3275,
+      "attempts": 1
+    },
+    {
+      "id": "11112",
+      "prediction": 12.0,
+      "tokens": 3303,
+      "attempts": 1
+    },
+    {
+      "id": "5664",
+      "prediction": 6.0,
+      "tokens": 3379,
+      "attempts": 1
+    },
+    {
+      "id": "3033",
+      "prediction": 6.0,
+      "tokens": 3405,
+      "attempts": 1
+    },
+    {
+      "id": "10069",
+      "prediction": 6.0,
+      "tokens": 3353,
+      "attempts": 1
+    },
+    {
+      "id": "9450",
+      "prediction": 6.0,
+      "tokens": 3321,
+      "attempts": 1
+    },
+    {
+      "id": "5749",
+      "prediction": 12.0,
+      "tokens": 3367,
+      "attempts": 1
+    },
+    {
+      "id": "9381",
+      "prediction": 6.0,
+      "tokens": 3316,
+      "attempts": 1
+    },
+    {
+      "id": "12806",
+      "prediction": 8.0,
+      "tokens": 3380,
+      "attempts": 1
+    },
+    {
+      "id": "3955",
+      "prediction": 6.0,
+      "tokens": 3312,
+      "attempts": 1
+    },
+    {
+      "id": "5436",
+      "prediction": 12.0,
+      "tokens": 3373,
+      "attempts": 1
+    },
+    {
+      "id": "5863",
+      "prediction": 12.0,
+      "tokens": 3355,
+      "attempts": 1
+    },
+    {
+      "id": "2943",
+      "prediction": 6.0,
+      "tokens": 3322,
+      "attempts": 1
+    },
+    {
+      "id": "4721",
+      "prediction": 12.0,
+      "tokens": 3358,
+      "attempts": 1
+    },
+    {
+      "id": "8109",
+      "prediction": 12.0,
+      "tokens": 3335,
+      "attempts": 1
+    },
+    {
+      "id": "1783",
+      "prediction": 12.0,
+      "tokens": 3335,
+      "attempts": 1
+    },
+    {
+      "id": "11496",
+      "prediction": 2.0,
+      "tokens": 3292,
+      "attempts": 1
+    },
+    {
+      "id": "8127",
+      "prediction": 12.0,
+      "tokens": 3365,
+      "attempts": 1
+    },
+    {
+      "id": "11591",
+      "prediction": 12.0,
+      "tokens": 3301,
+      "attempts": 1
+    },
+    {
+      "id": "4231",
+      "prediction": 8.0,
+      "tokens": 3314,
+      "attempts": 1
+    },
+    {
+      "id": "6775",
+      "prediction": 6.0,
+      "tokens": 3301,
+      "attempts": 1
+    },
+    {
+      "id": "741",
+      "prediction": 6.0,
+      "tokens": 3368,
+      "attempts": 1
+    },
+    {
+      "id": "6138",
+      "prediction": 14.0,
+      "tokens": 3379,
+      "attempts": 1
+    },
+    {
+      "id": "4028",
+      "prediction": 8.0,
+      "tokens": 3358,
+      "attempts": 1
+    },
+    {
+      "id": "3652",
+      "prediction": 6.0,
+      "tokens": 3320,
+      "attempts": 1
+    },
+    {
+      "id": "2746",
+      "prediction": 14.0,
+      "tokens": 3373,
+      "attempts": 1
+    },
+    {
+      "id": "12943",
+      "prediction": 6.0,
+      "tokens": 3376,
+      "attempts": 1
+    },
+    {
+      "id": "2389",
+      "prediction": 6.0,
+      "tokens": 3308,
+      "attempts": 1
+    },
+    {
+      "id": "5118",
+      "prediction": 6.0,
+      "tokens": 3274,
+      "attempts": 1
+    },
+    {
+      "id": "3355",
+      "prediction": 12.0,
+      "tokens": 3368,
+      "attempts": 1
+    },
+    {
+      "id": "633",
+      "prediction": 12.0,
+      "tokens": 3359,
+      "attempts": 1
+    },
+    {
+      "id": "1621",
+      "prediction": 4.0,
+      "tokens": 3304,
+      "attempts": 1
+    },
+    {
+      "id": "1237",
+      "prediction": 6.0,
+      "tokens": 3336,
+      "attempts": 1
+    },
+    {
+      "id": "10390",
+      "prediction": 8.0,
+      "tokens": 3369,
+      "attempts": 1
+    },
+    {
+      "id": "976",
+      "prediction": 6.0,
+      "tokens": 3361,
+      "attempts": 1
+    },
+    {
+      "id": "9029",
+      "prediction": 14.0,
+      "tokens": 3359,
+      "attempts": 1
+    },
+    {
+      "id": "7375",
+      "prediction": 6.0,
+      "tokens": 3381,
+      "attempts": 1
+    },
+    {
+      "id": "11014",
+      "prediction": 6.0,
+      "tokens": 3268,
+      "attempts": 1
+    },
+    {
+      "id": "12650",
+      "prediction": 6.0,
+      "tokens": 3382,
+      "attempts": 1
+    },
+    {
+      "id": "10072",
+      "prediction": 12.0,
+      "tokens": 3405,
+      "attempts": 1
+    },
+    {
+      "id": "10409",
+      "prediction": 6.0,
+      "tokens": 3337,
+      "attempts": 1
+    },
+    {
+      "id": "4963",
+      "prediction": 6.0,
+      "tokens": 3354,
+      "attempts": 1
+    },
+    {
+      "id": "8097",
+      "prediction": 14.0,
+      "tokens": 3380,
+      "attempts": 1
+    },
+    {
+      "id": "2879",
+      "prediction": 8.0,
+      "tokens": 3300,
+      "attempts": 1
+    },
+    {
+      "id": "10771",
+      "prediction": 14.0,
+      "tokens": 3386,
+      "attempts": 1
+    },
+    {
+      "id": "11812",
+      "prediction": 12.0,
+      "tokens": 3352,
+      "attempts": 1
+    },
+    {
+      "id": "788",
+      "prediction": 6.0,
+      "tokens": 3297,
+      "attempts": 1
+    },
+    {
+      "id": "3573",
+      "prediction": 12.0,
+      "tokens": 3372,
+      "attempts": 1
+    },
+    {
+      "id": "10530",
+      "prediction": 12.0,
+      "tokens": 3385,
+      "attempts": 1
+    },
+    {
+      "id": "12625",
+      "prediction": 12.0,
+      "tokens": 3351,
+      "attempts": 1
+    },
+    {
+      "id": "6167",
+      "prediction": 6.0,
+      "tokens": 3328,
+      "attempts": 1
+    },
+    {
+      "id": "33",
+      "prediction": 8.0,
+      "tokens": 3327,
+      "attempts": 1
+    },
+    {
+      "id": "4738",
+      "prediction": 6.0,
+      "tokens": 3302,
+      "attempts": 1
+    },
+    {
+      "id": "7310",
+      "prediction": 8.0,
+      "tokens": 3336,
+      "attempts": 1
+    },
+    {
+      "id": "8614",
+      "prediction": 13.0,
+      "tokens": 3317,
+      "attempts": 1
+    },
+    {
+      "id": "9640",
+      "prediction": 14.0,
+      "tokens": 3364,
+      "attempts": 1
+    },
+    {
+      "id": "6860",
+      "prediction": 6.0,
+      "tokens": 3339,
+      "attempts": 1
+    },
+    {
+      "id": "1780",
+      "prediction": 6.0,
+      "tokens": 3349,
+      "attempts": 1
+    },
+    {
+      "id": "3623",
+      "prediction": 8.0,
+      "tokens": 3354,
+      "attempts": 1
+    },
+    {
+      "id": "7732",
+      "prediction": 6.0,
+      "tokens": 3347,
+      "attempts": 1
+    },
+    {
+      "id": "274",
+      "prediction": 12.0,
+      "tokens": 3327,
+      "attempts": 1
+    },
+    {
+      "id": "9082",
+      "prediction": 8.0,
+      "tokens": 3333,
+      "attempts": 1
+    },
+    {
+      "id": "9427",
+      "prediction": 14.0,
+      "tokens": 3382,
+      "attempts": 1
+    },
+    {
+      "id": "7567",
+      "prediction": 14.0,
+      "tokens": 3343,
+      "attempts": 1
+    },
+    {
+      "id": "214",
+      "prediction": 12.0,
+      "tokens": 3378,
+      "attempts": 1
+    },
+    {
+      "id": "46",
+      "prediction": 6.0,
+      "tokens": 3312,
+      "attempts": 1
+    },
+    {
+      "id": "11900",
+      "prediction": 12.0,
+      "tokens": 3335,
+      "attempts": 1
+    },
+    {
+      "id": "5890",
+      "prediction": 2.0,
+      "tokens": 3238,
+      "attempts": 1
+    },
+    {
+      "id": "6956",
+      "prediction": 12.0,
+      "tokens": 3369,
+      "attempts": 1
+    },
+    {
+      "id": "9729",
+      "prediction": 12.0,
+      "tokens": 3291,
+      "attempts": 1
+    },
+    {
+      "id": "6914",
+      "prediction": 6.0,
+      "tokens": 3357,
+      "attempts": 1
+    },
+    {
+      "id": "8391",
+      "prediction": 12.0,
+      "tokens": 3356,
+      "attempts": 1
+    },
+    {
+      "id": "6373",
+      "prediction": 12.0,
+      "tokens": 3369,
+      "attempts": 1
+    },
+    {
+      "id": "5186",
+      "prediction": 6.0,
+      "tokens": 3331,
+      "attempts": 1
+    },
+    {
+      "id": "1483",
+      "prediction": 14.0,
+      "tokens": 3377,
+      "attempts": 1
+    },
+    {
+      "id": "7466",
+      "prediction": 12.0,
+      "tokens": 3370,
+      "attempts": 1
+    },
+    {
+      "id": "1160",
+      "prediction": 6.0,
+      "tokens": 3283,
+      "attempts": 1
+    },
+    {
+      "id": "3938",
+      "prediction": 14.0,
+      "tokens": 3345,
+      "attempts": 1
+    },
+    {
+      "id": "11940",
+      "prediction": 6.0,
+      "tokens": 3273,
+      "attempts": 1
+    },
+    {
+      "id": "10356",
+      "prediction": 6.0,
+      "tokens": 3321,
+      "attempts": 1
+    },
+    {
+      "id": "1083",
+      "prediction": 12.0,
+      "tokens": 3334,
+      "attempts": 1
+    },
+    {
+      "id": "12069",
+      "prediction": 14.0,
+      "tokens": 3353,
+      "attempts": 1
+    },
+    {
+      "id": "9377",
+      "prediction": 12.0,
+      "tokens": 3305,
+      "attempts": 1
+    },
+    {
+      "id": "9608",
+      "prediction": 12.0,
+      "tokens": 3343,
+      "attempts": 1
+    },
+    {
+      "id": "7709",
+      "prediction": 6.0,
+      "tokens": 3346,
+      "attempts": 1
+    },
+    {
+      "id": "11484",
+      "prediction": 14.0,
+      "tokens": 3330,
+      "attempts": 1
+    },
+    {
+      "id": "993",
+      "prediction": 12.0,
+      "tokens": 3327,
+      "attempts": 1
+    },
+    {
+      "id": "2982",
+      "prediction": 6.0,
+      "tokens": 3276,
+      "attempts": 1
+    },
+    {
+      "id": "2463",
+      "prediction": 12.0,
+      "tokens": 3334,
+      "attempts": 1
+    },
+    {
+      "id": "10987",
+      "prediction": 8.0,
+      "tokens": 3381,
+      "attempts": 1
+    },
+    {
+      "id": "3449",
+      "prediction": 12.0,
+      "tokens": 3345,
+      "attempts": 1
+    },
+    {
+      "id": "8696",
+      "prediction": 2.0,
+      "tokens": 3379,
+      "attempts": 1
+    },
+    {
+      "id": "8156",
+      "prediction": 12.0,
+      "tokens": 3261,
+      "attempts": 1
+    },
+    {
+      "id": "1825",
+      "prediction": 4.0,
+      "tokens": 3330,
+      "attempts": 1
+    },
+    {
+      "id": "12084",
+      "prediction": 12.0,
+      "tokens": 3341,
+      "attempts": 1
+    },
+    {
+      "id": "1575",
+      "prediction": 8.0,
+      "tokens": 3365,
+      "attempts": 1
+    },
+    {
+      "id": "5667",
+      "prediction": 8.0,
+      "tokens": 3337,
+      "attempts": 1
+    },
+    {
+      "id": "11488",
+      "prediction": 8.0,
+      "tokens": 3323,
+      "attempts": 1
+    },
+    {
+      "id": "932",
+      "prediction": 12.0,
+      "tokens": 3405,
+      "attempts": 1
+    },
+    {
+      "id": "7105",
+      "prediction": 2.0,
+      "tokens": 3330,
+      "attempts": 1
+    },
+    {
+      "id": "5279",
+      "prediction": 14.0,
+      "tokens": 3353,
+      "attempts": 1
+    },
+    {
+      "id": "3272",
+      "prediction": 12.0,
+      "tokens": 3324,
+      "attempts": 1
+    },
+    {
+      "id": "1718",
+      "prediction": 6.0,
+      "tokens": 3299,
+      "attempts": 1
+    },
+    {
+      "id": "7510",
+      "prediction": 12.0,
+      "tokens": 3335,
+      "attempts": 1
+    },
+    {
+      "id": "11293",
+      "prediction": 12.0,
+      "tokens": 3348,
+      "attempts": 1
+    },
+    {
+      "id": "6258",
+      "prediction": 12.0,
+      "tokens": 3304,
+      "attempts": 1
+    },
+    {
+      "id": "1085",
+      "prediction": 8.0,
+      "tokens": 3333,
+      "attempts": 1
+    },
+    {
+      "id": "439",
+      "prediction": 6.0,
+      "tokens": 3267,
+      "attempts": 1
+    },
+    {
+      "id": "10249",
+      "prediction": 12.0,
+      "tokens": 3331,
+      "attempts": 1
+    },
+    {
+      "id": "4743",
+      "prediction": 6.0,
+      "tokens": 3344,
+      "attempts": 1
+    },
+    {
+      "id": "5371",
+      "prediction": 6.0,
+      "tokens": 3293,
+      "attempts": 1
+    },
+    {
+      "id": "3210",
+      "prediction": 12.0,
+      "tokens": 3306,
+      "attempts": 1
+    },
+    {
+      "id": "1284",
+      "prediction": 12.0,
+      "tokens": 3350,
+      "attempts": 1
+    },
+    {
+      "id": "3290",
+      "prediction": 4.0,
+      "tokens": 3364,
+      "attempts": 1
+    },
+    {
+      "id": "1344",
+      "prediction": 12.0,
+      "tokens": 3330,
+      "attempts": 1
+    },
+    {
+      "id": "11100",
+      "prediction": 6.0,
+      "tokens": 3363,
+      "attempts": 1
+    },
+    {
+      "id": "9577",
+      "prediction": 14.0,
+      "tokens": 3389,
+      "attempts": 1
+    },
+    {
+      "id": "4605",
+      "prediction": 6.0,
+      "tokens": 3284,
+      "attempts": 1
+    },
+    {
+      "id": "11153",
+      "prediction": 6.0,
+      "tokens": 3270,
+      "attempts": 1
+    },
+    {
+      "id": "1799",
+      "prediction": 6.0,
+      "tokens": 3373,
+      "attempts": 1
+    },
+    {
+      "id": "3755",
+      "prediction": 12.0,
+      "tokens": 3397,
+      "attempts": 1
+    },
+    {
+      "id": "10547",
+      "prediction": 12.0,
+      "tokens": 3379,
+      "attempts": 1
+    },
+    {
+      "id": "5905",
+      "prediction": 12.0,
+      "tokens": 3369,
+      "attempts": 1
+    },
+    {
+      "id": "8991",
+      "prediction": 14.0,
+      "tokens": 3355,
+      "attempts": 1
+    },
+    {
+      "id": "9924",
+      "prediction": 8.0,
+      "tokens": 3310,
+      "attempts": 1
+    },
+    {
+      "id": "2954",
+      "prediction": 12.0,
+      "tokens": 3356,
+      "attempts": 1
+    },
+    {
+      "id": "10694",
+      "prediction": 14.0,
+      "tokens": 3351,
+      "attempts": 1
+    },
+    {
+      "id": "9778",
+      "prediction": 14.0,
+      "tokens": 3369,
+      "attempts": 1
+    },
+    {
+      "id": "5349",
+      "prediction": 12.0,
+      "tokens": 3382,
+      "attempts": 1
+    },
+    {
+      "id": "3115",
+      "prediction": 12.0,
+      "tokens": 3350,
+      "attempts": 1
+    },
+    {
+      "id": "3274",
+      "prediction": 12.0,
+      "tokens": 3373,
+      "attempts": 1
+    },
+    {
+      "id": "13114",
+      "prediction": 12.0,
+      "tokens": 3343,
+      "attempts": 1
+    },
+    {
+      "id": "3989",
+      "prediction": 14.0,
+      "tokens": 3327,
+      "attempts": 1
+    },
+    {
+      "id": "13214",
+      "prediction": 6.0,
+      "tokens": 3330,
+      "attempts": 1
+    },
+    {
+      "id": "3474",
+      "prediction": 8.0,
+      "tokens": 3354,
+      "attempts": 1
+    },
+    {
+      "id": "8439",
+      "prediction": 12.0,
+      "tokens": 3335,
+      "attempts": 1
+    },
+    {
+      "id": "10391",
+      "prediction": 12.0,
+      "tokens": 3342,
+      "attempts": 1
+    },
+    {
+      "id": "10690",
+      "prediction": 6.0,
+      "tokens": 3333,
+      "attempts": 1
+    },
+    {
+      "id": "1614",
+      "prediction": 8.0,
+      "tokens": 3302,
+      "attempts": 1
+    },
+    {
+      "id": "10164",
+      "prediction": 6.0,
+      "tokens": 3327,
+      "attempts": 1
+    },
+    {
+      "id": "12896",
+      "prediction": 14.0,
+      "tokens": 3371,
+      "attempts": 1
+    },
+    {
+      "id": "2534",
+      "prediction": 12.0,
+      "tokens": 3351,
+      "attempts": 1
+    },
+    {
+      "id": "1594",
+      "prediction": 12.0,
+      "tokens": 3321,
+      "attempts": 1
+    },
+    {
+      "id": "4084",
+      "prediction": 12.0,
+      "tokens": 3431,
+      "attempts": 1
+    },
+    {
+      "id": "280",
+      "prediction": 4.0,
+      "tokens": 3375,
+      "attempts": 1
+    },
+    {
+      "id": "5344",
+      "prediction": 8.0,
+      "tokens": 3310,
+      "attempts": 1
+    },
+    {
+      "id": "3669",
+      "prediction": 12.0,
+      "tokens": 3335,
+      "attempts": 1
+    },
+    {
+      "id": "11925",
+      "prediction": 8.0,
+      "tokens": 3354,
+      "attempts": 1
+    },
+    {
+      "id": "4830",
+      "prediction": 12.0,
+      "tokens": 3355,
+      "attempts": 1
+    },
+    {
+      "id": "1950",
+      "prediction": 6.0,
+      "tokens": 3326,
+      "attempts": 1
+    },
+    {
+      "id": "9578",
+      "prediction": 12.0,
+      "tokens": 3339,
+      "attempts": 1
+    },
+    {
+      "id": "2627",
+      "prediction": 6.0,
+      "tokens": 3333,
+      "attempts": 1
+    },
+    {
+      "id": "1146",
+      "prediction": 2.0,
+      "tokens": 3217,
+      "attempts": 1
+    },
+    {
+      "id": "10172",
+      "prediction": 14.0,
+      "tokens": 3337,
+      "attempts": 1
+    },
+    {
+      "id": "4015",
+      "prediction": 6.0,
+      "tokens": 3294,
+      "attempts": 1
+    },
+    {
+      "id": "3621",
+      "prediction": 12.0,
+      "tokens": 3326,
+      "attempts": 1
+    },
+    {
+      "id": "4299",
+      "prediction": 2.0,
+      "tokens": 3314,
+      "attempts": 1
+    },
+    {
+      "id": "6248",
+      "prediction": 6.0,
+      "tokens": 3277,
+      "attempts": 1
+    },
+    {
+      "id": "291",
+      "prediction": 12.0,
+      "tokens": 3316,
+      "attempts": 1
+    },
+    {
+      "id": "7477",
+      "prediction": 12.0,
+      "tokens": 3341,
+      "attempts": 1
+    },
+    {
+      "id": "6658",
+      "prediction": 8.0,
+      "tokens": 3307,
+      "attempts": 1
+    },
+    {
+      "id": "9443",
+      "prediction": 4.0,
+      "tokens": 3309,
+      "attempts": 1
+    },
+    {
+      "id": "2631",
+      "prediction": 6.0,
+      "tokens": 3348,
+      "attempts": 1
+    },
+    {
+      "id": "1351",
+      "prediction": 8.0,
+      "tokens": 3329,
+      "attempts": 1
+    },
+    {
+      "id": "6174",
+      "prediction": 6.0,
+      "tokens": 3297,
+      "attempts": 1
+    },
+    {
+      "id": "573",
+      "prediction": 2.0,
+      "tokens": 3277,
+      "attempts": 1
+    },
+    {
+      "id": "10875",
+      "prediction": 14.0,
+      "tokens": 3353,
+      "attempts": 1
+    },
+    {
+      "id": "2221",
+      "prediction": 2.0,
+      "tokens": 3346,
+      "attempts": 1
+    },
+    {
+      "id": "6857",
+      "prediction": 13.0,
+      "tokens": 3381,
+      "attempts": 1
+    },
+    {
+      "id": "3941",
+      "prediction": 6.0,
+      "tokens": 3358,
+      "attempts": 1
+    },
+    {
+      "id": "11558",
+      "prediction": 8.0,
+      "tokens": 3391,
+      "attempts": 1
+    },
+    {
+      "id": "11854",
+      "prediction": 6.0,
+      "tokens": 3327,
+      "attempts": 1
+    },
+    {
+      "id": "7677",
+      "prediction": 8.0,
+      "tokens": 3382,
+      "attempts": 1
+    },
+    {
+      "id": "4884",
+      "prediction": 12.0,
+      "tokens": 3336,
+      "attempts": 1
+    },
+    {
+      "id": "4463",
+      "prediction": 12.0,
+      "tokens": 3322,
+      "attempts": 1
+    },
+    {
+      "id": "979",
+      "prediction": 8.0,
+      "tokens": 3311,
+      "attempts": 1
+    },
+    {
+      "id": "1748",
+      "prediction": 6.0,
+      "tokens": 3324,
+      "attempts": 1
+    },
+    {
+      "id": "4315",
+      "prediction": 6.0,
+      "tokens": 3281,
+      "attempts": 1
+    },
+    {
+      "id": "9563",
+      "prediction": 12.0,
+      "tokens": 3343,
+      "attempts": 1
+    },
+    {
+      "id": "9055",
+      "prediction": 12.0,
+      "tokens": 3316,
+      "attempts": 1
+    },
+    {
+      "id": "2325",
+      "prediction": 6.0,
+      "tokens": 3311,
+      "attempts": 1
+    },
+    {
+      "id": "12716",
+      "prediction": 12.0,
+      "tokens": 3339,
+      "attempts": 1
+    },
+    {
+      "id": "455",
+      "prediction": 12.0,
+      "tokens": 3360,
+      "attempts": 1
+    },
+    {
+      "id": "1511",
+      "prediction": 12.0,
+      "tokens": 3388,
+      "attempts": 1
+    },
+    {
+      "id": "6110",
+      "prediction": 12.0,
+      "tokens": 3346,
+      "attempts": 1
+    },
+    {
+      "id": "3070",
+      "prediction": 6.0,
+      "tokens": 3322,
+      "attempts": 1
+    },
+    {
+      "id": "2543",
+      "prediction": 8.0,
+      "tokens": 3347,
+      "attempts": 1
+    },
+    {
+      "id": "304",
+      "prediction": 6.0,
+      "tokens": 3364,
+      "attempts": 1
+    },
+    {
+      "id": "1586",
+      "prediction": 6.0,
+      "tokens": 3252,
+      "attempts": 1
+    },
+    {
+      "id": "4139",
+      "prediction": 14.0,
+      "tokens": 3390,
+      "attempts": 1
+    },
+    {
+      "id": "7828",
+      "prediction": 14.0,
+      "tokens": 3384,
+      "attempts": 1
+    },
+    {
+      "id": "9241",
+      "prediction": 14.0,
+      "tokens": 3375,
+      "attempts": 1
+    },
+    {
+      "id": "9730",
+      "prediction": 12.0,
+      "tokens": 3393,
+      "attempts": 1
+    },
+    {
+      "id": "247",
+      "prediction": 12.0,
+      "tokens": 3328,
+      "attempts": 1
+    },
+    {
+      "id": "3488",
+      "prediction": 6.0,
+      "tokens": 3349,
+      "attempts": 1
+    },
+    {
+      "id": "180",
+      "prediction": 12.0,
+      "tokens": 3330,
+      "attempts": 1
+    },
+    {
+      "id": "4074",
+      "prediction": 6.0,
+      "tokens": 3305,
+      "attempts": 1
+    },
+    {
+      "id": "7444",
+      "prediction": 12.0,
+      "tokens": 3403,
+      "attempts": 1
+    },
+    {
+      "id": "3094",
+      "prediction": 14.0,
+      "tokens": 3389,
+      "attempts": 1
+    },
+    {
+      "id": "9566",
+      "prediction": 6.0,
+      "tokens": 3308,
+      "attempts": 1
+    },
+    {
+      "id": "5928",
+      "prediction": 8.0,
+      "tokens": 3340,
+      "attempts": 1
+    },
+    {
+      "id": "7864",
+      "prediction": 2.0,
+      "tokens": 3227,
+      "attempts": 1
+    },
+    {
+      "id": "6618",
+      "prediction": 14.0,
+      "tokens": 3340,
+      "attempts": 1
+    },
+    {
+      "id": "4826",
+      "prediction": 8.0,
+      "tokens": 3337,
+      "attempts": 1
+    },
+    {
+      "id": "9808",
+      "prediction": 8.0,
+      "tokens": 3351,
+      "attempts": 1
+    },
+    {
+      "id": "12572",
+      "prediction": 14.0,
+      "tokens": 3395,
+      "attempts": 1
+    },
+    {
+      "id": "11711",
+      "prediction": 14.0,
+      "tokens": 3382,
+      "attempts": 1
+    },
+    {
+      "id": "4972",
+      "prediction": 8.0,
+      "tokens": 3327,
+      "attempts": 1
+    },
+    {
+      "id": "11253",
+      "prediction": 6.0,
+      "tokens": 3312,
+      "attempts": 1
+    },
+    {
+      "id": "13166",
+      "prediction": 4.0,
+      "tokens": 3328,
+      "attempts": 1
+    },
+    {
+      "id": "11696",
+      "prediction": 12.0,
+      "tokens": 3381,
+      "attempts": 1
+    },
+    {
+      "id": "4237",
+      "prediction": 12.0,
+      "tokens": 3279,
+      "attempts": 1
+    },
+    {
+      "id": "3366",
+      "prediction": 6.0,
+      "tokens": 3300,
+      "attempts": 1
+    },
+    {
+      "id": "5903",
+      "prediction": 2.0,
+      "tokens": 3288,
+      "attempts": 1
+    },
+    {
+      "id": "4665",
+      "prediction": 8.0,
+      "tokens": 3380,
+      "attempts": 1
+    },
+    {
+      "id": "4672",
+      "prediction": 12.0,
+      "tokens": 3334,
+      "attempts": 1
+    },
+    {
+      "id": "9410",
+      "prediction": 12.0,
+      "tokens": 3326,
+      "attempts": 1
+    },
+    {
+      "id": "2058",
+      "prediction": 6.0,
+      "tokens": 3316,
+      "attempts": 1
+    },
+    {
+      "id": "5508",
+      "prediction": 6.0,
+      "tokens": 3304,
+      "attempts": 1
+    },
+    {
+      "id": "9118",
+      "prediction": 12.0,
+      "tokens": 3331,
+      "attempts": 1
+    },
+    {
+      "id": "5284",
+      "prediction": 8.0,
+      "tokens": 3365,
+      "attempts": 1
+    },
+    {
+      "id": "5950",
+      "prediction": 6.0,
+      "tokens": 3298,
+      "attempts": 1
+    },
+    {
+      "id": "6211",
+      "prediction": 8.0,
+      "tokens": 3316,
+      "attempts": 1
+    },
+    {
+      "id": "9068",
+      "prediction": 12.0,
+      "tokens": 3371,
+      "attempts": 1
+    },
+    {
+      "id": "8293",
+      "prediction": 12.0,
+      "tokens": 3354,
+      "attempts": 1
+    },
+    {
+      "id": "10288",
+      "prediction": 12.0,
+      "tokens": 3373,
+      "attempts": 1
+    },
+    {
+      "id": "8460",
+      "prediction": 14.0,
+      "tokens": 3395,
+      "attempts": 1
+    },
+    {
+      "id": "9536",
+      "prediction": 2.0,
+      "tokens": 3307,
+      "attempts": 1
+    },
+    {
+      "id": "5438",
+      "prediction": 8.0,
+      "tokens": 3321,
+      "attempts": 1
+    },
+    {
+      "id": "295",
+      "prediction": 6.0,
+      "tokens": 3314,
+      "attempts": 1
+    },
+    {
+      "id": "10104",
+      "prediction": 12.0,
+      "tokens": 3344,
+      "attempts": 1
+    },
+    {
+      "id": "3299",
+      "prediction": 12.0,
+      "tokens": 3377,
+      "attempts": 1
+    },
+    {
+      "id": "59",
+      "prediction": 8.0,
+      "tokens": 3337,
+      "attempts": 1
+    },
+    {
+      "id": "2913",
+      "prediction": 12.0,
+      "tokens": 3324,
+      "attempts": 1
+    },
+    {
+      "id": "11169",
+      "prediction": 12.0,
+      "tokens": 3364,
+      "attempts": 1
+    },
+    {
+      "id": "839",
+      "prediction": 12.0,
+      "tokens": 3342,
+      "attempts": 1
+    },
+    {
+      "id": "2715",
+      "prediction": 8.0,
+      "tokens": 3374,
+      "attempts": 1
+    },
+    {
+      "id": "5183",
+      "prediction": 8.0,
+      "tokens": 3384,
+      "attempts": 1
+    },
+    {
+      "id": "7341",
+      "prediction": 6.0,
+      "tokens": 3357,
+      "attempts": 1
+    },
+    {
+      "id": "10475",
+      "prediction": 8.0,
+      "tokens": 3302,
+      "attempts": 1
+    },
+    {
+      "id": "4959",
+      "prediction": 8.0,
+      "tokens": 3378,
+      "attempts": 1
+    },
+    {
+      "id": "1345",
+      "prediction": 6.0,
+      "tokens": 3336,
+      "attempts": 1
+    },
+    {
+      "id": "5020",
+      "prediction": 6.0,
+      "tokens": 3295,
+      "attempts": 1
+    },
+    {
+      "id": "10630",
+      "prediction": 14.0,
+      "tokens": 3333,
+      "attempts": 1
+    },
+    {
+      "id": "1118",
+      "prediction": 8.0,
+      "tokens": 3299,
+      "attempts": 1
+    },
+    {
+      "id": "13241",
+      "prediction": 12.0,
+      "tokens": 3339,
+      "attempts": 1
+    },
+    {
+      "id": "2910",
+      "prediction": 8.0,
+      "tokens": 3363,
+      "attempts": 1
+    },
+    {
+      "id": "7607",
+      "prediction": 12.0,
+      "tokens": 3325,
+      "attempts": 1
+    },
+    {
+      "id": "8898",
+      "prediction": 6.0,
+      "tokens": 3311,
+      "attempts": 1
+    },
+    {
+      "id": "2487",
+      "prediction": 2.0,
+      "tokens": 3448,
+      "attempts": 1
+    },
+    {
+      "id": "10790",
+      "prediction": 12.0,
+      "tokens": 3360,
+      "attempts": 1
+    },
+    {
+      "id": "6141",
+      "prediction": 8.0,
+      "tokens": 3327,
+      "attempts": 1
+    },
+    {
+      "id": "673",
+      "prediction": 12.0,
+      "tokens": 3325,
+      "attempts": 1
+    },
+    {
+      "id": "5225",
+      "prediction": 8.0,
+      "tokens": 3338,
+      "attempts": 1
+    },
+    {
+      "id": "11800",
+      "prediction": 12.0,
+      "tokens": 3327,
+      "attempts": 1
+    },
+    {
+      "id": "3058",
+      "prediction": 6.0,
+      "tokens": 3296,
+      "attempts": 1
+    },
+    {
+      "id": "7047",
+      "prediction": 12.0,
+      "tokens": 3327,
+      "attempts": 1
+    },
+    {
+      "id": "2317",
+      "prediction": 12.0,
+      "tokens": 3315,
+      "attempts": 1
+    },
+    {
+      "id": "8813",
+      "prediction": 14.0,
+      "tokens": 3377,
+      "attempts": 1
+    },
+    {
+      "id": "6104",
+      "prediction": 8.0,
+      "tokens": 3351,
+      "attempts": 1
+    },
+    {
+      "id": "6601",
+      "prediction": 14.0,
+      "tokens": 3336,
+      "attempts": 1
+    },
+    {
+      "id": "577",
+      "prediction": 6.0,
+      "tokens": 3321,
+      "attempts": 1
+    },
+    {
+      "id": "5835",
+      "prediction": 8.0,
+      "tokens": 3357,
+      "attempts": 1
+    },
+    {
+      "id": "8925",
+      "prediction": 12.0,
+      "tokens": 3323,
+      "attempts": 1
+    },
+    {
+      "id": "13085",
+      "prediction": 6.0,
+      "tokens": 3372,
+      "attempts": 1
+    },
+    {
+      "id": "12793",
+      "prediction": 2.0,
+      "tokens": 3342,
+      "attempts": 1
+    },
+    {
+      "id": "8124",
+      "prediction": 6.0,
+      "tokens": 3297,
+      "attempts": 1
+    },
+    {
+      "id": "9421",
+      "prediction": 2.0,
+      "tokens": 3331,
+      "attempts": 1
+    },
+    {
+      "id": "6729",
+      "prediction": 12.0,
+      "tokens": 3384,
+      "attempts": 1
+    },
+    {
+      "id": "9095",
+      "prediction": 14.0,
+      "tokens": 3329,
+      "attempts": 1
+    },
+    {
+      "id": "11105",
+      "prediction": 12.0,
+      "tokens": 3371,
+      "attempts": 1
+    },
+    {
+      "id": "12276",
+      "prediction": 6.0,
+      "tokens": 3329,
+      "attempts": 1
+    },
+    {
+      "id": "7369",
+      "prediction": 8.0,
+      "tokens": 3308,
+      "attempts": 1
+    },
+    {
+      "id": "2227",
+      "prediction": 12.0,
+      "tokens": 3341,
+      "attempts": 1
+    },
+    {
+      "id": "3160",
+      "prediction": 6.0,
+      "tokens": 3319,
+      "attempts": 1
+    },
+    {
+      "id": "5654",
+      "prediction": 12.0,
+      "tokens": 3306,
+      "attempts": 1
+    },
+    {
+      "id": "6252",
+      "prediction": 6.0,
+      "tokens": 3321,
+      "attempts": 1
+    },
+    {
+      "id": "7529",
+      "prediction": 12.0,
+      "tokens": 3334,
+      "attempts": 1
+    },
+    {
+      "id": "2512",
+      "prediction": 6.0,
+      "tokens": 3278,
+      "attempts": 1
+    },
+    {
+      "id": "9679",
+      "prediction": 12.0,
+      "tokens": 3363,
+      "attempts": 1
+    },
+    {
+      "id": "8722",
+      "prediction": 2.0,
+      "tokens": 3301,
+      "attempts": 1
+    },
+    {
+      "id": "1493",
+      "prediction": 6.0,
+      "tokens": 3388,
+      "attempts": 1
+    },
+    {
+      "id": "1606",
+      "prediction": 12.0,
+      "tokens": 3356,
+      "attempts": 1
+    },
+    {
+      "id": "10264",
+      "prediction": 12.0,
+      "tokens": 3362,
+      "attempts": 1
+    },
+    {
+      "id": "9797",
+      "prediction": 12.0,
+      "tokens": 3332,
+      "attempts": 1
+    },
+    {
+      "id": "7233",
+      "prediction": 6.0,
+      "tokens": 3314,
+      "attempts": 1
+    },
+    {
+      "id": "3931",
+      "prediction": 12.0,
+      "tokens": 3363,
+      "attempts": 1
+    },
+    {
+      "id": "2459",
+      "prediction": 8.0,
+      "tokens": 3328,
+      "attempts": 1
+    },
+    {
+      "id": "10669",
+      "prediction": 12.0,
+      "tokens": 3361,
+      "attempts": 1
+    },
+    {
+      "id": "1729",
+      "prediction": 2.0,
+      "tokens": 3278,
+      "attempts": 1
+    },
+    {
+      "id": "8718",
+      "prediction": 6.0,
+      "tokens": 3314,
+      "attempts": 1
+    },
+    {
+      "id": "13150",
+      "prediction": 12.0,
+      "tokens": 3358,
+      "attempts": 1
+    },
+    {
+      "id": "9935",
+      "prediction": 12.0,
+      "tokens": 3359,
+      "attempts": 1
+    },
+    {
+      "id": "3997",
+      "prediction": 12.0,
+      "tokens": 3324,
+      "attempts": 1
+    },
+    {
+      "id": "12480",
+      "prediction": 8.0,
+      "tokens": 3313,
+      "attempts": 1
+    },
+    {
+      "id": "10605",
+      "prediction": 14.0,
+      "tokens": 3334,
+      "attempts": 1
+    },
+    {
+      "id": "12028",
+      "prediction": 2.0,
+      "tokens": 3345,
+      "attempts": 1
+    },
+    {
+      "id": "9741",
+      "prediction": 12.0,
+      "tokens": 3343,
+      "attempts": 1
+    },
+    {
+      "id": "9178",
+      "prediction": 6.0,
+      "tokens": 3377,
+      "attempts": 1
+    },
+    {
+      "id": "12995",
+      "prediction": 14.0,
+      "tokens": 3425,
+      "attempts": 1
+    },
+    {
+      "id": "5477",
+      "prediction": 12.0,
+      "tokens": 3315,
+      "attempts": 1
+    },
+    {
+      "id": "12494",
+      "prediction": 6.0,
+      "tokens": 3364,
+      "attempts": 1
+    },
+    {
+      "id": "9489",
+      "prediction": 14.0,
+      "tokens": 3355,
+      "attempts": 1
+    },
+    {
+      "id": "9249",
+      "prediction": 6.0,
+      "tokens": 3357,
+      "attempts": 1
+    },
+    {
+      "id": "2589",
+      "prediction": 8.0,
+      "tokens": 3323,
+      "attempts": 1
+    },
+    {
+      "id": "12008",
+      "prediction": 12.0,
+      "tokens": 3336,
+      "attempts": 1
+    },
+    {
+      "id": "7387",
+      "prediction": 12.0,
+      "tokens": 3352,
+      "attempts": 1
+    },
+    {
+      "id": "9307",
+      "prediction": 2.0,
+      "tokens": 3303,
+      "attempts": 1
+    },
+    {
+      "id": "2704",
+      "prediction": 12.0,
+      "tokens": 3329,
+      "attempts": 1
+    },
+    {
+      "id": "1208",
+      "prediction": 6.0,
+      "tokens": 3297,
+      "attempts": 1
+    },
+    {
+      "id": "11875",
+      "prediction": 14.0,
+      "tokens": 3359,
+      "attempts": 1
+    },
+    {
+      "id": "2788",
+      "prediction": 12.0,
+      "tokens": 3346,
+      "attempts": 1
+    },
+    {
+      "id": "820",
+      "prediction": 12.0,
+      "tokens": 3324,
+      "attempts": 1
+    },
+    {
+      "id": "763",
+      "prediction": 2.0,
+      "tokens": 3399,
+      "attempts": 1
+    },
+    {
+      "id": "6945",
+      "prediction": 12.0,
+      "tokens": 3336,
+      "attempts": 1
+    },
+    {
+      "id": "4520",
+      "prediction": 12.0,
+      "tokens": 3363,
+      "attempts": 1
+    },
+    {
+      "id": "12776",
+      "prediction": 6.0,
+      "tokens": 3344,
+      "attempts": 1
+    },
+    {
+      "id": "8486",
+      "prediction": 12.0,
+      "tokens": 3325,
+      "attempts": 1
+    },
+    {
+      "id": "5049",
+      "prediction": 6.0,
+      "tokens": 3287,
+      "attempts": 1
+    },
+    {
+      "id": "3617",
+      "prediction": 6.0,
+      "tokens": 3298,
+      "attempts": 1
+    },
+    {
+      "id": "10743",
+      "prediction": 14.0,
+      "tokens": 3352,
+      "attempts": 1
+    },
+    {
+      "id": "732",
+      "prediction": 12.0,
+      "tokens": 3320,
+      "attempts": 1
+    },
+    {
+      "id": "4921",
+      "prediction": 12.0,
+      "tokens": 3376,
+      "attempts": 1
+    },
+    {
+      "id": "4742",
+      "prediction": 2.0,
+      "tokens": 3324,
+      "attempts": 1
+    },
+    {
+      "id": "2876",
+      "prediction": 6.0,
+      "tokens": 3318,
+      "attempts": 1
+    },
+    {
+      "id": "2625",
+      "prediction": 6.0,
+      "tokens": 3273,
+      "attempts": 1
+    },
+    {
+      "id": "6657",
+      "prediction": 14.0,
+      "tokens": 3377,
+      "attempts": 1
+    },
+    {
+      "id": "2655",
+      "prediction": 8.0,
+      "tokens": 3353,
+      "attempts": 1
+    },
+    {
+      "id": "9350",
+      "prediction": 14.0,
+      "tokens": 3343,
+      "attempts": 1
+    },
+    {
+      "id": "623",
+      "prediction": 6.0,
+      "tokens": 3311,
+      "attempts": 1
+    },
+    {
+      "id": "5407",
+      "prediction": 12.0,
+      "tokens": 3314,
+      "attempts": 1
+    },
+    {
+      "id": "11571",
+      "prediction": 14.0,
+      "tokens": 3336,
+      "attempts": 1
+    },
+    {
+      "id": "7307",
+      "prediction": 12.0,
+      "tokens": 3341,
+      "attempts": 1
+    },
+    {
+      "id": "5405",
+      "prediction": 12.0,
+      "tokens": 3314,
+      "attempts": 1
+    },
+    {
+      "id": "3378",
+      "prediction": 8.0,
+      "tokens": 3296,
+      "attempts": 1
+    },
+    {
+      "id": "9275",
+      "prediction": 12.0,
+      "tokens": 3330,
+      "attempts": 1
+    },
+    {
+      "id": "10610",
+      "prediction": 12.0,
+      "tokens": 3344,
+      "attempts": 1
+    },
+    {
+      "id": "4342",
+      "prediction": 8.0,
+      "tokens": 3295,
+      "attempts": 1
+    },
+    {
+      "id": "3611",
+      "prediction": 8.0,
+      "tokens": 3338,
+      "attempts": 1
+    },
+    {
+      "id": "3251",
+      "prediction": 12.0,
+      "tokens": 3289,
+      "attempts": 1
+    },
+    {
+      "id": "11546",
+      "prediction": 12.0,
+      "tokens": 3365,
+      "attempts": 1
+    },
+    {
+      "id": "7713",
+      "prediction": 6.0,
+      "tokens": 3283,
+      "attempts": 1
+    },
+    {
+      "id": "10436",
+      "prediction": 12.0,
+      "tokens": 3365,
+      "attempts": 1
+    },
+    {
+      "id": "4205",
+      "prediction": 6.0,
+      "tokens": 3290,
+      "attempts": 1
+    },
+    {
+      "id": "1669",
+      "prediction": 12.0,
+      "tokens": 3379,
+      "attempts": 1
+    },
+    {
+      "id": "8423",
+      "prediction": 12.0,
+      "tokens": 3350,
+      "attempts": 1
+    },
+    {
+      "id": "12913",
+      "prediction": 12.0,
+      "tokens": 3364,
+      "attempts": 1
+    },
+    {
+      "id": "9999",
+      "prediction": 6.0,
+      "tokens": 3368,
+      "attempts": 1
+    },
+    {
+      "id": "1965",
+      "prediction": 13.0,
+      "tokens": 3365,
+      "attempts": 1
+    },
+    {
+      "id": "8872",
+      "prediction": 6.0,
+      "tokens": 3309,
+      "attempts": 1
+    },
+    {
+      "id": "95",
+      "prediction": 12.0,
+      "tokens": 3351,
+      "attempts": 1
+    },
+    {
+      "id": "862",
+      "prediction": 12.0,
+      "tokens": 3374,
+      "attempts": 1
+    },
+    {
+      "id": "1463",
+      "prediction": 12.0,
+      "tokens": 3354,
+      "attempts": 1
+    },
+    {
+      "id": "3887",
+      "prediction": 4.0,
+      "tokens": 3290,
+      "attempts": 1
+    },
+    {
+      "id": "7188",
+      "prediction": 12.0,
+      "tokens": 3368,
+      "attempts": 1
+    },
+    {
+      "id": "8950",
+      "prediction": 8.0,
+      "tokens": 3365,
+      "attempts": 1
+    },
+    {
+      "id": "9460",
+      "prediction": 6.0,
+      "tokens": 3335,
+      "attempts": 1
+    },
+    {
+      "id": "4110",
+      "prediction": 6.0,
+      "tokens": 3364,
+      "attempts": 1
+    },
+    {
+      "id": "4040",
+      "prediction": 6.0,
+      "tokens": 3267,
+      "attempts": 1
+    },
+    {
+      "id": "11615",
+      "prediction": 12.0,
+      "tokens": 3370,
+      "attempts": 1
+    },
+    {
+      "id": "3399",
+      "prediction": 12.0,
+      "tokens": 3398,
+      "attempts": 1
+    },
+    {
+      "id": "8854",
+      "prediction": 12.0,
+      "tokens": 3325,
+      "attempts": 1
+    },
+    {
+      "id": "12955",
+      "prediction": 8.0,
+      "tokens": 3349,
+      "attempts": 1
+    },
+    {
+      "id": "3948",
+      "prediction": 6.0,
+      "tokens": 3350,
+      "attempts": 1
+    },
+    {
+      "id": "3307",
+      "prediction": 8.0,
+      "tokens": 3348,
+      "attempts": 1
+    },
+    {
+      "id": "1339",
+      "prediction": 2.0,
+      "tokens": 3341,
+      "attempts": 1
+    },
+    {
+      "id": "4983",
+      "prediction": 12.0,
+      "tokens": 3360,
+      "attempts": 1
+    },
+    {
+      "id": "11712",
+      "prediction": 12.0,
+      "tokens": 3324,
+      "attempts": 1
+    },
+    {
+      "id": "11730",
+      "prediction": 12.0,
+      "tokens": 3354,
+      "attempts": 1
+    },
+    {
+      "id": "4400",
+      "prediction": 12.0,
+      "tokens": 3406,
+      "attempts": 1
+    },
+    {
+      "id": "7944",
+      "prediction": 12.0,
+      "tokens": 3311,
+      "attempts": 1
+    },
+    {
+      "id": "12026",
+      "prediction": 12.0,
+      "tokens": 3340,
+      "attempts": 1
+    },
+    {
+      "id": "957",
+      "prediction": 6.0,
+      "tokens": 3319,
+      "attempts": 1
+    },
+    {
+      "id": "1297",
+      "prediction": 6.0,
+      "tokens": 3313,
+      "attempts": 1
+    },
+    {
+      "id": "3194",
+      "prediction": 6.0,
+      "tokens": 3364,
+      "attempts": 1
+    },
+    {
+      "id": "5006",
+      "prediction": 12.0,
+      "tokens": 3378,
+      "attempts": 1
+    },
+    {
+      "id": "1405",
+      "prediction": 2.0,
+      "tokens": 3266,
+      "attempts": 1
+    },
+    {
+      "id": "7305",
+      "prediction": 2.0,
+      "tokens": 3307,
+      "attempts": 1
+    },
+    {
+      "id": "11353",
+      "prediction": 6.0,
+      "tokens": 3328,
+      "attempts": 1
+    },
+    {
+      "id": "6743",
+      "prediction": 6.0,
+      "tokens": 3310,
+      "attempts": 1
+    },
+    {
+      "id": "12136",
+      "prediction": 14.0,
+      "tokens": 3374,
+      "attempts": 1
+    },
+    {
+      "id": "6187",
+      "prediction": 2.0,
+      "tokens": 3294,
+      "attempts": 1
+    },
+    {
+      "id": "4194",
+      "prediction": 12.0,
+      "tokens": 3413,
+      "attempts": 1
+    },
+    {
+      "id": "4338",
+      "prediction": 4.0,
+      "tokens": 3293,
+      "attempts": 1
+    },
+    {
+      "id": "12665",
+      "prediction": 8.0,
+      "tokens": 3314,
+      "attempts": 1
+    },
+    {
+      "id": "2675",
+      "prediction": 12.0,
+      "tokens": 3365,
+      "attempts": 1
+    },
+    {
+      "id": "2392",
+      "prediction": 8.0,
+      "tokens": 3339,
+      "attempts": 1
+    },
+    {
+      "id": "119",
+      "prediction": 14.0,
+      "tokens": 3349,
+      "attempts": 1
+    },
+    {
+      "id": "6061",
+      "prediction": 6.0,
+      "tokens": 3322,
+      "attempts": 1
+    },
+    {
+      "id": "2377",
+      "prediction": 8.0,
+      "tokens": 3353,
+      "attempts": 1
+    },
+    {
+      "id": "5414",
+      "prediction": 8.0,
+      "tokens": 3333,
+      "attempts": 1
+    },
+    {
+      "id": "6011",
+      "prediction": 12.0,
+      "tokens": 3348,
+      "attempts": 1
+    },
+    {
+      "id": "4455",
+      "prediction": 6.0,
+      "tokens": 3285,
+      "attempts": 1
+    },
+    {
+      "id": "13074",
+      "prediction": 14.0,
+      "tokens": 3378,
+      "attempts": 1
+    },
+    {
+      "id": "7747",
+      "prediction": 12.0,
+      "tokens": 3334,
+      "attempts": 1
+    },
+    {
+      "id": "3090",
+      "prediction": 12.0,
+      "tokens": 3370,
+      "attempts": 1
+    },
+    {
+      "id": "11202",
+      "prediction": 8.0,
+      "tokens": 3359,
+      "attempts": 1
+    },
+    {
+      "id": "3785",
+      "prediction": 8.0,
+      "tokens": 3428,
+      "attempts": 1
+    },
+    {
+      "id": "2210",
+      "prediction": 12.0,
+      "tokens": 3360,
+      "attempts": 1
+    },
+    {
+      "id": "9522",
+      "prediction": 14.0,
+      "tokens": 3349,
+      "attempts": 1
+    },
+    {
+      "id": "3833",
+      "prediction": 8.0,
+      "tokens": 3321,
+      "attempts": 1
+    },
+    {
+      "id": "8209",
+      "prediction": 12.0,
+      "tokens": 3329,
+      "attempts": 1
+    },
+    {
+      "id": "1437",
+      "prediction": 6.0,
+      "tokens": 3332,
+      "attempts": 1
+    },
+    {
+      "id": "3482",
+      "prediction": 6.0,
+      "tokens": 3303,
+      "attempts": 1
+    },
+    {
+      "id": "12783",
+      "prediction": 14.0,
+      "tokens": 3335,
+      "attempts": 1
+    },
+    {
+      "id": "5494",
+      "prediction": 6.0,
+      "tokens": 3327,
+      "attempts": 1
+    },
+    {
+      "id": "9625",
+      "prediction": 6.0,
+      "tokens": 3341,
+      "attempts": 1
+    },
+    {
+      "id": "11316",
+      "prediction": 6.0,
+      "tokens": 3320,
+      "attempts": 1
+    },
+    {
+      "id": "4828",
+      "prediction": 12.0,
+      "tokens": 3361,
+      "attempts": 1
+    },
+    {
+      "id": "1730",
+      "prediction": 14.0,
+      "tokens": 3367,
+      "attempts": 1
+    },
+    {
+      "id": "4501",
+      "prediction": 8.0,
+      "tokens": 3301,
+      "attempts": 1
+    },
+    {
+      "id": "3265",
+      "prediction": 8.0,
+      "tokens": 3364,
+      "attempts": 1
+    },
+    {
+      "id": "3562",
+      "prediction": 6.0,
+      "tokens": 3314,
+      "attempts": 1
+    },
+    {
+      "id": "4562",
+      "prediction": 12.0,
+      "tokens": 3361,
+      "attempts": 1
+    },
+    {
+      "id": "10861",
+      "prediction": 8.0,
+      "tokens": 3399,
+      "attempts": 1
+    },
+    {
+      "id": "8892",
+      "prediction": 8.0,
+      "tokens": 3324,
+      "attempts": 1
+    },
+    {
+      "id": "9661",
+      "prediction": 13.0,
+      "tokens": 3333,
+      "attempts": 1
+    },
+    {
+      "id": "11553",
+      "prediction": 14.0,
+      "tokens": 3353,
+      "attempts": 1
+    },
+    {
+      "id": "1107",
+      "prediction": 8.0,
+      "tokens": 3383,
+      "attempts": 1
+    },
+    {
+      "id": "714",
+      "prediction": 12.0,
+      "tokens": 3328,
+      "attempts": 1
+    },
+    {
+      "id": "7838",
+      "prediction": 4.0,
+      "tokens": 3335,
+      "attempts": 1
+    },
+    {
+      "id": "7798",
+      "prediction": 14.0,
+      "tokens": 3338,
+      "attempts": 1
+    },
+    {
+      "id": "263",
+      "prediction": 12.0,
+      "tokens": 3344,
+      "attempts": 1
+    },
+    {
+      "id": "4091",
+      "prediction": 2.0,
+      "tokens": 3293,
+      "attempts": 1
+    },
+    {
+      "id": "288",
+      "prediction": 6.0,
+      "tokens": 3325,
+      "attempts": 1
+    },
+    {
+      "id": "6180",
+      "prediction": 14.0,
+      "tokens": 3381,
+      "attempts": 1
+    },
+    {
+      "id": "10120",
+      "prediction": 14.0,
+      "tokens": 3397,
+      "attempts": 1
+    },
+    {
+      "id": "965",
+      "prediction": 2.0,
+      "tokens": 3289,
+      "attempts": 1
+    },
+    {
+      "id": "8047",
+      "prediction": 6.0,
+      "tokens": 3377,
+      "attempts": 1
+    },
+    {
+      "id": "11434",
+      "prediction": 13.0,
+      "tokens": 3387,
+      "attempts": 1
+    },
+    {
+      "id": "8396",
+      "prediction": 6.0,
+      "tokens": 3361,
+      "attempts": 1
+    },
+    {
+      "id": "2140",
+      "prediction": 6.0,
+      "tokens": 3239,
+      "attempts": 1
+    },
+    {
+      "id": "4162",
+      "prediction": 12.0,
+      "tokens": 3339,
+      "attempts": 1
+    },
+    {
+      "id": "6386",
+      "prediction": 12.0,
+      "tokens": 3339,
+      "attempts": 1
+    },
+    {
+      "id": "10895",
+      "prediction": 12.0,
+      "tokens": 3355,
+      "attempts": 1
+    },
+    {
+      "id": "5936",
+      "prediction": 6.0,
+      "tokens": 3257,
+      "attempts": 1
+    }
+  ],
+  "failed_predictions": [],
+  "stats": {
+    "valid": 1000,
+    "invalid": 0
+  },
+  "end_timestamp": "2025-10-24T21:30:36.133543",
+  "csv_output": "generalization/llama-4-scout_train_ASAP-SAS_test_CSEE_ind_ded/predictions.csv"
+}

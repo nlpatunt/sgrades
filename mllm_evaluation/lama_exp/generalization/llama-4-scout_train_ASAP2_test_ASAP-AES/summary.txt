@@ -1,0 +1,41 @@
+======================================================================
+CROSS-DATASET GENERALIZATION EXPERIMENT
+======================================================================
+
+Model: llama-4-scout
+Approach: Inductive + Deductive
+Training Dataset: ASAP2
+Test Dataset: ASAP-AES
+Training Examples: 5
+Random Seed: 42
+
+----------------------------------------------------------------------
+RESULTS
+----------------------------------------------------------------------
+QWK:  0.0349
+MAE:  5.5875
+RMSE: 10.4570
+Valid Predictions: 1275
+
+Valid Predictions: 1275/1298 (98.2%)
+Failed Predictions: 23/1298 (1.8%)
+
+----------------------------------------------------------------------
+FAILURE ANALYSIS
+----------------------------------------------------------------------
+All failures occurred after 5 adaptive retry attempts
+
+Failures by Essay Set:
+  set_1: 23 failures
+
+Most Common Failure Patterns:
+  [23x] Score 1.0 outside range [2, 12]
+
+----------------------------------------------------------------------
+TRAINING EXAMPLES USED (from ASAP2)
+----------------------------------------------------------------------
+  AAAVUP14319000106751
+  AAAOPP13416000138908
+  AAAOPP13416000074668
+  5178558
+  AAAOPP13416000028254

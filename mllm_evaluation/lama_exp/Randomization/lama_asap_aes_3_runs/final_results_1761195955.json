@@ -1,0 +1,105 @@
+{
+  "experiment_type": "randomization_asap_aes",
+  "model_code": "meta-llama/llama-4-scout",
+  "model_name": "llama-4-scout",
+  "dataset": "ASAP-AES",
+  "new_seeds": [
+    123,
+    456
+  ],
+  "total_runs": 3,
+  "num_training_examples": 5,
+  "start_timestamp": "2025-10-23T03:58:02.957314",
+  "runs": [
+    {
+      "run_number": 1,
+      "random_seed": 42,
+      "dataset": "ASAP-AES",
+      "approach": "inductive+deductive",
+      "training_examples_used": 5,
+      "metrics": {
+        "qwk": 0.9256,
+        "mae": 1.8498,
+        "rmse": 3.5913,
+        "num_predictions": 1298
+      },
+      "stats": {
+        "valid": 1298,
+        "invalid": 0
+      },
+      "csv_output": "ASAP-AES.csv",
+      "additional_metrics": {
+        "pearson_correlation": 0.9437,
+        "f1_score": 0.2577,
+        "precision": 0.291,
+        "recall": 0.2997,
+        "accuracy": 0.2997
+      },
+      "source": "pre-calculated",
+      "note": "Pre-calculated results from seed 42 run"
+    },
+    {
+      "run_number": 2,
+      "random_seed": 123,
+      "dataset": "ASAP-AES",
+      "training_examples_used": 5,
+      "test_examples_total": 1298,
+      "stats": {
+        "valid": 1297,
+        "invalid": 1
+      },
+      "start_time": "2025-10-23T03:58:02.976365",
+      "csv_output": "Randomization/lama_asap_aes_3_runs/predictions/run2_seed123_predictions.csv",
+      "end_time": "2025-10-23T04:30:16.491166",
+      "metrics": {
+        "qwk": 0.9201,
+        "mae": 1.9653,
+        "rmse": 3.7091,
+        "num_predictions": 1298
+      }
+    },
+    {
+      "run_number": 3,
+      "random_seed": 456,
+      "dataset": "ASAP-AES",
+      "training_examples_used": 5,
+      "test_examples_total": 1298,
+      "stats": {
+        "valid": 1298,
+        "invalid": 0
+      },
+      "start_time": "2025-10-23T04:30:26.661593",
+      "csv_output": "Randomization/lama_asap_aes_3_runs/predictions/run3_seed456_predictions.csv",
+      "end_time": "2025-10-23T05:05:55.710550",
+      "metrics": {
+        "qwk": 0.9446,
+        "mae": 1.7604,
+        "rmse": 3.1888,
+        "num_predictions": 1298
+      }
+    }
+  ],
+  "end_timestamp": "2025-10-23T05:05:55.721775",
+  "statistics": {
+    "qwk": {
+      "mean": 0.9301,
+      "std": 0.0105,
+      "min": 0.9201,
+      "max": 0.9446,
+      "values": [
+        0.9256,
+        0.9201,
+        0.9446
+      ],
+      "num_runs": 3
+    },
+    "mae": {
+      "mean": 1.8585,
+      "std": 0.0839
+    },
+    "rmse": {
+      "mean": 3.4964,
+      "std": 0.2228
+    }
+  }
+}

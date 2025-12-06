@@ -1,0 +1,19 @@
+{
+  "model": "gemini-2.5-flash",
+  "method": "fewshot_inductive_3call",
+  "calls_per_point": 3,
+  "datasets": [
+    {
+      "name": "D_SciEntSBank_2way",
+      "valid": 1225,
+      "failed": 0,
+      "csv": "/home/ts1506.UNT/Desktop/Work/besisr-benchmark-site/mllm_evaluation/sam_datasets/D_SciEntSBank_2way.csv"
+    },
+    {
+      "name": "D_SciEntSBank_3way",
+      "valid": 1225,
+      "failed": 0,
+      "csv": "/home/ts1506.UNT/Desktop/Work/besisr-benchmark-site/mllm_evaluation/sam_datasets/D_SciEntSBank_3way.csv"
+    }
+  ]
+}

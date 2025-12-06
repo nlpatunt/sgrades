@@ -25,6 +25,4 @@ batch_evaluation_*.json
 # User uploads
 stored_submissions/
 
-# ML evaluation outputs
-mllm_evaluation/results/
-mllm_evaluation/*/outputs/
+

@@ -1,0 +1,27 @@
+======================================================================
+CROSS-DATASET GENERALIZATION - INDUCTIVE + DEDUCTIVE
+======================================================================
+
+Model: llama-4-scout
+Training Dataset: ASAP-SAS
+Test Dataset: CSEE
+Training Examples: 5
+Random Seed: 42
+Score Range (target CSEE): (0, 16)
+
+----------------------------------------------------------------------
+RESULTS
+----------------------------------------------------------------------
+Metrics: Could not be calculated
+
+Valid Predictions: 1000
+Failed Predictions: 0
+
+----------------------------------------------------------------------
+TRAINING EXAMPLES USED (from ASAP-SAS)
+----------------------------------------------------------------------
+  1165
+  11340
+  11272
+  21454
+  23680

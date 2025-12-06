@@ -1,0 +1,21 @@
+{
+  "model": "gpt-4o-mini",
+  "method": "inductive_deductive_3call",
+  "calls_per_point": 3,
+  "num_training_examples": 5,
+  "random_seed": 42,
+  "datasets": [
+    {
+      "name": "D_SciEntSBank_2way",
+      "valid": 1225,
+      "failed": 0,
+      "csv": "inductive_deductive_3call_predictions/gpt-4o-mini_D_SciEntSBank_2way_3call.csv"
+    },
+    {
+      "name": "D_SciEntSBank_3way",
+      "valid": 1225,
+      "failed": 0,
+      "csv": "inductive_deductive_3call_predictions/gpt-4o-mini_D_SciEntSBank_3way_3call.csv"
+    }
+  ]
+}

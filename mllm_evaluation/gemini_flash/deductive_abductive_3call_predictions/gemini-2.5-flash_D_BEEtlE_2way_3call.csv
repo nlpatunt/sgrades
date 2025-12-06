@@ -1,0 +1,265 @@
+ID,question_id,question_text,student_answer,label
+562,HYBRID_BURNED_OUT_EXPLAIN_Q2,Explain your reasoning.,"bulbs a and c will still be in a closed path, even if bulb B burns out.",incorrect
+102,PARALLEL_SWITCH_EXPLAIN_Q1,Why was bulb A on when switch Y was open and switch Z was closed?,The path was closed.,incorrect
+52,TERMINAL_STATE_EXPLAIN_Q,Why do you think those terminals and the negative battery terminal are in the same state?,Because there is a gap caused by damaged bulb B.,incorrect
+64,TERMINAL_STATE_EXPLAIN_Q,Why do you think those terminals and the negative battery terminal are in the same state?,There is a gap between the negative and positive due to Blub B,incorrect
+1074,BURNED_BULB_SERIES_Q2,Why did it happen?,I dont know,incorrect
+425,GIVE_CIRCUIT_TYPE_SERIES_EXPLAIN_Q,Explain your reasoning.,Because they are on the same path.,incorrect
+794,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",When I observe a change in the voltage.,incorrect
+1046,BURNED_BULB_SERIES_Q2,Why did it happen?,bulb a being burnt out created a gap in the path,correct
+1144,VOLTAGE_GAP_EXPLAIN_WHY2,Explain why you got a voltage reading of 1.5 for terminal 2 and the positive terminal.,terminal 2 is not connected to the positive terminal,incorrect
+1038,BURNED_BULB_SERIES_Q2,Why did it happen?,because bulb a was in a open path,incorrect
+529,HYBRID_BURNED_OUT_EXPLAIN_Q2,Explain your reasoning.,There is a closed path to the bulbs.,incorrect
+1051,BURNED_BULB_SERIES_Q2,Why did it happen?,there was a gap in the circut,incorrect
+199,SHORT_CIRCUIT_EXPLAIN_Q_5,Explain why circuit 5 is a short circuit.,bulb is outside the closed path,incorrect
+555,HYBRID_BURNED_OUT_EXPLAIN_Q2,Explain your reasoning.,because bulb a and c would still be in a complete circuit with the battery,correct
+1064,BURNED_BULB_SERIES_Q2,Why did it happen?,bulb a  created a gap in the path.,incorrect
+356,OPT1_EXPLAIN_Q2,Why not?,Switch Z and X needs to be closed.,incorrect
+1084,BURNED_BULB_SERIES_Q2,Why did it happen?,Bulb A burned out and caused a gap,incorrect
+768,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",if the voltage is 0.00 V,incorrect
+395,OPT2_EXPLAIN_Q,Describe the paths in this diagram and explain how those paths account for the results.,"bulb a is in a closed circuit path regardless of bulbs b and c. if bulb a is burned out, bulbs b and c are still in a complete circuit path. bulb b depends on bulb c, and bulb c depends on bulb b. if bulb b is damaged, bulb c will not come on becuase it is contained in the same circuit path as bulb b. if bulb c is damaged, bulb b will not come one because it is contained in the same circuit path as bulb c.",incorrect
+979,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,bulb A is on the same closed path as bulb B and C,incorrect
+978,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,"because bulb A affects bulbs B and C""s paths",incorrect
+416,BURNED_BULB_PARALLEL_EXPLAIN_Q1,Explain your reasoning.,because b and c still have a closed path,incorrect
+219,SHORT_CIRCUIT_EXPLAIN_Q_4,Explain why circuit 4 is not a short circuit.,circuit 4 is a short circuit.,incorrect
+761,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",i give up.,incorrect
+1058,BURNED_BULB_SERIES_Q2,Why did it happen?,there is a gap in the path to the battery,incorrect
+731,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",There would be a voltage reading where the bulb is burned out.,incorrect
+594,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,There is a difference between the positive terminal and negative terminal.,incorrect
+260,VOLTAGE_GAP_EXPLAIN_WHY1,Explain why you got a voltage reading of 1.5 for terminal 1 and the positive terminal.,Terminal 1 is connected to the positive terminal.,incorrect
+666,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,Whether the is a gap or not.,incorrect
+44,BULB_C_VOLTAGE_EXPLAIN_WHY6,Explain why you got a voltage reading of 0 for terminal 6 and the positive terminal.,The positive battery terminal is not seperated from terminal 6.,incorrect
+1050,BURNED_BULB_SERIES_Q2,Why did it happen?,a gap was created in the circuit,incorrect
+328,VOLTAGE_INCOMPLETE_CIRCUIT_2_Q,Why?,because battery voltage is a constant,incorrect
+1136,VOLTAGE_GAP_EXPLAIN_WHY2,Explain why you got a voltage reading of 1.5 for terminal 2 and the positive terminal.,because,incorrect
+902,CLOSED_PATH_EXPLAIN,Explain your reasoning.,The components in both diagrams are complete.,incorrect
+428,GIVE_CIRCUIT_TYPE_SERIES_EXPLAIN_Q,Explain your reasoning.,"if bulb B was damaged, bulb A and bulb C  would be off",incorrect
+478,BULB_C_VOLTAGE_EXPLAIN_WHY4,Explain why you got a voltage reading of 1.5 for terminal 4 and the positive terminal.,the positive terminal is seperated by a gap from terminal 4,incorrect
+309,VOLTAGE_GAP_EXPLAIN_WHY4,Explain why you got a voltage reading of 0 for terminal 4 and the positive terminal.,I dont know,incorrect
+297,OTHER_TERMINAL_STATE_EXPLAIN_Q,Why do you think the other terminals are being held in a different electrical state than that of the negative terminal?,There  is a gap in the circuit,incorrect
+465,BULB_C_VOLTAGE_EXPLAIN_WHY4,Explain why you got a voltage reading of 1.5 for terminal 4 and the positive terminal.,A terminal is not connected to the positive battery terminal.,incorrect
+197,SHORT_CIRCUIT_EXPLAIN_Q_5,Explain why circuit 5 is a short circuit.,It is a short circuit because the battery is contained in a closed path without the bulb.,correct
+1219,DAMAGED_BULB_SWITCH_Q,How does a damaged bulb compare to an open switch?,They both create a gap.,correct
+630,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,tell me the answer,incorrect
+946,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,bulb a is contained in the closed path,incorrect
+124,SWITCH_TABLE_EXPLAIN_Q1,"When switch X was closed and switch Y was open, why was bulb A on?",Bulb A was on because the path was closed from bulb A to the battery.,incorrect
+819,CLOSED_PATH_EXPLAIN,Explain your reasoning.,the bulb is in a closed path.,incorrect
+917,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,because bulb A creates a gap in the closed path.,correct
+271,VOLTAGE_GAP_EXPLAIN_WHY6,Explain why you got a voltage reading of 0 for terminal 6 and the positive terminal.,Terminal 6 is connected to the postive battery terminal,incorrect
+24,VOLTAGE_DIFF_DISCUSS_1_Q,What does a voltage reading of 0 tell you about the connection between a bulb terminal and a battery terminal?,they are connected.,incorrect
+491,HYBRID_BURNED_OUT_EXPLAIN_Q2,Explain your reasoning.,"there is a closed path that contains the battery, bulb a, and bulb c",incorrect
+845,CLOSED_PATH_EXPLAIN,Explain your reasoning.,The battery and light bulb are in a closed path in circuts 1 and 3.,incorrect
+448,BULB_C_VOLTAGE_EXPLAIN_WHY4,Explain why you got a voltage reading of 1.5 for terminal 4 and the positive terminal.,The positive battery terminal is separated by a gap from terminal 4,incorrect
+255,VOLTAGE_GAP_EXPLAIN_WHY1,Explain why you got a voltage reading of 1.5 for terminal 1 and the positive terminal.,because i dont know,incorrect
+824,CLOSED_PATH_EXPLAIN,Explain your reasoning.,I chose 4 because neither component was in a closed path.,incorrect
+880,CLOSED_PATH_EXPLAIN,Explain your reasoning.,In diagrams 1 and 3 the battery and the bulb are in a closed path.,correct
+234,HYBRID_BURNED_OUT_WHY_Q3,Under what circumstances will a damaged/ burned out bulb affect another bulb?,if it is in the same closed path with the  battery,incorrect
+245,HYBRID_BURNED_OUT_WHY_Q2,Why do both bulbs A and B stay on when bulb C is burned out?,They were still contained on closed paths to battery.,correct
+209,CONDITIONS_FOR_BULB_TO_LIGHT,What are the conditions that are required to make a bulb light up?,A light bulb must be connected to the battery.,incorrect
+175,BULB_C_VOLTAGE_EXPLAIN_WHY2,Explain why you got a voltage reading of 1.5 for terminal 2 and the positive terminal.,Terminal 2 is not connected to the positive terminal.,incorrect
+1194,DAMAGED_BULB_SWITCH_Q,How does a damaged bulb compare to an open switch?,it creates a gap and makes a open path,incorrect
+377,VOLTAGE_AND_GAP_DISCUSS_Q,"As you move the multimeter leads from one bulb terminal to the next, what does it mean when the voltage reading jumps from 0 to 1.5?",that the terminal on one side is connected and the other is not connected,incorrect
+539,HYBRID_BURNED_OUT_EXPLAIN_Q2,Explain your reasoning.,"There will still be a closed path containin bulb A, bulb C and the battery.",correct
+307,VOLTAGE_GAP_EXPLAIN_WHY4,Explain why you got a voltage reading of 0 for terminal 4 and the positive terminal.,the terminals are blocked by a gap,incorrect
+429,GIVE_CIRCUIT_TYPE_SERIES_EXPLAIN_Q,Explain your reasoning.,"if one bulb was damaged, the other bulbs would be off.",incorrect
+82,BULB_ONLY_EXPLAIN_WHY6,Explain why you got a voltage reading of 1.5 for terminal 1 and terminal 6.,Terminal 1 is connected to terminal 6.,incorrect
+59,TERMINAL_STATE_EXPLAIN_Q,Why do you think those terminals and the negative battery terminal are in the same state?,They are closest to each other,incorrect
+1164,VOLTAGE_GAP_EXPLAIN_WHY2,Explain why you got a voltage reading of 1.5 for terminal 2 and the positive terminal.,Because there are not gaps in the system from  the - to the bulb then from terminal 2 to the + of the battery.,incorrect
+1122,VOLTAGE_GAP_EXPLAIN_WHY2,Explain why you got a voltage reading of 1.5 for terminal 2 and the positive terminal.,its seperated by the gap in ternam 1,incorrect
+79,BULB_ONLY_EXPLAIN_WHY6,Explain why you got a voltage reading of 1.5 for terminal 1 and terminal 6.,there is a separation between them,incorrect
+410,BURNED_BULB_PARALLEL_EXPLAIN_Q1,Explain your reasoning.,because bulbs b and c have their own closed paths,incorrect
+50,TERMINAL_STATE_EXPLAIN_Q,Why do you think those terminals and the negative battery terminal are in the same state?,"1, 2, and 3 show 0 volts.",incorrect
+912,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,ki,incorrect
+77,BULB_ONLY_EXPLAIN_WHY6,Explain why you got a voltage reading of 1.5 for terminal 1 and terminal 6.,terminal 6 is conncected to the positive terminal of the battery and terminal 1 is connected to the negative terminal of the battery,incorrect
+375,VOLTAGE_AND_GAP_DISCUSS_Q,"As you move the multimeter leads from one bulb terminal to the next, what does it mean when the voltage reading jumps from 0 to 1.5?",There is a gap.,incorrect
+1108,VOLTAGE_GAP_EXPLAIN_WHY2,Explain why you got a voltage reading of 1.5 for terminal 2 and the positive terminal.,there is a gap between terminal 2 and the positive terminal,incorrect
+568,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,"if the terminal is connected to the negative terminal, the reading will be 1.5V.  if the terminal is connected to the positive terminal, the reading will be 0 V.",incorrect
+1114,VOLTAGE_GAP_EXPLAIN_WHY2,Explain why you got a voltage reading of 1.5 for terminal 2 and the positive terminal.,the positive battery terminal is separated by a gap from terminal 1.,incorrect
+746,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",When the voltage changes,incorrect
+462,BULB_C_VOLTAGE_EXPLAIN_WHY4,Explain why you got a voltage reading of 1.5 for terminal 4 and the positive terminal.,terminal 4 is not connected to the positive battery terminal,incorrect
+431,GIVE_CIRCUIT_TYPE_SERIES_EXPLAIN_Q,Explain your reasoning.,removing or damaging one bulb will shut off the other bulbs.,correct
+1246,DAMAGED_BULB_SWITCH_Q,How does a damaged bulb compare to an open switch?,They have an identical impact on the circut.,correct
+334,GIVE_CIRCUIT_TYPE_PARALLEL_EXPLAIN_Q2,Explain your reasoning.,open paths,incorrect
+351,GIVE_CIRCUIT_TYPE_HYBRID_EXPLAIN_Q2,Explain your reasoning.,bulb c is contained in a closed circuit,incorrect
+530,HYBRID_BURNED_OUT_EXPLAIN_Q2,Explain your reasoning.,it is close enought to the battery,incorrect
+310,VOLTAGE_GAP_EXPLAIN_WHY4,Explain why you got a voltage reading of 0 for terminal 4 and the positive terminal.,seperted by gap in terminal 4,incorrect
+947,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,open path,incorrect
+1118,VOLTAGE_GAP_EXPLAIN_WHY2,Explain why you got a voltage reading of 1.5 for terminal 2 and the positive terminal.,the positivie battery terminal is seperated by a gap from terminal 2,incorrect
+887,CLOSED_PATH_EXPLAIN,Explain your reasoning.,All of them have closed circuits around the bulbs,incorrect
+574,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,the value of the measurement indicates its electrical capabilities,incorrect
+970,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,damaging bulb a creates a gap.,incorrect
+1245,DAMAGED_BULB_SWITCH_Q,How does a damaged bulb compare to an open switch?,"Open switch is just creating a gap, nothing is being damaged.",incorrect
+520,HYBRID_BURNED_OUT_EXPLAIN_Q2,Explain your reasoning.,Bulbs A and C are still contained in a closed path with the battery,correct
+1034,BURNED_BULB_SERIES_Q2,Why did it happen?,the switches will be on closed paths,incorrect
+527,HYBRID_BURNED_OUT_EXPLAIN_Q2,Explain your reasoning.,bulbs a and c will still be contained in a closed path with the battery,correct
+1020,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,"Because when bulb A is burned out, it creates a gap and then bulbs B and C are no longer contained in a closed path to the battery.",correct
+45,BULB_C_VOLTAGE_EXPLAIN_WHY6,Explain why you got a voltage reading of 0 for terminal 6 and the positive terminal.,i dont know,incorrect
+156,SWITCH_OPEN_EXPLAIN_Q,Why does an open switch impact a circuit?,A switch creates electricity,incorrect
+304,VOLTAGE_GAP_EXPLAIN_WHY4,Explain why you got a voltage reading of 0 for terminal 4 and the positive terminal.,there is no gap between terminal 4 and the positive terminal,incorrect
+30,VOLTAGE_DIFF_DISCUSS_1_Q,What does a voltage reading of 0 tell you about the connection between a bulb terminal and a battery terminal?,there is a damaged bulb,incorrect
+32,VOLTAGE_DIFF_DISCUSS_1_Q,What does a voltage reading of 0 tell you about the connection between a bulb terminal and a battery terminal?,That the bulb is connected to the positive end of the terminal,incorrect
+278,VOLTAGE_DEFINE_Q,What is voltage?,the measurement of electricity,incorrect
+1010,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,the damaged bulb a creates a gap in the path.,correct
+423,BURNED_BULB_PARALLEL_WHY_Q,Why didn^t bulbs A and C go out after bulb B burned out?,because bulb b is not in the same path as the other bulbs,incorrect
+924,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,Bulb B and bulb c were on the same path as bulb A.,incorrect
+87,BURNED_BULB_LOCATE_EXPLAIN_Q,"Why does measuring voltage help you locate a burned out bulb? Try to answer in terms of electrical states, connections and/ or a gap.",There is a difference in the electrical state at the location of the gap in the circuit.,incorrect
+619,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,voltage,incorrect
+775,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",when the multimeter reads a voltage other than 0v.,incorrect
+988,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,there is a gap in the circuit,incorrect
+786,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",When you register a voltage,incorrect
+1209,DAMAGED_BULB_SWITCH_Q,How does a damaged bulb compare to an open switch?,both a damaged bulb and open switch create a gap in the path,correct
+603,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,they are the same,incorrect
+655,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,the voltage reading is the difference between two terminals,incorrect
+436,GIVE_CIRCUIT_TYPE_SERIES_EXPLAIN_Q,Explain your reasoning.,they will affect eachother,incorrect
+129,BULB_C_VOLTAGE_EXPLAIN_WHY1,Explain why you got a voltage reading of 1.5 for terminal 1 and the positive terminal.,the terminal is separated from the positive battery terminal.,incorrect
+1123,VOLTAGE_GAP_EXPLAIN_WHY2,Explain why you got a voltage reading of 1.5 for terminal 2 and the positive terminal.,termainal2,incorrect
+232,SHORT_CIRCUIT_X_Q,What do you think the red X means?,that there is a short circuit and that the battery is not hooked up properly.,incorrect
+543,HYBRID_BURNED_OUT_EXPLAIN_Q2,Explain your reasoning.,They are still in a closed pathway with the battery,incorrect
+169,SWITCH_TABLE_EXPLAIN_Q2,"When switch X was open and switch Y was closed, why were bulbs B and C on?",Bulbs B and C were still in a closed path with the battery,correct
+1197,DAMAGED_BULB_SWITCH_Q,How does a damaged bulb compare to an open switch?,It is very similar.,incorrect
+299,OTHER_TERMINAL_STATE_EXPLAIN_Q,Why do you think the other terminals are being held in a different electrical state than that of the negative terminal?,"becuase they gave a reading  of 1.5 V on the multimeter, but that is  just becuase  the meter closed the circuit.  They are really in the same state as  all the others I see.",incorrect
+863,CLOSED_PATH_EXPLAIN,Explain your reasoning.,they all create a full circut,incorrect
+71,PARALLEL_SWITCH_EXPLAIN_Q2,Why was bulb C off when switch Z was open?,switch z makes the path incomplete,correct
+1000,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,because it creates a gap in the path,incorrect
+1120,VOLTAGE_GAP_EXPLAIN_WHY2,Explain why you got a voltage reading of 1.5 for terminal 2 and the positive terminal.,there is no gap,incorrect
+114,SWITCH_TABLE_EXPLAIN_Q1,"When switch X was closed and switch Y was open, why was bulb A on?",because it was contained in a closed path to the battery.,correct
+1111,VOLTAGE_GAP_EXPLAIN_WHY2,Explain why you got a voltage reading of 1.5 for terminal 2 and the positive terminal.,terminal 2 is connected to the negative battery terminal.,incorrect
+592,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,dfjfkd,incorrect
+463,BULB_C_VOLTAGE_EXPLAIN_WHY4,Explain why you got a voltage reading of 1.5 for terminal 4 and the positive terminal.,the positive terminal is not connected to terminal 4,incorrect
+813,CLOSED_PATH_EXPLAIN,Explain your reasoning.,1 and 3 have both a bulb and a battery in a closed circuit.,incorrect
+359,OPT1_EXPLAIN_Q2,Why not?,IF Switch Z is closed then it makes a closed path with the battery,incorrect
+1173,DAMAGED_BULB_SWITCH_Q,How does a damaged bulb compare to an open switch?,a damaged bulb creates a gap while an open switch creates a incomplete path.,incorrect
+1249,DAMAGED_BULB_SWITCH_Q,How does a damaged bulb compare to an open switch?,they both damage the circuit,incorrect
+313,VOLTAGE_GAP_EXPLAIN_WHY4,Explain why you got a voltage reading of 0 for terminal 4 and the positive terminal.,the positive battery terminal is connected in circuit with terminal 4,incorrect
+108,HYBRID_BURNED_OUT_EXPLAIN_Q3,Explain your reasoning.,bulb a and bulb b are still in a closed path with the battery.,incorrect
+971,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,i give up.,incorrect
+998,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,It separates the circuit by opening a gap,incorrect
+681,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,they both have the same electrical reading.,incorrect
+586,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,Their electrical state is determined by their relationship,incorrect
+426,GIVE_CIRCUIT_TYPE_SERIES_EXPLAIN_Q,Explain your reasoning.,"Bulb A, B, and C are contained in the same path with the battery.",incorrect
+193,SHORT_CIRCUIT_EXPLAIN_Q_5,Explain why circuit 5 is a short circuit.,the battery is in a closed path,incorrect
+683,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,the voltage is the difference between 2 terminals electrical state on a battery,incorrect
+975,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,the circut is open,correct
+717,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",there is a change in voltage between the battery terminal and the bulb terminal.,incorrect
+1187,DAMAGED_BULB_SWITCH_Q,How does a damaged bulb compare to an open switch?,both create a gap,correct
+1009,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,because it creates a gap between the bulb and the battery,incorrect
+632,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,Voltage reading shows the gap,incorrect
+1203,DAMAGED_BULB_SWITCH_Q,How does a damaged bulb compare to an open switch?,it is the same,incorrect
+1143,VOLTAGE_GAP_EXPLAIN_WHY2,Explain why you got a voltage reading of 1.5 for terminal 2 and the positive terminal.,positive and negative is seperate,incorrect
+504,HYBRID_BURNED_OUT_EXPLAIN_Q2,Explain your reasoning.,l,incorrect
+995,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,There was no closed path between the bulbs and the battery.,incorrect
+266,VOLTAGE_GAP_EXPLAIN_WHY1,Explain why you got a voltage reading of 1.5 for terminal 1 and the positive terminal.,Because the voltage of the battery on the closed circuit is the same as the batterys original voltage.,incorrect
+827,CLOSED_PATH_EXPLAIN,Explain your reasoning.,because the bulb is in a closed circuit,incorrect
+55,TERMINAL_STATE_EXPLAIN_Q,Why do you think those terminals and the negative battery terminal are in the same state?,they are on the other side of the positive terminal,incorrect
+779,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",The meter will show a difference in voltage between the battery terminal and the light bulb terminal.,incorrect
+523,HYBRID_BURNED_OUT_EXPLAIN_Q2,Explain your reasoning.,there is a closed path that contains the battery and bulb a and bulb c,incorrect
+57,TERMINAL_STATE_EXPLAIN_Q,Why do you think those terminals and the negative battery terminal are in the same state?,The path is not closed.,incorrect
+110,HYBRID_BURNED_OUT_EXPLAIN_Q3,Explain your reasoning.,closed pathway with the battery,incorrect
+846,CLOSED_PATH_EXPLAIN,Explain your reasoning.,it is a closed circuit,incorrect
+627,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,i dont know,incorrect
+298,OTHER_TERMINAL_STATE_EXPLAIN_Q,Why do you think the other terminals are being held in a different electrical state than that of the negative terminal?,The other terminals receive current from the positive battery terminal.,incorrect
+1179,DAMAGED_BULB_SWITCH_Q,How does a damaged bulb compare to an open switch?,they create gaps in the circuit.,correct
+287,OTHER_TERMINAL_STATE_EXPLAIN_Q,Why do you think the other terminals are being held in a different electrical state than that of the negative terminal?,They are connected to the positive battery terminal,incorrect
+760,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",the voltage will be 0.,incorrect
+381,OPT2_EXPLAIN_Q,Describe the paths in this diagram and explain how those paths account for the results.,Bulb B and Bulb C are in the same path.,incorrect
+595,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,a gapp in the connection,incorrect
+667,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,They will always be the same,incorrect
+674,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,1 and 2 will always have the same voltage as the negative terminal. And Terminals 5 and 6 will always have the same voltage as the positive terminal.,incorrect
+1151,VOLTAGE_GAP_EXPLAIN_WHY2,Explain why you got a voltage reading of 1.5 for terminal 2 and the positive terminal.,The positive battery terminal is separted by a gap from terminal 2,incorrect
+290,OTHER_TERMINAL_STATE_EXPLAIN_Q,Why do you think the other terminals are being held in a different electrical state than that of the negative terminal?,there terminals are separated by a gap,incorrect
+1043,BURNED_BULB_SERIES_Q2,Why did it happen?,the closed path and the battery,incorrect
+343,GIVE_CIRCUIT_TYPE_HYBRID_EXPLAIN_Q3,Explain your reasoning.,closed path,incorrect
+1252,DAMAGED_BULB_SWITCH_Q,How does a damaged bulb compare to an open switch?,They are functionally the same.,correct
+716,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",there would be a reading of 0.00 v between the positive battery terminal and the bulb terminal.,incorrect
+424,BURNED_BULB_PARALLEL_WHY_Q,Why didn^t bulbs A and C go out after bulb B burned out?,They had a direct contained path,incorrect
+546,HYBRID_BURNED_OUT_EXPLAIN_Q2,Explain your reasoning.,seperate curcuits,incorrect
+740,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",there would be a change in voltage,incorrect
+873,CLOSED_PATH_EXPLAIN,Explain your reasoning.,diagrams 1 and 3 are the only two circuits in which both the battery and the bulb are in a closed path.,incorrect
+324,VOLTAGE_INCOMPLETE_CIRCUIT_2_Q,Why?,because the electrical state difference is still there,incorrect
+210,CONDITIONS_FOR_BULB_TO_LIGHT,What are the conditions that are required to make a bulb light up?,the correct connection is made to the proper terminal.,incorrect
+812,CLOSED_PATH_EXPLAIN,Explain your reasoning.,Both 1 and 3 have closed circuits.,incorrect
+171,SWITCH_TABLE_EXPLAIN_Q2,"When switch X was open and switch Y was closed, why were bulbs B and C on?",Blub B ab=nd C were still contained in a closed path with the battery,correct
+286,OTHER_TERMINAL_STATE_EXPLAIN_Q,Why do you think the other terminals are being held in a different electrical state than that of the negative terminal?,"because terminals 4, 5, and 6 are connected to the positive battery terminal",incorrect
+571,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,the volatge readings determines how much electricity,incorrect
+552,HYBRID_BURNED_OUT_EXPLAIN_Q2,Explain your reasoning.,Bulbs A and C are on a separate closed path,incorrect
+329,VOLTAGE_INCOMPLETE_CIRCUIT_2_Q,Why?,there would be a greater difference,incorrect
+671,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,"If the states are the same, voltage will be zero.",correct
+1079,BURNED_BULB_SERIES_Q2,Why did it happen?,There was a gap in the path between bulbs B and C and the battery.,incorrect
+439,GIVE_CIRCUIT_TYPE_SERIES_EXPLAIN_Q,Explain your reasoning.,"If bulb A was removed, it  wouldn""t affect bulb C.",incorrect
+719,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",0.00 v,incorrect
+907,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,because bulb b and c will not be contained in a closed path with the battery,correct
+211,CONDITIONS_FOR_BULB_TO_LIGHT,What are the conditions that are required to make a bulb light up?,the positive and negative charges of the battery must connect to the bulb,incorrect
+732,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",There is a change in electrical states.,incorrect
+797,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",when the voltages changes to zero at a specific terminal,incorrect
+576,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,the relationship between the voltage reading between two terminals and their electrical states is based on the distance between the terminals on the battery.,incorrect
+616,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,if the voltage is 0 there is no electricity,incorrect
+725,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",the voltage will indicate where the electrical state has changed due to the damaged bulb,incorrect
+11,PARALLEL_SWITCH_EXPLAIN_Q3,What role does the path play in determining whether or not a switch affects a bulb?,a switch has to be contained in a closed path with no gaps,correct
+148,SWITCH_TABLE_EXPLAIN_Q3,Under what circumstances will a switch affect a bulb?,the switch will affect the bulb if it is on the path with the bulb to the battery,correct
+935,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,l,incorrect
+1016,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,Becuase it connects to the battery,incorrect
+773,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",The voltage reading will be 0.,incorrect
+1133,VOLTAGE_GAP_EXPLAIN_WHY2,Explain why you got a voltage reading of 1.5 for terminal 2 and the positive terminal.,the positive terminal is separated by a gap from terminal 2,incorrect
+1206,DAMAGED_BULB_SWITCH_Q,How does a damaged bulb compare to an open switch?,Same.,correct
+583,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,0,incorrect
+765,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",the bulb would work,incorrect
+347,GIVE_CIRCUIT_TYPE_HYBRID_EXPLAIN_Q3,Explain your reasoning.,because the outcome of the bulb will affect the other,incorrect
+291,OTHER_TERMINAL_STATE_EXPLAIN_Q,Why do you think the other terminals are being held in a different electrical state than that of the negative terminal?,"Terminal 4, terminal 5, and terminal 6 are connected to the positive battery terminal.",incorrect
+803,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",The meter will read 0 volts,incorrect
+906,CLOSED_PATH_EXPLAIN,Explain your reasoning.,both the bulb and the battery must be in a closed path,correct
+707,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",There will be a difference between voltage.,incorrect
+383,OPT2_EXPLAIN_Q,Describe the paths in this diagram and explain how those paths account for the results.,bulb a does not affect bulbs b and c,incorrect
+221,SHORT_CIRCUIT_EXPLAIN_Q_4,Explain why circuit 4 is not a short circuit.,there are no closed paths,incorrect
+933,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,the battery is contained in a open path,incorrect
+737,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",there is a change in voltage on the meter from the terminals,incorrect
+136,BULB_ONLY_EXPLAIN_WHY2,Explain why you got a voltage reading of 0 for terminal 1 and terminal 2.,because there is a gap,incorrect
+241,HYBRID_BURNED_OUT_WHY_Q2,Why do both bulbs A and B stay on when bulb C is burned out?,bulb a and bulb c are still contained in a closed path with the battery,incorrect
+544,HYBRID_BURNED_OUT_EXPLAIN_Q2,Explain your reasoning.,there is still a path for the 2 bulbs,incorrect
+482,BULB_C_VOLTAGE_EXPLAIN_WHY4,Explain why you got a voltage reading of 1.5 for terminal 4 and the positive terminal.,"Because they aren""t damaged.",incorrect
+366,BURNED_BULB_PARALLEL_EXPLAIN_Q3,Explain your reasoning.,bulb c is not in the same path as bulb a or bulb b so the gap in the path does not affect bulb a or bulb b,incorrect
+766,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",voltage would be 1.5,incorrect
+842,CLOSED_PATH_EXPLAIN,Explain your reasoning.,bulb 4 will light up,incorrect
+598,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,there is a difference in electrical state beween the two terminals,incorrect
+159,SWITCH_OPEN_EXPLAIN_Q,Why does an open switch impact a circuit?,the path is open instead of closed,incorrect
+141,BULB_ONLY_EXPLAIN_WHY2,Explain why you got a voltage reading of 0 for terminal 1 and terminal 2.,Because the terminals are connected,incorrect
+498,HYBRID_BURNED_OUT_EXPLAIN_Q2,Explain your reasoning.,Bulbs C and A will still be on closed paths with the battery,incorrect
+965,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,"if bulb A is damaged, bulb B and bulb C are not in a closed path with the battery.",correct
+406,DAMAGED_BUILD_EXPLAIN_Q,Explain your reasoning.,because that would create a gap.,incorrect
+1225,DAMAGED_BULB_SWITCH_Q,How does a damaged bulb compare to an open switch?,both a damaged bulb and an open switch creates a gap in the circuit,correct
+1091,BURNED_BULB_SERIES_Q2,Why did it happen?,The were in the same circuit.,incorrect
+986,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,they opperate on the same path,incorrect
+528,HYBRID_BURNED_OUT_EXPLAIN_Q2,Explain your reasoning.,It is on a separate path,incorrect
+66,BULB_ONLY_EXPLAIN_WHY4,Explain why you got a voltage reading of 0 for terminal 1 and terminal 4.,terminal 1 and 4 are connected to the negtive terminal of the battery,incorrect
+391,OPT2_EXPLAIN_Q,Describe the paths in this diagram and explain how those paths account for the results.,bulb B is contained in the same closed path bulb C is in with the battery,incorrect
+763,DESCRIBE_GAP_LOCATE_PROCEDURE_Q,"Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?",The bulb has a bad connection,incorrect
+345,GIVE_CIRCUIT_TYPE_HYBRID_EXPLAIN_Q3,Explain your reasoning.,they are contained in the same path as each other,incorrect
+963,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,because they are not in a closed path with the battery,correct
+1244,DAMAGED_BULB_SWITCH_Q,How does a damaged bulb compare to an open switch?,they both act the same way,incorrect
+1011,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,because it damages the complete circuit. Because the positive terminal cannot reach bulb c and b.,incorrect
+97,PARALLEL_SWITCH_EXPLAIN_Q1,Why was bulb A on when switch Y was open and switch Z was closed?,because bulb a was in a closed path.,correct
+185,VOLTAGE_DIFF_DISCUSS_2_Q,What does a voltage reading of 1.5 tell you about the connection between a bulb terminal and a battery terminal?,"i don""t know.",incorrect
+295,OTHER_TERMINAL_STATE_EXPLAIN_Q,Why do you think the other terminals are being held in a different electrical state than that of the negative terminal?,Because they are positive,incorrect
+248,SHORT_CIRCUIT_EXPLAIN_Q_2,Explain why circuit 2 is not a short circuit.,Only one side of the battery is connected.,incorrect
+164,SWITCH_OPEN_EXPLAIN_Q,Why does an open switch impact a circuit?,An open switch makes a gap in the path.,correct
+944,HYBRID_BURNED_OUT_WHY_Q1,Why do both bulbs B and C go out when bulb A is burned out?,because bulb a is contained in the closed path,incorrect
+1167,DAMAGED_BULB_SWITCH_Q,How does a damaged bulb compare to an open switch?,it acts in the same manner,correct
+222,SHORT_CIRCUIT_X_Q,What do you think the red X means?,Do not do this with a real battery.,incorrect
+582,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,one is positive and one is negative,incorrect
+33,VOLTAGE_DIFF_DISCUSS_1_Q,What does a voltage reading of 0 tell you about the connection between a bulb terminal and a battery terminal?,that they are connected,incorrect
+157,SWITCH_OPEN_EXPLAIN_Q,Why does an open switch impact a circuit?,"I don""t know.",incorrect
+550,HYBRID_BURNED_OUT_EXPLAIN_Q2,Explain your reasoning.,Bulbs A and C will still be a part of a complete circut.,incorrect
+399,BURNED_BULB_PARALLEL_EXPLAIN_Q2,Explain your reasoning.,bulbs A and C will still be on a closed path with the battery,incorrect
+244,HYBRID_BURNED_OUT_WHY_Q2,Why do both bulbs A and B stay on when bulb C is burned out?,There is still a closed path.,correct
+835,CLOSED_PATH_EXPLAIN,Explain your reasoning.,closed path and there is a battery,incorrect
+1201,DAMAGED_BULB_SWITCH_Q,How does a damaged bulb compare to an open switch?,each will create an open path in circuit,correct
+200,SHORT_CIRCUIT_EXPLAIN_Q_5,Explain why circuit 5 is a short circuit.,The battery connects to a bulb.,incorrect
+1125,VOLTAGE_GAP_EXPLAIN_WHY2,Explain why you got a voltage reading of 1.5 for terminal 2 and the positive terminal.,gap in bulb b,incorrect
+1159,VOLTAGE_GAP_EXPLAIN_WHY2,Explain why you got a voltage reading of 1.5 for terminal 2 and the positive terminal.,Because it was attatched to the positive terminal!,incorrect
+382,OPT2_EXPLAIN_Q,Describe the paths in this diagram and explain how those paths account for the results.,A is in a seperate path and B and C are in the same path,incorrect
+333,GIVE_CIRCUIT_TYPE_PARALLEL_EXPLAIN_Q2,Explain your reasoning.,BULB A IS IN A DIFFERENT PATH FROM BULB B AND BULB C.,incorrect
+817,CLOSED_PATH_EXPLAIN,Explain your reasoning.,they will light up because they are on a closed path,incorrect
+1231,DAMAGED_BULB_SWITCH_Q,How does a damaged bulb compare to an open switch?,I dont know,incorrect
+637,VOLTAGE_ELECTRICAL_STATE_DISCUSS_Q,What is the relationship between the voltage reading between two terminals and their electrical states?,the voltage reading shows the electrical states,incorrect
+847,CLOSED_PATH_EXPLAIN,Explain your reasoning.,"in diagrams 1,2, and 3 the lightbulbs are each closed circuits",incorrect
+364,BURNED_BULB_PARALLEL_EXPLAIN_Q3,Explain your reasoning.,because the terminal will be closed,incorrect
+1030,BURNED_BULB_SERIES_Q2,Why did it happen?,there was a gap in the path.,incorrect
