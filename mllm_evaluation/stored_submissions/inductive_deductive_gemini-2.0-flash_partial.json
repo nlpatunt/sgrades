@@ -1,0 +1,144 @@
+{
+  "model_code": "google/gemini-2.0-flash-exp:free",
+  "model_name": "gemini-2.0-flash",
+  "reasoning_approach": "inductive_deductive",
+  "num_training_examples": 5,
+  "random_seed": 42,
+  "timestamp": "2025-10-14T03:15:53.808508",
+  "datasets": [
+    {
+      "dataset_name": "D_ASAP-AES",
+      "training_examples_used": 5,
+      "training_ids": [
+        11874,
+        10055,
+        6575,
+        15527,
+        488
+      ],
+      "test_examples": 3,
+      "predictions": [
+        {
+          "id": "3598",
+          "prediction": 3.0,
+          "tokens": {
+            "prompt": 1542,
+            "completion": 2,
+            "total": 1544
+          },
+          "essay_set": 2
+        }
+      ],
+      "failed_predictions": [
+        {
+          "id": "12958",
+          "error": "API failed: Provider error: Error code: 429 - {'error': {'message': 'Provider returned error', 'code': 429, 'metadata': {'raw': 'google/gemini-2.0-flash-exp:free is temporarily rate-limited upstream. Please retry shortly, or add",
+          "attempts": 5,
+          "essay_set": 5
+        },
+        {
+          "id": "6920",
+          "error": "API failed: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '20', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1760411880000'}, 'provider_name': None}}, 'user_id': 'org_2uxBrNSE8BTPcWoKnaogbruTYP4'}",
+          "attempts": 5,
+          "essay_set": 3
+        }
+      ],
+      "stats": {
+        "valid": 1,
+        "invalid": 2
+      },
+      "csv_output": "inductive_deductive_gemini-2.0-flash_predictions_csv/gemini-2.0-flash_ASAP-AES_inductive_deductive.csv"
+    },
+    {
+      "dataset_name": "D_ASAP2",
+      "training_examples_used": 5,
+      "training_ids": [
+        "AAAVUP14319000106751",
+        "AAAOPP13416000138908",
+        "AAAOPP13416000074668",
+        "5178558",
+        "AAAOPP13416000028254"
+      ],
+      "test_examples": 3,
+      "predictions": [
+        {
+          "id": "AAAOPP13416000074708",
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 3430,
+            "completion": 2,
+            "total": 3432
+          }
+        },
+        {
+          "id": "5313075",
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 3482,
+            "completion": 2,
+            "total": 3484
+          }
+        },
+        {
+          "id": "AAAVUP14319000039767",
+          "prediction": 1.0,
+          "tokens": {
+            "prompt": 3845,
+            "completion": 2,
+            "total": 3847
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 3,
+        "invalid": 0
+      },
+      "csv_output": "inductive_deductive_gemini-2.0-flash_predictions_csv/gemini-2.0-flash_ASAP2_inductive_deductive.csv"
+    },
+    {
+      "dataset_name": "D_ASAP-SAS",
+      "training_examples_used": 5,
+      "training_ids": [
+        1165,
+        11340,
+        11272,
+        21454,
+        23680
+      ],
+      "test_examples": 3,
+      "predictions": [
+        {
+          "id": "23542.0",
+          "prediction": 1.0,
+          "tokens": {
+            "prompt": 3990,
+            "completion": 2,
+            "total": 3992
+          }
+        },
+        {
+          "id": "26202.0",
+          "prediction": 1.0,
+          "tokens": {
+            "prompt": 3621,
+            "completion": 2,
+            "total": 3623
+          }
+        }
+      ],
+      "failed_predictions": [
+        {
+          "id": "9431.0",
+          "error": "API failed: Provider error: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset'",
+          "attempts": 5
+        }
+      ],
+      "stats": {
+        "valid": 2,
+        "invalid": 1
+      },
+      "csv_output": "inductive_deductive_gemini-2.0-flash_predictions_csv/gemini-2.0-flash_ASAP-SAS_inductive_deductive.csv"
+    }
+  ]
+}

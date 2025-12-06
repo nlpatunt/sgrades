@@ -1,0 +1,9 @@
+{
+  "model_code": "google/gemini-2.5-flash",
+  "model_name": "gemini-2.5-flash",
+  "reasoning_approach": "fewshot_inductive",
+  "num_training_examples": 5,
+  "random_seed": 42,
+  "timestamp": "2025-10-23T04:24:48.442488",
+  "datasets": []
+}

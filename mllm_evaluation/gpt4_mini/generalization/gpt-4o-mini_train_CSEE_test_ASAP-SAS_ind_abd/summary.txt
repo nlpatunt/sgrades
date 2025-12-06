@@ -1,0 +1,30 @@
+======================================================================
+CROSS-DATASET GENERALIZATION - SHORT ANSWER
+======================================================================
+
+Model: gpt-4o-mini
+Approach: Inductive + Abductive
+Training Dataset: CSEE
+Test Dataset: ASAP-SAS
+Training Examples: 5
+Random Seed: 42
+
+----------------------------------------------------------------------
+RESULTS
+----------------------------------------------------------------------
+QWK:  0.5628
+MAE:  0.4942
+RMSE: 0.7588
+Valid Predictions: 1200
+
+Valid Predictions: 1200
+Failed Predictions: 0
+
+----------------------------------------------------------------------
+TRAINING EXAMPLES USED (from CSEE)
+----------------------------------------------------------------------
+  8208
+  10973
+  506
+  8346
+  5899

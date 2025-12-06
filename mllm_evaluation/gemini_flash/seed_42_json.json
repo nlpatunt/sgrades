@@ -1,0 +1,18 @@
+{
+  "experiment": "ASAP-AES Gemini Deductive",
+  "model": "gemini",
+  "approach": "deductive",
+  "dataset": "ASAP-AES",
+  "seed": 42,
+  "results": {
+    "avg_qwk": 0.931809731125597,
+    "avg_pearson": 0.940384254405399,
+    "avg_f1": 0.323926993033814,
+    "avg_precision": 0.337955658647205,
+    "avg_recall": 0.339753466872111,
+    "avg_accuracy": 0.339753466872111,
+    "avg_mae": 1.89676425269646,
+    "avg_rmse": 3.41707846992802,
+    "mae_percent": "N/A"
+  }
+}

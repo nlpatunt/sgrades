@@ -99,7 +99,6 @@ def download_test_data(dataset_name: str, num_essays: int = None) -> Dict[str, A
             
             suffix = "2way" if "2way" in normalized_name else "3way"
             url = f"https://huggingface.co/datasets/nlpatunt/D_BEEtlE/resolve/main/test_{suffix}.csv"
-            print(f"    Direct download from: {url}")
             
             hf_token = os.getenv("HF_TOKEN")
             headers = {}
@@ -107,13 +106,8 @@ def download_test_data(dataset_name: str, num_essays: int = None) -> Dict[str, A
                 headers["Authorization"] = f"Bearer {hf_token}"
             
             response = requests.get(url, headers=headers, timeout=60)
-            
-            if response.status_code == 401:
-                raise Exception("HuggingFace authentication required")
-            
             response.raise_for_status()
             df = pd.read_csv(StringIO(response.text))
-            print(f"    ✓ Downloaded via direct URL")
             
         elif normalized_name in ["SciEntSBank_2way", "SciEntSBank_3way"]:
             import requests
@@ -121,7 +115,6 @@ def download_test_data(dataset_name: str, num_essays: int = None) -> Dict[str, A
             
             suffix = "2way" if "2way" in normalized_name else "3way"
             url = f"https://huggingface.co/datasets/nlpatunt/D_SciEntSBank/resolve/main/test_{suffix}.csv"
-            print(f"    Direct download from: {url}")
             
             hf_token = os.getenv("HF_TOKEN")
             headers = {}
@@ -129,13 +122,8 @@ def download_test_data(dataset_name: str, num_essays: int = None) -> Dict[str, A
                 headers["Authorization"] = f"Bearer {hf_token}"
             
             response = requests.get(url, headers=headers, timeout=60)
-            
-            if response.status_code == 401:
-                raise Exception("HuggingFace authentication required")
-            
             response.raise_for_status()
             df = pd.read_csv(StringIO(response.text))
-            print(f"    ✓ Downloaded via direct URL")
             
         else:
             from datasets import load_dataset
@@ -160,36 +148,35 @@ def download_test_data(dataset_name: str, num_essays: int = None) -> Dict[str, A
         print(f"    ✓ Downloaded: {len(df)} rows")
         print(f"    ✓ Columns: {list(df.columns)}")
         
-        # Check if label column has any actual values (ground truth)
+        # ✅ UPDATED: Only drop columns that have actual ground truth data
+        # Check if label column exists and has non-empty values
         if 'label' in df.columns:
             non_empty_labels = df['label'].notna().sum()
             if non_empty_labels > 0:
-                print(f"    ⚠️  WARNING: Label column has {non_empty_labels} ground truth values!")
-                print(f"    ⚠️  Dropping label column to avoid data leakage")
+                print(f"    ⚠️  WARNING: Label column has {non_empty_labels} ground truth values - DROPPING")
                 df = df.drop(columns=['label'])
             else:
-                print(f"    ✓ Label column is empty (will be filled with predictions)")
+                print(f"    ✓ Label column is empty (keeping for predictions)")
         
-        # Also check for other score columns that might have ground truth
-        cols_to_drop = [col for col in ['score', 'Score'] if col in df.columns and df[col].notna().sum() > 0]
-        if cols_to_drop:
-            print(f"    ⚠️  Dropping columns with ground truth: {cols_to_drop}")
-            df = df.drop(columns=cols_to_drop)
+        # Check other score columns
+        if 'score' in df.columns:
+            non_empty_scores = df['score'].notna().sum()
+            if non_empty_scores > 0:
+                print(f"    ⚠️  WARNING: Score column has {non_empty_scores} ground truth values - DROPPING")
+                df = df.drop(columns=['score'])
+            else:
+                print(f"    ✓ Score column is empty (keeping for predictions)")
         
-        # Show first row
-        cols = get_dataset_columns(dataset_name)
-        if len(df) > 0:
-            first_id = df[cols["id"]].iloc[0]
-            first_q = str(df[cols["question"]].iloc[0])[:80]
-            first_a = str(df[cols["text"]].iloc[0])[:80]
-            print(f"    First test ID: {first_id}")
-            print(f"    First Q: {first_q}...")
-            print(f"    First A: {first_a}...")
+        if 'Score' in df.columns:
+            non_empty_scores = df['Score'].notna().sum()
+            if non_empty_scores > 0:
+                print(f"    ⚠️  WARNING: Score column has {non_empty_scores} ground truth values - DROPPING")
+                df = df.drop(columns=['Score'])
+            else:
+                print(f"    ✓ Score column is empty (keeping for predictions)")
         
-        # Sample if needed
         if num_essays and num_essays < len(df):
             df = df.sample(n=num_essays, random_state=42)
-            print(f"    ✓ Sampled {len(df)} examples")
         
         print(f"    ✓ Final test data: {len(df)} examples")
         return {"status": "success", "dataset": df}
@@ -199,6 +186,7 @@ def download_test_data(dataset_name: str, num_essays: int = None) -> Dict[str, A
         import traceback
         traceback.print_exc()
         return {"status": "error", "error": str(e)}
+
     
 def get_dataset_columns(dataset_name: str) -> Dict[str, str]:
     """Get column names for a dataset"""
@@ -506,10 +494,7 @@ def get_all_datasets():
     """Get list of all D_ datasets"""
     # TEST MODE: Only SciEntSBank (since you converted those)
     datasets = [
-        "D_BEEtlE_2way",
-        "D_BEEtlE_3way",
-        "D_SciEntSBank_2way",
-        "D_SciEntSBank_3way"
+        "D_ASAP-AES"
     ]
     return datasets
 

@@ -1,0 +1,163 @@
+{
+  "model_code": "google/gemini-2.0-flash-exp:free",
+  "model_name": "gemini-2.0-flash",
+  "reasoning_approach": "inductive_abductive",
+  "num_training_examples": 5,
+  "random_seed": 42,
+  "timestamp": "2025-10-14T03:17:32.946194",
+  "datasets": [
+    {
+      "dataset_name": "D_ASAP-AES",
+      "training_examples_used": 5,
+      "training_ids": [
+        11874,
+        10055,
+        6575,
+        15527,
+        488
+      ],
+      "test_examples": 2,
+      "predictions": [
+        {
+          "id": "3598",
+          "prediction": 3.0,
+          "tokens": {
+            "prompt": 1620,
+            "completion": 2,
+            "total": 1622
+          },
+          "essay_set": 2
+        }
+      ],
+      "failed_predictions": [
+        {
+          "id": "12958",
+          "error": "API failed: Provider error: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-min. ', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '16', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset'",
+          "attempts": 5,
+          "essay_set": 5
+        }
+      ],
+      "stats": {
+        "valid": 1,
+        "invalid": 1
+      },
+      "csv_output": "inductive_abductive_gemini-2.0-flash_predictions_csv/gemini-2.0-flash_ASAP-AES_inductive_abductive.csv"
+    },
+    {
+      "dataset_name": "D_ASAP2",
+      "training_examples_used": 5,
+      "training_ids": [
+        "AAAVUP14319000106751",
+        "AAAOPP13416000138908",
+        "AAAOPP13416000074668",
+        "5178558",
+        "AAAOPP13416000028254"
+      ],
+      "test_examples": 2,
+      "predictions": [
+        {
+          "id": "AAAOPP13416000074708",
+          "prediction": 3.0,
+          "tokens": {
+            "prompt": 3508,
+            "completion": 2,
+            "total": 3510
+          }
+        },
+        {
+          "id": "5313075",
+          "prediction": 3.0,
+          "tokens": {
+            "prompt": 3560,
+            "completion": 2,
+            "total": 3562
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 2,
+        "invalid": 0
+      },
+      "csv_output": "inductive_abductive_gemini-2.0-flash_predictions_csv/gemini-2.0-flash_ASAP2_inductive_abductive.csv"
+    },
+    {
+      "dataset_name": "D_ASAP-SAS",
+      "training_examples_used": 5,
+      "training_ids": [
+        1165,
+        11340,
+        11272,
+        21454,
+        23680
+      ],
+      "test_examples": 2,
+      "predictions": [
+        {
+          "id": "9431.0",
+          "prediction": 1.0,
+          "tokens": {
+            "prompt": 4699,
+            "completion": 2,
+            "total": 4701
+          }
+        },
+        {
+          "id": "23542.0",
+          "prediction": 1.0,
+          "tokens": {
+            "prompt": 4068,
+            "completion": 2,
+            "total": 4070
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 2,
+        "invalid": 0
+      },
+      "csv_output": "inductive_abductive_gemini-2.0-flash_predictions_csv/gemini-2.0-flash_ASAP-SAS_inductive_abductive.csv"
+    },
+    {
+      "dataset_name": "D_ASAP_plus_plus",
+      "training_examples_used": 5,
+      "training_ids": [
+        14882,
+        6481,
+        11865,
+        12606,
+        9861
+      ],
+      "test_examples": 2,
+      "predictions": [
+        {
+          "id": "14871",
+          "prediction": 3.0,
+          "tokens": {
+            "prompt": 1130,
+            "completion": 2,
+            "total": 1132
+          },
+          "essay_set": 6
+        },
+        {
+          "id": "7469",
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 1139,
+            "completion": 2,
+            "total": 1141
+          },
+          "essay_set": 3
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 2,
+        "invalid": 0
+      },
+      "csv_output": "inductive_abductive_gemini-2.0-flash_predictions_csv/gemini-2.0-flash_ASAP_plus_plus_inductive_abductive.csv"
+    }
+  ]
+}

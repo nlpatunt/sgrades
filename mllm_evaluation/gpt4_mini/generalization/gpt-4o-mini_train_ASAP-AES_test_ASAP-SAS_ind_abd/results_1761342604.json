@@ -1,0 +1,6034 @@
+{
+  "experiment_type": "cross_dataset_generalization_ind_abd",
+  "model_code": "openai/gpt-4o-mini",
+  "model_name": "gpt-4o-mini",
+  "train_dataset": "ASAP-AES",
+  "test_dataset": "ASAP-SAS",
+  "reasoning_approach": "inductive_abductive",
+  "num_training_examples": 5,
+  "random_seed": 42,
+  "training_ids": [
+    "11874",
+    "10055",
+    "6575",
+    "15527",
+    "488"
+  ],
+  "start_timestamp": "2025-10-24T20:56:42.288515",
+  "test_examples": 1200,
+  "predictions": [
+    {
+      "id": "9431.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23542.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26202.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11201.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "11442.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "6576.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5746.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21429.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26261.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "15625.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "9642.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20756.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26977.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5958.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8431.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8838.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12152.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11179.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17317.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "885.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14727.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "16997.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "15529.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "466.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21111.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18125.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20196.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "4986.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "17106.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "20825.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18429.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "276.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "174.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "6554.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21476.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15668.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "8914.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23391.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "684.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "18385.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23336.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11231.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18071.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "16972.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20773.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8411.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "17762.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14588.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11514.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5522.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "15661.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "21244.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23124.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5017.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "593.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20164.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8516.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8978.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23259.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8801.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "24609.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "24065.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "17272.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "27556.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26598.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26151.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5595.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3695.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3589.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15558.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "388.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15568.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "17206.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "9266.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12439.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23531.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14689.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23508.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17875.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "69.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "17065.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3709.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "5659.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "24365.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "12713.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "24198.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21121.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "9331.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "4959.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20978.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14170.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "638.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11015.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26203.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23509.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "17353.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "1529.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12067.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "23699.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "25985.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "521.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23829.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11294.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "14828.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11571.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "812.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17892.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20423.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15089.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18061.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11957.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "6450.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14511.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15353.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "18177.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "27276.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "12271.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "377.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5831.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "17917.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "27236.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12164.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "27249.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "21596.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "5269.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "18400.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "14653.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "8266.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3391.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21252.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3778.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "3575.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "258.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "24437.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "285.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21273.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8827.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "6011.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "6244.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17262.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "215.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14677.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "3558.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "709.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "4000.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3007.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26485.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21669.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "18302.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "6154.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "24166.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8134.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1044.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "12464.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "2986.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "6714.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "12355.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "17159.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "12302.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26841.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15081.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "3352.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "1065.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14402.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1485.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5975.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21000.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "18369.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "658.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3387.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5752.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "12323.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "11610.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "18247.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "25982.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "24308.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "14601.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "931.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11803.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "2814.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5298.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20288.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "24593.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "24374.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14098.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "24458.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "9111.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "15413.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "14750.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11799.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11836.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "15281.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23745.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8890.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15217.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5067.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "9618.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "21055.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8080.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "24050.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "19977.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26900.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3473.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1122.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18377.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "1431.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26306.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1023.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18418.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23541.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21343.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26813.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14453.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "17110.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17638.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14772.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "24153.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15134.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "5122.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "12388.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8353.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17418.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5397.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "715.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14726.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "20573.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "759.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "24555.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8103.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3073.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23934.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "40.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23104.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5638.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3930.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "24021.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "6240.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "24261.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "8685.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18219.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3097.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5569.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "378.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "13970.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "3397.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "879.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14505.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "23562.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "2907.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8881.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20886.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "1451.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "21686.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14718.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14038.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17472.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "18593.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17301.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "18523.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15342.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "27147.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11381.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "20467.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "2985.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "531.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "23023.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3240.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1012.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18157.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17445.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8351.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "23394.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3383.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23088.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "5888.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "6259.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23164.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3942.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "884.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17830.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17153.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "27482.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20059.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "17137.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20460.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3170.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "22983.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11688.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "8450.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14332.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "6109.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8896.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14878.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "25953.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26105.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14450.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "26510.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3670.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "27323.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23764.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "27549.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23401.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18209.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "764.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "15477.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "9474.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17946.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11481.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "6097.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23048.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "27536.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3845.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23431.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "506.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "6524.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12688.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "11214.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "9021.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "606.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23213.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11409.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20040.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15049.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "80.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "5083.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "24649.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14471.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "108.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "18635.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "15642.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8371.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23360.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12446.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8471.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20983.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "742.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23057.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "978.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "6484.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3904.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "5027.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15142.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26117.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26617.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20209.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "451.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14066.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "6119.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23846.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11032.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "11645.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5539.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21469.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14336.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "3305.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "867.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26164.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26657.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "2860.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "17787.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14203.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12204.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23791.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8840.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21734.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12234.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "21260.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "15385.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "745.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "417.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5872.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14787.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "17229.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "27277.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11506.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "17812.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "21103.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "17335.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "2978.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "17657.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17989.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5448.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "21187.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8678.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14016.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14404.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12256.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "27523.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5041.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "6133.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5455.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26071.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "1576.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1042.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26789.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23982.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "1086.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1003.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8779.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12224.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "8936.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15576.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "24303.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "475.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8289.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26434.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15703.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "21432.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "17636.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8900.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "15754.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "12125.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8155.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14206.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "5258.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17997.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20834.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "21337.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "15724.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5702.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14881.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15640.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "6114.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21194.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3447.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5459.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "27435.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "11396.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3974.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11043.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "9045.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "24633.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18681.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "11292.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "26584.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "6690.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "6465.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "27489.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21710.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12631.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11835.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "12679.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20118.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "9726.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15522.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14702.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "9060.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8698.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "6031.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "842.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26951.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11041.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "9692.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23192.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15471.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14017.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "10992.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "9206.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "6304.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20634.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5808.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5880.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23102.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26236.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "15714.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "1296.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15354.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "6087.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26342.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8174.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23252.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26462.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "20416.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14497.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26731.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "1028.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17091.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "27059.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3075.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "24080.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12051.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26563.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20999.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "17909.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "2823.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "15042.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "6516.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "15460.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "17098.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "26470.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "6317.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "27446.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "120.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "9342.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "6009.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "9228.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "12667.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "21156.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3913.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23814.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11436.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "10967.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18018.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14464.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "971.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "13960.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "23757.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8432.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12265.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "14889.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "331.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "21264.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "27226.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "18052.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11264.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "6489.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1328.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11908.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "3628.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11600.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "3572.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "24036.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "669.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8512.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5556.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11261.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15721.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "12066.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "27243.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3725.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "18406.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21439.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23297.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20804.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3464.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5390.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11861.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14232.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20961.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "13991.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "12343.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "27275.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20990.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15175.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11759.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "14369.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "21741.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "1415.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "6194.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26453.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26034.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11070.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15454.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1412.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "2839.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23794.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18376.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "9269.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "9192.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20155.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14862.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "21116.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "26482.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3506.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11366.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "9290.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18148.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "16976.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "6076.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "18288.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21019.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8652.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3910.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "17934.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17744.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3496.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "17032.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5337.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "27182.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "4956.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20305.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "6749.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5161.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3225.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8091.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "873.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "16995.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "8747.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "34.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "795.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20640.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "17815.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "6482.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "15591.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1069.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15343.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "6284.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26489.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23887.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11754.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "11038.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "21095.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15383.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3975.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20915.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12128.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "20853.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8242.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8420.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15443.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "12135.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "11753.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "13996.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "6645.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20389.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "22964.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26898.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18159.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "21205.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "1029.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "9008.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "6594.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11067.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "17748.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "15187.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "11629.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "6184.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5687.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "9623.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "6267.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5685.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23299.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14349.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8156.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1202.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "9654.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3869.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11507.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "24389.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23520.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8328.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8591.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "15744.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3290.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12435.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "1548.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "21577.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20760.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "21397.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "15362.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "23969.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26749.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23437.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3887.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5938.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20730.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "5513.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "510.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "6731.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "6473.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14351.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "26504.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "17319.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20852.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "804.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "18160.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5469.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "15056.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "24696.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8555.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "21465.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5763.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8348.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "9775.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17682.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "150.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23724.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5623.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "748.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "27033.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "2827.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23792.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20674.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "24037.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "22980.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "6659.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "543.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1453.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12429.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "20373.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23785.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "9204.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5418.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "17894.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23646.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14391.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "6470.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "6460.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "16979.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11277.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "15201.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "18606.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "27301.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3228.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14033.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "26632.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23570.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "1580.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8106.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23706.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "929.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "24281.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "17820.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8722.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26472.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "24074.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18260.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "27528.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "6134.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14412.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "26089.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "648.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "9672.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1254.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21261.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "935.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20229.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "6155.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14747.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "6548.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26528.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26903.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8462.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "9156.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23262.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14911.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "4046.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "474.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "9720.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20847.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8530.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14783.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23568.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "340.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12029.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "9635.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26125.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3118.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1164.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14817.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "23197.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "9058.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "24554.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1227.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "21496.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "18326.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21625.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5252.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "17898.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26168.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5173.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "609.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "358.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26017.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "9096.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20060.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3520.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "24716.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20849.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15659.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17455.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3191.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "9716.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14317.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "27454.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "9765.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15163.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "27053.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5632.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11049.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "1040.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14151.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "14474.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "12472.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23501.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "6502.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23545.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20980.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5903.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "18290.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "17531.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11355.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17233.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "24144.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20710.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "24159.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "6719.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "9402.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26221.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8357.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "27168.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11697.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5285.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "583.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "27440.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11724.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23325.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "6117.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "14910.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "14314.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "15748.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "27220.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3005.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11962.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "9544.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12615.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "26983.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "24724.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11173.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18615.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11755.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11426.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "12212.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "14809.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "412.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11011.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "24346.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23668.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26949.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12039.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "11468.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "933.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "27339.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "9631.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "6797.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "26103.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3322.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "2881.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "6801.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26557.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "500.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14201.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "15589.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11014.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "20942.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21010.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "6160.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "1571.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "12107.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17688.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23228.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "24323.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5833.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26486.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23844.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23598.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17921.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "20281.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "249.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21621.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18443.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3404.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "24528.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11456.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "11184.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "2921.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "994.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "27036.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1050.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "634.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20244.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23864.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "24578.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "15483.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "5688.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20779.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11530.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12305.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20127.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "15699.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "12322.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "14662.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "21037.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "6331.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "24275.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "5592.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "14073.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "12233.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "178.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23640.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "27588.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "24194.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8215.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14200.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18021.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "12274.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "1369.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "14701.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14147.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17260.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26043.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17859.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "12410.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3146.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "15112.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "946.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11003.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1054.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "21620.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "12499.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "2859.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "834.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "27455.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20535.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20892.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "15396.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "26050.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "15111.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20589.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14299.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "24297.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26976.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "15172.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "5326.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26129.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "24045.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11312.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "26456.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3081.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23444.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21357.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "314.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3700.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "730.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "19953.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "5974.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8076.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14623.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "6553.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11802.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "18690.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5936.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20894.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20455.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "9125.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3551.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "21133.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "24121.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "9098.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "9369.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8597.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "832.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "21403.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "12469.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "18025.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "24143.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11084.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8144.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17711.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "348.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1627.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14559.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17104.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "9607.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20705.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26603.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "26431.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14873.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "17311.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23647.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17189.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20951.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8384.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "8227.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5055.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "17306.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "12537.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "20120.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3603.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11419.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "17674.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12565.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8743.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11242.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17768.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21509.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "9564.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14377.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17139.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26165.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26091.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "15480.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "122.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "24541.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "93.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "3912.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23357.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20932.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3870.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5988.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "12424.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11171.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26793.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "1143.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20154.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "27204.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "6529.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "27360.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26492.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23686.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "12616.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12396.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "15670.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "24077.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20784.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11254.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "21128.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "17504.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20688.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26411.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "21285.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5358.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "15063.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26268.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26947.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "21218.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "27587.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11311.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "24446.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23587.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "18024.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "9767.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26694.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "15180.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "24123.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "327.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "18590.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "9560.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1512.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "18117.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5406.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "24698.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23750.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "1541.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11160.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18246.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "1517.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "4993.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1211.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26942.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18162.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26848.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23923.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "12735.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26933.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "9778.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17871.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1444.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26882.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "24509.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "21292.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3772.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "24294.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11358.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "27272.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "24369.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "1006.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "24063.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "448.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26919.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "6362.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8271.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17576.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "24005.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11338.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23863.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "1609.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "9173.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "12597.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "5422.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11587.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "136.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26392.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14570.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "3574.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "9177.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18494.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21253.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3273.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14578.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5596.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3583.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "21720.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "6546.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20481.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "9309.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14491.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3796.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26338.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "21181.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "6780.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "27186.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "27492.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "9352.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "21117.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26072.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "23418.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23071.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "3260.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "11266.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "9.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "734.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5015.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "12624.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "209.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3568.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14139.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26659.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23286.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3242.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "22977.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26954.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11912.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "11591.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "14646.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "15144.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "24447.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "12075.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "432.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23972.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11176.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "20321.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "27111.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14359.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "17712.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3194.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23748.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11037.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "3652.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14159.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "12332.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "652.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "18033.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "14652.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "20072.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "23940.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "1660.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5940.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11641.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "15645.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3732.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3197.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "8782.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "26955.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3834.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "4952.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26547.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "21459.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "20518.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "20496.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "17513.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3593.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "23072.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "24451.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5521.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "12273.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "23505.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "9520.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3931.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "5559.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "9755.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "24160.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3135.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5919.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "6077.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "12740.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "26511.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11733.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "23586.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "21069.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "11281.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "5376.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "21265.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "1304.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "11212.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "3934.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "24089.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "21713.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "18479.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "11841.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "6429.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26643.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "3694.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "20078.0",
+      "prediction": 3.0,
+      "attempts": 1
+    },
+    {
+      "id": "24195.0",
+      "prediction": 1.0,
+      "attempts": 1
+    },
+    {
+      "id": "14552.0",
+      "prediction": 0.0,
+      "attempts": 1
+    },
+    {
+      "id": "23029.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "26681.0",
+      "prediction": 2.0,
+      "attempts": 1
+    },
+    {
+      "id": "15294.0",
+      "prediction": 1.0,
+      "attempts": 1
+    }
+  ],
+  "failed_predictions": [],
+  "stats": {
+    "valid": 1200,
+    "invalid": 0
+  },
+  "end_timestamp": "2025-10-24T21:50:04.289367",
+  "csv_output": "generalization/gpt-4o-mini_train_ASAP-AES_test_ASAP-SAS_ind_abd/predictions.csv",
+  "metrics": {
+    "qwk": 0.5637,
+    "mae": 0.5608,
+    "rmse": 0.8211,
+    "num_predictions": 1200
+  }
+}

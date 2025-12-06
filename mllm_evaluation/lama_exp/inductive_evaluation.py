@@ -56,9 +56,9 @@ def download_training_data(dataset_name: str) -> Dict[str, Any]:
         elif normalized_name in ["Rice_Chem_Q1", "Rice_Chem_Q2", "Rice_Chem_Q3", "Rice_Chem_Q4"]:
             q_num = normalized_name.split("_")[-1]
             dataset = load_dataset("nlpatunt/Rice_Chem", data_files=f"{q_num}/train.csv")["train"]
-        elif normalized_name.startswith("grade_like_a_human_dataset_os_q"):
+        elif normalized_name.startswith("OS_Datasets"):
             q_num = normalized_name.split("_q")[-1]
-            dataset = load_dataset("nlpatunt/grade_like_a_human_dataset_os", name=f"q{q_num}", split="train")
+            dataset = load_dataset("nlpatunt/OS_Datasets", name=f"q{q_num}", split="train")
         elif normalized_name == "persuade_2":
             dataset = load_dataset("nlpatunt/persuade_2", data_files="train.csv")["train"]
         elif normalized_name == "Mohlar":
@@ -260,9 +260,8 @@ def create_fewshot_inductive_prompt(essay_text: str, question: str,
                                      dataset_name: str,
                                      score_range: tuple) -> Dict[str, str]:
     
-    normalized_name = dataset_name[2:] if dataset_name.startswith("D_") else dataset_name
-    is_3way = '3way' in normalized_name.lower()
-    is_2way = '2way' in normalized_name.lower()
+    is_3way = 'SciEntSBank' in dataset_name or 'BEEtlE' in dataset_name
+    is_2way = False  # Add 2way datasets if you have them
     
     # Build examples string from training data
     examples_str = ""

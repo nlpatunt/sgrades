@@ -1,0 +1,80 @@
+{
+  "experiment_type": "randomization_asap_aes",
+  "model_code": "meta-llama/llama-4-scout",
+  "model_name": "llama-4-scout",
+  "dataset": "ASAP-AES",
+  "new_seeds": [
+    123,
+    456
+  ],
+  "total_runs": 3,
+  "num_training_examples": 5,
+  "start_timestamp": "2025-10-23T04:13:26.532699",
+  "runs": [
+    {
+      "run_number": 1,
+      "random_seed": 42,
+      "dataset": "ASAP-AES",
+      "approach": "inductive+deductive",
+      "training_examples_used": 5,
+      "metrics": {
+        "qwk": 0.9642,
+        "pearson_correlation": 0.9675,
+        "f1_score": 0.3779,
+        "precision": 0.4036,
+        "recall": 0.3975,
+        "accuracy": 0.3975,
+        "mae": 1.2912,
+        "rmse": 2.3359,
+        "num_predictions": 1298
+      },
+      "stats": {
+        "valid": 1298,
+        "invalid": 0
+      },
+      "csv_output": "ASAP-AES.csv",
+      "source": "pre-calculated",
+      "note": "Pre-calculated results from seed 42 run with inductive+deductive reasoning"
+    },
+    {
+      "run_number": 2,
+      "random_seed": 123,
+      "dataset": "ASAP-AES",
+      "training_examples_used": 5,
+      "test_examples_total": 1298,
+      "stats": {
+        "valid": 1297,
+        "invalid": 1
+      },
+      "start_time": "2025-10-23T04:13:26.552790",
+      "csv_output": "Randomization/lama_asap_aes_3_runs/predictions/run2_seed123_predictions.csv",
+      "end_time": "2025-10-23T04:45:43.800894",
+      "metrics": {
+        "qwk": 0.9087,
+        "mae": 2.0462,
+        "rmse": 3.9314,
+        "num_predictions": 1298
+      }
+    },
+    {
+      "run_number": 3,
+      "random_seed": 456,
+      "dataset": "ASAP-AES",
+      "training_examples_used": 5,
+      "test_examples_total": 1298,
+      "stats": {
+        "valid": 1298,
+        "invalid": 0
+      },
+      "start_time": "2025-10-23T04:45:53.972370",
+      "csv_output": "Randomization/lama_asap_aes_3_runs/predictions/run3_seed456_predictions.csv",
+      "end_time": "2025-10-23T05:19:46.039494",
+      "metrics": {
+        "qwk": 0.9448,
+        "mae": 1.7704,
+        "rmse": 3.2436,
+        "num_predictions": 1298
+      }
+    }
+  ]
+}

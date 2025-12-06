@@ -1,0 +1,40 @@
+{
+  "experiment_type": "randomization_asap_aes",
+  "model_code": "meta-llama/llama-4-scout",
+  "model_name": "llama-4-scout",
+  "dataset": "ASAP-AES",
+  "num_training_examples": 5,
+  "runs": [
+    {
+      "run_number": 1,
+      "random_seed": 42,
+      "dataset": "ASAP-AES",
+      "approach": "inductive+deductive",
+      "training_examples_used": 5,
+      "metrics": {
+        "qwk": 0.9642,
+        "pearson_correlation": 0.9675,
+        "f1_score": 0.3779,
+        "precision": 0.4036,
+        "recall": 0.3975,
+        "accuracy": 0.3975,
+        "mae": 1.2912,
+        "rmse": 2.3359,
+        "num_predictions": 1298
+      },
+      "stats": {
+        "valid": 1298,
+        "invalid": 0
+      },
+      "csv_output": "ASAP-AES.csv",
+      "source": "original_experiment",
+      "note": "Pre-calculated results from seed 42 run with inductive+deductive reasoning"
+    }
+  ],
+  "metadata": {
+    "created_date": "2025-10-23",
+    "total_runs": 1,
+    "status": "seed_42_baseline",
+    "mae_percentage": "N/A"
+  }
+}

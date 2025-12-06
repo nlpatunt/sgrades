@@ -1,0 +1,556 @@
+{
+  "model_code": "openai/gpt-4o-mini",
+  "model_name": "gpt-4o-mini",
+  "reasoning_approach": "fewshot_inductive",
+  "num_training_examples": 5,
+  "random_seed": 42,
+  "timestamp": "2025-10-09T03:25:33.191407",
+  "datasets": [
+    {
+      "dataset_name": "D_Mohlar",
+      "training_examples_used": 5,
+      "predictions": [
+        {
+          "id": "303",
+          "prediction": 4.0,
+          "tokens": {
+            "prompt": 435,
+            "completion": 1,
+            "total": 436
+          }
+        },
+        {
+          "id": "40",
+          "prediction": 1.0,
+          "tokens": {
+            "prompt": 403,
+            "completion": 1,
+            "total": 404
+          }
+        },
+        {
+          "id": "394",
+          "prediction": 3.0,
+          "tokens": {
+            "prompt": 428,
+            "completion": 1,
+            "total": 429
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 3,
+        "invalid": 0
+      },
+      "csv_output": "predictions_csv/gpt-4o-mini_Mohlar_fewshot_inductive.csv"
+    },
+    {
+      "dataset_name": "D_Ielts_Writing_Dataset",
+      "training_examples_used": 5,
+      "predictions": [
+        {
+          "id": "118",
+          "prediction": 5.0,
+          "tokens": {
+            "prompt": 2265,
+            "completion": 1,
+            "total": 2266
+          }
+        },
+        {
+          "id": "20",
+          "prediction": 7.0,
+          "tokens": {
+            "prompt": 2254,
+            "completion": 1,
+            "total": 2255
+          }
+        },
+        {
+          "id": "83",
+          "prediction": 7.0,
+          "tokens": {
+            "prompt": 2412,
+            "completion": 1,
+            "total": 2413
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 3,
+        "invalid": 0
+      },
+      "csv_output": "predictions_csv/gpt-4o-mini_Ielts_Writing_Dataset_fewshot_inductive.csv"
+    },
+    {
+      "dataset_name": "D_Ielts_Writing_Task_2_Dataset",
+      "training_examples_used": 5,
+      "predictions": [
+        {
+          "id": "453",
+          "prediction": 5.0,
+          "tokens": {
+            "prompt": 2592,
+            "completion": 1,
+            "total": 2593
+          }
+        },
+        {
+          "id": "85",
+          "prediction": 4.0,
+          "tokens": {
+            "prompt": 2588,
+            "completion": 1,
+            "total": 2589
+          }
+        },
+        {
+          "id": "435",
+          "prediction": 5.0,
+          "tokens": {
+            "prompt": 2535,
+            "completion": 1,
+            "total": 2536
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 3,
+        "invalid": 0
+      },
+      "csv_output": "predictions_csv/gpt-4o-mini_Ielts_Writing_Task_2_Dataset_fewshot_inductive.csv"
+    },
+    {
+      "dataset_name": "D_persuade_2",
+      "training_examples_used": 5,
+      "predictions": [
+        {
+          "id": "B2DBC0B3AD67",
+          "prediction": 4.0,
+          "tokens": {
+            "prompt": 3089,
+            "completion": 1,
+            "total": 3090
+          }
+        },
+        {
+          "id": "94FE94B27DCD",
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 3172,
+            "completion": 1,
+            "total": 3173
+          }
+        },
+        {
+          "id": "30A3F81C11AD",
+          "prediction": 3.0,
+          "tokens": {
+            "prompt": 3123,
+            "completion": 1,
+            "total": 3124
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 3,
+        "invalid": 0
+      },
+      "csv_output": "predictions_csv/gpt-4o-mini_persuade_2_fewshot_inductive.csv"
+    },
+    {
+      "dataset_name": "D_Regrading_Dataset_J2C",
+      "training_examples_used": 5,
+      "predictions": [
+        {
+          "id": "66",
+          "prediction": 3.0,
+          "tokens": {
+            "prompt": 843,
+            "completion": 1,
+            "total": 844
+          }
+        },
+        {
+          "id": "115",
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 781,
+            "completion": 3,
+            "total": 784
+          }
+        },
+        {
+          "id": "17",
+          "prediction": 3.0,
+          "tokens": {
+            "prompt": 793,
+            "completion": 1,
+            "total": 794
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 3,
+        "invalid": 0
+      },
+      "csv_output": "predictions_csv/gpt-4o-mini_Regrading_Dataset_J2C_fewshot_inductive.csv"
+    },
+    {
+      "dataset_name": "D_grade_like_a_human_dataset_os_q1",
+      "training_examples_used": 5,
+      "predictions": [
+        {
+          "id": "2",
+          "prediction": 9.0,
+          "tokens": {
+            "prompt": 2075,
+            "completion": 1,
+            "total": 2076
+          }
+        },
+        {
+          "id": "6",
+          "prediction": 5.0,
+          "tokens": {
+            "prompt": 1991,
+            "completion": 1,
+            "total": 1992
+          }
+        },
+        {
+          "id": "1",
+          "prediction": 2.0,
+          "tokens": {
+            "prompt": 1973,
+            "completion": 1,
+            "total": 1974
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 3,
+        "invalid": 0
+      },
+      "csv_output": "predictions_csv/gpt-4o-mini_grade_like_a_human_dataset_os_q1_fewshot_inductive.csv"
+    },
+    {
+      "dataset_name": "D_grade_like_a_human_dataset_os_q2",
+      "training_examples_used": 5,
+      "predictions": [
+        {
+          "id": "2",
+          "prediction": 4.0,
+          "tokens": {
+            "prompt": 1199,
+            "completion": 3,
+            "total": 1202
+          }
+        },
+        {
+          "id": "6",
+          "prediction": 4.0,
+          "tokens": {
+            "prompt": 1159,
+            "completion": 1,
+            "total": 1160
+          }
+        },
+        {
+          "id": "1",
+          "prediction": 16.0,
+          "tokens": {
+            "prompt": 1238,
+            "completion": 1,
+            "total": 1239
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 3,
+        "invalid": 0
+      },
+      "csv_output": "predictions_csv/gpt-4o-mini_grade_like_a_human_dataset_os_q2_fewshot_inductive.csv"
+    },
+    {
+      "dataset_name": "D_grade_like_a_human_dataset_os_q3",
+      "training_examples_used": 5,
+      "predictions": [
+        {
+          "id": "2",
+          "prediction": 7.0,
+          "tokens": {
+            "prompt": 1185,
+            "completion": 3,
+            "total": 1188
+          }
+        },
+        {
+          "id": "6",
+          "prediction": 6.0,
+          "tokens": {
+            "prompt": 1166,
+            "completion": 1,
+            "total": 1167
+          }
+        },
+        {
+          "id": "1",
+          "prediction": 3.0,
+          "tokens": {
+            "prompt": 1138,
+            "completion": 1,
+            "total": 1139
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 3,
+        "invalid": 0
+      },
+      "csv_output": "predictions_csv/gpt-4o-mini_grade_like_a_human_dataset_os_q3_fewshot_inductive.csv"
+    },
+    {
+      "dataset_name": "D_grade_like_a_human_dataset_os_q4",
+      "training_examples_used": 5,
+      "predictions": [
+        {
+          "id": "2",
+          "prediction": 12.0,
+          "tokens": {
+            "prompt": 1159,
+            "completion": 3,
+            "total": 1162
+          }
+        },
+        {
+          "id": "6",
+          "prediction": 8.0,
+          "tokens": {
+            "prompt": 1089,
+            "completion": 3,
+            "total": 1092
+          }
+        },
+        {
+          "id": "1",
+          "prediction": 8.0,
+          "tokens": {
+            "prompt": 1210,
+            "completion": 3,
+            "total": 1213
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 3,
+        "invalid": 0
+      },
+      "csv_output": "predictions_csv/gpt-4o-mini_grade_like_a_human_dataset_os_q4_fewshot_inductive.csv"
+    },
+    {
+      "dataset_name": "D_grade_like_a_human_dataset_os_q5",
+      "training_examples_used": 5,
+      "predictions": [
+        {
+          "id": "2",
+          "prediction": 12.0,
+          "tokens": {
+            "prompt": 1918,
+            "completion": 1,
+            "total": 1919
+          }
+        },
+        {
+          "id": "6",
+          "prediction": 15.0,
+          "tokens": {
+            "prompt": 1941,
+            "completion": 1,
+            "total": 1942
+          }
+        },
+        {
+          "id": "1",
+          "prediction": 20.0,
+          "tokens": {
+            "prompt": 1981,
+            "completion": 1,
+            "total": 1982
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 3,
+        "invalid": 0
+      },
+      "csv_output": "predictions_csv/gpt-4o-mini_grade_like_a_human_dataset_os_q5_fewshot_inductive.csv"
+    },
+    {
+      "dataset_name": "D_Rice_Chem_Q1",
+      "training_examples_used": 5,
+      "predictions": [
+        {
+          "id": "58e5d308-d422-44e3-9081-bb77a32e1d26",
+          "prediction": 6.0,
+          "tokens": {
+            "prompt": 2489,
+            "completion": 3,
+            "total": 2492
+          }
+        },
+        {
+          "id": "83705fbf-d8aa-4e13-a7a2-c4139ee888ff",
+          "prediction": 6.5,
+          "tokens": {
+            "prompt": 2589,
+            "completion": 3,
+            "total": 2592
+          }
+        },
+        {
+          "id": "2cd24b67-9160-4e01-b22d-888ada9f2aa1",
+          "prediction": 4.0,
+          "tokens": {
+            "prompt": 2491,
+            "completion": 3,
+            "total": 2494
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 3,
+        "invalid": 0
+      },
+      "csv_output": "predictions_csv/gpt-4o-mini_Rice_Chem_Q1_fewshot_inductive.csv"
+    },
+    {
+      "dataset_name": "D_Rice_Chem_Q2",
+      "training_examples_used": 5,
+      "predictions": [
+        {
+          "id": "1989a9b7-e3e2-4ee4-81e4-7180452b0f13",
+          "prediction": 5.0,
+          "tokens": {
+            "prompt": 2082,
+            "completion": 1,
+            "total": 2083
+          }
+        },
+        {
+          "id": "42552590-50e1-4d59-ae4c-ce052bf054a1",
+          "prediction": 3.0,
+          "tokens": {
+            "prompt": 2021,
+            "completion": 1,
+            "total": 2022
+          }
+        },
+        {
+          "id": "9b1b388c-a5b6-4d39-8926-1fdeeac9d4a2",
+          "prediction": 4.0,
+          "tokens": {
+            "prompt": 2060,
+            "completion": 1,
+            "total": 2061
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 3,
+        "invalid": 0
+      },
+      "csv_output": "predictions_csv/gpt-4o-mini_Rice_Chem_Q2_fewshot_inductive.csv"
+    },
+    {
+      "dataset_name": "D_Rice_Chem_Q3",
+      "training_examples_used": 5,
+      "predictions": [
+        {
+          "id": "40114645-626c-4eb8-a0c2-1f2c919cf910",
+          "prediction": 3.0,
+          "tokens": {
+            "prompt": 2200,
+            "completion": 1,
+            "total": 2201
+          }
+        },
+        {
+          "id": "945e933e-60c6-4e77-acf7-a5fd718a686e",
+          "prediction": 5.0,
+          "tokens": {
+            "prompt": 2303,
+            "completion": 1,
+            "total": 2304
+          }
+        },
+        {
+          "id": "9180aecf-2ba7-448f-ba71-e13492f237b4",
+          "prediction": 6.0,
+          "tokens": {
+            "prompt": 2324,
+            "completion": 1,
+            "total": 2325
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 3,
+        "invalid": 0
+      },
+      "csv_output": "predictions_csv/gpt-4o-mini_Rice_Chem_Q3_fewshot_inductive.csv"
+    },
+    {
+      "dataset_name": "D_Rice_Chem_Q4",
+      "training_examples_used": 5,
+      "predictions": [
+        {
+          "id": "39b22844-7fc9-4bb4-829a-3276cef39f46",
+          "prediction": 6.0,
+          "tokens": {
+            "prompt": 1051,
+            "completion": 1,
+            "total": 1052
+          }
+        },
+        {
+          "id": "91ade2eb-b9e0-4d5f-b468-a770303f597e",
+          "prediction": 6.0,
+          "tokens": {
+            "prompt": 1063,
+            "completion": 1,
+            "total": 1064
+          }
+        },
+        {
+          "id": "a8a1af1e-8833-4d6f-9b8e-c4b49723373f",
+          "prediction": 8.0,
+          "tokens": {
+            "prompt": 1106,
+            "completion": 1,
+            "total": 1107
+          }
+        }
+      ],
+      "failed_predictions": [],
+      "stats": {
+        "valid": 3,
+        "invalid": 0
+      },
+      "csv_output": "predictions_csv/gpt-4o-mini_Rice_Chem_Q4_fewshot_inductive.csv"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+======================================================================
+CROSS-DATASET GENERALIZATION - INDUCTIVE + ABDUCTIVE
+======================================================================
+
+Model: gpt-4o-mini
+Training Dataset: ASAP-AES
+Test Dataset: ASAP-SAS
+Training Examples: 5
+Random Seed: 42
+Score Range (target ASAP-SAS): (0, 3)
+
+----------------------------------------------------------------------
+RESULTS
+----------------------------------------------------------------------
+QWK:  0.5637
+MAE:  0.5608
+RMSE: 0.8211
+Valid Predictions Used: 1200
+
+Valid Predictions: 1200
+Failed Predictions: 0

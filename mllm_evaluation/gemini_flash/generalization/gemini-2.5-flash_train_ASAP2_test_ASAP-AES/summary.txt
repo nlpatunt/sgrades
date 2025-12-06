@@ -1,0 +1,30 @@
+======================================================================
+CROSS-DATASET GENERALIZATION EXPERIMENT
+======================================================================
+
+Model: gemini-2.5-flash
+Approach: Inductive + Deductive
+Training Dataset: ASAP2
+Test Dataset: ASAP-AES
+Training Examples: 5
+Random Seed: 42
+
+----------------------------------------------------------------------
+RESULTS
+----------------------------------------------------------------------
+QWK:  0.8868
+MAE:  2.2088
+RMSE: 3.9694
+Valid Predictions: 1298
+
+Valid Predictions: 1298
+Failed Predictions: 0
+
+----------------------------------------------------------------------
+TRAINING EXAMPLES USED (from ASAP2)
+----------------------------------------------------------------------
+  AAAVUP14319000106751
+  AAAOPP13416000138908
+  AAAOPP13416000074668
+  5178558
+  AAAOPP13416000028254
