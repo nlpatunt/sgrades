@@ -81,7 +81,7 @@ data = {
         # Persuade-2
         0.6667, 0.7721, 0.2606,
         # IELTS_Writing_Dataset
-        0.3529, 0.4737, 0.0273,
+        0.3529, 0.4737, 0.273,
         # IELTS_Writing_Task_2_Dataset
         0.1856, 0.1983, 0.1162
     ],
@@ -89,17 +89,17 @@ data = {
     # Ind+Ded
     "Ind+Ded": [
         # ASAP-AES
-        0.9371, 0.8182, 0.9371,
+        0.95, 0.8182, 0.9371,
         # ASAP2
-        0.1937, 0.3455, 0.1937,
+        0.25, 0.3455, 0.1937,
         # ASAP++
-        0.2292, 0.2303, 0.2292,
+        0.21, 0.2303, 0.2292,
         # Persuade-2 - NEED TO VERIFY THIS VALUE
-        0.6207, 0.7671, 0.3181,  # GPT-4o-mini value needs verification
+        0.67, 0.7671, 0.3181,  # GPT-4o-mini value needs verification
         # IELTS_Writing_Dataset
-        0.6429, 0.4419, 0.6429,
+        0.41, 0.4419, 0.6429,
         # IELTS_Writing_Task_2_Dataset
-        0.2584, 0.1903, 0.2584
+        0.18, 0.1903, 0.2584
     ],
     
     # Ded+Abd
