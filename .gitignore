@@ -23,6 +23,5 @@ dataset_discovery_cache.json
 batch_evaluation_*.json
 
 # User uploads
-stored_submissions/
-
-
+stored_submissions/__pycache__/
+*.pyc
