@@ -329,7 +329,7 @@ Open a PR to `main`.
 
 ## 📜 License
 
-MIT (update if needed).
+
 
 ---
 
