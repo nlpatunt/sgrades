@@ -4,140 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>S-GRADES Leaderboard</title>
-    <link rel="stylesheet" href="/frontend/css/style.css">
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="stylesheet" href="css/style.css">  
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <style>
-        /* Toggle Switch Styles */
-        .toggle-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px;
-            background: #f9fafb;
-            border-radius: 8px;
-            margin-bottom: 24px;
-        }
-
-        .toggle-label {
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .toggle-label.active {
-            color: #2563eb;
-        }
-
-        .toggle-label.inactive {
-            color: #6b7280;
-        }
-
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 44px;
-            height: 24px;
-            cursor: pointer;
-        }
-
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #d1d5db;
-            transition: 0.3s;
-            border-radius: 24px;
-        }
-
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: 0.3s;
-            border-radius: 50%;
-        }
-
-        .toggle-switch input:checked + .toggle-slider {
-            background-color: #2563eb;
-        }
-
-        .toggle-switch input:checked + .toggle-slider:before {
-            transform: translateX(20px);
-        }
-
-        .toggle-switch input:focus + .toggle-slider {
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
-        }
-
-        /* Summary Stats */
-        .summary-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .stat-card {
-            background: #f9fafb;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            color: #6b7280;
-            margin-bottom: 8px;
-        }
-
-        .stat-value {
-            font-size: 32px;
-            font-weight: 700;
-            color: #111827;
-        }
-
-        .stat-value.complete {
-            color: #059669;
-        }
-
-        .stat-value.partial {
-            color: #2563eb;
-        }
-
-        /* Status Badge */
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 9999px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .status-badge.complete {
-            background-color: #d1fae5;
-            color: #065f46;
-        }
-
-        .status-badge.partial {
-            background-color: #dbeafe;
-            color: #1e40af;
-        }
-    </style>
 </head>
 <body>
     <!-- Same header as your main page but with Leaderboard active -->
@@ -161,37 +31,21 @@
     <section class="section">
         <div class="container">
             <div class="section-header">
-                <h2>Leaderboard</h2>
-                <p id="leaderboard-description">Rankings for all model evaluations</p>
-            </div>
-
-            <!-- Toggle Switch -->
-            <div class="toggle-container">
-                <span id="toggle-label-all" class="toggle-label active">All Evaluations</span>
-                <label class="toggle-switch">
-                    <input type="checkbox" id="complete-only-toggle">
-                    <span class="toggle-slider"></span>
-                </label>
-                <span id="toggle-label-complete" class="toggle-label inactive">Complete Benchmarks Only (23+)</span>
-            </div>
-
-            <!-- Summary Stats -->
-            <div id="summary-stats" class="summary-stats" style="display: none;">
-                <!-- Populated by JavaScript -->
+                <h2>Complete Benchmark Leaderboard</h2>
+                <p>Rankings for researchers who submitted all 23 datasets</p>
             </div>
 
             <div class="leaderboard-controls">
                 <div class="form-group">
                     <label for="metric-selector">Sort by Metric:</label>
                     <select id="metric-selector">
-                        <option value="avg_quadratic_weighted_kappa">Average QWK ↑</option>
-                        <option value="avg_pearson_correlation">Average Pearson ↑</option>
-                        <option value="avg_f1_score">Average F1 ↑</option>
-                        <option value="avg_precision">Average Precision ↑</option>
-                        <option value="avg_recall">Average Recall ↑</option>
-                        <option value="avg_accuracy">Average Accuracy ↑</option>
-                        <option value="avg_mean_absolute_error">Average MAE ↓</option>
-                        <option value="avg_root_mean_squared_error">Average RMSE ↓</option>
+                        <option value="avg_quadratic_weighted_kappa">Average QWK</option>
+                        <option value="avg_pearson_correlation">Average Pearson</option>
+                        <option value="avg_f1_score">Average F1</option>
+                        <option value="avg_precision">Average Precision</option>
+                        <option value="avg_recall">Average Recall</option>
+                        <option value="avg_accuracy">Average Accuracy</option>
+                        <option value="avg_mean_absolute_error">Average MAE</option>
                     </select>
                 </div>
                 <button id="refresh-leaderboard" class="btn btn-outline">
@@ -205,17 +59,16 @@
         </div>
     </section>
 
-    <script>
+   <script>
         let currentCompleteOnly = false;
         let currentMetric = 'avg_quadratic_weighted_kappa';
 
         // Load leaderboard on page load
         document.addEventListener('DOMContentLoaded', function() {
             loadLeaderboard();
-
-            // Toggle switch event
-            document.getElementById('complete-only-toggle').addEventListener('change', function(e) {
-                currentCompleteOnly = e.target.checked;
+	    const toggleEl = document.getElementById('complete-only-toggle');
+	    if(toggleEl) toggleEl.addEventListener('change', function(e){
+		currentCompleteOnly = e.target.checked;
                 updateToggleLabels();
                 updateDescription();
                 loadLeaderboard();
@@ -290,12 +143,12 @@
             const statsContainer = document.getElementById('summary-stats');
             
             if (!stats || stats.total_researchers === 0) {
-                statsContainer.style.display = 'none';
+                if(statsContainer) statsContainer.style.display = 'none';
                 return;
             }
 
-            statsContainer.style.display = 'grid';
-            statsContainer.innerHTML = `
+            if(statsContainer) statsContainer.style.display = 'grid';
+            if(statsContainer) statsContainer.innerHTML = `
                 <div class="stat-card">
                     <div class="stat-label">Total Models</div>
                     <div class="stat-value">${stats.total_researchers || 0}</div>
@@ -397,6 +250,7 @@
         }
     </script>
 
-    <script src="/frontend/js/app.js?v=2025-09-24-fixed"></script>
+    <!--script>document.write('<script src="' + BASE_URL + '/frontend/js/app.js?v=2025-09-24-fixed"><\/script>');</script-->
+    <script>src="js/app.js"</script>
 </body>
 </html>
