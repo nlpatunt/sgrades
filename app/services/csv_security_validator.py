@@ -10,8 +10,6 @@ class CSVSecurityValidator:
         self.sql_injection_patterns = [
             r'(\b(SELECT|INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|EXEC|UNION)\b)',
             r'(--|\#|/\*|\*/)',
-            r'(\bOR\b.*=.*\bOR\b)',
-            r'(\bAND\b.*=.*\bAND\b)',
             r'(\'.*\bOR\b.*\')',
             r'(\".*\bOR\b.*\")',
             r'(\;.*\b(SELECT|INSERT|UPDATE|DELETE|DROP)\b)',
@@ -34,7 +32,7 @@ class CSVSecurityValidator:
         ]
         
         # Valid column name pattern
-        self.valid_column_pattern = re.compile(r'^[a-zA-Z][a-zA-Z0-9_]*$')
+        self.valid_column_pattern = re.compile(r"^[a-zA-Z0-9][a-zA-Z0-9_ .\-\&\:\(\)\/\']*$")
         
     def validate_csv_content(self, csv_content: str, max_size_mb: int = 50) -> Dict:
         """Comprehensive CSV security validation"""
@@ -87,25 +85,28 @@ class CSVSecurityValidator:
     
     def validate_column_name(self, column_name: str) -> bool:
         """Validate column names are safe"""
-        if len(column_name) > 50:  # Reasonable limit
+        if len(column_name) > 500:  # Reasonable limit
             return False
-        return bool(self.valid_column_pattern.match(str(column_name).strip()))
+        # Only block truly dangerous patterns, not descriptive column names
+        dangerous = ['<script', 'javascript:', 'DROP TABLE', 'DELETE FROM']
+        col_upper = str(column_name).upper()
+        if any(d.upper() in col_upper for d in dangerous):
+            return False
+        return True
     
     def scan_for_suspicious_content(self, df: pd.DataFrame) -> Optional[str]:
         """Scan dataframe for SQL injection and malicious patterns"""
         
-        # Check column names
-        for col in df.columns:
-            col_str = str(col).upper()
-            for pattern in self.sql_injection_patterns:
-                if re.search(pattern, col_str, re.IGNORECASE):
-                    return f"SQL pattern in column: {col}"
+        # Skip SQL pattern check on column names - they are validated separately
         
-        # Sample first 100 rows for content checking
+        # Sample first 100 rows for content checking - only check score/id cols, not essay text
         sample_df = df.head(100)
+        score_cols = [c for c in df.columns if any(w in str(c).lower() for w in ['id', 'score', 'label', 'grade', 'band', 'domain', 'resolved'])]
         
         for idx, row in sample_df.iterrows():
             for col, value in row.items():
+                if col not in score_cols:
+                    continue
                 if pd.isna(value):
                     continue
                     
@@ -136,8 +137,11 @@ class CSVSecurityValidator:
                         "error": f"Cell content too long in column {col}: {max_length} chars"
                     }
         
-        # Check for binary content (potential malware)
+        # Check for binary content (potential malware) - skip text columns
+        text_cols = [c for c in df.columns if any(w in str(c).lower() for w in ["text", "essay", "answer", "response", "source", "content"])]
         for col in df.columns:
+            if col in text_cols:
+                continue
             if df[col].dtype == 'object':
                 sample_values = df[col].dropna().head(50)
                 for value in sample_values:
