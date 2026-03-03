@@ -66,13 +66,6 @@
         // Load leaderboard on page load
         document.addEventListener('DOMContentLoaded', function() {
             loadLeaderboard();
-	    const toggleEl = document.getElementById('complete-only-toggle');
-	    if(toggleEl) toggleEl.addEventListener('change', function(e){
-		currentCompleteOnly = e.target.checked;
-                updateToggleLabels();
-                updateDescription();
-                loadLeaderboard();
-            });
 
             // Metric selector event
             document.getElementById('metric-selector').addEventListener('change', function(e) {
@@ -86,32 +79,6 @@
             });
         });
 
-        function updateToggleLabels() {
-            const labelAll = document.getElementById('toggle-label-all');
-            const labelComplete = document.getElementById('toggle-label-complete');
-
-            if (currentCompleteOnly) {
-                labelAll.classList.remove('active');
-                labelAll.classList.add('inactive');
-                labelComplete.classList.remove('inactive');
-                labelComplete.classList.add('active');
-            } else {
-                labelAll.classList.remove('inactive');
-                labelAll.classList.add('active');
-                labelComplete.classList.remove('active');
-                labelComplete.classList.add('inactive');
-            }
-        }
-
-        function updateDescription() {
-            const description = document.getElementById('leaderboard-description');
-            if (currentCompleteOnly) {
-                description.textContent = 'Rankings for researchers who submitted all 23 datasets';
-            } else {
-                description.textContent = 'Rankings for all model evaluations';
-            }
-        }
-
         async function loadLeaderboard() {
             const tableContainer = document.getElementById('leaderboard-table');
             tableContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading leaderboard...</div>';
@@ -124,7 +91,6 @@
                     throw new Error(data.detail || 'Failed to load leaderboard');
                 }
 
-                displaySummaryStats(data.summary_stats);
                 displayLeaderboard(data.rankings);
 
             } catch (error) {
@@ -139,31 +105,6 @@
             }
         }
 
-        function displaySummaryStats(stats) {
-            const statsContainer = document.getElementById('summary-stats');
-            
-            if (!stats || stats.total_researchers === 0) {
-                if(statsContainer) statsContainer.style.display = 'none';
-                return;
-            }
-
-            if(statsContainer) statsContainer.style.display = 'grid';
-            if(statsContainer) statsContainer.innerHTML = `
-                <div class="stat-card">
-                    <div class="stat-label">Total Models</div>
-                    <div class="stat-value">${stats.total_researchers || 0}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Complete Benchmarks</div>
-                    <div class="stat-value complete">${stats.complete_benchmarks || 0}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Partial Evaluations</div>
-                    <div class="stat-value partial">${stats.partial_benchmarks || 0}</div>
-                </div>
-            `;
-        }
-
         function displayLeaderboard(rankings) {
             const tableContainer = document.getElementById('leaderboard-table');
 
@@ -172,7 +113,6 @@
                     <div class="empty-state">
                         <i class="fas fa-inbox" style="font-size: 48px; color: #9ca3af; margin-bottom: 16px;"></i>
                         <p>No models found matching the criteria.</p>
-                        ${currentCompleteOnly ? '<p style="color: #6b7280; font-size: 14px;">Try switching to "All Evaluations" to see partial submissions.</p>' : ''}
                     </div>
                 `;
                 return;
@@ -214,14 +154,14 @@
                         </td>
                         <td style="text-align: center;"><strong>${entry.unique_datasets_count}</strong></td>
                         <td style="text-align: center;">${statusBadge}</td>
-                        <td style="text-align: center;">${formatMetric(entry.avg_quadratic_weighted_kappa)}</td>
-                        <td style="text-align: center;">${formatMetric(entry.avg_pearson_correlation)}</td>
-                        <td style="text-align: center;">${formatMetric(entry.avg_f1_score)}</td>
-                        <td style="text-align: center;">${formatMetric(entry.avg_precision)}</td>
-                        <td style="text-align: center;">${formatMetric(entry.avg_recall)}</td>
-                        <td style="text-align: center;">${formatMetric(entry.avg_accuracy)}</td>
-                        <td style="text-align: center;">${formatMetric(entry.avg_mean_absolute_error)}</td>
-                        <td style="text-align: center;">${formatMetric(entry.avg_root_mean_squared_error)}</td>
+                        <td style="text-align: center; background: #fee2e2; color: #dc2626; font-weight: 600; padding: 4px 8px; border-radius: 4px;">${formatMetric(entry.avg_quadratic_weighted_kappa)}</td>
+                        <td style="text-align: center; background: #fee2e2; color: #dc2626; font-weight: 600; padding: 4px 8px; border-radius: 4px;">${formatMetric(entry.avg_pearson_correlation)}</td>
+                        <td style="text-align: center; background: #fee2e2; color: #dc2626; font-weight: 600; padding: 4px 8px; border-radius: 4px;">${formatMetric(entry.avg_f1_score)}</td>
+                        <td style="text-align: center; background: #fee2e2; color: #dc2626; font-weight: 600; padding: 4px 8px; border-radius: 4px;">${formatMetric(entry.avg_precision)}</td>
+                        <td style="text-align: center; background: #fee2e2; color: #dc2626; font-weight: 600; padding: 4px 8px; border-radius: 4px;">${formatMetric(entry.avg_recall)}</td>
+                        <td style="text-align: center; background: #fee2e2; color: #dc2626; font-weight: 600; padding: 4px 8px; border-radius: 4px;">${formatMetric(entry.avg_accuracy)}</td>
+                        <td style="text-align: center; background: #fee2e2; color: #dc2626; font-weight: 600; padding: 4px 8px; border-radius: 4px;">${formatMetric(entry.avg_mean_absolute_error)}</td>
+                        <td style="text-align: center; background: #fee2e2; color: #dc2626; font-weight: 600; padding: 4px 8px; border-radius: 4px;">${formatMetric(entry.avg_root_mean_squared_error)}</td>
                     </tr>
                 `;
             });
@@ -250,7 +190,6 @@
         }
     </script>
 
-    <!--script>document.write('<script src="' + BASE_URL + '/frontend/js/app.js?v=2025-09-24-fixed"><\/script>');</script-->
-    <script>src="js/app.js"</script>
+    <script src="js/app.js"></script>
 </body>
 </html>

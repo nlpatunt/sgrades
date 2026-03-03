@@ -1393,17 +1393,13 @@ def clean_for_json(obj):
         return int(obj)
     elif isinstance(obj, (np.floating, np.float64, np.float32)):
         return float(obj)
-    elif pd.isna(obj) or obj is None:
-        return 0.0  # Convert null to 0 instead of None
-    elif isinstance(obj, str) and obj.strip() == '':
-        return 0.0  # Convert empty strings to 0
+    elif obj is None:
+        return None
     elif isinstance(obj, str):
-        try:
-            return float(obj)  # Try converting string numbers
-        except ValueError:
-            return 0.0
+        return obj
     else:
         return obj
+
 
 def clean_dataframe_safe(df: pd.DataFrame) -> pd.DataFrame:
     """Clean DataFrame for processing"""
