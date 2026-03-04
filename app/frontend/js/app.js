@@ -1437,7 +1437,7 @@ function showBenchmarkSuccess(result) {
     successHTML += '</div>';
 
     successHTML += '<div style="margin-top: 1.5rem;">';
-    successHTML += '<a href="#leaderboard" class="btn btn-primary">';
+    successHTML += '<a href="leaderboard.html" class="btn btn-primary">';
     successHTML += '<i class="fas fa-trophy"></i> View Leaderboard Position';
     successHTML += '</a>';
     successHTML += '</div>';
