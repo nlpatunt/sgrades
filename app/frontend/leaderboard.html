@@ -105,6 +105,26 @@
             }
         }
 
+        function colorMetric(value, lowerIsBetter) {
+            if (value === null || value === undefined) return '<span style="color:#9ca3af;">N/A</span>';
+            const v = typeof value === 'number' ? value : parseFloat(value);
+            if (isNaN(v)) return '<span style="color:#9ca3af;">N/A</span>';
+            const formatted = v.toFixed(3);
+            let bg, color;
+            if (!lowerIsBetter) {
+                // higher is better (QWK, Pearson, F1, Precision, Recall, Accuracy)
+                if (v >= 0.8)      { bg = '#d1fae5'; color = '#059669'; }
+                else if (v >= 0.5) { bg = '#fef3c7'; color = '#d97706'; }
+                else               { bg = '#fee2e2'; color = '#dc2626'; }
+            } else {
+                // lower is better (MAE, RMSE) — real data range 0 to 10+
+                if (v <= 1.0)      { bg = '#d1fae5'; color = '#059669'; }
+                else if (v <= 2.5) { bg = '#fef3c7'; color = '#d97706'; }
+                else               { bg = '#fee2e2'; color = '#dc2626'; }
+            }
+            return `<span style="background:${bg}; color:${color}; font-weight:600; padding:4px 8px; border-radius:4px;">${formatted}</span>`;
+        }
+
         function displayLeaderboard(rankings) {
             const tableContainer = document.getElementById('leaderboard-table');
 
@@ -154,14 +174,14 @@
                         </td>
                         <td style="text-align: center;"><strong>${entry.unique_datasets_count}</strong></td>
                         <td style="text-align: center;">${statusBadge}</td>
-                        <td style="text-align: center; background: #fee2e2; color: #dc2626; font-weight: 600; padding: 4px 8px; border-radius: 4px;">${formatMetric(entry.avg_quadratic_weighted_kappa)}</td>
-                        <td style="text-align: center; background: #fee2e2; color: #dc2626; font-weight: 600; padding: 4px 8px; border-radius: 4px;">${formatMetric(entry.avg_pearson_correlation)}</td>
-                        <td style="text-align: center; background: #fee2e2; color: #dc2626; font-weight: 600; padding: 4px 8px; border-radius: 4px;">${formatMetric(entry.avg_f1_score)}</td>
-                        <td style="text-align: center; background: #fee2e2; color: #dc2626; font-weight: 600; padding: 4px 8px; border-radius: 4px;">${formatMetric(entry.avg_precision)}</td>
-                        <td style="text-align: center; background: #fee2e2; color: #dc2626; font-weight: 600; padding: 4px 8px; border-radius: 4px;">${formatMetric(entry.avg_recall)}</td>
-                        <td style="text-align: center; background: #fee2e2; color: #dc2626; font-weight: 600; padding: 4px 8px; border-radius: 4px;">${formatMetric(entry.avg_accuracy)}</td>
-                        <td style="text-align: center; background: #fee2e2; color: #dc2626; font-weight: 600; padding: 4px 8px; border-radius: 4px;">${formatMetric(entry.avg_mean_absolute_error)}</td>
-                        <td style="text-align: center; background: #fee2e2; color: #dc2626; font-weight: 600; padding: 4px 8px; border-radius: 4px;">${formatMetric(entry.avg_root_mean_squared_error)}</td>
+                        <td style="text-align: center;">${colorMetric(entry.avg_quadratic_weighted_kappa, false)}</td>
+                        <td style="text-align: center;">${colorMetric(entry.avg_pearson_correlation, false)}</td>
+                        <td style="text-align: center;">${colorMetric(entry.avg_f1_score, false)}</td>
+                        <td style="text-align: center;">${colorMetric(entry.avg_precision, false)}</td>
+                        <td style="text-align: center;">${colorMetric(entry.avg_recall, false)}</td>
+                        <td style="text-align: center;">${colorMetric(entry.avg_accuracy, false)}</td>
+                        <td style="text-align: center;">${colorMetric(entry.avg_mean_absolute_error, true)}</td>
+                        <td style="text-align: center;">${colorMetric(entry.avg_root_mean_squared_error, true)}</td>
                     </tr>
                 `;
             });
