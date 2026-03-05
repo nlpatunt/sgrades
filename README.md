@@ -6,6 +6,24 @@ Researchers download dataset CSVs, upload their model outputs, and get standardi
 
 ---
 
+## Paper
+
+📄 **S-GRADES: Studying Generalization of Student Response Assessments in Diverse Evaluative Settings**
+Proceedings of the 15th International Conference on Language Resources and Evaluation (LREC 2026)
+
+Paper link: *(coming soon)*
+
+---
+
+## Dataset Access
+
+The datasets associated with this benchmark are publicly available on Hugging Face:
+
+**S-GRADES Benchmark Datasets:** [[https://huggingface.co/nlpatunt](https://huggingface.co/collections/nlpatunt/automatic-grading-datasets-without-labels)]([https://huggingface.co/nlpatunt](https://huggingface.co/collections/nlpatunt/automatic-grading-datasets-without-labels))
+
+The leaderboard and submission platform are available at: [https://sgrades.eng.unt.edu](https://sgrades.eng.unt.edu)
+
+This benchmark is released for academic and research purposes and is designed to facilitate reproducible experimentation in automated essay scoring (AES) and automatic short answer grading (ASAG).
 ## ✨ Features
 
 - Dynamic dataset discovery from a Hugging Face profile (with static fallback)
