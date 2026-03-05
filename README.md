@@ -35,14 +35,13 @@ This benchmark is released for academic and research purposes and is designed to
 
 ---
 
-## 🧱 Tech Stack
-
-- **FastAPI**, **Uvicorn**
-- **Pandas**, **NumPy**, **scikit-learn**
-- **datasets**, **huggingface_hub**
-- **SQLAlchemy** with support for **SQLite**, **PostgreSQL**, and **MySQL**
-- **Pydantic v2** models for response schemas
-
+🧱 Tech Stack
+FastAPI, Uvicorn
+Apache (reverse proxy)
+Pandas, NumPy, scikit-learn
+datasets, huggingface_hub
+SQLAlchemy + PostgreSQL
+Pydantic v2 models for response schemas
 ---
 
 ## 🚀 Quickstart
