@@ -1651,30 +1651,6 @@ async def get_leaderboard(
             model_aggregates[model_name]['dataset_list'].append(submission['dataset_name'])
             model_aggregates[model_name]['per_dataset_metrics'].append(submission.get('metrics', {}))
             model_aggregates[model_name]['total_submissions'] += 1
-=======
-            
-            metrics = submission.get('metrics', {})
-            
-            for metric_name, value in metrics.items():
-                if metric_name not in model_aggregates[model_name]['metrics']:
-                    model_aggregates[model_name]['metrics'][metric_name] = []
-                
-                try:
-                    if value is None:
-                        continue  # Skip nulls - metric not applicable
-                    elif isinstance(value, str):
-                        if value.strip() == '' or value.lower() in ['nan', 'null', 'none']:
-                            continue  # Skip nulls
-                        else:
-                            numeric_value = float(value)
-                    else:
-                        numeric_value = float(value)
-                    
-                    model_aggregates[model_name]['metrics'][metric_name].append(numeric_value)
-                    
-                except (ValueError, TypeError):
-                    pass  # Skip bad values
->>>>>>> Stashed changes
 
         print("DEBUG: Filtering models based on dataset count")
         filtered_models: Dict[str, Any] = {}
