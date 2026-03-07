@@ -6,26 +6,51 @@ Researchers download dataset CSVs, upload their model outputs, and get standardi
 
 ---
 
+## Paper
+
+📄 **S-GRADES: Studying Generalization of Student Response Assessments in Diverse Evaluative Settings**
+Proceedings of the 15th International Conference on Language Resources and Evaluation (LREC 2026)
+
+Paper link: *(coming soon)*
+
+---
+
+## Dataset Access
+
+The datasets associated with this benchmark are publicly available on Hugging Face:
+
+**S-GRADES Benchmark Datasets:** [[https://huggingface.co/nlpatunt](https://huggingface.co/collections/nlpatunt/automatic-grading-datasets-without-labels)]([https://huggingface.co/nlpatunt](https://huggingface.co/collections/nlpatunt/automatic-grading-datasets-without-labels))
+
+The leaderboard and submission platform are available at: [https://sgrades.eng.unt.edu](https://sgrades.eng.unt.edu)
+
+This benchmark is released for academic and research purposes and is designed to facilitate reproducible experimentation in automated essay scoring (AES) and automatic short answer grading (ASAG).
+
+
 ## ✨ Features
 
-- Dynamic dataset discovery from a Hugging Face profile (with static fallback)
-- CSV upload with validation and instant scoring
-- Standard metrics: **QWK**, **Pearson**, **MAE**, **RMSE**, **F1**, **Accuracy**
-- Leaderboard + platform stats
-- Typed API responses via **Pydantic models** (`app/models/pydantic_models.py`)
-- Simple vanilla JS frontend (`app/frontend/`)
-
+- Dynamic dataset discovery from a Hugging Face organization profile (with static fallback)
+- CSV upload with validation, security scanning, and instant scoring
+- Metric-aware evaluation split:
+  - **Regression** (AES/ASAG scoring): **QWK**, **Pearson**, **MAE**, **RMSE**, **Accuracy**
+  - **Classification** (binary/multi-class): **F1**, **Precision**, **Recall**, **Accuracy**
+- N/A displayed for non-applicable metrics per dataset type
+- Gold-Reference baseline for perfect-score comparison
+- Leaderboard with sorting, filtering, and complete/partial benchmark toggle
+- Platform stats dashboard
+- Typed API responses via **Pydantic v2 models** (`app/models/pydantic_models.py`)
+- PostgreSQL backend with SQLAlchemy ORM
+- Vanilla JS frontend served via Apache (`app/frontend/`)
 ---
 
 ## 🧱 Tech Stack
 
-- **FastAPI**, **Uvicorn**
-- **Pandas**, **NumPy**, **scikit-learn**
-- **datasets**, **huggingface_hub**
-- **SQLAlchemy** with support for **SQLite**, **PostgreSQL**, and **MySQL**
-- **Pydantic v2** models for response schemas
-
----
+- **Backend:** FastAPI, Uvicorn
+- **Web Server:** Apache (reverse proxy)
+- **Data Processing:** Pandas, NumPy, scikit-learn
+- **Datasets:** `datasets`, `huggingface_hub`
+- **Database:** SQLAlchemy + PostgreSQL
+- **API Schemas:** Pydantic v2
+- **Frontend:** HTML, CSS, JavaScript
 
 ## 🚀 Quickstart
 
