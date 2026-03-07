@@ -25,3 +25,4 @@ batch_evaluation_*.json
 # User uploads
 stored_submissions/__pycache__/
 *.pyc
+dataset_cache/

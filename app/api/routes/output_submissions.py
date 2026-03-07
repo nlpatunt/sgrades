@@ -1301,17 +1301,13 @@ def clean_for_json(obj):
         return int(obj)
     elif isinstance(obj, (np.floating, np.float64, np.float32)):
         return float(obj)
-    elif pd.isna(obj) or obj is None:
-        return 0.0
-    elif isinstance(obj, str) and obj.strip() == '':
-        return 0.0
+    elif obj is None:
+        return None
     elif isinstance(obj, str):
-        try:
-            return float(obj)
-        except ValueError:
-            return 0.0
+        return obj
     else:
         return obj
+
 
 def clean_dataframe_safe(df: pd.DataFrame) -> pd.DataFrame:
     df_clean = df.copy()

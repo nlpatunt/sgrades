@@ -5,6 +5,7 @@ import tempfile
 import os
 from datetime import datetime
 import zipfile
+from pathlib import Path
 import io
 import csv
 import pandas as pd
@@ -371,6 +372,21 @@ async def download_single_dataset(dataset_name: str):
             raise HTTPException(status_code=404, detail=f"Dataset '{dataset_name}' not found")
 
         print(f"📥 Preparing {dataset_name} for download...")
+	# Check if cached locally
+        cache_dir = Path(f"/home/ts1506.unt.ad.unt.edu/sgrades/dataset_cache/{dataset_name}")
+        if cache_dir.exists():
+            print(f"✅ Serving {dataset_name} from local cache...")
+            import zipfile
+            zip_buffer = io.BytesIO()
+            with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zf:
+                for csv_file in cache_dir.glob("*.csv"):
+                    zf.write(csv_file, f"{dataset_name}/{csv_file.name}")
+            zip_buffer.seek(0)
+            return StreamingResponse(
+                zip_buffer,
+                media_type="application/zip",
+                headers={"Content-Disposition": f"attachment; filename={dataset_name}_splits.zip"}
+            )
 
         # Create temporary directory for CSV files
         temp_dir = tempfile.mkdtemp()
