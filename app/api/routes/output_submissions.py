@@ -1739,6 +1739,21 @@ async def get_leaderboard(
                     "unique_datasets_count": data['unique_datasets_count'],
                     "total_submissions": data['total_submissions'],
                     "complete_benchmark": data['is_complete_benchmark'],
+                    "avg_quadratic_weighted_kappa": avg_metrics.get("avg_quadratic_weighted_kappa"),
+                    "avg_pearson_correlation": avg_metrics.get("avg_pearson_correlation"),
+                    "avg_mean_absolute_error": avg_metrics.get("avg_mean_absolute_error"),
+                    "avg_root_mean_squared_error": avg_metrics.get("avg_root_mean_squared_error"),
+                    "avg_f1_score": avg_metrics.get("avg_f1_score"),
+                    "avg_precision": avg_metrics.get("avg_precision"),
+                    "avg_recall": avg_metrics.get("avg_recall"),
+                    "avg_accuracy": avg_metrics.get("avg_accuracy", 0),
+                }
+                rankings.append(ranking_entry)
+            except Exception as model_error:
+                print(f"ERROR: Failed processing model {model_name}: {model_error}")
+
+        try:
+            if metric in ["avg_mean_absolute_error", "avg_root_mean_squared_error"]:
                 rankings.sort(key=lambda x: (x.get(metric) is None, x.get(metric) if x.get(metric) is not None else float('inf')))
             else:
                 rankings.sort(key=lambda x: (x.get(metric) is None, -(x.get(metric) or 0)))
