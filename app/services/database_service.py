@@ -8,7 +8,9 @@ import json
 import statistics
 from app.models.database import OutputSubmission, Dataset, EvaluationResult, Essay
 from app.config.database import get_db_session
-
+def mean_or_none(values):
+    vals = [v for v in values if v is not None]
+    return statistics.mean(vals) if vals else None
 
 class DatabaseService:
     """Service for database operations for S-GRADES platform"""
@@ -179,8 +181,8 @@ class DatabaseService:
                             else:
                                 metrics = submission.evaluation_result or {}
 
-                            qwk = metrics.get("quadratic_weighted_kappa", 0.0)
-                            if qwk > 0:  # Only include submissions with valid scores
+                            qwk = metrics.get("quadratic_weighted_kappa", None)
+                            if qwk is None or qwk > 0:  # Only include submissions with valid scores
                                 leaderboard_data.append(
                                     {
                                         "submission_id": submission.id,
@@ -188,7 +190,7 @@ class DatabaseService:
                                         "submitter_name": submission.submitter_name,
                                         "submitter_email": submission.submitter_email,
                                         "quadratic_weighted_kappa": qwk,
-                                        "pearson_correlation": metrics.get("pearson_correlation", 0.0),
+                                        "pearson_correlation": metrics.get("pearson_correlation", None),
                                         "mean_absolute_error": metrics.get("mean_absolute_error", 999.0),
                                         "accuracy": metrics.get("accuracy", 0.0),
                                         "essays_evaluated": metrics.get("essays_evaluated", 0),
@@ -275,8 +277,8 @@ class DatabaseService:
 
                         if metrics_list:
                             # Calculate aggregate metrics
-                            avg_qwk = statistics.mean([m.get("quadratic_weighted_kappa", 0) for m in metrics_list])
-                            avg_pearson = statistics.mean([m.get("pearson_correlation", 0) for m in metrics_list])
+                            avg_qwk = mean_or_none([m.get("quadratic_weighted_kappa") for m in metrics_list])
+                            avg_pearson = mean_or_none([m.get("pearson_correlation") for m in metrics_list])
                             avg_mae = statistics.mean([m.get("mean_absolute_error", 999) for m in metrics_list])
                             avg_f1 = statistics.mean([m.get("f1_score", 0) for m in metrics_list])
                             avg_accuracy = statistics.mean([m.get("accuracy", 0) for m in metrics_list])

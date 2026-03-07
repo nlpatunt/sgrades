@@ -1230,8 +1230,8 @@ async function loadLeaderboard() {
             const rankClass = getRankClass(rank);
 
             // ✅ FIXED: Extract ALL 6 metrics from API response
-            const qwk = entry.avg_quadratic_weighted_kappa || 0;
-            const pearson = entry.avg_pearson_correlation || 0;
+            const qwk = entry.avg_quadratic_weighted_kappa;
+            const pearson = entry.avg_pearson_correlation;
             const f1 = entry.avg_f1_score || 0;
             const precision = entry.avg_precision || 0;
             const recall = entry.avg_recall || 0;

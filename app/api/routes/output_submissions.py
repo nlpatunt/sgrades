@@ -1235,10 +1235,38 @@ def update_leaderboard_cache_for_model(model_name: str):
         )
 
         if cache_entry:
-            for k, v in shared_fields.items():
-                setattr(cache_entry, k, v)
+            cache_entry.researcher_name = researcher_name
+            cache_entry.description = description
+            cache_entry.dataset_count = len(dataset_names)
+            cache_entry.total_submissions = len(submissions)
+            cache_entry.avg_quadratic_weighted_kappa = avg_metrics.get('avg_quadratic_weighted_kappa')
+            cache_entry.avg_pearson_correlation = avg_metrics.get('avg_pearson_correlation')
+            cache_entry.avg_mean_absolute_error = avg_metrics.get('avg_mean_absolute_error')
+            cache_entry.avg_root_mean_squared_error = avg_metrics.get('avg_root_mean_squared_error')
+            cache_entry.avg_f1_score = avg_metrics.get('avg_f1_score')
+            cache_entry.avg_precision = avg_metrics.get('avg_precision')
+            cache_entry.avg_recall = avg_metrics.get('avg_recall')
+            cache_entry.avg_accuracy = avg_metrics.get('avg_accuracy', 0.0)
+            cache_entry.last_updated = datetime.now()
+            cache_entry.is_complete_benchmark = is_complete
         else:
-            cache_entry = LeaderboardCache(model_name=model_name, **shared_fields)
+            cache_entry = LeaderboardCache(
+                model_name=model_name,
+                researcher_name=researcher_name,
+                description=description,
+                dataset_count=len(dataset_names),
+                total_submissions=len(submissions),
+                avg_quadratic_weighted_kappa=avg_metrics.get('avg_quadratic_weighted_kappa'),
+                avg_pearson_correlation=avg_metrics.get('avg_pearson_correlation'),
+                avg_mean_absolute_error=avg_metrics.get('avg_mean_absolute_error'),
+                avg_root_mean_squared_error=avg_metrics.get('avg_root_mean_squared_error'),
+                avg_f1_score=avg_metrics.get('avg_f1_score'),
+                avg_precision=avg_metrics.get('avg_precision'),
+                avg_recall=avg_metrics.get('avg_recall'),
+                avg_accuracy=avg_metrics.get('avg_accuracy', 0.0),
+                last_updated=datetime.now(),
+                is_complete_benchmark=is_complete
+            )
             db.add(cache_entry)
 
         db.commit()
@@ -1623,6 +1651,30 @@ async def get_leaderboard(
             model_aggregates[model_name]['dataset_list'].append(submission['dataset_name'])
             model_aggregates[model_name]['per_dataset_metrics'].append(submission.get('metrics', {}))
             model_aggregates[model_name]['total_submissions'] += 1
+=======
+            
+            metrics = submission.get('metrics', {})
+            
+            for metric_name, value in metrics.items():
+                if metric_name not in model_aggregates[model_name]['metrics']:
+                    model_aggregates[model_name]['metrics'][metric_name] = []
+                
+                try:
+                    if value is None:
+                        continue  # Skip nulls - metric not applicable
+                    elif isinstance(value, str):
+                        if value.strip() == '' or value.lower() in ['nan', 'null', 'none']:
+                            continue  # Skip nulls
+                        else:
+                            numeric_value = float(value)
+                    else:
+                        numeric_value = float(value)
+                    
+                    model_aggregates[model_name]['metrics'][metric_name].append(numeric_value)
+                    
+                except (ValueError, TypeError):
+                    pass  # Skip bad values
+>>>>>>> Stashed changes
 
         print("DEBUG: Filtering models based on dataset count")
         filtered_models: Dict[str, Any] = {}
@@ -1711,26 +1763,10 @@ async def get_leaderboard(
                     "unique_datasets_count": data['unique_datasets_count'],
                     "total_submissions": data['total_submissions'],
                     "complete_benchmark": data['is_complete_benchmark'],
-                    **avg_metrics
-                }
-                rankings.append(ranking_entry)
-            except Exception as model_error:
-                print(f"ERROR: Failed processing model {model_name}: {model_error}")
-                continue
-        
-        print(f"DEBUG: Created {len(rankings)} ranking entries")
-        
-        metric_keys = [
-            'avg_quadratic_weighted_kappa', 'avg_pearson_correlation',
-            'avg_mean_absolute_error', 'avg_root_mean_squared_error',
-            'avg_f1_score', 'avg_precision', 'avg_recall', 'avg_accuracy'
-        ]
-
-        try:
-            if metric in ["avg_mean_absolute_error", "avg_root_mean_squared_error"]:
-                rankings.sort(key=lambda x: x.get(metric, float('inf')))
+                rankings.sort(key=lambda x: (x.get(metric) is None, x.get(metric) if x.get(metric) is not None else float('inf')))
             else:
-                rankings.sort(key=lambda x: x.get(metric, 0), reverse=True)
+                rankings.sort(key=lambda x: (x.get(metric) is None, -(x.get(metric) or 0)))
+            
             rankings = rankings[:limit]
         except Exception as sort_error:
             print(f"ERROR: Sorting failed: {sort_error}")
