@@ -29,3 +29,7 @@ dataset_cache/
 .env
 stored_submissions/
 stored_submissions/
+
+# local only
+stored_submissions/
+mllm_evaluation/
