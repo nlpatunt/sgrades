@@ -352,7 +352,22 @@ Open a PR to `main`.
 
 ---
 
-## 📜 License
+## Related
+- S-GRADES Platform: [S-GRADES](https://sgrades.eng.unt.edu/)
+- Paper: *S-GRADES: Studying Generalization of Student Response Assessments in Diverse Evaluative Settings* — LREC 2026
+  - arXiv: https://arxiv.org/abs/2603.10233
+  - DOI: https://doi.org/10.48550/arXiv.2603.10233
+
+## Citation
+If you use this code or benchmark, please cite:
+```bibtex
+@article{seuti2026sgrades,
+  title={S-GRADES: Studying Generalization of Student Response Assessments in Diverse Evaluative Settings},
+  author={Seuti, Tasfia and Ray Choudhury, Sagnik},
+  journal={arXiv preprint arXiv:2603.10233},
+  year={2026}
+}
+```
 
 
 
