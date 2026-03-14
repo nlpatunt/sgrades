@@ -11,7 +11,7 @@ Researchers download dataset CSVs, upload their model outputs, and get standardi
 📄 **S-GRADES: Studying Generalization of Student Response Assessments in Diverse Evaluative Settings**
 Proceedings of the 15th International Conference on Language Resources and Evaluation (LREC 2026)
 
-Paper link: *(coming soon)*
+Paper link: *(https://arxiv.org/abs/2603.10233)*
 
 ---
 
