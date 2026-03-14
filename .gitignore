@@ -27,3 +27,4 @@ stored_submissions/__pycache__/
 *.pyc
 dataset_cache/
 .env
+stored_submissions/
