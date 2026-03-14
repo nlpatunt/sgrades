@@ -26,3 +26,4 @@ batch_evaluation_*.json
 stored_submissions/__pycache__/
 *.pyc
 dataset_cache/
+.env
