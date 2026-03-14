@@ -33,3 +33,5 @@ stored_submissions/
 # local only
 stored_submissions/
 mllm_evaluation/
+app/api/routes/test_metrics.py
+expressions.txt
