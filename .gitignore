@@ -35,3 +35,5 @@ stored_submissions/
 mllm_evaluation/
 app/api/routes/test_metrics.py
 expressions.txt
+app/frontend/index.html.backup
+app/frontend/js/app.js.backup

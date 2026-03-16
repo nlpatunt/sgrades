@@ -468,6 +468,7 @@ a:hover {
     padding: var(--spacing-xs) 0;
     border-top: 1px solid var(--border-light);
     padding-top: var(--spacing-md);
+    gap: var(--spacing-sm);
 }
 
 .dataset-info span {
@@ -476,6 +477,9 @@ a:hover {
     background: var(--bg-gray);
     padding: var(--spacing-xs) var(--spacing-sm);
     border-radius: 6px;
+    flex: 1;
+    min-width: 0;
+    word-break: break-word;
 }
 
 .dataset-metrics {

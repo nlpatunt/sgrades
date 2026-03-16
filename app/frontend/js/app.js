@@ -90,6 +90,257 @@ function getDisplayName(datasetName) {
     return DATASET_DISPLAY_NAMES[datasetName] || datasetName;
 }
 
+// ===== Dataset Citations =====
+const DATASET_CITATIONS = {
+    'D_ASAP-AES': `@misc{asap_aes,
+  title={ASAP Automated Essay Scoring},
+  howpublished={\\url{https://www.kaggle.com/datasets/lburleigh/asap-2-0}}
+}`,
+    'D_ASAP2': `@article{crossley2025asap2,
+  title={A large-scale corpus for assessing source-based writing quality: ASAP 2.0},
+  author={Crossley, Scott A. and Baffour, Perpetual and Burleigh, L. and King, Jules},
+  journal={Assessing Writing},
+  volume={65},
+  pages={100954},
+  year={2025},
+  publisher={Elsevier},
+  doi={10.1016/j.asw.2025.100954}
+}`,
+    'D_ASAP_plus_plus': `@inproceedings{mathias2018asap++,
+  title={ASAP++: Enriching the ASAP Automated Essay Grading Dataset with Essay Attribute Scores},
+  author={Mathias, Sandeep and Bhattacharyya, Pushpak},
+  booktitle={Proceedings of the 11th International Conference on Language Resources and Evaluation (LREC 2018)},
+  pages={1169--1173},
+  year={2018}
+}`,
+    'D_ASAP-SAS': `@misc{asapsas2012,
+  author={Barbara and Hamner, Ben and Morgan, Jaison and lynnvandev and Shermis, Mark},
+  title={The Hewlett Foundation: Short Answer Scoring},
+  year={2012},
+  howpublished={\\url{https://kaggle.com/competitions/asap-sas}}
+}`,
+    'D_BEEtlE_2way': `@inproceedings{dzikovska2013semeval,
+  title={SemEval-2013 Task 7: The Joint Student Response Analysis and 8th Recognizing Textual Entailment Challenge},
+  author={Kerneler},
+  year={2023},
+  howpublished={\\url{https://www.kaggle.com/datasets/smiles28/semeval-2013-2-and-3-way}}
+}`,
+    'D_BEEtlE_3way': `@inproceedings{dzikovska2013semeval,
+  title={SemEval-2013 Task 7: The Joint Student Response Analysis and 8th Recognizing Textual Entailment Challenge},
+  author={Kerneler},
+  year={2023},
+  howpublished={\\url{https://www.kaggle.com/datasets/smiles28/semeval-2013-2-and-3-way}}
+}`,
+    'D_SciEntSBank_2way': `@inproceedings{dzikovska2013semeval,
+  title={SemEval-2013 Task 7: The Joint Student Response Analysis and 8th Recognizing Textual Entailment Challenge},
+  author={Kerneler},
+  year={2023},
+  howpublished={\\url{https://www.kaggle.com/datasets/smiles28/semeval-2013-2-and-3-way}}
+}`,
+    'D_SciEntSBank_3way': `@inproceedings{dzikovska2013semeval,
+  title={SemEval-2013 Task 7: The Joint Student Response Analysis and 8th Recognizing Textual Entailment Challenge},
+  author={Kerneler},
+  year={2023},
+  howpublished={\\url{https://www.kaggle.com/datasets/smiles28/semeval-2013-2-and-3-way}}
+}`,
+    'D_CSEE': `@inproceedings{10.1145/3706468.3706507,
+  author={Xiao, Changrong and Ma, Wenxing and Song, Qingping and Xu, Sean Xin and Zhang, Kunpeng and Wang, Yufang and Fu, Qi},
+  title={Human-AI Collaborative Essay Scoring: A Dual-Process Framework with LLMs},
+  year={2025},
+  publisher={Association for Computing Machinery},
+  doi={10.1145/3706468.3706507},
+  booktitle={Proceedings of the 15th International Learning Analytics and Knowledge Conference},
+  pages={293--305},
+  series={LAK '25}
+}`,
+    'D_Mohlar': `@inproceedings{mohler2009text,
+  title={Text-to-Text Semantic Similarity for Automatic Short Answer Grading},
+  author={Mohler, Michael and Mihalcea, Rada},
+  booktitle={Proceedings of the 12th Conference of the European Chapter of the ACL (EACL 2009)},
+  pages={567--575},
+  year={2009}
+}
+
+@inproceedings{mohler2011learning,
+  title={Learning to grade short answer questions using semantic similarity measures and dependency graph alignments},
+  author={Mohler, Michael and Bunescu, Razvan and Mihalcea, Rada},
+  booktitle={Proceedings of the 49th Annual Meeting of the Association for Computational Linguistics: Human Language Technologies},
+  pages={752--762},
+  year={2011}
+}`,
+    'D_Ielts_Writing_Dataset': `@misc{mazlum2023ielts,
+  title={IELTS Writing Scored Essays Dataset},
+  author={Mazlum, Ibrahim},
+  year={2023},
+  howpublished={\\url{https://www.kaggle.com/datasets/mazlumi/ielts-writing-scored-essays-dataset}}
+}`,
+    'D_Ielst_Writing_Task_2_Dataset': `@misc{chillies2023ielts,
+  title={IELTS Writing Task 2 Evaluation Dataset},
+  author={chillies},
+  year={2023},
+  howpublished={\\url{https://huggingface.co/datasets/chillies/IELTS-writing-task-2-evaluation}}
+}`,
+    'D_persuade_2': `@article{crossley2024persuade,
+  title={A large-scale corpus for assessing written argumentation: PERSUADE 2.0},
+  author={Crossley, Scott A. and Tian, Yanwen and Baffour, Paul and Franklin, Ashley and Benner, Matthew and Boser, Ulrich},
+  journal={Assessing Writing},
+  volume={61},
+  pages={100865},
+  year={2024},
+  issn={1075-2935},
+  doi={10.1016/j.asw.2024.100865}
+}`,
+    'D_Regrading_Dataset_J2C': `@article{gao2024towards,
+  title={Towards scalable automated grading: Leveraging large language models for conceptual question evaluation in engineering},
+  author={Gao, Rujun and Guo, Xiaosu and Li, Xiaodi and Narayanan, Arun Balajiee Lekshmi and Thomas, Naveen and Srinivasa, Arun R},
+  journal={arXiv preprint arXiv:2411.03659},
+  year={2024}
+}`,
+    'D_grade_like_a_human_dataset_os_q1': `@inproceedings{xie2025grade,
+  title={Grade like a human: Rethinking automated assessment with large language models},
+  author={Xie, Wenjing and Niu, Juxin and Xue, Chun Jason and Guan, Nan},
+  booktitle={Proceedings of the International Conference on Research in Adaptive and Convergent Systems},
+  pages={1--8},
+  year={2025}
+}`,
+    'D_grade_like_a_human_dataset_os_q2': `@inproceedings{xie2025grade,
+  title={Grade like a human: Rethinking automated assessment with large language models},
+  author={Xie, Wenjing and Niu, Juxin and Xue, Chun Jason and Guan, Nan},
+  booktitle={Proceedings of the International Conference on Research in Adaptive and Convergent Systems},
+  pages={1--8},
+  year={2025}
+}`,
+    'D_grade_like_a_human_dataset_os_q3': `@inproceedings{xie2025grade,
+  title={Grade like a human: Rethinking automated assessment with large language models},
+  author={Xie, Wenjing and Niu, Juxin and Xue, Chun Jason and Guan, Nan},
+  booktitle={Proceedings of the International Conference on Research in Adaptive and Convergent Systems},
+  pages={1--8},
+  year={2025}
+}`,
+    'D_grade_like_a_human_dataset_os_q4': `@inproceedings{xie2025grade,
+  title={Grade like a human: Rethinking automated assessment with large language models},
+  author={Xie, Wenjing and Niu, Juxin and Xue, Chun Jason and Guan, Nan},
+  booktitle={Proceedings of the International Conference on Research in Adaptive and Convergent Systems},
+  pages={1--8},
+  year={2025}
+}`,
+    'D_grade_like_a_human_dataset_os_q5': `@inproceedings{xie2025grade,
+  title={Grade like a human: Rethinking automated assessment with large language models},
+  author={Xie, Wenjing and Niu, Juxin and Xue, Chun Jason and Guan, Nan},
+  booktitle={Proceedings of the International Conference on Research in Adaptive and Convergent Systems},
+  pages={1--8},
+  year={2025}
+}`,
+    'D_Rice_Chem_Q1': `@inproceedings{sonkar2024automated,
+  title={Automated long answer grading with ricechem dataset},
+  author={Sonkar, Shashank and Ni, Kangqi and Tran Lu, Lesa and Kincaid, Kristi and Hutchinson, John S and Baraniuk, Richard G},
+  booktitle={International Conference on Artificial Intelligence in Education},
+  pages={163--176},
+  year={2024},
+  organization={Springer}
+}`,
+    'D_Rice_Chem_Q2': `@inproceedings{sonkar2024automated,
+  title={Automated long answer grading with ricechem dataset},
+  author={Sonkar, Shashank and Ni, Kangqi and Tran Lu, Lesa and Kincaid, Kristi and Hutchinson, John S and Baraniuk, Richard G},
+  booktitle={International Conference on Artificial Intelligence in Education},
+  pages={163--176},
+  year={2024},
+  organization={Springer}
+}`,
+    'D_Rice_Chem_Q3': `@inproceedings{sonkar2024automated,
+  title={Automated long answer grading with ricechem dataset},
+  author={Sonkar, Shashank and Ni, Kangqi and Tran Lu, Lesa and Kincaid, Kristi and Hutchinson, John S and Baraniuk, Richard G},
+  booktitle={International Conference on Artificial Intelligence in Education},
+  pages={163--176},
+  year={2024},
+  organization={Springer}
+}`,
+    'D_Rice_Chem_Q4': `@inproceedings{sonkar2024automated,
+  title={Automated long answer grading with ricechem dataset},
+  author={Sonkar, Shashank and Ni, Kangqi and Tran Lu, Lesa and Kincaid, Kristi and Hutchinson, John S and Baraniuk, Richard G},
+  booktitle={International Conference on Artificial Intelligence in Education},
+  pages={163--176},
+  year={2024},
+  organization={Springer}
+}`
+};
+
+const SGRADES_CITATION = `@inproceedings{seuti2026sgrades,
+  title={S-GRADES: Studying Generalization of Student Response Assessments in Diverse Evaluative Settings},
+  author={Seuti, Tasfia and Ray Choudhury, Sagnik},
+  booktitle={Proceedings of the 15th International Conference on Language Resources and Evaluation (LREC 2026)},
+  year={2026}
+}`;
+
+function showCitationModal(datasetName) {
+    const citation = DATASET_CITATIONS[datasetName] || '% Citation not available for this dataset.';
+    const displayName = getDisplayName(datasetName);
+    _renderCitationModal('Cite Dataset: ' + displayName, citation);
+}
+
+function showSgradesCitation() {
+    _renderCitationModal('Cite S-GRADES', SGRADES_CITATION);
+}
+
+function _renderCitationModal(title, bibtex) {
+    const existing = document.getElementById('citation-modal-container');
+    if (existing) existing.remove();
+
+    const escaped = bibtex.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+    const modalHTML = `
+        <div id="citation-modal-container" onclick="closeCitationModal()" style="
+            position:fixed;top:0;left:0;width:100%;height:100%;
+            background:rgba(0,0,0,0.5);display:flex;align-items:center;
+            justify-content:center;z-index:10001;">
+            <div onclick="event.stopPropagation()" style="
+                background:white;max-width:650px;width:90%;border-radius:12px;
+                padding:2rem;box-shadow:0 20px 40px rgba(0,0,0,0.2);
+                animation:modalFadeIn 0.25s ease;max-height:80vh;overflow-y:auto;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">
+                    <h3 style="margin:0;color:var(--text-primary);font-size:1.1rem;">${title}</h3>
+                    <button onclick="closeCitationModal()" style="
+                        background:none;border:none;font-size:1.5rem;color:var(--text-secondary);
+                        cursor:pointer;line-height:1;padding:0;">&times;</button>
+                </div>
+                <pre id="citation-bibtex-text" style="
+                    background:#1e293b;color:#e2e8f0;padding:1.25rem;border-radius:8px;
+                    font-family:monospace;font-size:0.82rem;line-height:1.6;
+                    overflow-x:auto;white-space:pre-wrap;word-break:break-word;
+                    margin:0 0 1rem 0;">${escaped}</pre>
+                <div style="display:flex;gap:0.75rem;justify-content:flex-end;">
+                    <button onclick="copyCitation()" class="btn btn-primary btn-sm">
+                        <i class="fas fa-copy"></i> Copy BibTeX
+                    </button>
+                    <button onclick="closeCitationModal()" class="btn btn-secondary btn-sm">Close</button>
+                </div>
+            </div>
+        </div>`;
+
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+function closeCitationModal() {
+    const el = document.getElementById('citation-modal-container');
+    if (el) el.remove();
+}
+
+function copyCitation() {
+    const pre = document.getElementById('citation-bibtex-text');
+    if (!pre) return;
+    navigator.clipboard.writeText(pre.innerText).then(() => {
+        const btn = document.querySelector('#citation-modal-container .btn-primary');
+        if (btn) {
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            btn.style.background = 'var(--success)';
+            setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 2000);
+        }
+    }).catch(() => {
+        alert('Copy failed. Please select the text manually.');
+    });
+}
+
 function getScoreRange(datasetName) {
     const scoreRanges = {
         // ASAP-AES splits
@@ -789,15 +1040,18 @@ async function loadDatasets() {
             datasetsHTML += '<h3>' + displayName + '</h3>';
             datasetsHTML += '<p>' + getDescription(datasetName) + '</p>';
             datasetsHTML += '<div class="dataset-info">';
-            datasetsHTML += '<span><i class="fas fa-database"></i> Original format preserved</span>';
-            datasetsHTML += '<span><i class="fas fa-chart-line"></i> Score Range: ' + scoreRange + '</span>';
+            datasetsHTML += '<span>Original format preserved</span>';
+            datasetsHTML += '<span style="margin-left: 1rem;">Score Range: ' + scoreRange + '</span>';
             datasetsHTML += '</div>';
             datasetsHTML += '<div class="dataset-actions">';
             datasetsHTML += '<button onclick="showScoreRangeModal(\'' + datasetName + '\')" class="btn btn-sm btn-outline" style="margin-right: 0.5rem;">';
-            datasetsHTML += '<i class="fas fa-info-circle"></i> Score Range Info';
+            datasetsHTML += '<i class="fas fa-info-circle"></i>&nbsp;Score Range Info';
+            datasetsHTML += '</button>';
+            datasetsHTML += '<button onclick="showCitationModal(\'' + datasetName + '\')" class="btn btn-sm btn-secondary" style="margin-right: 0.5rem;">';
+            datasetsHTML += '<i class="fas fa-quote-right"></i>&nbsp;Cite';
             datasetsHTML += '</button>';
             datasetsHTML += '<button onclick="downloadSingleDataset(\'' + datasetName + '\')" class="btn btn-sm btn-primary">';
-            datasetsHTML += '<i class="fas fa-download"></i> Download';
+            datasetsHTML += '<i class="fas fa-download"></i>&nbsp;Download';
             datasetsHTML += '</button>';
             datasetsHTML += '</div>';
             datasetsHTML += '</div>';

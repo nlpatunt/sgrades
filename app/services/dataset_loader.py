@@ -49,14 +49,9 @@ class HuggingFaceDatasetLoader:
     def get_configured_datasets(self) -> Dict[str, Dict[str, Any]]:
         """Load datasets from HuggingFace Collection with config support"""
 
-        if not self.authenticated:
-            print("❌ Not authenticated - cannot access collection")
-            return self._get_fallback_datasets()
-
         try:
             print("🔍 Loading datasets from HuggingFace Collection with config support...")
-
-            api = HfApi(token=self.hf_token)
+            api = HfApi(token=self.hf_token if self.hf_token else None)
 
             # Your collection ID (from the URL)
             collection_name = "nlpatunt/automatic-grading-datasets-without-labels-68a38400f057ffe50522c401"
