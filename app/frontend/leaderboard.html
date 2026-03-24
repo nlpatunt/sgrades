@@ -8,6 +8,26 @@
     <link rel="stylesheet" href="css/style.css">  
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+.leaderboard-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.leaderboard-table thead tr { background: #2563eb; color: white; }
+.leaderboard-table th { padding: 0.75rem 0.6rem; text-align: center; font-weight: 600; }
+.leaderboard-table th:nth-child(2) { text-align: left; }
+.leaderboard-table td { padding: 0.65rem 0.6rem; text-align: center; border-bottom: 1px solid #e5e7eb; }
+.leaderboard-table td:nth-child(2) { text-align: left; }
+.leaderboard-table tbody tr:nth-child(even) { background: #f8fafc; }
+.leaderboard-table tbody tr:hover { background: #dbeafe; }
+.leaderboard-table tbody tr:first-child { background: #fefce8; }
+.table-responsive { border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.status-badge { padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.78rem; font-weight: 500; }
+.status-badge.complete { background: #d1fae5; color: #065f46; }
+.status-badge.partial { background: #dbeafe; color: #1e40af; }
+.stat-card { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1rem; text-align: center; }
+.stat-label { font-size: 0.8rem; color: #6b7280; margin-bottom: 0.25rem; }
+.stat-value { font-size: 1.5rem; font-weight: 700; color: #111827; }
+.stat-value.complete { color: #065f46; }
+.stat-value.partial { color: #1e40af; }
+</style>
 </head>
 <body>
     <!-- Same header as your main page but with Leaderboard active -->
@@ -54,6 +74,15 @@
             </div>
 
             <div id="summary-stats" style="display:none; grid-template-columns: repeat(3,1fr); gap:1rem; margin-bottom:1.5rem;"></div>
+            <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+                <span id="toggle-label-all" style="font-size:0.95rem;font-weight:600;color:#2563eb;cursor:pointer;" onclick="setFilter(false)">All Evaluations</span>
+                <label style="position:relative;display:inline-block;width:44px;height:24px;cursor:pointer;">
+                    <input type="checkbox" id="complete-only-toggle" style="opacity:0;width:0;height:0;">
+                    <span style="position:absolute;inset:0;background:#cbd5e1;border-radius:24px;transition:.3s;" id="toggle-track"></span>
+                    <span style="position:absolute;left:3px;top:3px;width:18px;height:18px;background:white;border-radius:50%;transition:.3s;" id="toggle-thumb"></span>
+                </label>
+                <span id="toggle-label-complete" style="font-size:0.95rem;color:#6b7280;cursor:pointer;" onclick="setFilter(true)">Complete Only (23 datasets)</span>
+            </div>
             <div id="leaderboard-table">
                 <div class="loading">Loading leaderboard...</div>
             </div>
@@ -72,11 +101,42 @@
             document.getElementById('refresh-leaderboard').addEventListener('click', loadLeaderboard);
         });
 
+        let currentCompleteOnly = false;
+
+        function setFilter(val) {
+            currentCompleteOnly = val;
+            document.getElementById('complete-only-toggle').checked = val;
+            const track = document.getElementById('toggle-track');
+            const thumb = document.getElementById('toggle-thumb');
+            const labelAll = document.getElementById('toggle-label-all');
+            const labelComplete = document.getElementById('toggle-label-complete');
+            if (val) {
+                track.style.background = '#2563eb';
+                thumb.style.left = '23px';
+                labelAll.style.color = '#6b7280';
+                labelAll.style.fontWeight = 'normal';
+                labelComplete.style.color = '#2563eb';
+                labelComplete.style.fontWeight = '600';
+            } else {
+                track.style.background = '#cbd5e1';
+                thumb.style.left = '3px';
+                labelAll.style.color = '#2563eb';
+                labelAll.style.fontWeight = '600';
+                labelComplete.style.color = '#6b7280';
+                labelComplete.style.fontWeight = 'normal';
+            }
+            loadLeaderboard();
+        }
+
+        document.getElementById('complete-only-toggle').addEventListener('change', function(e) {
+            setFilter(e.target.checked);
+        });
+
         async function loadLeaderboard() {
             const tableContainer = document.getElementById('leaderboard-table');
             tableContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
             try {
-                const response = await fetch('/api/submissions/leaderboard?complete_only=false&metric=' + currentMetric + '&limit=50');
+                const response = await fetch('/api/submissions/leaderboard?complete_only=' + currentCompleteOnly + '&metric=' + currentMetric + '&limit=50');
                 const data = await response.json();
                 if (!response.ok) throw new Error(data.detail || 'Failed');
                 displayLeaderboard(data.rankings);
@@ -86,6 +146,27 @@
         }
 
         function fmt(v) { return (v === null || v === undefined) ? 'N/A' : Number(v).toFixed(3); }
+
+        function colorCell(v, lowerIsBetter) {
+            if (v === null || v === undefined) return '<td style="text-align:center;color:#9ca3af;">N/A</td>';
+            const n = Number(v);
+            let bg = '';
+            if (lowerIsBetter) {
+                if (n <= 1.0) bg = '#d1fae5';
+                else if (n <= 2.5) bg = '#fef3c7';
+                else bg = '#fee2e2';
+            } else {
+                if (n >= 0.7) bg = '#d1fae5';
+                else if (n >= 0.4) bg = '#fef3c7';
+                else bg = '#fee2e2';
+            }
+            return '<td style="text-align:center;background:' + bg + ';font-weight:500;">' + n.toFixed(3) + '</td>';
+        }
+
+        function rankBadge(i) {
+            const cls = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : 'rank-other';
+            return '<span class="rank-badge ' + cls + '">' + (i+1) + '</span>';
+        }
 
         function displayLeaderboard(rankings) {
             const tableContainer = document.getElementById('leaderboard-table');
@@ -99,20 +180,20 @@
                     ? '<span class="status-badge complete">Complete</span>'
                     : '<span class="status-badge partial">Partial</span>';
                 html += '<tr>';
-                html += '<td><strong>#' + (i+1) + '</strong></td>';
+                html += '<td>' + rankBadge(i) + '</td>';
                 html += '<td><div style="font-weight:600;">' + entry.model_name + '</div>';
                 if (entry.description) html += '<div style="font-size:12px;color:#6b7280;">' + entry.description + '</div>';
                 html += '</td>';
                 html += '<td style="text-align:center;">' + entry.unique_datasets_count + '</td>';
                 html += '<td style="text-align:center;">' + status + '</td>';
-                html += '<td style="text-align:center;">' + fmt(entry.avg_quadratic_weighted_kappa) + '</td>';
-                html += '<td style="text-align:center;">' + fmt(entry.avg_pearson_correlation) + '</td>';
-                html += '<td style="text-align:center;">' + fmt(entry.avg_f1_score) + '</td>';
-                html += '<td style="text-align:center;">' + fmt(entry.avg_precision) + '</td>';
-                html += '<td style="text-align:center;">' + fmt(entry.avg_recall) + '</td>';
-                html += '<td style="text-align:center;">' + fmt(entry.avg_accuracy) + '</td>';
-                html += '<td style="text-align:center;">' + fmt(entry.avg_mean_absolute_error) + '</td>';
-                html += '<td style="text-align:center;">' + fmt(entry.avg_root_mean_squared_error) + '</td>';
+                html += colorCell(entry.avg_quadratic_weighted_kappa, false);
+                html += colorCell(entry.avg_pearson_correlation, false);
+                html += colorCell(entry.avg_f1_score, false);
+                html += colorCell(entry.avg_precision, false);
+                html += colorCell(entry.avg_recall, false);
+                html += colorCell(entry.avg_accuracy, false);
+                html += colorCell(entry.avg_mean_absolute_error, true);
+                html += colorCell(entry.avg_root_mean_squared_error, true);
                 html += '</tr>';
             });
             html += '</tbody></table></div>';
