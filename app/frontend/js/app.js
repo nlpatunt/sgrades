@@ -72,6 +72,7 @@ const DATASET_DISPLAY_NAMES = {
     'D_SciEntSBank_3way': 'SciEntSBank: 3-Way Science QA',
     'D_Ielts_Writing_Dataset': 'IELTS Writing Assessment',
     'D_Ielst_Writing_Task_2_Dataset': 'IELTS Writing Task 2',
+    'D_Ielts_Writing_Task_2_Dataset': 'IELTS Writing Task 2',
     'D_persuade_2': 'Persuade Essays v2',
     'D_Regrading_Dataset_J2C': 'Regrading Dataset J2C',
     'D_grade_like_a_human_dataset_os_q1': 'OS Concepts: Question 1',
@@ -79,10 +80,16 @@ const DATASET_DISPLAY_NAMES = {
     'D_grade_like_a_human_dataset_os_q3': 'OS Concepts: Question 3',
     'D_grade_like_a_human_dataset_os_q4': 'OS Concepts: Question 4',
     'D_grade_like_a_human_dataset_os_q5': 'OS Concepts: Question 5',
-    'D_Rice_Chem_Q1': 'Chemistry: Question 1',
-    'D_Rice_Chem_Q2': 'Chemistry: Question 2',
-    'D_Rice_Chem_Q3': 'Chemistry: Question 3',
-    'D_Rice_Chem_Q4': 'Chemistry: Question 4'
+    'D_OS_Dataset_q1': 'OS Dataset: Question 1',
+    'D_OS_Dataset_q2': 'OS Dataset: Question 2',
+    'D_OS_Dataset_q3': 'OS Dataset: Question 3',
+    'D_OS_Dataset_q4': 'OS Dataset: Question 4',
+    'D_OS_Dataset_q5': 'OS Dataset: Question 5',
+    'D_Ielst_Writing_Task_2_Dataset': 'IELTS Writing Task 2',
+    'D_Rice_Chem_Q1': 'RiceChem: Question 1',
+    'D_Rice_Chem_Q2': 'RiceChem: Question 2',
+    'D_Rice_Chem_Q3': 'RiceChem: Question 3',
+    'D_Rice_Chem_Q4': 'RiceChem: Question 4'
 };
 
 // Helper function to get display name
@@ -644,7 +651,7 @@ function initializeProgressGrid() {
         const format = datasetFormats[dataset] || getDatasetFormatFallback(dataset);
         gridHTML += '<div class="dataset-progress-item" id="progress-' + dataset + '">';
         gridHTML += '<div class="dataset-item-header">';
-        gridHTML += '<span class="dataset-name">' + dataset + '</span>';
+        gridHTML += '<span class="dataset-name">' + getDisplayName(dataset) + '</span>';
         gridHTML += '<span class="dataset-status status-pending" id="status-' + dataset + '">Pending</span>';
         gridHTML += '</div>';
         gridHTML += '<div class="dataset-details" id="details-' + dataset + '">';
@@ -961,7 +968,11 @@ function downloadAllDatasets() {
 // ===== Load Platform Stats =====
 async function loadPlatformStats() {
     try {
-        const stats = await fetchAPI(API_BASE_URL + '/api/leaderboard/stats');
+        const lbData = await fetchAPI(API_BASE_URL + '/api/submissions/leaderboard?complete_only=false&limit=1');
+        const stats = {
+            total_complete_benchmarks: lbData.summary_stats?.complete_benchmarks || 0,
+            total_evaluations_completed: lbData.summary_stats?.total_researchers || 0
+        };
 
         // Update stats with animation
         if (elements.totalModels) {
