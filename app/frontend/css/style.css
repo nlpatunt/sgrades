@@ -421,6 +421,9 @@ a:hover {
     padding: var(--spacing-xl);
     transition: all 0.2s ease;
     overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
 }
 .dataset-card:hover {
     border-color: var(--primary-blue);
@@ -501,6 +504,8 @@ a:hover {
     display: flex;
     gap: var(--spacing-sm);
     flex-wrap: wrap;
+
+    margin-top: auto;
 }
 
 /* ===== Leaderboard ===== */
