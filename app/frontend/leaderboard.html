@@ -32,7 +32,7 @@
         <div class="container">
             <div class="section-header">
                 <h2>Complete Benchmark Leaderboard</h2>
-                <p>Rankings for researchers who submitted all 23 datasets</p>
+                <p id="leaderboard-description">Rankings for researchers who submitted all 23 datasets</p>
             </div>
 
             <div class="leaderboard-controls">
@@ -53,6 +53,7 @@
                 </button>
             </div>
 
+            <div id="summary-stats" style="display:none; grid-template-columns: repeat(3,1fr); gap:1rem; margin-bottom:1.5rem;"></div>
             <div id="leaderboard-table">
                 <div class="loading">Loading leaderboard...</div>
             </div>
@@ -60,156 +61,63 @@
     </section>
 
    <script>
-        let currentCompleteOnly = false;
         let currentMetric = 'avg_quadratic_weighted_kappa';
 
-        // Load leaderboard on page load
         document.addEventListener('DOMContentLoaded', function() {
             loadLeaderboard();
-
-            // Metric selector event
             document.getElementById('metric-selector').addEventListener('change', function(e) {
                 currentMetric = e.target.value;
                 loadLeaderboard();
             });
-
-            // Refresh button
-            document.getElementById('refresh-leaderboard').addEventListener('click', function() {
-                loadLeaderboard();
-            });
+            document.getElementById('refresh-leaderboard').addEventListener('click', loadLeaderboard);
         });
 
         async function loadLeaderboard() {
             const tableContainer = document.getElementById('leaderboard-table');
-            tableContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading leaderboard...</div>';
-
+            tableContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
             try {
-                const response = await fetch(`/api/submissions/leaderboard?complete_only=${currentCompleteOnly}&metric=${currentMetric}&limit=50`);
+                const response = await fetch('/api/submissions/leaderboard?complete_only=false&metric=' + currentMetric + '&limit=50');
                 const data = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(data.detail || 'Failed to load leaderboard');
-                }
-
+                if (!response.ok) throw new Error(data.detail || 'Failed');
                 displayLeaderboard(data.rankings);
-
             } catch (error) {
-                console.error('Error loading leaderboard:', error);
-                tableContainer.innerHTML = `
-                    <div class="error-message">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <p>Failed to load leaderboard: ${error.message}</p>
-                        <button onclick="loadLeaderboard()" class="btn btn-primary">Try Again</button>
-                    </div>
-                `;
+                tableContainer.innerHTML = '<p style="color:red;padding:2rem;">Error: ' + error.message + '</p>';
             }
         }
 
-        function colorMetric(value, lowerIsBetter) {
-            if (value === null || value === undefined) return '<span style="color:#9ca3af;">N/A</span>';
-            const v = typeof value === 'number' ? value : parseFloat(value);
-            if (isNaN(v)) return '<span style="color:#9ca3af;">N/A</span>';
-            const formatted = v.toFixed(3);
-            let bg, color;
-            if (!lowerIsBetter) {
-                // higher is better (QWK, Pearson, F1, Precision, Recall, Accuracy)
-                if (v >= 0.8)      { bg = '#d1fae5'; color = '#059669'; }
-                else if (v >= 0.5) { bg = '#fef3c7'; color = '#d97706'; }
-                else               { bg = '#fee2e2'; color = '#dc2626'; }
-            } else {
-                // lower is better (MAE, RMSE) — real data range 0 to 10+
-                if (v <= 1.0)      { bg = '#d1fae5'; color = '#059669'; }
-                else if (v <= 2.5) { bg = '#fef3c7'; color = '#d97706'; }
-                else               { bg = '#fee2e2'; color = '#dc2626'; }
-            }
-            return `<span style="background:${bg}; color:${color}; font-weight:600; padding:4px 8px; border-radius:4px;">${formatted}</span>`;
-        }
+        function fmt(v) { return (v === null || v === undefined) ? 'N/A' : Number(v).toFixed(3); }
 
         function displayLeaderboard(rankings) {
             const tableContainer = document.getElementById('leaderboard-table');
-
             if (!rankings || rankings.length === 0) {
-                tableContainer.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-inbox" style="font-size: 48px; color: #9ca3af; margin-bottom: 16px;"></i>
-                        <p>No models found matching the criteria.</p>
-                    </div>
-                `;
+                tableContainer.innerHTML = '<p style="padding:2rem;">No data found.</p>';
                 return;
             }
-
-            let tableHTML = `
-                <div class="table-responsive">
-                    <table class="leaderboard-table">
-                        <thead>
-                            <tr>
-                                <th>Rank</th>
-                                <th>Model Name</th>
-                                <th style="text-align: center;">Datasets</th>
-                                <th style="text-align: center;">Status</th>
-                                <th style="text-align: center;">QWK</th>
-                                <th style="text-align: center;">Pearson</th>
-                                <th style="text-align: center;">F1</th>
-                                <th style="text-align: center;">Precision</th>
-                                <th style="text-align: center;">Recall</th>
-                                <th style="text-align: center;">Accuracy</th>
-                                <th style="text-align: center;">MAE</th>
-                                <th style="text-align: center;">RMSE</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
-
-            rankings.forEach((entry, index) => {
-                const statusBadge = entry.complete_benchmark
+            let html = '<div class="table-responsive"><table class="leaderboard-table"><thead><tr><th>Rank</th><th>Model Name</th><th>Datasets</th><th>Status</th><th>QWK</th><th>Pearson</th><th>F1</th><th>Precision</th><th>Recall</th><th>Accuracy</th><th>MAE</th><th>RMSE</th></tr></thead><tbody>';
+            rankings.forEach((entry, i) => {
+                const status = entry.complete_benchmark
                     ? '<span class="status-badge complete">Complete</span>'
                     : '<span class="status-badge partial">Partial</span>';
-
-                tableHTML += `
-                    <tr>
-                        <td><strong>#${index + 1}</strong></td>
-                        <td>
-                            <div style="font-weight: 600;">${escapeHtml(entry.model_name)}</div>
-                            ${entry.description ? `<div style="font-size: 12px; color: #6b7280;">${escapeHtml(entry.description)}</div>` : ''}
-                        </td>
-                        <td style="text-align: center;"><strong>${entry.unique_datasets_count}</strong></td>
-                        <td style="text-align: center;">${statusBadge}</td>
-                        <td style="text-align: center;">${colorMetric(entry.avg_quadratic_weighted_kappa, false)}</td>
-                        <td style="text-align: center;">${colorMetric(entry.avg_pearson_correlation, false)}</td>
-                        <td style="text-align: center;">${colorMetric(entry.avg_f1_score, false)}</td>
-                        <td style="text-align: center;">${colorMetric(entry.avg_precision, false)}</td>
-                        <td style="text-align: center;">${colorMetric(entry.avg_recall, false)}</td>
-                        <td style="text-align: center;">${colorMetric(entry.avg_accuracy, false)}</td>
-                        <td style="text-align: center;">${colorMetric(entry.avg_mean_absolute_error, true)}</td>
-                        <td style="text-align: center;">${colorMetric(entry.avg_root_mean_squared_error, true)}</td>
-                    </tr>
-                `;
+                html += '<tr>';
+                html += '<td><strong>#' + (i+1) + '</strong></td>';
+                html += '<td><div style="font-weight:600;">' + entry.model_name + '</div>';
+                if (entry.description) html += '<div style="font-size:12px;color:#6b7280;">' + entry.description + '</div>';
+                html += '</td>';
+                html += '<td style="text-align:center;">' + entry.unique_datasets_count + '</td>';
+                html += '<td style="text-align:center;">' + status + '</td>';
+                html += '<td style="text-align:center;">' + fmt(entry.avg_quadratic_weighted_kappa) + '</td>';
+                html += '<td style="text-align:center;">' + fmt(entry.avg_pearson_correlation) + '</td>';
+                html += '<td style="text-align:center;">' + fmt(entry.avg_f1_score) + '</td>';
+                html += '<td style="text-align:center;">' + fmt(entry.avg_precision) + '</td>';
+                html += '<td style="text-align:center;">' + fmt(entry.avg_recall) + '</td>';
+                html += '<td style="text-align:center;">' + fmt(entry.avg_accuracy) + '</td>';
+                html += '<td style="text-align:center;">' + fmt(entry.avg_mean_absolute_error) + '</td>';
+                html += '<td style="text-align:center;">' + fmt(entry.avg_root_mean_squared_error) + '</td>';
+                html += '</tr>';
             });
-
-            tableHTML += `
-                        </tbody>
-                    </table>
-                </div>
-                <div style="margin-top: 16px; text-align: center; color: #6b7280; font-size: 14px;">
-                    Showing ${rankings.length} ${currentCompleteOnly ? 'complete benchmark' : 'model'}${rankings.length !== 1 ? 's' : ''}
-                </div>
-            `;
-
-            tableContainer.innerHTML = tableHTML;
+            html += '</tbody></table></div>';
+            tableContainer.innerHTML = html;
         }
-
-        function formatMetric(value) {
-            if (value === null || value === undefined) return 'N/A';
-            return typeof value === 'number' ? value.toFixed(3) : value;
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-    </script>
-
-    <script src="js/app.js"></script>
+</script>
 </body>
 </html>
